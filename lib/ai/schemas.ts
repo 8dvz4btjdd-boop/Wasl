@@ -1,7 +1,8 @@
 // lib/ai/schemas.ts
 import { z } from "zod";
 
-export const Locale = z.enum(["ar", "en", "fr", "es"]);
+// Mirrors routing.locales (i18n/routing.ts).
+export const Locale = z.enum(["ar", "en", "fr", "es", "ur", "id", "tl"]);
 
 export const IntakeTurn = z.object({
   done: z.boolean(),

@@ -16,7 +16,26 @@
     "trustAnonTitle": "Anonyme par défaut",
     "trustAnonBody": "Un simple pseudonyme. Ni e-mail, ni numéro de téléphone.",
     "trustControlTitle": "Vous décidez de ce qui est partagé",
-    "trustControlBody": "Rien de votre conversation n'est partagé sans votre accord."
+    "trustControlBody": "Rien de votre conversation n'est partagé sans votre accord.",
+    "availableNow": "{count, plural, one {# dāʿī disponible maintenant} other {# dāʿīs disponibles maintenant}} en {language}",
+    "animationLabel": "Une conversation passe à un second dāʿī grâce à une carte Wasl, et continue là où elle s'était arrêtée.",
+    "howTitle": "Comment ça marche",
+    "stepAsk": "Posez votre question",
+    "stepAskBody": "Écrivez dans votre langue. Pas de compte, juste un pseudonyme.",
+    "stepTalk": "Parlez avec une personne",
+    "stepTalkBody": "Un dāʿī qui parle votre langue vous répond ici, en direct.",
+    "stepResume": "Reprenez là où vous vous étiez arrêté",
+    "stepResumeBody": "Créez une carte Wasl à partir des messages que vous choisissez. Celui qui continue avec vous part de là.",
+    "aiTitle": "Ce que fait le guide IA, et ce qu'il ne fait jamais",
+    "aiDoes": "Il aide à",
+    "aiDoes1": "Organiser votre demande pour qu'elle arrive au bon dāʿī.",
+    "aiDoes2": "Suggérer des lectures issues de sources approuvées, toujours avec la référence.",
+    "aiDoes3": "Rédiger une carte Wasl que vous modifiez et approuvez.",
+    "aiNever": "Il ne fait jamais",
+    "aiNever1": "Donner une fatwa (un avis juridique religieux) ou répondre à des questions religieuses. C'est le rôle d'un dāʿī.",
+    "aiNever2": "Deviner vos croyances ou vous étiqueter.",
+    "aiNever3": "Partager quoi que ce soit sans votre accord.",
+    "aiManual": "Wasl fonctionne entièrement sans IA : chaque étape a un parcours manuel."
   },
   "LocaleSwitcher": {
     "label": "Langue",
@@ -24,7 +43,10 @@
       "ar": "العربية",
       "en": "English",
       "fr": "Français",
-      "es": "Español"
+      "es": "Español",
+      "ur": "اردو",
+      "id": "Bahasa Indonesia",
+      "tl": "Tagalog"
     }
   },
   "Enter": {
@@ -147,7 +169,10 @@
     "transferNow": "Transférer maintenant",
     "cardButton": "Carte Wasl",
     "cardApproved": "Carte approuvée",
-    "createCard": "Créer une carte Wasl"
+    "createCard": "Créer une carte Wasl",
+    "transferUnavailable": "{to} n'est pas disponible pour le moment.",
+    "requeue": "Revenir dans la file",
+    "requeued": "Votre conversation est revenue dans la file d'attente"
   },
   "Inbox": {
     "title": "Boîte de réception",
@@ -171,7 +196,7 @@
     "emptyEnded": "Aucune conversation terminée aujourd'hui.",
     "noResults": "Aucun résultat pour « {query} ».",
     "unreadDot": "En attente de votre réponse",
-    "statusWaiting": "En attente {time}",
+    "statusWaiting": "En attente de votre réponse {time}",
     "statusActive": "Active depuis {duration}",
     "endedFooter": "Terminée {time} · {duration}",
     "details": "Détails",
@@ -400,5 +425,26 @@
     "backToChat": "Retour à la conversation",
     "error": "Impossible d'enregistrer la carte. Réessayez.",
     "noMessages": "Il n'y a pas encore de messages à choisir."
+  },
+  "Site": {
+    "how": "Comment ça marche",
+    "privacy": "Confidentialité",
+    "staff": "Connexion équipe",
+    "skip": "Aller au contenu",
+    "poweredBy": "Propulsé par Wasl",
+    "aiLink": "Notre usage de l'IA",
+    "privacyTitle": "Confidentialité",
+    "privacyText": "Nous ne demandons qu'un pseudonyme : ni e-mail, ni numéro de téléphone. Votre code de retour n'est conservé que sous forme protégée (hachée). Une carte Wasl n'est partagée qu'après votre accord, avec qui vous choisissez, et expire après les 7, 14 ou 30 jours que vous choisissez. Les administrateurs ne lisent jamais les conversations."
+  },
+  "Demo": {
+    "daee1": "Khalid",
+    "daee2": "Sara",
+    "ask": "Que signifie le Tawhid (l'unicité de Dieu) au quotidien ?",
+    "reply": "Bon point de départ. Qu'est-ce que cela signifie pour vous jusqu'ici ?",
+    "followUp": "Le Tawhid au quotidien",
+    "covered": "Ce que cela signifie pour moi",
+    "next": "Des exemples d'une journée ordinaire",
+    "continues": "{name} prend le relais",
+    "reply2": "J'ai lu votre carte. On regarde une journée ordinaire ?"
   }
 }

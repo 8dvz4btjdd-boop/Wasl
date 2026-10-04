@@ -3,7 +3,7 @@ import { IBM_Plex_Sans_Arabic, Inter } from "next/font/google";
 import { notFound } from "next/navigation";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { getDir, routing } from "@/i18n/routing";
+import { getDir, routing, usesArabicScript } from "@/i18n/routing";
 import { MotionProvider } from "@/components/motion-provider";
 import "../globals.css";
 
@@ -28,7 +28,12 @@ export async function generateMetadata({
   const { locale } = await params;
   if (!hasLocale(routing.locales, locale)) return {};
   const t = await getTranslations({ locale, namespace: "Meta" });
-  return { title: t("title"), description: t("description") };
+  const host = process.env.VERCEL_PROJECT_PRODUCTION_URL;
+  return {
+    metadataBase: new URL(host ? `https://${host}` : "http://localhost:3000"),
+    title: t("title"),
+    description: t("description"),
+  };
 }
 
 export default async function LocaleLayout({
@@ -39,7 +44,7 @@ export default async function LocaleLayout({
   if (!hasLocale(routing.locales, locale)) notFound();
   setRequestLocale(locale);
 
-  const font = locale === "ar" ? plexArabic : inter;
+  const font = usesArabicScript(locale) ? plexArabic : inter;
 
   return (
     <html

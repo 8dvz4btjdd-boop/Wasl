@@ -16,7 +16,26 @@
     "trustAnonTitle": "Anónimo por defecto",
     "trustAnonBody": "Solo un seudónimo. Sin correo ni número de teléfono.",
     "trustControlTitle": "Tú decides qué se comparte",
-    "trustControlBody": "Nada de tu conversación se comparte sin tu aprobación."
+    "trustControlBody": "Nada de tu conversación se comparte sin tu aprobación.",
+    "availableNow": "{count, plural, one {# dāʿī disponible ahora} other {# dāʿīs disponibles ahora}} en {language}",
+    "animationLabel": "Una conversación pasa a un segundo dāʿī mediante una tarjeta Wasl y continúa donde se quedó.",
+    "howTitle": "Cómo funciona",
+    "stepAsk": "Pregunta",
+    "stepAskBody": "Escribe en tu idioma. Sin cuenta, solo un seudónimo.",
+    "stepTalk": "Habla con una persona",
+    "stepTalkBody": "Un dāʿī que habla tu idioma te responde aquí, en directo.",
+    "stepResume": "Sigue donde lo dejaste",
+    "stepResumeBody": "Crea una tarjeta Wasl con los mensajes que elijas. Quien siga contigo parte de ella.",
+    "aiTitle": "Lo que hace la guía de IA, y lo que nunca hace",
+    "aiDoes": "Ayuda a",
+    "aiDoes1": "Ordenar tu solicitud para que llegue al dāʿī adecuado.",
+    "aiDoes2": "Sugerir lecturas de fuentes aprobadas, siempre con la cita.",
+    "aiDoes3": "Redactar una tarjeta Wasl que tú editas y apruebas.",
+    "aiNever": "Nunca",
+    "aiNever1": "Da una fatwa (un dictamen religioso) ni responde preguntas religiosas. Eso lo hace un dāʿī.",
+    "aiNever2": "Adivina tus creencias ni te etiqueta.",
+    "aiNever3": "Comparte nada sin tu aprobación.",
+    "aiManual": "Wasl funciona por completo sin IA: cada paso tiene un camino manual."
   },
   "LocaleSwitcher": {
     "label": "Idioma",
@@ -24,7 +43,10 @@
       "ar": "العربية",
       "en": "English",
       "fr": "Français",
-      "es": "Español"
+      "es": "Español",
+      "ur": "اردو",
+      "id": "Bahasa Indonesia",
+      "tl": "Tagalog"
     }
   },
   "Enter": {
@@ -147,7 +169,10 @@
     "transferNow": "Pasar ahora",
     "cardButton": "Tarjeta Wasl",
     "cardApproved": "Tarjeta aprobada",
-    "createCard": "Crear una tarjeta Wasl"
+    "createCard": "Crear una tarjeta Wasl",
+    "transferUnavailable": "{to} no está disponible ahora.",
+    "requeue": "Volver a la fila",
+    "requeued": "Tu conversación volvió a la fila de espera"
   },
   "Inbox": {
     "title": "Bandeja",
@@ -171,7 +196,7 @@
     "emptyEnded": "Hoy no ha terminado ninguna conversación.",
     "noResults": "Sin resultados para «{query}».",
     "unreadDot": "Esperando tu respuesta",
-    "statusWaiting": "Esperando {time}",
+    "statusWaiting": "Esperando tu respuesta {time}",
     "statusActive": "Activa desde hace {duration}",
     "endedFooter": "Terminada {time} · {duration}",
     "details": "Detalles",
@@ -400,5 +425,26 @@
     "backToChat": "Volver a la conversación",
     "error": "No se pudo guardar la tarjeta. Inténtalo de nuevo.",
     "noMessages": "Aún no hay mensajes para elegir."
+  },
+  "Site": {
+    "how": "Cómo funciona",
+    "privacy": "Privacidad",
+    "staff": "Acceso del equipo",
+    "skip": "Ir al contenido",
+    "poweredBy": "Con la tecnología de Wasl",
+    "aiLink": "Cómo usamos la IA",
+    "privacyTitle": "Privacidad",
+    "privacyText": "Solo pedimos un seudónimo: sin correo ni número de teléfono. Tu código de regreso se guarda solo de forma protegida (cifrada). Una tarjeta Wasl se comparte solo cuando la apruebas, con quien eliges, y caduca tras los 7, 14 o 30 días que elijas. Los administradores nunca leen las conversaciones."
+  },
+  "Demo": {
+    "daee1": "Khalid",
+    "daee2": "Sara",
+    "ask": "¿Qué significa el Tawhid (la unicidad de Dios) en el día a día?",
+    "reply": "Buen punto de partida. ¿Qué significa para ti hasta ahora?",
+    "followUp": "El Tawhid en el día a día",
+    "covered": "Lo que significa para mí",
+    "next": "Ejemplos de un día normal",
+    "continues": "{name} continúa",
+    "reply2": "He leído tu tarjeta. ¿Vemos un día normal?"
   }
 }

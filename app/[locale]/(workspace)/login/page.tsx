@@ -22,7 +22,7 @@ export default async function LoginPage({ params }: PageProps<"/[locale]/login">
       <Surface kind="workspace" className="flex flex-col">
         <header className="flex items-center justify-between px-6 pt-6 sm:px-10">
           <Logo size={28} wordmark />
-          <LocaleSwitcher variant="menu" />
+          <LocaleSwitcher />
         </header>
         <main className="flex flex-1 items-center px-6 py-12 sm:px-10">
           <div className="mx-auto flex w-full max-w-sm flex-col gap-8">
