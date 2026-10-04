@@ -7,19 +7,16 @@
     "description": "Continuity for dialogues between askers and dāʿīs."
   },
   "Home": {
-    "subtitle": "Setup check: language and direction.",
-    "localeInfo": "Language: {locale} · Direction: {dir}",
-    "surfacesTitle": "Surfaces",
-    "asker": "Asker",
-    "workspace": "Workspace",
-    "light": "Light",
-    "dark": "Dark",
-    "primaryAction": "Continue",
-    "tealSample": "Accessible teal",
-    "mutedSample": "Secondary text",
+    "tagline": "Talk with a person about Islam, and pick up where you left off.",
     "start": "Start a conversation",
     "return": "Return with a code",
-    "staff": "Staff sign in"
+    "staff": "Staff sign in",
+    "trustPersonTitle": "A real person, not a bot",
+    "trustPersonBody": "Every reply comes from a dāʿī.",
+    "trustAnonTitle": "Anonymous by default",
+    "trustAnonBody": "Just a pseudonym. No email, no phone number.",
+    "trustControlTitle": "You decide what's shared",
+    "trustControlBody": "Nothing from your conversation is shared without your approval."
   },
   "LocaleSwitcher": {
     "label": "Language",
@@ -65,7 +62,11 @@
     "email": "Email",
     "password": "Password",
     "submit": "Sign in",
-    "submitting": "Signing in…"
+    "submitting": "Signing in…",
+    "showPassword": "Show password",
+    "hidePassword": "Hide password",
+    "capsLock": "Caps Lock is on",
+    "brandLine": "Every conversation picks up where it left off."
   },
   "Workspace": {
     "daeeTitle": "Dāʿī workspace",
@@ -124,27 +125,49 @@
     "endedBody": "Keep your return code. It's how you come back to continue later.",
     "comeBack": "Come back later",
     "log": "Messages",
-    "waitingLabel": "Waiting"
+    "waitingLabel": "Waiting",
+    "endedBy": "{name} ended the conversation"
   },
   "Inbox": {
     "title": "Inbox",
     "waiting": "Waiting",
     "active": "Active",
-    "empty": "No conversations yet.",
-    "emptyHint": "Set yourself to Available to receive them.",
     "selectTitle": "Select a conversation",
     "selectHint": "J and K move through the list.",
     "about": "About them",
     "end": "End conversation",
     "confirmEnd": "Confirm end",
     "cancel": "Cancel",
-    "ended": "Ended",
     "reply": "Write a reply…",
     "unread": "{count, plural, one {# unread} other {# unread}}",
     "signOut": "Sign out",
     "shortcuts": "J/K move · / reply · Shift+E end · 1/2/3 status",
     "notStarted": "Your first message starts the conversation.",
-    "waitingLabel": "Waiting"
+    "search": "Search",
+    "endedToday": "Ended today",
+    "emptyWaiting": "No one is waiting.",
+    "emptyActive": "No active conversations.",
+    "emptyEnded": "No conversations ended today.",
+    "noResults": "No matches for “{query}”.",
+    "unreadDot": "Awaiting your reply",
+    "statusWaiting": "Waiting {time}",
+    "statusActive": "Active for {duration}",
+    "endedFooter": "Ended {time} · {duration}",
+    "details": "Details",
+    "askerSection": "Asker",
+    "fieldPseudonym": "Pseudonym",
+    "fieldLanguage": "Language",
+    "fieldTopic": "Topic",
+    "fieldBackground": "Shared background",
+    "backgroundNone": "Not shared",
+    "fieldStarted": "Started",
+    "fieldPast": "Past conversations",
+    "cardTitle": "Wasl card",
+    "cardEmpty": "No card yet",
+    "cardHint": "It appears here once the asker approves sharing it.",
+    "back": "Back",
+    "account": "Account",
+    "emptyHint": "Set yourself to Available to receive them."
   },
   "Presence": {
     "label": "Your status",
@@ -155,5 +178,140 @@
   "Toasts": {
     "routed": "New conversation: {pseudonym} ({language})",
     "open": "Open"
+  },
+  "DevDesign": {
+    "title": "Surfaces",
+    "subtitle": "Setup check: language and direction.",
+    "localeInfo": "Language: {locale} · Direction: {dir}",
+    "asker": "Asker",
+    "workspace": "Workspace",
+    "light": "Light",
+    "dark": "Dark",
+    "primaryAction": "Continue",
+    "tealSample": "Accessible teal",
+    "mutedSample": "Secondary text"
+  },
+  "Admin": {
+    "nav": {
+      "overview": "Overview",
+      "team": "Team",
+      "log": "Log",
+      "settings": "Settings"
+    },
+    "range": {
+      "label": "Time range",
+      "today": "Today",
+      "week": "7 days",
+      "all": "Since launch"
+    },
+    "ops": {
+      "title": "Right now",
+      "available": "Available dāʿīs",
+      "waiting": "Waiting askers",
+      "longest": "Longest wait",
+      "active": "Active conversations"
+    },
+    "alerts": {
+      "title": "Alerts",
+      "clear": "All clear. No one is waiting too long.",
+      "longWait": "An asker has waited over {minutes} min in {language}",
+      "uncovered": "{count, plural, one {# asker is} other {# askers are}} waiting in {language}, and no available dāʿī speaks it",
+      "since": "since {time}"
+    },
+    "kpi": {
+      "routing": "Correct first routing",
+      "routingDef": "Routed conversations that stayed with the first dāʿī.",
+      "resumption": "Correct resumption",
+      "resumptionDef": "Card-based follow-ups the dāʿī rated sufficient.",
+      "accuracy": "Card accuracy",
+      "accuracyDef": "Approved cards with no major edit by the asker.",
+      "notEnough": "Not enough data",
+      "n": "n = {n}",
+      "info": "What this measures"
+    },
+    "comparison": {
+      "title": "Follow-up sessions by mode",
+      "reply": "Median time to first substantive reply",
+      "sufficiency": "Sufficiency rate",
+      "none": "No card",
+      "manual": "Manual card",
+      "ai": "AI card",
+      "empty": "Data appears here after the first follow-up sessions.",
+      "noValue": "No data"
+    },
+    "ai": {
+      "title": "AI health",
+      "runs": "Runs",
+      "fallbackRate": "Fallback rate",
+      "latency": "Median latency"
+    },
+    "team": {
+      "add": "Add dāʿī",
+      "name": "Name",
+      "email": "Email",
+      "languages": "Languages",
+      "topics": "Topics",
+      "capacity": "Capacity",
+      "load": "Load",
+      "loadValue": "{open} of {capacity}",
+      "status": "Status",
+      "deactivated": "Deactivated",
+      "edit": "Edit",
+      "save": "Save",
+      "cancel": "Cancel",
+      "deactivate": "Deactivate",
+      "confirmDeactivate": "Confirm",
+      "reactivate": "Reactivate",
+      "create": "Create",
+      "tempPassword": "Temporary password",
+      "tempPasswordHint": "Shown once. Share it securely; it can't be shown again.",
+      "copy": "Copy",
+      "copied": "Copied",
+      "done": "Done",
+      "empty": "No dāʿīs yet.",
+      "actions": "Actions",
+      "emailTaken": "That email is already in use.",
+      "invalid": "Check the fields: at least one language, capacity 1 to 20."
+    },
+    "log": {
+      "events": "Events",
+      "aiRuns": "AI runs",
+      "filter": "Type",
+      "all": "All",
+      "type": "Type",
+      "time": "Time",
+      "conversation": "Conversation",
+      "actor": "Actor",
+      "task": "Task",
+      "model": "Model",
+      "latency": "Latency",
+      "fallback": "Fallback",
+      "reason": "Reason",
+      "yes": "Yes",
+      "no": "No",
+      "empty": "Nothing logged yet.",
+      "latest": "Latest {count}",
+      "roles": {
+        "asker": "Asker",
+        "daee": "Dāʿī",
+        "admin": "Admin",
+        "system": "System"
+      }
+    },
+    "settings": {
+      "organization": "Organization",
+      "orgName": "Organization name",
+      "languages": "Supported languages",
+      "threshold": "Wait alert",
+      "thresholdHint": "Alert when an asker waits longer than this.",
+      "minutes": "minutes",
+      "save": "Save changes",
+      "saved": "Saved",
+      "ai": "AI assistance",
+      "aiOn": "On",
+      "aiOff": "Off",
+      "aiExplain": "When off, everything runs on the full manual path: askers write their question themselves, routing uses the simple rules, and dāʿīs write cards by hand. Nothing stops working.",
+      "invalid": "Check the fields: a name, at least one language, 1 to 240 minutes."
+    }
   }
 }

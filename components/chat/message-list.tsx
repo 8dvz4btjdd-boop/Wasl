@@ -7,6 +7,7 @@ import { type ReactNode, useEffect, useLayoutEffect, useMemo, useRef, useState }
 import type { ChatMessage } from "@/lib/chat/types";
 import { fadeUp } from "@/lib/motion";
 import { cn } from "@/lib/utils";
+import { formatDay } from "./format";
 import { useHydrated } from "./use-clock";
 
 export type SystemLine = { id: string; at: string; text: string };
@@ -23,18 +24,35 @@ type MessageListProps = {
 
 type Item =
   | { kind: "group"; key: string; mine: boolean; messages: ChatMessage[] }
-  | { kind: "system"; key: string; line: SystemLine };
+  | { kind: "system"; key: string; line: SystemLine }
+  | { kind: "day"; key: string; label: string };
 
 const GROUP_GAP_MS = 5 * 60 * 1000;
 
-function buildItems(messages: ChatMessage[], me: string, system: SystemLine[]): Item[] {
+/** Local calendar day, for separators (browser time zone, so only computed after hydration). */
+function dayKey(iso: string) {
+  const d = new Date(iso);
+  return `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`;
+}
+
+function buildItems(
+  messages: ChatMessage[],
+  me: string,
+  system: SystemLine[],
+  dayLabel: ((iso: string) => string) | null,
+): Item[] {
   const timeline = [
     ...messages.map((m) => ({ at: m.created_at, message: m })),
     ...system.map((line) => ({ at: line.at, line })),
   ].sort((a, b) => a.at.localeCompare(b.at));
 
   const items: Item[] = [];
+  let currentDay: string | null = null;
   for (const entry of timeline) {
+    if (dayLabel && dayKey(entry.at) !== currentDay) {
+      currentDay = dayKey(entry.at);
+      items.push({ kind: "day", key: `day-${currentDay}`, label: dayLabel(entry.at) });
+    }
     if ("line" in entry) {
       items.push({ kind: "system", key: entry.line.id, line: entry.line });
       continue;
@@ -66,7 +84,12 @@ export function MessageList({ messages, me, system = [], onRetry, size = "asker"
   // Messages present on first render don't animate; only new arrivals do (motion animates on mount only).
   const [initialIds] = useState(() => new Set(messages.map((m) => m.id)));
 
-  const items = useMemo(() => buildItems(messages, me, system), [messages, me, system]);
+  // "Today"/"Yesterday" are relative to when the view opened; labels only render after hydration.
+  const [openedAt] = useState(() => Date.now());
+  const items = useMemo(
+    () => buildItems(messages, me, system, hydrated ? (iso) => formatDay(iso, openedAt, locale) : null),
+    [messages, me, system, hydrated, locale, openedAt],
+  );
   const time = useMemo(
     () => new Intl.DateTimeFormat(locale, { hour: "numeric", minute: "2-digit" }),
     [locale],
@@ -114,7 +137,13 @@ export function MessageList({ messages, me, system = [], onRetry, size = "asker"
         className={cn("mx-auto flex w-full flex-col", compact ? "max-w-3xl gap-3 px-6 py-6" : "max-w-2xl gap-4 px-4 py-6 sm:px-6")}
       >
         {items.map((item) =>
-          item.kind === "system" ? (
+          item.kind === "day" ? (
+            <li key={item.key} className="sticky top-2 z-10 flex justify-center py-1">
+              <span className="rounded-full border bg-background/90 px-3 py-0.5 text-xs text-muted-foreground backdrop-blur">
+                {item.label}
+              </span>
+            </li>
+          ) : item.kind === "system" ? (
             <li key={item.key} className="flex items-center gap-3 py-1 text-xs text-muted-foreground">
               <span className="h-px flex-1 bg-border" aria-hidden />
               {item.line.text}

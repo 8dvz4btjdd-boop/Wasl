@@ -4,7 +4,7 @@ import { Inbox } from "@/components/inbox/inbox";
 import { redirect } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
 import { requireStaff } from "@/lib/auth/dal";
-import { getInbox, getMessages, getUnreadCount } from "@/lib/db/queries/conversations";
+import { getInbox, getMessages, getPastConversationCount } from "@/lib/db/queries/conversations";
 import { createClient } from "@/lib/db/server";
 
 export default async function DaeePage({ params }: PageProps<"/[locale]/daee/[[...id]]">) {
@@ -19,16 +19,17 @@ export default async function DaeePage({ params }: PageProps<"/[locale]/daee/[[.
   }
 
   const supabase = await createClient();
-  const [conversations, unread, profile] = await Promise.all([
+  const [conversations, profile] = await Promise.all([
     getInbox(selectedId),
-    getUnreadCount(staff.user_id),
     supabase.from("profiles").select("status").eq("user_id", staff.user_id).single(),
   ]);
 
   // RLS only returns conversations assigned to this daee; anything else isn't theirs.
   const selected = selectedId ? conversations.find((c) => c.id === selectedId) : undefined;
   if (selectedId && !selected) return redirect({ href: "/daee", locale });
-  const messages = selected ? await getMessages(selected.id) : [];
+  const [messages, pastCount] = selected
+    ? await Promise.all([getMessages(selected.id), getPastConversationCount(selected.asker_id, selected.id)])
+    : [[], null];
 
   return (
     <Inbox
@@ -37,7 +38,7 @@ export default async function DaeePage({ params }: PageProps<"/[locale]/daee/[[.
       conversations={conversations}
       selected={selected ?? null}
       messages={messages}
-      initialUnread={unread}
+      pastCount={pastCount}
     />
   );
 }

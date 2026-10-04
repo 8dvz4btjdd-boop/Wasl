@@ -11,7 +11,7 @@ import { Logo } from "@/components/logo";
 import { SignOutButton } from "@/components/sign-out-button";
 import { Surface } from "@/components/surface";
 import { MESSAGE_MAX, type ConversationStatus, type MessageRow } from "@/lib/chat/types";
-import { createClient, subscribeWhenReady } from "@/lib/db/client";
+import { createClient, subscribeResilient } from "@/lib/db/client";
 import { fadeUp, pulse } from "@/lib/motion";
 
 type Conversation = {
@@ -20,6 +20,7 @@ type Conversation = {
   status: ConversationStatus;
   created_at: string;
   assigned_at: string | null;
+  ended_at: string | null;
 };
 
 type AskerChatProps = {
@@ -44,16 +45,23 @@ export function AskerChat({ me, initialConversation, initialDaeeName, initialMes
   // Assignment, start and end arrive as updates to this conversation row.
   useEffect(
     () =>
-      subscribeWhenReady((client) =>
-        client
-          .channel(`conversation:${conversation.id}`)
-          .on(
+      subscribeResilient({
+        name: `conversation:${conversation.id}`,
+        configure: (channel) =>
+          channel.on(
             "postgres_changes",
             { event: "UPDATE", schema: "public", table: "conversations", filter: `id=eq.${conversation.id}` },
             (payload) => setConversation((prev) => ({ ...prev, ...(payload.new as Partial<Conversation>) })),
-          )
-          .subscribe(),
-      ),
+          ),
+        onResync: async () => {
+          const { data } = await createClient()
+            .from("conversations")
+            .select("id, daee_id, status, created_at, assigned_at, ended_at")
+            .eq("id", conversation.id)
+            .maybeSingle();
+          if (data) setConversation((prev) => ({ ...prev, ...data }));
+        },
+      }),
     [conversation.id],
   );
 
@@ -86,13 +94,13 @@ export function AskerChat({ me, initialConversation, initialDaeeName, initialMes
     return () => clearInterval(timer);
   }, [waiting, conversation.id]);
 
-  const system = useMemo<SystemLine[]>(
-    () =>
-      conversation.assigned_at && daeeName
-        ? [{ id: "joined", at: conversation.assigned_at, text: t("joined", { name: daeeName }) }]
-        : [],
-    [conversation.assigned_at, daeeName, t],
-  );
+  const system = useMemo<SystemLine[]>(() => {
+    if (!daeeName) return [];
+    const lines: SystemLine[] = [];
+    if (conversation.assigned_at) lines.push({ id: "joined", at: conversation.assigned_at, text: t("joined", { name: daeeName }) });
+    if (conversation.ended_at) lines.push({ id: "ended", at: conversation.ended_at, text: t("endedBy", { name: daeeName }) });
+    return lines;
+  }, [conversation.assigned_at, conversation.ended_at, daeeName, t]);
 
   const assignedNotStarted = Boolean(conversation.daee_id) && conversation.status === "waiting";
 

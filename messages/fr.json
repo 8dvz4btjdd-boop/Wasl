@@ -7,19 +7,16 @@
     "description": "La continuité des dialogues entre les personnes qui s'interrogent et les dāʿīs."
   },
   "Home": {
-    "subtitle": "Vérification de la configuration : langue et direction.",
-    "localeInfo": "Langue : {locale} · Direction : {dir}",
-    "surfacesTitle": "Surfaces",
-    "asker": "Personne qui s'interroge",
-    "workspace": "Espace de travail",
-    "light": "Clair",
-    "dark": "Sombre",
-    "primaryAction": "Continuer",
-    "tealSample": "Turquoise accessible",
-    "mutedSample": "Texte secondaire",
+    "tagline": "Parlez de l'islam avec une vraie personne, et reprenez là où vous vous étiez arrêté.",
     "start": "Commencer une conversation",
     "return": "Revenir avec un code",
-    "staff": "Connexion équipe"
+    "staff": "Connexion équipe",
+    "trustPersonTitle": "Une vraie personne, pas un robot",
+    "trustPersonBody": "Chaque réponse vient d'un dāʿī.",
+    "trustAnonTitle": "Anonyme par défaut",
+    "trustAnonBody": "Un simple pseudonyme. Ni e-mail, ni numéro de téléphone.",
+    "trustControlTitle": "Vous décidez de ce qui est partagé",
+    "trustControlBody": "Rien de votre conversation n'est partagé sans votre accord."
   },
   "LocaleSwitcher": {
     "label": "Langue",
@@ -65,7 +62,11 @@
     "email": "E-mail",
     "password": "Mot de passe",
     "submit": "Se connecter",
-    "submitting": "Connexion…"
+    "submitting": "Connexion…",
+    "showPassword": "Afficher le mot de passe",
+    "hidePassword": "Masquer le mot de passe",
+    "capsLock": "Verr. Maj activé",
+    "brandLine": "Chaque conversation reprend là où elle s'était arrêtée."
   },
   "Workspace": {
     "daeeTitle": "Espace dāʿī",
@@ -124,27 +125,49 @@
     "endedBody": "Gardez votre code de retour. C'est ainsi que vous reviendrez pour continuer.",
     "comeBack": "Revenir plus tard",
     "log": "Messages",
-    "waitingLabel": "Attente"
+    "waitingLabel": "Attente",
+    "endedBy": "{name} a terminé la conversation"
   },
   "Inbox": {
     "title": "Boîte de réception",
     "waiting": "En attente",
     "active": "Actives",
-    "empty": "Aucune conversation pour l'instant.",
-    "emptyHint": "Passez en Disponible pour en recevoir.",
     "selectTitle": "Sélectionnez une conversation",
     "selectHint": "J et K pour parcourir la liste.",
     "about": "À propos",
     "end": "Terminer la conversation",
     "confirmEnd": "Confirmer",
     "cancel": "Annuler",
-    "ended": "Terminée",
     "reply": "Écrivez une réponse…",
     "unread": "{count, plural, one {# non lue} other {# non lues}}",
     "signOut": "Se déconnecter",
     "shortcuts": "J/K parcourir · / répondre · Maj+E terminer · 1/2/3 statut",
     "notStarted": "Votre premier message démarre la conversation.",
-    "waitingLabel": "Attente"
+    "search": "Rechercher",
+    "endedToday": "Terminées aujourd'hui",
+    "emptyWaiting": "Personne n'attend.",
+    "emptyActive": "Aucune conversation active.",
+    "emptyEnded": "Aucune conversation terminée aujourd'hui.",
+    "noResults": "Aucun résultat pour « {query} ».",
+    "unreadDot": "En attente de votre réponse",
+    "statusWaiting": "En attente {time}",
+    "statusActive": "Active depuis {duration}",
+    "endedFooter": "Terminée {time} · {duration}",
+    "details": "Détails",
+    "askerSection": "Personne",
+    "fieldPseudonym": "Pseudonyme",
+    "fieldLanguage": "Langue",
+    "fieldTopic": "Sujet",
+    "fieldBackground": "Contexte partagé",
+    "backgroundNone": "Non partagé",
+    "fieldStarted": "Début",
+    "fieldPast": "Conversations précédentes",
+    "cardTitle": "Carte Wasl",
+    "cardEmpty": "Pas encore de carte",
+    "cardHint": "Elle apparaît ici une fois son partage approuvé par la personne.",
+    "back": "Retour",
+    "account": "Compte",
+    "emptyHint": "Passez en Disponible pour en recevoir."
   },
   "Presence": {
     "label": "Votre statut",
@@ -155,5 +178,140 @@
   "Toasts": {
     "routed": "Nouvelle conversation : {pseudonym} ({language})",
     "open": "Ouvrir"
+  },
+  "DevDesign": {
+    "title": "Surfaces",
+    "subtitle": "Vérification de la configuration : langue et direction.",
+    "localeInfo": "Langue : {locale} · Direction : {dir}",
+    "asker": "Personne qui s'interroge",
+    "workspace": "Espace de travail",
+    "light": "Clair",
+    "dark": "Sombre",
+    "primaryAction": "Continuer",
+    "tealSample": "Turquoise accessible",
+    "mutedSample": "Texte secondaire"
+  },
+  "Admin": {
+    "nav": {
+      "overview": "Vue d'ensemble",
+      "team": "Équipe",
+      "log": "Journal",
+      "settings": "Paramètres"
+    },
+    "range": {
+      "label": "Période",
+      "today": "Aujourd'hui",
+      "week": "7 jours",
+      "all": "Depuis le lancement"
+    },
+    "ops": {
+      "title": "En ce moment",
+      "available": "Dāʿīs disponibles",
+      "waiting": "Personnes en attente",
+      "longest": "Attente la plus longue",
+      "active": "Conversations actives"
+    },
+    "alerts": {
+      "title": "Alertes",
+      "clear": "Tout va bien. Personne n'attend trop longtemps.",
+      "longWait": "Une personne attend depuis plus de {minutes} min en {language}",
+      "uncovered": "{count, plural, one {# personne attend} other {# personnes attendent}} en {language}, et aucun dāʿī disponible ne parle cette langue",
+      "since": "depuis {time}"
+    },
+    "kpi": {
+      "routing": "Premier routage correct",
+      "routingDef": "Conversations routées restées avec le premier dāʿī.",
+      "resumption": "Reprise correcte",
+      "resumptionDef": "Suivis basés sur une carte jugés suffisants par le dāʿī.",
+      "accuracy": "Exactitude des cartes",
+      "accuracyDef": "Cartes approuvées sans modification majeure par la personne.",
+      "notEnough": "Données insuffisantes",
+      "n": "n = {n}",
+      "info": "Ce que cela mesure"
+    },
+    "comparison": {
+      "title": "Sessions de suivi par mode",
+      "reply": "Temps médian jusqu'à la première réponse substantielle",
+      "sufficiency": "Taux de suffisance",
+      "none": "Sans carte",
+      "manual": "Carte manuelle",
+      "ai": "Carte IA",
+      "empty": "Les données apparaissent après les premières sessions de suivi.",
+      "noValue": "Aucune donnée"
+    },
+    "ai": {
+      "title": "Santé de l'IA",
+      "runs": "Exécutions",
+      "fallbackRate": "Taux de repli",
+      "latency": "Latence médiane"
+    },
+    "team": {
+      "add": "Ajouter un dāʿī",
+      "name": "Nom",
+      "email": "E-mail",
+      "languages": "Langues",
+      "topics": "Sujets",
+      "capacity": "Capacité",
+      "load": "Charge",
+      "loadValue": "{open} sur {capacity}",
+      "status": "Statut",
+      "deactivated": "Désactivé",
+      "edit": "Modifier",
+      "save": "Enregistrer",
+      "cancel": "Annuler",
+      "deactivate": "Désactiver",
+      "confirmDeactivate": "Confirmer",
+      "reactivate": "Réactiver",
+      "create": "Créer",
+      "tempPassword": "Mot de passe temporaire",
+      "tempPasswordHint": "Affiché une seule fois. Partagez-le de façon sûre ; il ne pourra plus être affiché.",
+      "copy": "Copier",
+      "copied": "Copié",
+      "done": "Terminé",
+      "empty": "Aucun dāʿī pour l'instant.",
+      "actions": "Actions",
+      "emailTaken": "Cet e-mail est déjà utilisé.",
+      "invalid": "Vérifiez les champs : au moins une langue, capacité de 1 à 20."
+    },
+    "log": {
+      "events": "Événements",
+      "aiRuns": "Exécutions IA",
+      "filter": "Type",
+      "all": "Tous",
+      "type": "Type",
+      "time": "Heure",
+      "conversation": "Conversation",
+      "actor": "Acteur",
+      "task": "Tâche",
+      "model": "Modèle",
+      "latency": "Latence",
+      "fallback": "Repli",
+      "reason": "Raison",
+      "yes": "Oui",
+      "no": "Non",
+      "empty": "Rien n'est encore journalisé.",
+      "latest": "{count} derniers",
+      "roles": {
+        "asker": "Personne",
+        "daee": "Dāʿī",
+        "admin": "Admin",
+        "system": "Système"
+      }
+    },
+    "settings": {
+      "organization": "Organisation",
+      "orgName": "Nom de l'organisation",
+      "languages": "Langues prises en charge",
+      "threshold": "Alerte d'attente",
+      "thresholdHint": "Alerter quand une personne attend plus longtemps que cela.",
+      "minutes": "minutes",
+      "save": "Enregistrer",
+      "saved": "Enregistré",
+      "ai": "Assistance IA",
+      "aiOn": "Activée",
+      "aiOff": "Désactivée",
+      "aiExplain": "Désactivée, tout fonctionne sur le parcours manuel complet : la personne écrit sa question elle-même, le routage suit les règles simples et le dāʿī rédige les cartes à la main. Rien ne cesse de fonctionner.",
+      "invalid": "Vérifiez les champs : un nom, au moins une langue, 1 à 240 minutes."
+    }
   }
 }

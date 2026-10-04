@@ -1,6 +1,8 @@
 import "server-only";
-import { MESSAGE_COLUMNS, SUMMARY_COLUMNS, type ConversationSummary, type MessageRow } from "@/lib/chat/types";
+import { fetchInbox } from "@/lib/chat/inbox-query";
+import { MESSAGE_COLUMNS, type ConversationSummary, type MessageRow } from "@/lib/chat/types";
 import { createClient } from "@/lib/db/server";
+import { createServiceClient } from "@/lib/db/service";
 import { logServerError } from "@/lib/log";
 
 // Reads run as the signed-in user, so RLS decides what each person can see.
@@ -49,28 +51,24 @@ export async function getDaeeName(daeeId: string | null) {
   return data?.display_name ?? null;
 }
 
-/** The daee's open conversations plus the one being viewed (which may have ended). */
+/** The daee's inbox (see fetchInbox). */
 export async function getInbox(selectedId: string | null): Promise<ConversationSummary[]> {
   const supabase = await createClient();
-  const filter = selectedId
-    ? `status.in.(waiting,active),id.eq.${selectedId}`
-    : "status.in.(waiting,active)";
-  const { data, error } = await supabase
-    .from("conversations")
-    .select(SUMMARY_COLUMNS)
-    .or(filter)
-    .order("created_at");
-  if (error) logServerError("getInbox", error);
-  return (data ?? []) as ConversationSummary[];
+  const inbox = await fetchInbox(supabase, selectedId);
+  if (!inbox) logServerError("getInbox", "inbox query failed");
+  return inbox ?? [];
 }
 
-export async function getUnreadCount(userId: string) {
-  const supabase = await createClient();
-  const { count, error } = await supabase
-    .from("notifications")
+/**
+ * How many other conversations this asker has had. Counted with the service client because
+ * the daee can only see conversations assigned to them; no content is read.
+ */
+export async function getPastConversationCount(askerId: string, excludeId: string) {
+  const { count, error } = await createServiceClient()
+    .from("conversations")
     .select("id", { count: "exact", head: true })
-    .eq("recipient_id", userId)
-    .is("read_at", null);
-  if (error) logServerError("getUnreadCount", error);
+    .eq("asker_id", askerId)
+    .neq("id", excludeId);
+  if (error) logServerError("getPastConversationCount", error);
   return count ?? 0;
 }

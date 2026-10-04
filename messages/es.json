@@ -7,19 +7,16 @@
     "description": "Continuidad en los diálogos entre quienes preguntan y los dāʿīs."
   },
   "Home": {
-    "subtitle": "Comprobación de la configuración: idioma y dirección.",
-    "localeInfo": "Idioma: {locale} · Dirección: {dir}",
-    "surfacesTitle": "Superficies",
-    "asker": "Quien pregunta",
-    "workspace": "Espacio de trabajo",
-    "light": "Claro",
-    "dark": "Oscuro",
-    "primaryAction": "Continuar",
-    "tealSample": "Turquesa accesible",
-    "mutedSample": "Texto secundario",
+    "tagline": "Habla sobre el islam con una persona real y continúa donde lo dejaste.",
     "start": "Empezar una conversación",
     "return": "Volver con un código",
-    "staff": "Acceso del equipo"
+    "staff": "Acceso del equipo",
+    "trustPersonTitle": "Una persona real, no un bot",
+    "trustPersonBody": "Cada respuesta viene de un dāʿī.",
+    "trustAnonTitle": "Anónimo por defecto",
+    "trustAnonBody": "Solo un seudónimo. Sin correo ni número de teléfono.",
+    "trustControlTitle": "Tú decides qué se comparte",
+    "trustControlBody": "Nada de tu conversación se comparte sin tu aprobación."
   },
   "LocaleSwitcher": {
     "label": "Idioma",
@@ -65,7 +62,11 @@
     "email": "Correo electrónico",
     "password": "Contraseña",
     "submit": "Entrar",
-    "submitting": "Entrando…"
+    "submitting": "Entrando…",
+    "showPassword": "Mostrar contraseña",
+    "hidePassword": "Ocultar contraseña",
+    "capsLock": "Bloq Mayús activado",
+    "brandLine": "Cada conversación continúa donde se quedó."
   },
   "Workspace": {
     "daeeTitle": "Espacio del dāʿī",
@@ -124,27 +125,49 @@
     "endedBody": "Guarda tu código de regreso. Es la forma de volver y continuar más tarde.",
     "comeBack": "Volver más tarde",
     "log": "Mensajes",
-    "waitingLabel": "Esperando"
+    "waitingLabel": "Esperando",
+    "endedBy": "{name} terminó la conversación"
   },
   "Inbox": {
     "title": "Bandeja",
     "waiting": "En espera",
     "active": "Activas",
-    "empty": "Aún no hay conversaciones.",
-    "emptyHint": "Ponte como Disponible para recibirlas.",
     "selectTitle": "Selecciona una conversación",
     "selectHint": "J y K para moverte por la lista.",
     "about": "Sobre esta persona",
     "end": "Terminar conversación",
     "confirmEnd": "Confirmar",
     "cancel": "Cancelar",
-    "ended": "Terminada",
     "reply": "Escribe una respuesta…",
     "unread": "{count, plural, one {# sin leer} other {# sin leer}}",
     "signOut": "Cerrar sesión",
     "shortcuts": "J/K moverse · / responder · Mayús+E terminar · 1/2/3 estado",
     "notStarted": "Tu primer mensaje inicia la conversación.",
-    "waitingLabel": "Esperando"
+    "search": "Buscar",
+    "endedToday": "Terminadas hoy",
+    "emptyWaiting": "Nadie está esperando.",
+    "emptyActive": "No hay conversaciones activas.",
+    "emptyEnded": "Hoy no ha terminado ninguna conversación.",
+    "noResults": "Sin resultados para «{query}».",
+    "unreadDot": "Esperando tu respuesta",
+    "statusWaiting": "Esperando {time}",
+    "statusActive": "Activa desde hace {duration}",
+    "endedFooter": "Terminada {time} · {duration}",
+    "details": "Detalles",
+    "askerSection": "Persona",
+    "fieldPseudonym": "Seudónimo",
+    "fieldLanguage": "Idioma",
+    "fieldTopic": "Tema",
+    "fieldBackground": "Contexto compartido",
+    "backgroundNone": "No compartido",
+    "fieldStarted": "Inicio",
+    "fieldPast": "Conversaciones anteriores",
+    "cardTitle": "Tarjeta Wasl",
+    "cardEmpty": "Aún no hay tarjeta",
+    "cardHint": "Aparece aquí cuando la persona aprueba compartirla.",
+    "back": "Atrás",
+    "account": "Cuenta",
+    "emptyHint": "Ponte como Disponible para recibirlas."
   },
   "Presence": {
     "label": "Tu estado",
@@ -155,5 +178,140 @@
   "Toasts": {
     "routed": "Nueva conversación: {pseudonym} ({language})",
     "open": "Abrir"
+  },
+  "DevDesign": {
+    "title": "Superficies",
+    "subtitle": "Comprobación de la configuración: idioma y dirección.",
+    "localeInfo": "Idioma: {locale} · Dirección: {dir}",
+    "asker": "Quien pregunta",
+    "workspace": "Espacio de trabajo",
+    "light": "Claro",
+    "dark": "Oscuro",
+    "primaryAction": "Continuar",
+    "tealSample": "Turquesa accesible",
+    "mutedSample": "Texto secundario"
+  },
+  "Admin": {
+    "nav": {
+      "overview": "Resumen",
+      "team": "Equipo",
+      "log": "Registro",
+      "settings": "Ajustes"
+    },
+    "range": {
+      "label": "Periodo",
+      "today": "Hoy",
+      "week": "7 días",
+      "all": "Desde el lanzamiento"
+    },
+    "ops": {
+      "title": "Ahora mismo",
+      "available": "Dāʿīs disponibles",
+      "waiting": "Personas esperando",
+      "longest": "Espera más larga",
+      "active": "Conversaciones activas"
+    },
+    "alerts": {
+      "title": "Alertas",
+      "clear": "Todo en orden. Nadie espera demasiado.",
+      "longWait": "Una persona lleva más de {minutes} min esperando en {language}",
+      "uncovered": "{count, plural, one {# persona espera} other {# personas esperan}} en {language} y ningún dāʿī disponible habla ese idioma",
+      "since": "desde las {time}"
+    },
+    "kpi": {
+      "routing": "Primer enrutamiento correcto",
+      "routingDef": "Conversaciones enrutadas que siguieron con el primer dāʿī.",
+      "resumption": "Reanudación correcta",
+      "resumptionDef": "Seguimientos con tarjeta que el dāʿī calificó como suficientes.",
+      "accuracy": "Precisión de la tarjeta",
+      "accuracyDef": "Tarjetas aprobadas sin una edición importante de la persona.",
+      "notEnough": "Datos insuficientes",
+      "n": "n = {n}",
+      "info": "Qué mide esto"
+    },
+    "comparison": {
+      "title": "Sesiones de seguimiento por modo",
+      "reply": "Mediana de tiempo hasta la primera respuesta sustancial",
+      "sufficiency": "Tasa de suficiencia",
+      "none": "Sin tarjeta",
+      "manual": "Tarjeta manual",
+      "ai": "Tarjeta con IA",
+      "empty": "Los datos aparecen tras las primeras sesiones de seguimiento.",
+      "noValue": "Sin datos"
+    },
+    "ai": {
+      "title": "Salud de la IA",
+      "runs": "Ejecuciones",
+      "fallbackRate": "Tasa de respaldo manual",
+      "latency": "Latencia mediana"
+    },
+    "team": {
+      "add": "Añadir dāʿī",
+      "name": "Nombre",
+      "email": "Correo",
+      "languages": "Idiomas",
+      "topics": "Temas",
+      "capacity": "Capacidad",
+      "load": "Carga",
+      "loadValue": "{open} de {capacity}",
+      "status": "Estado",
+      "deactivated": "Desactivado",
+      "edit": "Editar",
+      "save": "Guardar",
+      "cancel": "Cancelar",
+      "deactivate": "Desactivar",
+      "confirmDeactivate": "Confirmar",
+      "reactivate": "Reactivar",
+      "create": "Crear",
+      "tempPassword": "Contraseña temporal",
+      "tempPasswordHint": "Se muestra una sola vez. Compártela de forma segura; no podrá volver a mostrarse.",
+      "copy": "Copiar",
+      "copied": "Copiado",
+      "done": "Listo",
+      "empty": "Aún no hay dāʿīs.",
+      "actions": "Acciones",
+      "emailTaken": "Ese correo ya está en uso.",
+      "invalid": "Revisa los campos: al menos un idioma, capacidad de 1 a 20."
+    },
+    "log": {
+      "events": "Eventos",
+      "aiRuns": "Ejecuciones de IA",
+      "filter": "Tipo",
+      "all": "Todos",
+      "type": "Tipo",
+      "time": "Hora",
+      "conversation": "Conversación",
+      "actor": "Actor",
+      "task": "Tarea",
+      "model": "Modelo",
+      "latency": "Latencia",
+      "fallback": "Respaldo",
+      "reason": "Motivo",
+      "yes": "Sí",
+      "no": "No",
+      "empty": "Aún no hay nada registrado.",
+      "latest": "Últimos {count}",
+      "roles": {
+        "asker": "Persona",
+        "daee": "Dāʿī",
+        "admin": "Admin",
+        "system": "Sistema"
+      }
+    },
+    "settings": {
+      "organization": "Organización",
+      "orgName": "Nombre de la organización",
+      "languages": "Idiomas admitidos",
+      "threshold": "Alerta de espera",
+      "thresholdHint": "Avisar cuando una persona espere más que esto.",
+      "minutes": "minutos",
+      "save": "Guardar cambios",
+      "saved": "Guardado",
+      "ai": "Asistencia de IA",
+      "aiOn": "Activada",
+      "aiOff": "Desactivada",
+      "aiExplain": "Desactivada, todo funciona con el flujo manual completo: la persona escribe su pregunta, el enrutamiento usa las reglas simples y el dāʿī redacta las tarjetas a mano. Nada deja de funcionar.",
+      "invalid": "Revisa los campos: un nombre, al menos un idioma, de 1 a 240 minutos."
+    }
   }
 }
