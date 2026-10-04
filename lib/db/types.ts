@@ -559,6 +559,7 @@ export type Database = {
           languages: string[]
           name: string
           return_code_salt: string
+          wait_alert_minutes: number
         }
         Insert: {
           ai_enabled?: boolean
@@ -568,6 +569,7 @@ export type Database = {
           languages?: string[]
           name: string
           return_code_salt?: string
+          wait_alert_minutes?: number
         }
         Update: {
           ai_enabled?: boolean
@@ -577,6 +579,7 @@ export type Database = {
           languages?: string[]
           name?: string
           return_code_salt?: string
+          wait_alert_minutes?: number
         }
         Relationships: []
       }
@@ -720,6 +723,15 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      admin_ai_health: { Args: { p_from: string; p_to: string }; Returns: Json }
+      admin_alerts: { Args: { threshold_minutes?: number }; Returns: Json }
+      admin_comparison: {
+        Args: { p_from: string; p_to: string }
+        Returns: Json
+      }
+      admin_kpis: { Args: { p_from: string; p_to: string }; Returns: Json }
+      admin_ops_snapshot: { Args: never; Returns: Json }
+      admin_org: { Args: never; Returns: string }
       assign_conversation: {
         Args: { conv: string; d: string }
         Returns: undefined
@@ -727,6 +739,7 @@ export type Database = {
       assign_waiting_for: { Args: { d: string }; Returns: number }
       can_view_card: { Args: { c: string }; Returns: boolean }
       end_conversation: { Args: { conv: string }; Returns: undefined }
+      is_active_staff: { Args: { uid: string }; Returns: boolean }
       is_admin: { Args: never; Returns: boolean }
       is_asker: { Args: never; Returns: boolean }
       is_daee: { Args: never; Returns: boolean }
@@ -742,6 +755,7 @@ export type Database = {
         Returns: undefined
       }
       route_conversation: { Args: { conv: string }; Returns: string }
+      sample_rate: { Args: { n: number; part: number }; Returns: number }
       set_presence: {
         Args: { p_status: Database["public"]["Enums"]["presence"] }
         Returns: number
