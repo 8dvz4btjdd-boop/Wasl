@@ -705,6 +705,7 @@ export type Database = {
           created_at: string
           from_daee: string
           id: string
+          requeued_at: string | null
           status: Database["public"]["Enums"]["transfer_status"]
           to_daee: string
         }
@@ -714,6 +715,7 @@ export type Database = {
           created_at?: string
           from_daee: string
           id?: string
+          requeued_at?: string | null
           status?: Database["public"]["Enums"]["transfer_status"]
           to_daee: string
         }
@@ -723,6 +725,7 @@ export type Database = {
           created_at?: string
           from_daee?: string
           id?: string
+          requeued_at?: string | null
           status?: Database["public"]["Enums"]["transfer_status"]
           to_daee?: string
         }
@@ -800,6 +803,7 @@ export type Database = {
       me_active: { Args: never; Returns: boolean }
       my_role: { Args: never; Returns: string }
       open_conversation_count: { Args: { d: string }; Returns: number }
+      public_availability: { Args: { p_language: string }; Returns: number }
       queue_position: { Args: { conv: string }; Returns: number }
       rate_followup: {
         Args: { conv: string; sufficient: boolean }
@@ -814,6 +818,7 @@ export type Database = {
         Args: { new_id: string; old_id: string }
         Returns: undefined
       }
+      requeue_transfer: { Args: { t: string }; Returns: string }
       route_conversation: { Args: { conv: string }; Returns: string }
       sample_rate: { Args: { n: number; part: number }; Returns: number }
       set_presence: {
@@ -833,6 +838,7 @@ export type Database = {
         Args: { ask_card?: boolean; conv: string; to_daee: string }
         Returns: string
       }
+      transfer_target_available: { Args: { t: string }; Returns: boolean }
     }
     Enums: {
       booking_status: "requested" | "confirmed" | "cancelled" | "done"
