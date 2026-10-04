@@ -238,6 +238,10 @@ try {
   const conv5 = await ask((await other.goto(`${BASE}/en/wait`), other), "Another question for the deactivation check.");
   const { data: c5 } = await db.from("conversations").select("daee_id").eq("id", conv5).single();
   check("conversation routed to daee2", c5.daee_id === DAEE2);
+  // daee2 starts it, so the reassignment below must not log conversation_started again.
+  await d2.goto(`${BASE}/en/daee/${conv5}`);
+  await say(d2, "main textarea", "Hello, I'm here. Tell me a little more about your question.");
+  await other.getByText("Tell me a little more").first().waitFor({ timeout: 15_000 });
   const admin = await login(browser, "admin@wasl.demo", "/admin");
   await setStatus(DAEE1, "available");
   await admin.goto(`${BASE}/en/admin/team`);
@@ -251,6 +255,30 @@ try {
   check("deactivated daee loses access", !d2.url().includes(conv1));
   await admin.locator("tr", { hasText: "daee2@wasl.demo" }).getByRole("button", { name: "Reactivate" }).click();
   await admin.locator("tr", { hasText: "daee2@wasl.demo" }).getByRole("button", { name: "Deactivate" }).waitFor({ timeout: 15_000 });
+  await d1.goto(`${BASE}/en/daee/${conv5}`);
+  await say(d1, "main textarea", "Hello, I'm continuing with you from here.");
+  await other.getByText("continuing with you from here").first().waitFor({ timeout: 15_000 });
+  const started = (await events(conv5)).filter((e) => e.type === "conversation_started").length;
+  check("conversation_started logged once across reassignment", started === 1, `count=${started}`);
+
+  // ---- 8b. Card-first transfer whose target leaves before the asker answers ---------------
+  await setStatus(DAEE2, "available");
+  await d1.reload();
+  await d1.locator("main header").getByRole("button", { name: "Transfer" }).click();
+  await d1.getByRole("radio", { name: /سارة/ }).click();
+  await d1.getByRole("dialog").getByText("Ask the asker for a card first").click();
+  await d1.getByRole("dialog").getByRole("button", { name: "Transfer" }).click();
+  await other.getByText("suggests continuing with").first().waitFor({ timeout: 15_000 });
+  await setStatus(DAEE2, "offline");
+  await other.getByText("isn't available right now").first().waitFor({ timeout: 30_000 });
+  check("move now disabled with the reason", await other.getByRole("button", { name: "Move now" }).isDisabled());
+  await shots(other, "chat-transfer-unavailable-en");
+  await other.getByRole("button", { name: "Return to the queue" }).click();
+  await other.getByText("Your conversation went back to the queue").first().waitFor({ timeout: 15_000 });
+  check("asker sees the requeue line", true);
+  const { data: tr5 } = await db.from("transfers").select("status, requeued_at").eq("conversation_id", conv5).order("created_at", { ascending: false }).limit(1).single();
+  const { data: c5c } = await db.from("conversations").select("daee_id, status").eq("id", conv5).single();
+  check("transfer dropped and conversation back in the queue", tr5.status === "declined" && tr5.requeued_at && c5c.status === "waiting" && c5c.daee_id === null, `daee=${c5c.daee_id} status=${c5c.status}`);
 
   // ---- 9. Admin KPIs show real n ----------------------------------------------------------
   for (const locale of ["en", "ar"]) {

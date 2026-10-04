@@ -53,8 +53,8 @@ try {
   const pub = await anon.newPage();
   for (const locale of LOCALES) {
     await pub.goto(`${BASE}/${locale}`);
-    check(`landing ${locale} shows org name`, await pub.locator("header p").getByText(org.name, { exact: true }).isVisible());
-    await shotBoth(pub, `landing-${locale}`);
+    check(`landing ${locale} shows org name`, await pub.locator("header").getByText(org.name, { exact: true }).first().isVisible());
+    // Landing screenshots: scripts/dev/landing.mjs.
     await pub.goto(`${BASE}/${locale}/login`);
     await pub.waitForTimeout(500);
     await shotBoth(pub, `login-${locale}`);
@@ -105,11 +105,11 @@ try {
   await reply.waitFor();
   await reply.fill("أهلًا بك، هذا رد آلي طويل بما يكفي لتسجيل أول رد جوهري في المحادثة.");
   await reply.press("Enter");
-  await asker.getByText("هذا رد آلي طويل").waitFor({ timeout: 15_000 });
+  await asker.getByText("هذا رد آلي طويل").first().waitFor({ timeout: 15_000 });
   check("daee message arrives live for asker", true);
   await asker.locator("footer textarea").fill("شكرًا، وصلت الرسالة");
   await asker.locator("footer textarea").press("Enter");
-  await daee.getByText("شكرًا، وصلت الرسالة").waitFor({ timeout: 15_000 });
+  await daee.getByText("شكرًا، وصلت الرسالة").first().waitFor({ timeout: 15_000 });
   check("asker message arrives live for daee", true);
 
   await asker.locator("footer textarea").fill("سطر أول");
