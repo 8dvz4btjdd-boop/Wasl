@@ -1,12 +1,22 @@
 {
+  "Brand": {
+    "name": "Wasl"
+  },
   "Meta": {
     "title": "Wasl",
     "description": "Continuidad en los diálogos entre quienes preguntan y los dāʿīs."
   },
   "Home": {
-    "title": "Wasl",
     "subtitle": "Comprobación de la configuración: idioma y dirección.",
-    "localeInfo": "Idioma: {locale} · Dirección: {dir}"
+    "localeInfo": "Idioma: {locale} · Dirección: {dir}",
+    "surfacesTitle": "Superficies",
+    "asker": "Quien pregunta",
+    "workspace": "Espacio de trabajo",
+    "light": "Claro",
+    "dark": "Oscuro",
+    "primaryAction": "Continuar",
+    "tealSample": "Turquesa accesible",
+    "mutedSample": "Texto secundario"
   },
   "LocaleSwitcher": {
     "label": "Idioma",

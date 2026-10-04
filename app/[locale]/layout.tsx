@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { getDir, routing } from "@/i18n/routing";
+import { MotionProvider } from "@/components/motion-provider";
 import "../globals.css";
 
 const plexArabic = IBM_Plex_Sans_Arabic({
@@ -47,7 +48,9 @@ export default async function LocaleLayout({
       className={`${font.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <NextIntlClientProvider>{children}</NextIntlClientProvider>
+        <NextIntlClientProvider>
+          <MotionProvider>{children}</MotionProvider>
+        </NextIntlClientProvider>
       </body>
     </html>
   );

@@ -1,12 +1,22 @@
 {
+  "Brand": {
+    "name": "Wasl"
+  },
   "Meta": {
     "title": "Wasl",
     "description": "La continuité des dialogues entre les personnes qui s'interrogent et les dāʿīs."
   },
   "Home": {
-    "title": "Wasl",
     "subtitle": "Vérification de la configuration : langue et direction.",
-    "localeInfo": "Langue : {locale} · Direction : {dir}"
+    "localeInfo": "Langue : {locale} · Direction : {dir}",
+    "surfacesTitle": "Surfaces",
+    "asker": "Personne qui s'interroge",
+    "workspace": "Espace de travail",
+    "light": "Clair",
+    "dark": "Sombre",
+    "primaryAction": "Continuer",
+    "tealSample": "Turquoise accessible",
+    "mutedSample": "Texte secondaire"
   },
   "LocaleSwitcher": {
     "label": "Langue",

@@ -6,8 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint",
-    "db:types": "supabase gen types typescript --linked --schema public > lib/db/types.ts"
+    "lint": "eslint && node scripts/check-logical.mjs",
+    "db:types": "supabase gen types typescript --linked --schema public > lib/db/types.ts",
+    "lint:rtl": "node scripts/check-logical.mjs"
   },
   "dependencies": {
     "@ai-sdk/anthropic": "^4.0.71",

@@ -49,7 +49,8 @@ docs/{sources.md,evals/,runbook.md}
 - Asker surfaces: conversation-first, one surface, bottom composer, dark by default, large type, minimal text. Guide = animated orb + one question at a time. Card = bottom sheet whose fields animate in one by one.
 - Workspace (daee, admin): light by default, three-column inbox layout, right-side card panel, dense calm data, keyboard shortcuts.
 - Animation: motion, under 300ms, ease-out, state changes only, respect prefers-reduced-motion.
-- Use shadcn/ui primitives. Brand accents: navy #0B1033, teal #2BD4B0, violet #7C5CFF.
+- Use shadcn/ui primitives. Brand: violet #6150EA, teal #2EF2C4, overlap gradient #3EE8C6 to #5A7FE6, navy #0E153F. Teal text on light surfaces uses #077359 (AA). Tokens, surfaces, contrast and motion presets: docs/design.md.
+- Logical properties only (ms/me, ps/pe, start/end), never left/right. `npm run lint` enforces it.
 
 ## Engineering rules
 - Server Actions for mutations, typed queries in lib/db/queries. No raw SQL in components.

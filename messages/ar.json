@@ -1,12 +1,22 @@
 {
+  "Brand": {
+    "name": "وصل"
+  },
   "Meta": {
     "title": "وصل",
     "description": "استمرارية الحوار بين السائلين والدعاة."
   },
   "Home": {
-    "title": "وصل",
     "subtitle": "فحص الإعداد: اللغة والاتجاه.",
-    "localeInfo": "اللغة: {locale} · الاتجاه: {dir}"
+    "localeInfo": "اللغة: {locale} · الاتجاه: {dir}",
+    "surfacesTitle": "الواجهات",
+    "asker": "السائل",
+    "workspace": "مساحة العمل",
+    "light": "فاتح",
+    "dark": "داكن",
+    "primaryAction": "متابعة",
+    "tealSample": "لون فيروزي واضح",
+    "mutedSample": "نص ثانوي"
   },
   "LocaleSwitcher": {
     "label": "اللغة",

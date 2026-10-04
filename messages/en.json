@@ -1,12 +1,22 @@
 {
+  "Brand": {
+    "name": "Wasl"
+  },
   "Meta": {
     "title": "Wasl",
     "description": "Continuity for dialogues between askers and dāʿīs."
   },
   "Home": {
-    "title": "Wasl",
     "subtitle": "Setup check: language and direction.",
-    "localeInfo": "Language: {locale} · Direction: {dir}"
+    "localeInfo": "Language: {locale} · Direction: {dir}",
+    "surfacesTitle": "Surfaces",
+    "asker": "Asker",
+    "workspace": "Workspace",
+    "light": "Light",
+    "dark": "Dark",
+    "primaryAction": "Continue",
+    "tealSample": "Accessible teal",
+    "mutedSample": "Secondary text"
   },
   "LocaleSwitcher": {
     "label": "Language",
