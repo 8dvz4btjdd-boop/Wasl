@@ -1,4 +1,4 @@
-create extension if not exists pgcrypto;
+create extension if not exists pgcrypto with schema extensions;
 
 create type user_role as enum ('admin','daee');
 create type presence as enum ('available','busy','offline');
@@ -13,10 +13,10 @@ create type depth_level as enum ('intro','explain','detailed');
 create table organizations (
   id uuid primary key default gen_random_uuid(),
   name text not null,
-  languages text[] not null default '{ar,en,fr,tl}',
+  languages text[] not null default '{ar,en,fr,es}',
   hours text,
   ai_enabled boolean not null default true,
-  return_code_salt text not null default encode(gen_random_bytes(16),'hex'),
+  return_code_salt text not null default encode(extensions.gen_random_bytes(16),'hex'),
   created_at timestamptz not null default now()
 );
 
@@ -182,13 +182,14 @@ create table ai_runs (
 );
 
 -- helpers
-create or replace function my_role() returns text language sql stable security definer as $$
+create or replace function my_role() returns text language sql stable security definer set search_path = public as $$
   select role::text from profiles where user_id = auth.uid()
 $$;
-create or replace function is_admin() returns boolean language sql stable as $$ select my_role() = 'admin' $$;
-create or replace function is_daee()  returns boolean language sql stable as $$ select my_role() = 'daee' $$;
-create or replace function is_asker() returns boolean language sql stable as $$ select exists (select 1 from askers where user_id = auth.uid()) $$;
-create or replace function can_view_card(c uuid) returns boolean language sql stable as $$
+create or replace function is_admin() returns boolean language sql stable set search_path = public as $$ select my_role() = 'admin' $$;
+create or replace function is_daee()  returns boolean language sql stable set search_path = public as $$ select my_role() = 'daee' $$;
+create or replace function is_asker() returns boolean language sql stable set search_path = public as $$ select exists (select 1 from askers where user_id = auth.uid()) $$;
+-- security definer: reads card_access without its RLS, which would read cards again (recursion)
+create or replace function can_view_card(c uuid) returns boolean language sql stable security definer set search_path = public as $$
   select exists (select 1 from card_access where card_id = c and viewer_id = auth.uid() and until > now())
 $$;
 
@@ -227,24 +228,24 @@ create policy conv_admin on conversations for select to authenticated using (is_
 
 -- admin is intentionally excluded from messages
 create policy msg_participants on messages for select to authenticated using (
-  exists (select 1 from conversations c where c.id = conversation_id and (c.asker_id = auth.uid() or c.daee_id = auth.uid()))
-  or exists (select 1 from transfers t where t.conversation_id = conversation_id and t.to_daee = auth.uid() and t.status = 'accepted')
+  exists (select 1 from conversations c where c.id = messages.conversation_id and (c.asker_id = auth.uid() or c.daee_id = auth.uid()))
+  or exists (select 1 from transfers t where t.conversation_id = messages.conversation_id and t.to_daee = auth.uid() and t.status = 'accepted')
 );
 create policy msg_insert on messages for insert to authenticated with check (
-  sender_id = auth.uid() and exists (select 1 from conversations c where c.id = conversation_id and (c.asker_id = auth.uid() or c.daee_id = auth.uid()))
+  messages.sender_id = auth.uid() and exists (select 1 from conversations c where c.id = messages.conversation_id and (c.asker_id = auth.uid() or c.daee_id = auth.uid()))
 );
 
 create policy cards_asker on cards for all to authenticated using (asker_id = auth.uid()) with check (asker_id = auth.uid());
-create policy cards_viewer on cards for select to authenticated using (status = 'approved' and can_view_card(id));
+create policy cards_viewer on cards for select to authenticated using (cards.status = 'approved' and can_view_card(cards.id));
 create policy cards_reviewer on cards for select to authenticated using (
-  exists (select 1 from conversations c where c.id = conversation_id and c.daee_id = auth.uid())
+  exists (select 1 from conversations c where c.id = cards.conversation_id and c.daee_id = auth.uid())
 );
 create policy cards_review_update on cards for update to authenticated using (
-  status = 'draft' and exists (select 1 from conversations c where c.id = conversation_id and c.daee_id = auth.uid())
+  cards.status = 'draft' and exists (select 1 from conversations c where c.id = cards.conversation_id and c.daee_id = auth.uid())
 );
 
 create policy access_asker on card_access for all to authenticated using (
-  exists (select 1 from cards k where k.id = card_id and k.asker_id = auth.uid())
+  exists (select 1 from cards k where k.id = card_access.card_id and k.asker_id = auth.uid())
 );
 create policy access_viewer on card_access for select to authenticated using (viewer_id = auth.uid());
 
