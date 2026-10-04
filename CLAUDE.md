@@ -17,7 +17,8 @@ Entry for the Islamic AI Challenge 2026, track 3. Build window: 4 to 6 October 2
 10. Library content is quoted verbatim with its source. The model never paraphrases religious text.
 
 ## Stack
-Next.js 15 App Router, TypeScript strict, Tailwind, shadcn/ui, motion (Framer Motion), next-intl, Supabase (Postgres, Auth, Realtime, RLS), Vercel AI SDK with @ai-sdk/anthropic, zod, Recharts, Web Speech API (STT), ElevenLabs TTS with Web Speech TTS fallback, promptfoo.
+Next.js 16 App Router, TypeScript strict, Tailwind, shadcn/ui, motion (Framer Motion), next-intl, Supabase (Postgres, Auth, Realtime, RLS), Vercel AI SDK with @ai-sdk/anthropic, zod, Recharts, Web Speech API (STT), ElevenLabs TTS with Web Speech TTS fallback, promptfoo.
+- Next.js 16 has breaking changes from earlier versions (e.g. `middleware.ts` is now `proxy.ts`). Before writing any Next.js code, read the relevant guide in `node_modules/next/dist/docs/`.
 
 ## Roles and auth
 - admin, daee: email + password via Supabase Auth, row in `profiles`.
@@ -29,7 +30,7 @@ app/[locale]/(workspace)/daee/..., /admin/...
 lib/ai/runAI.ts, lib/ai/prompts/*.ts, lib/ai/schemas.ts
 lib/db/{client,server,service}.ts, lib/db/queries/*.ts
 lib/routing/match.ts
-messages/{ar,en,fr,tl}.json
+messages/{ar,en,fr,es}.json
 supabase/migrations/*.sql, supabase/seed.sql
 docs/{sources.md,evals/,runbook.md}
 
@@ -40,8 +41,8 @@ docs/{sources.md,evals/,runbook.md}
 - Prompts live in lib/ai/prompts and are the only place system text is written.
 
 ## i18n
-- Locales: ar (rtl), en, fr, tl. `dir` is derived from locale in the root layout.
-- No hard-coded user-facing strings. Every string in messages/*.json. Write en first, then ar; fr and tl are generated from en and reviewed.
+- Locales: ar (rtl), en, fr, es. `dir` is derived from locale in the root layout.
+- No hard-coded user-facing strings. Every string in messages/*.json. Write en first, then ar; fr and es are generated from en and reviewed.
 - Fonts: IBM Plex Sans Arabic for ar, Inter otherwise.
 
 ## Design

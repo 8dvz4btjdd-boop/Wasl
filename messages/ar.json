@@ -1,0 +1,20 @@
+{
+  "Meta": {
+    "title": "وصل",
+    "description": "استمرارية الحوار بين السائلين والدعاة."
+  },
+  "Home": {
+    "title": "وصل",
+    "subtitle": "فحص الإعداد: اللغة والاتجاه.",
+    "localeInfo": "اللغة: {locale} · الاتجاه: {dir}"
+  },
+  "LocaleSwitcher": {
+    "label": "اللغة",
+    "locales": {
+      "ar": "العربية",
+      "en": "English",
+      "fr": "Français",
+      "es": "Español"
+    }
+  }
+}

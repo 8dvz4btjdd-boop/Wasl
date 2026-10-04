@@ -1,0 +1,20 @@
+{
+  "Meta": {
+    "title": "Wasl",
+    "description": "La continuité des dialogues entre les personnes qui s'interrogent et les dāʿīs."
+  },
+  "Home": {
+    "title": "Wasl",
+    "subtitle": "Vérification de la configuration : langue et direction.",
+    "localeInfo": "Langue : {locale} · Direction : {dir}"
+  },
+  "LocaleSwitcher": {
+    "label": "Langue",
+    "locales": {
+      "ar": "العربية",
+      "en": "English",
+      "fr": "Français",
+      "es": "Español"
+    }
+  }
+}

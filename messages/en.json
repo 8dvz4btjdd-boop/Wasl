@@ -1,0 +1,20 @@
+{
+  "Meta": {
+    "title": "Wasl",
+    "description": "Continuity for dialogues between askers and dāʿīs."
+  },
+  "Home": {
+    "title": "Wasl",
+    "subtitle": "Setup check: language and direction.",
+    "localeInfo": "Language: {locale} · Direction: {dir}"
+  },
+  "LocaleSwitcher": {
+    "label": "Language",
+    "locales": {
+      "ar": "العربية",
+      "en": "English",
+      "fr": "Français",
+      "es": "Español"
+    }
+  }
+}

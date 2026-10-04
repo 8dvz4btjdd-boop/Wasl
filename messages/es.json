@@ -1,0 +1,20 @@
+{
+  "Meta": {
+    "title": "Wasl",
+    "description": "Continuidad en los diálogos entre quienes preguntan y los dāʿīs."
+  },
+  "Home": {
+    "title": "Wasl",
+    "subtitle": "Comprobación de la configuración: idioma y dirección.",
+    "localeInfo": "Idioma: {locale} · Dirección: {dir}"
+  },
+  "LocaleSwitcher": {
+    "label": "Idioma",
+    "locales": {
+      "ar": "العربية",
+      "en": "English",
+      "fr": "Français",
+      "es": "Español"
+    }
+  }
+}

@@ -1,7 +1,7 @@
 // lib/ai/schemas.ts
 import { z } from "zod";
 
-export const Locale = z.enum(["ar", "en", "fr", "tl"]);
+export const Locale = z.enum(["ar", "en", "fr", "es"]);
 
 export const IntakeTurn = z.object({
   done: z.boolean(),
