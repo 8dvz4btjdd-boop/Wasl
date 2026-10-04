@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { sendMessage } from "@/lib/chat/actions";
 import { MESSAGE_COLUMNS, type ChatMessage, type MessageRow } from "@/lib/chat/types";
-import { createClient, subscribeWhenReady } from "@/lib/db/client";
+import { createClient, subscribeResilient } from "@/lib/db/client";
 
 function upsert(list: ChatMessage[], row: MessageRow): ChatMessage[] {
   const index = list.findIndex((m) => m.id === row.id);
@@ -32,30 +32,17 @@ export function useMessages(conversationId: string, initial: MessageRow[], me: s
       if (data) merge(data);
     };
 
-    const unsubscribe = subscribeWhenReady((client) =>
-      client
-        .channel(`messages:${conversationId}`)
-        .on(
+    return subscribeResilient({
+      name: `messages:${conversationId}`,
+      configure: (channel) =>
+        channel.on(
           "postgres_changes",
           { event: "INSERT", schema: "public", table: "messages", filter: `conversation_id=eq.${conversationId}` },
           (payload) => merge([payload.new as MessageRow]),
-        )
-        .subscribe((status) => {
-          // Catch anything sent between the server render and the (re)subscription.
-          if (status === "SUBSCRIBED") void catchUp();
-        }),
-    );
-
-    // Background tabs can lose the socket; catch up when the person comes back.
-    const onVisible = () => {
-      if (document.visibilityState === "visible") void catchUp();
-    };
-    document.addEventListener("visibilitychange", onVisible);
-
-    return () => {
-      document.removeEventListener("visibilitychange", onVisible);
-      unsubscribe();
-    };
+        ),
+      // Picks up anything sent while the channel was connecting or down.
+      onResync: catchUp,
+    });
   }, [conversationId]);
 
   const deliver = useCallback(
