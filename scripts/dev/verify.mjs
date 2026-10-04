@@ -47,11 +47,13 @@ try {
   await db.from("profiles").update({ status: "available" }).eq("user_id", profile.user_id);
 
   // ---- Public screens --------------------------------------------------------------------
+  // The organization name is editable in Settings, so read the current one.
+  const { data: org } = await db.from("organizations").select("name").order("created_at").limit(1).single();
   const anon = await browser.newContext({ viewport: WIDTHS.desktop });
   const pub = await anon.newPage();
   for (const locale of LOCALES) {
     await pub.goto(`${BASE}/${locale}`);
-    check(`landing ${locale} shows org name`, await pub.getByText("Wasl Demo Center").isVisible());
+    check(`landing ${locale} shows org name`, await pub.locator("header p").getByText(org.name, { exact: true }).isVisible());
     await shotBoth(pub, `landing-${locale}`);
     await pub.goto(`${BASE}/${locale}/login`);
     await pub.waitForTimeout(500);
