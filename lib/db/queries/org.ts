@@ -13,3 +13,17 @@ export const getDefaultOrg = cache(async () => {
   if (error) throw new Error(`No organization found: ${error.message}`);
   return data;
 });
+
+/**
+ * The organization's public name for the asker landing page. Visitors aren't signed in
+ * (and RLS hides organizations from them), so it's read server-side without the salt.
+ */
+export const getOrgName = cache(async (): Promise<string | null> => {
+  const { data } = await createServiceClient()
+    .from("organizations")
+    .select("name")
+    .order("created_at")
+    .limit(1)
+    .maybeSingle();
+  return data?.name ?? null;
+});
