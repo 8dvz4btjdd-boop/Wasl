@@ -21,7 +21,7 @@ export async function setPresence(status: z.input<typeof PresenceInput>): Promis
 }
 
 export async function endConversation(conversationId: string): Promise<{ ok: boolean }> {
-  if (!z.uuid().safeParse(conversationId).success) return { ok: false };
+  if (!z.uuid().safeParse(conversationId).success || (await getStaff())?.role !== "daee") return { ok: false };
   const supabase = await createClient();
   const { error } = await supabase.rpc("end_conversation", { conv: conversationId });
   if (error) {
@@ -35,7 +35,7 @@ export async function endConversation(conversationId: string): Promise<{ ok: boo
 export async function markConversationRead(conversationId: string): Promise<number | null> {
   if (!z.uuid().safeParse(conversationId).success) return null;
   const staff = await getStaff();
-  if (!staff) return null;
+  if (staff?.role !== "daee") return null;
   const supabase = await createClient();
   const { error } = await supabase
     .from("notifications")
@@ -45,10 +45,11 @@ export async function markConversationRead(conversationId: string): Promise<numb
     .is("read_at", null);
   if (error) logServerError("markConversationRead", error, { conversationId });
 
-  const { count } = await supabase
+  const { count, error: countError } = await supabase
     .from("notifications")
     .select("id", { count: "exact", head: true })
     .eq("recipient_id", staff.user_id)
     .is("read_at", null);
+  if (countError) logServerError("markConversationRead.count", countError);
   return count ?? 0;
 }

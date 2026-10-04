@@ -1,6 +1,7 @@
 "use server";
 
 import { z } from "zod";
+import { getAsker, getSessionUser, getStaff } from "@/lib/auth/dal";
 import { MESSAGE_COLUMNS, MESSAGE_MAX, type MessageRow } from "@/lib/chat/types";
 import { createClient } from "@/lib/db/server";
 import { logServerError } from "@/lib/log";
@@ -20,14 +21,15 @@ export async function sendMessage(input: z.input<typeof Input>): Promise<SendRes
   if (!parsed.success) return { ok: false };
   const { conversationId, id, body } = parsed.data;
 
-  const supabase = await createClient();
-  const { data: auth } = await supabase.auth.getUser();
-  if (!auth.user) return { ok: false };
+  // Only askers and daee take part in conversations; admins never post (or read) messages.
+  const [user, asker, staff] = await Promise.all([getSessionUser(), getAsker(), getStaff()]);
+  if (!user || (!asker && staff?.role !== "daee")) return { ok: false };
 
+  const supabase = await createClient();
   const { data, error } = await supabase
     .from("messages")
     // sender_role is required by the type but overwritten by the messages_before_insert trigger.
-    .insert({ id, conversation_id: conversationId, sender_id: auth.user.id, sender_role: "asker", body })
+    .insert({ id, conversation_id: conversationId, sender_id: user.id, sender_role: "asker", body })
     .select(MESSAGE_COLUMNS)
     .single();
   if (error) {

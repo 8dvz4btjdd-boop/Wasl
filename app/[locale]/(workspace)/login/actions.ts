@@ -22,7 +22,7 @@ export async function signInStaff(_prev: FormState, formData: FormData): Promise
   const { data, error } = await supabase.auth.signInWithPassword({ email, password });
   if (error || !data.user) {
     // Wrong credentials are expected; anything else is a real failure worth seeing.
-    if (error?.code !== "invalid_credentials") logServerError("signInStaff.signIn", error, { email });
+    if (error?.code !== "invalid_credentials") logServerError("signInStaff.signIn", error);
     return { error: "credentials" };
   }
 
