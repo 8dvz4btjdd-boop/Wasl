@@ -288,6 +288,7 @@ export type Database = {
       conversations: {
         Row: {
           asker_id: string
+          assigned_at: string | null
           created_at: string
           daee_id: string | null
           ended_at: string | null
@@ -300,6 +301,7 @@ export type Database = {
         }
         Insert: {
           asker_id: string
+          assigned_at?: string | null
           created_at?: string
           daee_id?: string | null
           ended_at?: string | null
@@ -312,6 +314,7 @@ export type Database = {
         }
         Update: {
           asker_id?: string
+          assigned_at?: string | null
           created_at?: string
           daee_id?: string | null
           ended_at?: string | null
@@ -717,11 +720,19 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      assign_conversation: {
+        Args: { conv: string; d: string }
+        Returns: undefined
+      }
+      assign_waiting_for: { Args: { d: string }; Returns: number }
       can_view_card: { Args: { c: string }; Returns: boolean }
+      end_conversation: { Args: { conv: string }; Returns: undefined }
       is_admin: { Args: never; Returns: boolean }
       is_asker: { Args: never; Returns: boolean }
       is_daee: { Args: never; Returns: boolean }
       my_role: { Args: never; Returns: string }
+      open_conversation_count: { Args: { d: string }; Returns: number }
+      queue_position: { Args: { conv: string }; Returns: number }
       record_return_failure: {
         Args: { p_key: string; p_org: string }
         Returns: string
@@ -729,6 +740,11 @@ export type Database = {
       relink_asker: {
         Args: { new_id: string; old_id: string }
         Returns: undefined
+      }
+      route_conversation: { Args: { conv: string }; Returns: string }
+      set_presence: {
+        Args: { p_status: Database["public"]["Enums"]["presence"] }
+        Returns: number
       }
     }
     Enums: {

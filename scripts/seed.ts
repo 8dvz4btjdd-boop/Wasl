@@ -9,9 +9,9 @@ const ORG_ID = "00000000-0000-4000-8000-000000000001";
 
 const STAFF: Array<{ email: string } & Omit<Profile, "user_id" | "org_id">> = [
   { email: "admin@wasl.demo", role: "admin", display_name: "Demo Admin", languages: ["ar", "en"], topics: [] },
-  { email: "daee1@wasl.demo", role: "daee", display_name: "Khalid", languages: ["ar", "en"], topics: ["tawhid", "quran", "general"], status: "available", capacity: 3 },
-  { email: "daee2@wasl.demo", role: "daee", display_name: "Amina", languages: ["en", "fr"], topics: ["prophet", "worship", "ethics"], status: "available", capacity: 3 },
-  { email: "daee3@wasl.demo", role: "daee", display_name: "Yusuf", languages: ["es", "en", "ar"], topics: ["doubts", "general", "quran"], status: "offline", capacity: 2 },
+  { email: "daee1@wasl.demo", role: "daee", display_name: "خالد", languages: ["ar", "en"], topics: ["tawhid", "quran", "general"], status: "available", capacity: 3 },
+  { email: "daee2@wasl.demo", role: "daee", display_name: "سارة", languages: ["en", "fr"], topics: ["prophet", "worship", "ethics"], status: "busy", capacity: 3 },
+  { email: "daee3@wasl.demo", role: "daee", display_name: "يوسف", languages: ["es", "ar"], topics: ["doubts", "general", "quran"], status: "offline", capacity: 2 },
 ];
 
 // Slot start hours in Riyadh time (UTC+3, no DST), one set per daee.
