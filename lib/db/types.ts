@@ -222,6 +222,7 @@ export type Database = {
           source_message_ids: string[]
           status: Database["public"]["Enums"]["card_status"]
           version: number
+          visibility: string
         }
         Insert: {
           accept_substitute?: boolean
@@ -241,6 +242,7 @@ export type Database = {
           source_message_ids?: string[]
           status?: Database["public"]["Enums"]["card_status"]
           version?: number
+          visibility?: string
         }
         Update: {
           accept_substitute?: boolean
@@ -260,6 +262,7 @@ export type Database = {
           source_message_ids?: string[]
           status?: Database["public"]["Enums"]["card_status"]
           version?: number
+          visibility?: string
         }
         Relationships: [
           {
@@ -289,12 +292,17 @@ export type Database = {
         Row: {
           asker_id: string
           assigned_at: string | null
+          card_id: string | null
           created_at: string
           daee_id: string | null
           ended_at: string | null
+          followup_mode: string | null
+          followup_sufficient: boolean | null
           id: string
           intake_id: string | null
           org_id: string
+          preferred_daee_id: string | null
+          previous_conversation_id: string | null
           started_at: string | null
           status: Database["public"]["Enums"]["conv_status"]
           topic: string | null
@@ -302,12 +310,17 @@ export type Database = {
         Insert: {
           asker_id: string
           assigned_at?: string | null
+          card_id?: string | null
           created_at?: string
           daee_id?: string | null
           ended_at?: string | null
+          followup_mode?: string | null
+          followup_sufficient?: boolean | null
           id?: string
           intake_id?: string | null
           org_id: string
+          preferred_daee_id?: string | null
+          previous_conversation_id?: string | null
           started_at?: string | null
           status?: Database["public"]["Enums"]["conv_status"]
           topic?: string | null
@@ -315,12 +328,17 @@ export type Database = {
         Update: {
           asker_id?: string
           assigned_at?: string | null
+          card_id?: string | null
           created_at?: string
           daee_id?: string | null
           ended_at?: string | null
+          followup_mode?: string | null
+          followup_sufficient?: boolean | null
           id?: string
           intake_id?: string | null
           org_id?: string
+          preferred_daee_id?: string | null
+          previous_conversation_id?: string | null
           started_at?: string | null
           status?: Database["public"]["Enums"]["conv_status"]
           topic?: string | null
@@ -332,6 +350,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "askers"
             referencedColumns: ["user_id"]
+          },
+          {
+            foreignKeyName: "conversations_card_id_fkey"
+            columns: ["card_id"]
+            isOneToOne: false
+            referencedRelation: "cards"
+            referencedColumns: ["id"]
           },
           {
             foreignKeyName: "conversations_daee_id_fkey"
@@ -352,6 +377,20 @@ export type Database = {
             columns: ["org_id"]
             isOneToOne: false
             referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "conversations_preferred_daee_id_fkey"
+            columns: ["preferred_daee_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["user_id"]
+          },
+          {
+            foreignKeyName: "conversations_previous_conversation_id_fkey"
+            columns: ["previous_conversation_id"]
+            isOneToOne: false
+            referencedRelation: "conversations"
             referencedColumns: ["id"]
           },
         ]
@@ -738,18 +777,39 @@ export type Database = {
       }
       assign_waiting_for: { Args: { d: string }; Returns: number }
       can_view_card: { Args: { c: string }; Returns: boolean }
+      card_sources: {
+        Args: { card: string }
+        Returns: {
+          body: string
+          created_at: string
+          id: string
+          sender_role: string
+        }[]
+      }
+      complete_transfer: { Args: { t: string }; Returns: boolean }
+      do_transfer: { Args: { t: string }; Returns: undefined }
       end_conversation: { Args: { conv: string }; Returns: undefined }
+      grant_next_daee_cards: {
+        Args: { conv: string; d: string }
+        Returns: undefined
+      }
       is_active_staff: { Args: { uid: string }; Returns: boolean }
       is_admin: { Args: never; Returns: boolean }
       is_asker: { Args: never; Returns: boolean }
       is_daee: { Args: never; Returns: boolean }
+      me_active: { Args: never; Returns: boolean }
       my_role: { Args: never; Returns: string }
       open_conversation_count: { Args: { d: string }; Returns: number }
       queue_position: { Args: { conv: string }; Returns: number }
+      rate_followup: {
+        Args: { conv: string; sufficient: boolean }
+        Returns: undefined
+      }
       record_return_failure: {
         Args: { p_key: string; p_org: string }
         Returns: string
       }
+      release_daee_conversations: { Args: { d: string }; Returns: number }
       relink_asker: {
         Args: { new_id: string; old_id: string }
         Returns: undefined
@@ -759,6 +819,19 @@ export type Database = {
       set_presence: {
         Args: { p_status: Database["public"]["Enums"]["presence"] }
         Returns: number
+      }
+      transfer_candidates: {
+        Args: { conv: string }
+        Returns: {
+          capacity: number
+          display_name: string
+          open: number
+          user_id: string
+        }[]
+      }
+      transfer_conversation: {
+        Args: { ask_card?: boolean; conv: string; to_daee: string }
+        Returns: string
       }
     }
     Enums: {
