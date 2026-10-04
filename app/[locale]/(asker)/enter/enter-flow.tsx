@@ -3,7 +3,7 @@
 import { ArrowUp } from "lucide-react";
 import { motion } from "motion/react";
 import { useLocale, useTranslations } from "next-intl";
-import { useActionState, useState } from "react";
+import { useActionState, useState, useSyncExternalStore } from "react";
 import { ReturnCodeReveal } from "@/components/asker/return-code-reveal";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -16,6 +16,7 @@ import { createAsker, type EnterState } from "./actions";
 
 type Step = "pseudonym" | "background";
 const PSEUDONYM_ERRORS: FormError[] = ["pseudonymInvalid", "pseudonymTaken"];
+const noopSubscribe = () => () => {};
 
 // One question per screen, answered in a bottom composer like the chat that follows.
 export function EnterFlow({ existingPseudonym }: { existingPseudonym: string | null }) {
@@ -27,6 +28,8 @@ export function EnterFlow({ existingPseudonym }: { existingPseudonym: string | n
   const [pseudonym, setPseudonym] = useState("");
   const [background, setBackground] = useState("");
   const [clientError, setClientError] = useState<FormError | null>(null);
+  // The first step is client-only; before hydration a native submit would reload and lose input.
+  const hydrated = useSyncExternalStore(noopSubscribe, () => true, () => false);
 
   // A pseudonym problem found by the server sends the person back to that question.
   const [seenState, setSeenState] = useState(state);
@@ -104,7 +107,12 @@ export function EnterFlow({ existingPseudonym }: { existingPseudonym: string | n
               aria-describedby={errorText ? "enter-error" : undefined}
               className="h-14 rounded-2xl px-5 text-lg md:text-lg"
             />
-            <Button type="submit" aria-label={t("continue")} className="size-14 shrink-0 rounded-2xl">
+            <Button
+              type="submit"
+              disabled={!hydrated}
+              aria-label={t("continue")}
+              className="size-14 shrink-0 rounded-2xl"
+            >
               <ArrowUp className="size-6" aria-hidden />
             </Button>
           </form>

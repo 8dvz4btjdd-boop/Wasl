@@ -19,8 +19,12 @@ function escapeLike(value: string) {
   return value.replace(/[\\%_]/g, "\\$&");
 }
 
+// Matches the 15-minute lock in record_return_failure (0002_identity.sql).
+const LOCK_MINUTES = 15;
+
 function minutesUntil(iso: string) {
-  return Math.max(1, Math.ceil((Date.parse(iso) - Date.now()) / 60_000));
+  // Capped: the DB clock can run slightly ahead of this server.
+  return Math.min(LOCK_MINUTES, Math.max(1, Math.ceil((Date.parse(iso) - Date.now()) / 60_000)));
 }
 
 export async function returnAsker(_prev: FormState, formData: FormData): Promise<FormState> {
