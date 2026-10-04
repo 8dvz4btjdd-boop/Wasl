@@ -16,7 +16,10 @@
     "dark": "Oscuro",
     "primaryAction": "Continuar",
     "tealSample": "Turquesa accesible",
-    "mutedSample": "Texto secundario"
+    "mutedSample": "Texto secundario",
+    "start": "Empezar una conversación",
+    "return": "Volver con un código",
+    "staff": "Acceso del equipo"
   },
   "LocaleSwitcher": {
     "label": "Idioma",
@@ -26,5 +29,71 @@
       "fr": "Français",
       "es": "Español"
     }
+  },
+  "Enter": {
+    "pseudonymQuestion": "¿Cómo quieres que te llamemos?",
+    "pseudonymHint": "El nombre que prefieras. Lo usarás para volver.",
+    "pseudonymLabel": "Seudónimo",
+    "backgroundQuestion": "¿Quieres que el dāʿī sepa algo sobre ti?",
+    "backgroundHint": "Opcional. Comparte solo lo que elijas.",
+    "backgroundLabel": "Sobre ti (opcional)",
+    "continue": "Continuar",
+    "skip": "Omitir",
+    "back": "Atrás",
+    "creating": "Creando…",
+    "codeTitle": "Tu código de regreso",
+    "codeBody": "Cópialo o anótalo. Es la única forma de volver a esta conversación desde otro dispositivo y no se volverá a mostrar.",
+    "codeFor": "Para {pseudonym}",
+    "copy": "Copiar código",
+    "copied": "Copiado",
+    "saved": "Ya lo guardé, continuar",
+    "haveCode": "¿Ya estuviste aquí? Vuelve con tu código",
+    "alreadyIn": "Ya has entrado como {pseudonym}."
+  },
+  "Return": {
+    "title": "Bienvenido de nuevo",
+    "hint": "Escribe tu seudónimo y tu código de regreso.",
+    "pseudonymLabel": "Seudónimo",
+    "codeLabel": "Código de regreso",
+    "submit": "Volver a mi conversación",
+    "submitting": "Comprobando…",
+    "newHere": "¿Eres nuevo? Empieza una conversación"
+  },
+  "Login": {
+    "title": "Acceso del equipo",
+    "hint": "Para dāʿīs y administradores.",
+    "email": "Correo electrónico",
+    "password": "Contraseña",
+    "submit": "Entrar",
+    "submitting": "Entrando…"
+  },
+  "Workspace": {
+    "daeeTitle": "Espacio del dāʿī",
+    "adminTitle": "Espacio de administración",
+    "signedInAs": "Sesión iniciada como {name}",
+    "role": "Rol: {role}",
+    "roles": {
+      "admin": "Administrador",
+      "daee": "Dāʿī"
+    },
+    "placeholder": "Esta página es provisional hasta que se construya el espacio de trabajo.",
+    "signOut": "Cerrar sesión"
+  },
+  "Wait": {
+    "title": "Ya estás dentro",
+    "signedInAs": "Sesión iniciada como {pseudonym}",
+    "placeholder": "Esta página es provisional para la sala de espera.",
+    "signOut": "Cerrar sesión"
+  },
+  "Errors": {
+    "invalidInput": "Revisa los campos e inténtalo de nuevo.",
+    "credentials": "Correo o contraseña incorrectos.",
+    "notStaff": "Esta cuenta no tiene acceso de equipo.",
+    "pseudonymInvalid": "Usa de 2 a 24 letras, números, espacios, - o _.",
+    "pseudonymTaken": "Ese seudónimo ya está en uso. Prueba otro.",
+    "backgroundTooLong": "Mantenlo por debajo de 280 caracteres.",
+    "returnFailed": "Seudónimo o código de regreso incorrectos.",
+    "locked": "Demasiados intentos. Vuelve a intentarlo en {minutes, plural, one {# minuto} other {# minutos}}.",
+    "generic": "Algo salió mal. Inténtalo de nuevo."
   }
 }

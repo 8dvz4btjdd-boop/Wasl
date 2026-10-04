@@ -16,7 +16,10 @@
     "dark": "Dark",
     "primaryAction": "Continue",
     "tealSample": "Accessible teal",
-    "mutedSample": "Secondary text"
+    "mutedSample": "Secondary text",
+    "start": "Start a conversation",
+    "return": "Return with a code",
+    "staff": "Staff sign in"
   },
   "LocaleSwitcher": {
     "label": "Language",
@@ -26,5 +29,71 @@
       "fr": "Français",
       "es": "Español"
     }
+  },
+  "Enter": {
+    "pseudonymQuestion": "What should we call you?",
+    "pseudonymHint": "Any name you like. You'll use it to come back.",
+    "pseudonymLabel": "Pseudonym",
+    "backgroundQuestion": "Anything you'd like the dāʿī to know about you?",
+    "backgroundHint": "Optional. Share only what you choose.",
+    "backgroundLabel": "About you (optional)",
+    "continue": "Continue",
+    "skip": "Skip",
+    "back": "Back",
+    "creating": "Creating…",
+    "codeTitle": "Your return code",
+    "codeBody": "Copy it or write it down. It's the only way back to this conversation from another device, and it won't be shown again.",
+    "codeFor": "For {pseudonym}",
+    "copy": "Copy code",
+    "copied": "Copied",
+    "saved": "I've saved it, continue",
+    "haveCode": "Been here before? Return with your code",
+    "alreadyIn": "You are already in as {pseudonym}."
+  },
+  "Return": {
+    "title": "Welcome back",
+    "hint": "Enter your pseudonym and return code.",
+    "pseudonymLabel": "Pseudonym",
+    "codeLabel": "Return code",
+    "submit": "Return to my conversation",
+    "submitting": "Checking…",
+    "newHere": "New here? Start a conversation"
+  },
+  "Login": {
+    "title": "Staff sign in",
+    "hint": "For dāʿīs and administrators.",
+    "email": "Email",
+    "password": "Password",
+    "submit": "Sign in",
+    "submitting": "Signing in…"
+  },
+  "Workspace": {
+    "daeeTitle": "Dāʿī workspace",
+    "adminTitle": "Admin workspace",
+    "signedInAs": "Signed in as {name}",
+    "role": "Role: {role}",
+    "roles": {
+      "admin": "Administrator",
+      "daee": "Dāʿī"
+    },
+    "placeholder": "This page is a placeholder until the workspace is built.",
+    "signOut": "Sign out"
+  },
+  "Wait": {
+    "title": "You're in",
+    "signedInAs": "Signed in as {pseudonym}",
+    "placeholder": "This page is a placeholder for the waiting room.",
+    "signOut": "Sign out"
+  },
+  "Errors": {
+    "invalidInput": "Check the fields and try again.",
+    "credentials": "Email or password is incorrect.",
+    "notStaff": "This account has no staff access.",
+    "pseudonymInvalid": "Use 2 to 24 letters, numbers, spaces, - or _.",
+    "pseudonymTaken": "That pseudonym is taken. Try another.",
+    "backgroundTooLong": "Keep it under 280 characters.",
+    "returnFailed": "Pseudonym or return code is incorrect.",
+    "locked": "Too many attempts. Try again in {minutes, plural, one {# minute} other {# minutes}}.",
+    "generic": "Something went wrong. Try again."
   }
 }

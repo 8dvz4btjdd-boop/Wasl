@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint && node scripts/check-logical.mjs",
     "db:types": "supabase gen types typescript --linked --schema public > lib/db/types.ts",
-    "lint:rtl": "node scripts/check-logical.mjs"
+    "lint:rtl": "node scripts/check-logical.mjs",
+    "seed": "tsx --env-file=.env.local --conditions=react-server scripts/seed.ts"
   },
   "dependencies": {
     "@ai-sdk/anthropic": "^4.0.71",
@@ -40,6 +41,7 @@
     "promptfoo": "^0.123.1",
     "supabase": "^2.119.0",
     "tailwindcss": "^4",
+    "tsx": "^4.23.15",
     "typescript": "^5"
   },
   "overrides": {

@@ -16,7 +16,10 @@
     "dark": "Sombre",
     "primaryAction": "Continuer",
     "tealSample": "Turquoise accessible",
-    "mutedSample": "Texte secondaire"
+    "mutedSample": "Texte secondaire",
+    "start": "Commencer une conversation",
+    "return": "Revenir avec un code",
+    "staff": "Connexion équipe"
   },
   "LocaleSwitcher": {
     "label": "Langue",
@@ -26,5 +29,71 @@
       "fr": "Français",
       "es": "Español"
     }
+  },
+  "Enter": {
+    "pseudonymQuestion": "Comment souhaitez-vous qu'on vous appelle ?",
+    "pseudonymHint": "Le nom de votre choix. Il vous servira à revenir.",
+    "pseudonymLabel": "Pseudonyme",
+    "backgroundQuestion": "Souhaitez-vous que le dāʿī sache quelque chose sur vous ?",
+    "backgroundHint": "Facultatif. Ne partagez que ce que vous voulez.",
+    "backgroundLabel": "À propos de vous (facultatif)",
+    "continue": "Continuer",
+    "skip": "Passer",
+    "back": "Retour",
+    "creating": "Création…",
+    "codeTitle": "Votre code de retour",
+    "codeBody": "Copiez-le ou notez-le. C'est le seul moyen de revenir à cette conversation depuis un autre appareil, et il ne sera plus affiché.",
+    "codeFor": "Pour {pseudonym}",
+    "copy": "Copier le code",
+    "copied": "Copié",
+    "saved": "Je l'ai noté, continuer",
+    "haveCode": "Déjà venu ? Revenez avec votre code",
+    "alreadyIn": "Vous êtes déjà connecté en tant que {pseudonym}."
+  },
+  "Return": {
+    "title": "Bon retour",
+    "hint": "Saisissez votre pseudonyme et votre code de retour.",
+    "pseudonymLabel": "Pseudonyme",
+    "codeLabel": "Code de retour",
+    "submit": "Revenir à ma conversation",
+    "submitting": "Vérification…",
+    "newHere": "Nouveau ? Commencez une conversation"
+  },
+  "Login": {
+    "title": "Connexion équipe",
+    "hint": "Pour les dāʿīs et les administrateurs.",
+    "email": "E-mail",
+    "password": "Mot de passe",
+    "submit": "Se connecter",
+    "submitting": "Connexion…"
+  },
+  "Workspace": {
+    "daeeTitle": "Espace dāʿī",
+    "adminTitle": "Espace administrateur",
+    "signedInAs": "Connecté en tant que {name}",
+    "role": "Rôle : {role}",
+    "roles": {
+      "admin": "Administrateur",
+      "daee": "Dāʿī"
+    },
+    "placeholder": "Cette page est provisoire en attendant l'espace de travail.",
+    "signOut": "Se déconnecter"
+  },
+  "Wait": {
+    "title": "Vous êtes connecté",
+    "signedInAs": "Connecté en tant que {pseudonym}",
+    "placeholder": "Cette page est provisoire en attendant la salle d'attente.",
+    "signOut": "Se déconnecter"
+  },
+  "Errors": {
+    "invalidInput": "Vérifiez les champs et réessayez.",
+    "credentials": "E-mail ou mot de passe incorrect.",
+    "notStaff": "Ce compte n'a pas d'accès équipe.",
+    "pseudonymInvalid": "Utilisez 2 à 24 lettres, chiffres, espaces, - ou _.",
+    "pseudonymTaken": "Ce pseudonyme est déjà pris. Essayez-en un autre.",
+    "backgroundTooLong": "Restez sous 280 caractères.",
+    "returnFailed": "Pseudonyme ou code de retour incorrect.",
+    "locked": "Trop de tentatives. Réessayez dans {minutes, plural, one {# minute} other {# minutes}}.",
+    "generic": "Une erreur s'est produite. Réessayez."
   }
 }

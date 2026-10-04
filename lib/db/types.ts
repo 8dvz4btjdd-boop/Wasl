@@ -621,6 +621,38 @@ export type Database = {
           },
         ]
       }
+      return_attempts: {
+        Row: {
+          failed_count: number
+          locked_until: string | null
+          org_id: string
+          pseudonym_key: string
+          window_started_at: string
+        }
+        Insert: {
+          failed_count?: number
+          locked_until?: string | null
+          org_id: string
+          pseudonym_key: string
+          window_started_at?: string
+        }
+        Update: {
+          failed_count?: number
+          locked_until?: string | null
+          org_id?: string
+          pseudonym_key?: string
+          window_started_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "return_attempts_org_id_fkey"
+            columns: ["org_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       transfers: {
         Row: {
           card_id: string | null
@@ -690,6 +722,14 @@ export type Database = {
       is_asker: { Args: never; Returns: boolean }
       is_daee: { Args: never; Returns: boolean }
       my_role: { Args: never; Returns: string }
+      record_return_failure: {
+        Args: { p_key: string; p_org: string }
+        Returns: string
+      }
+      relink_asker: {
+        Args: { new_id: string; old_id: string }
+        Returns: undefined
+      }
     }
     Enums: {
       booking_status: "requested" | "confirmed" | "cancelled" | "done"

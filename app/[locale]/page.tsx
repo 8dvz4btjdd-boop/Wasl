@@ -4,7 +4,8 @@ import { setRequestLocale } from "next-intl/server";
 import { LocaleSwitcher } from "@/components/locale-switcher";
 import { Logo } from "@/components/logo";
 import { Surface } from "@/components/surface";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { Link } from "@/i18n/navigation";
 import { getDir, type Locale } from "@/i18n/routing";
 
 // Temporary setup check. Replaced when the asker entry surface is built.
@@ -31,6 +32,17 @@ export default function Home({ params }: PageProps<"/[locale]">) {
           {t("localeInfo", { locale, dir: getDir(locale) })}
         </p>
         <LocaleSwitcher />
+        <nav className="mt-4 flex flex-wrap justify-center gap-3">
+          <Link href="/enter" className={buttonVariants({ size: "lg" })}>
+            {t("start")}
+          </Link>
+          <Link href="/return" className={buttonVariants({ size: "lg", variant: "outline" })}>
+            {t("return")}
+          </Link>
+          <Link href="/login" className={buttonVariants({ size: "lg", variant: "ghost" })}>
+            {t("staff")}
+          </Link>
+        </nav>
       </header>
 
       <section className="w-full max-w-3xl">

@@ -16,7 +16,10 @@
     "dark": "داكن",
     "primaryAction": "متابعة",
     "tealSample": "لون فيروزي واضح",
-    "mutedSample": "نص ثانوي"
+    "mutedSample": "نص ثانوي",
+    "start": "ابدأ محادثة",
+    "return": "العودة برمز",
+    "staff": "دخول الفريق"
   },
   "LocaleSwitcher": {
     "label": "اللغة",
@@ -26,5 +29,71 @@
       "fr": "Français",
       "es": "Español"
     }
+  },
+  "Enter": {
+    "pseudonymQuestion": "بماذا نناديك؟",
+    "pseudonymHint": "أي اسم تختاره. ستستخدمه للعودة.",
+    "pseudonymLabel": "الاسم المستعار",
+    "backgroundQuestion": "هل تود أن يعرف الداعية شيئًا عنك؟",
+    "backgroundHint": "اختياري. شارك فقط ما تختاره.",
+    "backgroundLabel": "عنك (اختياري)",
+    "continue": "متابعة",
+    "skip": "تخطَّ",
+    "back": "رجوع",
+    "creating": "جارٍ الإنشاء…",
+    "codeTitle": "رمز العودة الخاص بك",
+    "codeBody": "انسخه أو اكتبه. إنه الطريق الوحيد للعودة إلى هذه المحادثة من جهاز آخر، ولن يُعرض مرة أخرى.",
+    "codeFor": "لـ {pseudonym}",
+    "copy": "نسخ الرمز",
+    "copied": "تم النسخ",
+    "saved": "حفظته، تابع",
+    "haveCode": "زرتنا من قبل؟ عُد برمزك",
+    "alreadyIn": "أنت مسجّل بالفعل باسم {pseudonym}."
+  },
+  "Return": {
+    "title": "أهلًا بعودتك",
+    "hint": "أدخل اسمك المستعار ورمز العودة.",
+    "pseudonymLabel": "الاسم المستعار",
+    "codeLabel": "رمز العودة",
+    "submit": "العودة إلى محادثتي",
+    "submitting": "جارٍ التحقق…",
+    "newHere": "جديد هنا؟ ابدأ محادثة"
+  },
+  "Login": {
+    "title": "دخول الفريق",
+    "hint": "للدعاة والمشرفين.",
+    "email": "البريد الإلكتروني",
+    "password": "كلمة المرور",
+    "submit": "دخول",
+    "submitting": "جارٍ الدخول…"
+  },
+  "Workspace": {
+    "daeeTitle": "مساحة الداعية",
+    "adminTitle": "مساحة المشرف",
+    "signedInAs": "مسجّل الدخول باسم {name}",
+    "role": "الدور: {role}",
+    "roles": {
+      "admin": "مشرف",
+      "daee": "داعية"
+    },
+    "placeholder": "هذه صفحة مؤقتة حتى تُبنى مساحة العمل.",
+    "signOut": "تسجيل الخروج"
+  },
+  "Wait": {
+    "title": "أنت هنا",
+    "signedInAs": "مسجّل الدخول باسم {pseudonym}",
+    "placeholder": "هذه صفحة مؤقتة لغرفة الانتظار.",
+    "signOut": "تسجيل الخروج"
+  },
+  "Errors": {
+    "invalidInput": "تحقق من الحقول وحاول مرة أخرى.",
+    "credentials": "البريد الإلكتروني أو كلمة المرور غير صحيحة.",
+    "notStaff": "هذا الحساب ليس لديه صلاحية الفريق.",
+    "pseudonymInvalid": "استخدم من 2 إلى 24 حرفًا أو رقمًا أو مسافة أو - أو _.",
+    "pseudonymTaken": "هذا الاسم مستخدم. جرّب اسمًا آخر.",
+    "backgroundTooLong": "اجعله أقل من 280 حرفًا.",
+    "returnFailed": "الاسم المستعار أو رمز العودة غير صحيح.",
+    "locked": "محاولات كثيرة. حاول مرة أخرى بعد {minutes, plural, one {دقيقة واحدة} two {دقيقتين} few {# دقائق} other {# دقيقة}}.",
+    "generic": "حدث خطأ. حاول مرة أخرى."
   }
 }
