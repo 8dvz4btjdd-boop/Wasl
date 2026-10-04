@@ -78,7 +78,7 @@ Logged today:
 | `card_generated` | the asker saves the first version of a card | `{ origin: "manual" }` |
 | `card_approved` | the asker approves a card | `{ origin: "manual", edited_major: false }` |
 | `transfer_completed` | a daee hands a conversation to a colleague | `{ from_daee, to_daee }` |
-| `followup_started` | a returning asker starts a follow-up | `{ mode: "none" | "manual" }` |
+| `followup_started` | a returning asker starts a follow-up | `{ mode: "none" \| "manual" }` |
 | `followup_rated` | the daee answers "was the context enough?" | `{ mode, sufficient }` |
 
 The manual path now logs all of the events below. The AI features **must** log the same names and meta shapes, with `origin: "ai"` / `mode: "ai"`; an AI card approved after a major edit logs `edited_major: true`:
