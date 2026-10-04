@@ -4,10 +4,10 @@ import { cn } from "@/lib/utils";
 
 // Same artwork as public/brand/wasl-logo.svg, inlined so it can be sized and
 // labelled per locale. IDs are per instance so several logos can share a page.
-const VIEW_BOX = { x: 66, y: 28, width: 486, height: 418 };
-const BACK_BUBBLE =
+export const VIEW_BOX = { x: 66, y: 28, width: 486, height: 418 };
+export const BACK_BUBBLE =
   "M124 143H386A46 46 0 0 1 432 189V339A46 46 0 0 1 386 385H230L163 436V385H124A46 46 0 0 1 78 339V189A46 46 0 0 1 124 143Z";
-const FRONT_BUBBLE =
+export const FRONT_BUBBLE =
   "M235 48H480A52 52 0 0 1 532 100V240A52 52 0 0 1 480 292H446V336L398 292H235A52 52 0 0 1 183 240V100A52 52 0 0 1 235 48Z";
 
 type LogoProps = {

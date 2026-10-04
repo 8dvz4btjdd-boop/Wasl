@@ -1,4 +1,6 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { ConnectingBubbles } from "@/components/brand/connecting-bubbles";
+import { LocaleSwitcher } from "@/components/locale-switcher";
 import { Logo } from "@/components/logo";
 import { Surface } from "@/components/surface";
 import { redirect } from "@/i18n/navigation";
@@ -16,15 +18,27 @@ export default async function LoginPage({ params }: PageProps<"/[locale]/login">
   const t = await getTranslations("Login");
 
   return (
-    <Surface kind="workspace" className="flex min-h-dvh flex-1 flex-col">
-      <main className="flex w-full max-w-sm flex-col gap-10 px-6 pt-[14vh] sm:ps-[max(1.5rem,10vw)]">
-        <Logo size={32} wordmark />
-        <div className="flex flex-col gap-1">
-          <h1 className="text-2xl font-semibold">{t("title")}</h1>
-          <p className="text-sm text-muted-foreground">{t("hint")}</p>
-        </div>
-        <LoginForm />
-      </main>
-    </Surface>
+    <div className="grid min-h-dvh lg:grid-cols-2">
+      <Surface kind="workspace" className="flex flex-col">
+        <header className="flex items-center justify-between px-6 pt-6 sm:px-10">
+          <Logo size={28} wordmark />
+          <LocaleSwitcher variant="menu" />
+        </header>
+        <main className="flex flex-1 items-center px-6 py-12 sm:px-10">
+          <div className="mx-auto flex w-full max-w-sm flex-col gap-8">
+            <div className="flex flex-col gap-1.5">
+              <h1 className="text-2xl font-semibold">{t("title")}</h1>
+              <p className="text-sm text-muted-foreground">{t("hint")}</p>
+            </div>
+            <LoginForm />
+          </div>
+        </main>
+      </Surface>
+
+      <Surface kind="asker" className="relative hidden flex-col items-center justify-center gap-10 overflow-hidden p-12 lg:flex">
+        <ConnectingBubbles size={200} />
+        <p className="max-w-sm text-center text-2xl leading-snug font-medium text-balance">{t("brandLine")}</p>
+      </Surface>
+    </div>
   );
 }
