@@ -10,7 +10,8 @@
     "db:types": "supabase gen types typescript --linked --schema public > lib/db/types.ts",
     "lint:rtl": "node scripts/check-logical.mjs",
     "seed": "tsx --env-file=.env.local --conditions=react-server scripts/seed.ts",
-    "demo:reset": "tsx --env-file=.env.local --conditions=react-server scripts/demo-reset.ts"
+    "demo:reset": "tsx --env-file=.env.local --conditions=react-server scripts/demo-reset.ts",
+    "og": "node scripts/dev/og.mjs"
   },
   "dependencies": {
     "@ai-sdk/anthropic": "^4.0.71",

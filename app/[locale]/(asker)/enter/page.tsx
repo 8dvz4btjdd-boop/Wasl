@@ -17,7 +17,7 @@ export default async function EnterPage({ params }: PageProps<"/[locale]/enter">
   const asker = await getAsker();
 
   return (
-    <AskerShell>
+    <AskerShell footer>
       <EnterFlow existingPseudonym={asker?.pseudonym ?? null} />
     </AskerShell>
   );

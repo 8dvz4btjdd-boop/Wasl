@@ -1,7 +1,12 @@
 import { EyeOff, HandHeart, ShieldCheck } from "lucide-react";
+import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { LocaleSwitcher } from "@/components/locale-switcher";
-import { Logo } from "@/components/logo";
+import { Availability } from "@/components/site/availability";
+import { HeroAnimation } from "@/components/site/hero-animation";
+import { HowItWorks } from "@/components/site/how-it-works";
+import { SiteFooter } from "@/components/site/site-footer";
+import { SiteHeader } from "@/components/site/site-header";
+import { Transparency } from "@/components/site/transparency";
 import { Surface } from "@/components/surface";
 import { buttonVariants } from "@/components/ui/button";
 import { Link } from "@/i18n/navigation";
@@ -11,6 +16,22 @@ import { cn } from "@/lib/utils";
 
 // Org name is read at render; Settings revalidates this path when it changes.
 export const revalidate = 300;
+
+export async function generateMetadata({ params }: PageProps<"/[locale]">): Promise<Metadata> {
+  const locale = (await params).locale as Locale;
+  const [t, tMeta, orgName] = await Promise.all([
+    getTranslations({ locale, namespace: "Home" }),
+    getTranslations({ locale, namespace: "Meta" }),
+    getOrgName(),
+  ]);
+  const title = orgName && orgName !== tMeta("title") ? `${orgName} · ${tMeta("title")}` : tMeta("title");
+  return {
+    title,
+    description: t("tagline"),
+    openGraph: { title, description: t("tagline"), locale, type: "website", images: [{ url: `/og/${locale}.png`, width: 1200, height: 630, alt: t("tagline") }] },
+    twitter: { card: "summary_large_image", title, description: t("tagline"), images: [`/og/${locale}.png`] },
+  };
+}
 
 // The asker's front door. An organization embeds this layer, so it carries their name.
 export default async function Home({ params }: PageProps<"/[locale]">) {
@@ -26,26 +47,36 @@ export default async function Home({ params }: PageProps<"/[locale]">) {
 
   return (
     <Surface kind="asker" className="flex min-h-dvh flex-col">
-      <header className="mx-auto flex w-full max-w-5xl flex-wrap items-center justify-between gap-3 px-6 pt-6">
-        <p className="text-sm font-medium text-muted-foreground">{orgName}</p>
-        <LocaleSwitcher />
-      </header>
+      <SiteHeader orgName={orgName} ctaTargetId="hero-cta" />
 
-      <main className="mx-auto flex w-full max-w-5xl flex-1 flex-col justify-center gap-16 px-6 py-16">
-        <section className="flex max-w-2xl animate-fade-up flex-col items-start gap-8">
-          <Logo size={64} />
-          <h1 className="text-4xl leading-[1.15] font-semibold text-balance sm:text-6xl">{t("tagline")}</h1>
-          <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
-            <Link href="/enter" className={cn(buttonVariants({ size: "lg" }), "h-14 rounded-2xl px-7 text-lg")}>
-              {t("start")}
-            </Link>
-            <Link href="/return" className={cn(buttonVariants({ size: "lg", variant: "outline" }), "h-14 rounded-2xl px-7 text-lg")}>
-              {t("return")}
-            </Link>
+      <main id="content" className="mx-auto flex w-full max-w-6xl flex-1 flex-col gap-24 px-4 pt-10 pb-24 sm:px-6 sm:pt-16 lg:gap-32">
+        <section className="grid items-center gap-12 lg:grid-cols-[1.05fr_1fr] lg:gap-16">
+          <div className="flex flex-col items-start gap-8">
+            <h1
+              className="animate-fade-up text-4xl leading-[1.15] font-semibold text-balance sm:text-5xl lg:text-6xl"
+              style={{ animationDelay: "40ms" }}
+            >
+              {t("tagline")}
+            </h1>
+            <div className="flex w-full animate-fade-up flex-col gap-3 sm:w-auto sm:flex-row" style={{ animationDelay: "140ms" }}>
+              <Link id="hero-cta" href="/enter" className={cn(buttonVariants({ size: "lg" }), "h-14 rounded-2xl px-7 text-lg")}>
+                {t("start")}
+              </Link>
+              <Link href="/return" className={cn(buttonVariants({ size: "lg", variant: "outline" }), "h-14 rounded-2xl px-7 text-lg")}>
+                {t("return")}
+              </Link>
+            </div>
+            <div className="animate-fade-up" style={{ animationDelay: "220ms" }}>
+              <Availability />
+            </div>
+          </div>
+          {/* Beside the copy: the start side in LTR, the end side in RTL. */}
+          <div className="animate-fade-up lg:ltr:order-first" style={{ animationDelay: "260ms" }}>
+            <HeroAnimation />
           </div>
         </section>
 
-        <ul className="grid gap-8 border-t pt-10 sm:grid-cols-3 sm:gap-6">
+        <ul className="grid gap-8 border-t border-white/[0.07] pt-10 sm:grid-cols-3 sm:gap-6">
           {trust.map(({ icon: Icon, title, body }) => (
             <li key={title} className="flex gap-4 sm:flex-col sm:gap-3">
               <span className="grid size-10 shrink-0 place-items-center rounded-full border border-brand-teal/40 text-teal-fg">
@@ -58,13 +89,12 @@ export default async function Home({ params }: PageProps<"/[locale]">) {
             </li>
           ))}
         </ul>
+
+        <HowItWorks />
+        <Transparency />
       </main>
 
-      <footer className="mx-auto flex w-full max-w-5xl justify-end px-6 pb-6">
-        <Link href="/login" className="text-xs text-muted-foreground underline-offset-4 hover:text-foreground hover:underline">
-          {t("staff")}
-        </Link>
-      </footer>
+      <SiteFooter orgName={orgName} />
     </Surface>
   );
 }
