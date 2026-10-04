@@ -1,26 +1,22 @@
-import { getTranslations, setRequestLocale } from "next-intl/server";
+import { setRequestLocale } from "next-intl/server";
 import { AskerShell } from "@/components/asker/asker-shell";
-import { SignOutButton } from "@/components/sign-out-button";
+import { redirect } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
 import { requireAsker } from "@/lib/auth/dal";
+import { getOpenConversationId } from "@/lib/db/queries/conversations";
+import { QuestionForm } from "./question-form";
 
-// Placeholder: proves the asker guard until the waiting room is built.
 export default async function WaitPage({ params }: PageProps<"/[locale]/wait">) {
   const locale = (await params).locale as Locale;
   setRequestLocale(locale);
   const asker = await requireAsker(locale);
-  const t = await getTranslations("Wait");
+
+  const open = await getOpenConversationId(asker.user_id);
+  if (open) return redirect({ href: `/chat/${open}`, locale });
 
   return (
     <AskerShell>
-      <div className="flex flex-1 flex-col gap-3 pt-[12vh]">
-        <h1 className="text-4xl font-semibold sm:text-5xl">{t("title")}</h1>
-        <p className="text-lg">{t("signedInAs", { pseudonym: asker.pseudonym })}</p>
-        <p className="text-muted-foreground">{t("placeholder")}</p>
-        <div className="mt-6">
-          <SignOutButton label={t("signOut")} to="/" />
-        </div>
-      </div>
+      <QuestionForm />
     </AskerShell>
   );
 }

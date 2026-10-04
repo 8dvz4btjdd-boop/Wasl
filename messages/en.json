@@ -80,10 +80,12 @@
     "signOut": "Sign out"
   },
   "Wait": {
-    "title": "You're in",
-    "signedInAs": "Signed in as {pseudonym}",
-    "placeholder": "This page is a placeholder for the waiting room.",
-    "signOut": "Sign out"
+    "title": "What would you like to ask?",
+    "hint": "A dāʿī will read it and reply here.",
+    "placeholder": "Write your question…",
+    "send": "Send",
+    "sending": "Sending…",
+    "topicLabel": "Topic (optional)"
   },
   "Errors": {
     "invalidInput": "Check the fields and try again.",
@@ -94,6 +96,64 @@
     "backgroundTooLong": "Keep it under 280 characters.",
     "returnFailed": "Pseudonym or return code is incorrect.",
     "locked": "Too many attempts. Try again in {minutes, plural, one {# minute} other {# minutes}}.",
-    "generic": "Something went wrong. Try again."
+    "generic": "Something went wrong. Try again.",
+    "messageFailed": "Message not sent.",
+    "questionInvalid": "Write your question in up to 2000 characters."
+  },
+  "Topics": {
+    "quran": "Qur'an",
+    "prophet": "The Prophet",
+    "tawhid": "Oneness of God",
+    "worship": "Worship",
+    "ethics": "Ethics",
+    "doubts": "Doubts",
+    "general": "General"
+  },
+  "Chat": {
+    "waitingTitle": "Waiting for a dāʿī",
+    "position": "Place in line: {position}",
+    "keepWriting": "You can keep writing. Your messages will be here when they join.",
+    "replySoon": "{name} will reply soon",
+    "joined": "{name} joined",
+    "with": "With {name}",
+    "placeholder": "Write a message…",
+    "send": "Send",
+    "sending": "Sending",
+    "failed": "Not sent. Retry",
+    "endedTitle": "This conversation has ended",
+    "endedBody": "Keep your return code. It's how you come back to continue later.",
+    "comeBack": "Come back later",
+    "log": "Messages",
+    "waitingLabel": "Waiting"
+  },
+  "Inbox": {
+    "title": "Inbox",
+    "waiting": "Waiting",
+    "active": "Active",
+    "empty": "No conversations yet.",
+    "emptyHint": "Set yourself to Available to receive them.",
+    "selectTitle": "Select a conversation",
+    "selectHint": "J and K move through the list.",
+    "about": "About them",
+    "end": "End conversation",
+    "confirmEnd": "Confirm end",
+    "cancel": "Cancel",
+    "ended": "Ended",
+    "reply": "Write a reply…",
+    "unread": "{count, plural, one {# unread} other {# unread}}",
+    "signOut": "Sign out",
+    "shortcuts": "J/K move · / reply · Shift+E end · 1/2/3 status",
+    "notStarted": "Your first message starts the conversation.",
+    "waitingLabel": "Waiting"
+  },
+  "Presence": {
+    "label": "Your status",
+    "available": "Available",
+    "busy": "Busy",
+    "offline": "Offline"
+  },
+  "Toasts": {
+    "routed": "New conversation: {pseudonym} ({language})",
+    "open": "Open"
   }
 }

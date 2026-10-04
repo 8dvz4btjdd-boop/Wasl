@@ -80,10 +80,12 @@
     "signOut": "تسجيل الخروج"
   },
   "Wait": {
-    "title": "أنت هنا",
-    "signedInAs": "مسجّل الدخول باسم {pseudonym}",
-    "placeholder": "هذه صفحة مؤقتة لغرفة الانتظار.",
-    "signOut": "تسجيل الخروج"
+    "title": "ما الذي تود أن تسأل عنه؟",
+    "hint": "سيقرأ الداعية سؤالك ويرد عليك هنا.",
+    "placeholder": "اكتب سؤالك…",
+    "send": "إرسال",
+    "sending": "جارٍ الإرسال…",
+    "topicLabel": "الموضوع (اختياري)"
   },
   "Errors": {
     "invalidInput": "تحقق من الحقول وحاول مرة أخرى.",
@@ -94,6 +96,64 @@
     "backgroundTooLong": "اجعله أقل من 280 حرفًا.",
     "returnFailed": "الاسم المستعار أو رمز العودة غير صحيح.",
     "locked": "محاولات كثيرة. حاول مرة أخرى بعد {minutes, plural, one {دقيقة واحدة} two {دقيقتين} few {# دقائق} other {# دقيقة}}.",
-    "generic": "حدث خطأ. حاول مرة أخرى."
+    "generic": "حدث خطأ. حاول مرة أخرى.",
+    "messageFailed": "لم تُرسل الرسالة.",
+    "questionInvalid": "اكتب سؤالك في حدود 2000 حرف."
+  },
+  "Topics": {
+    "quran": "القرآن",
+    "prophet": "النبي",
+    "tawhid": "التوحيد",
+    "worship": "العبادة",
+    "ethics": "الأخلاق",
+    "doubts": "الشبهات",
+    "general": "عام"
+  },
+  "Chat": {
+    "waitingTitle": "في انتظار داعية",
+    "position": "ترتيبك في الانتظار: {position}",
+    "keepWriting": "يمكنك مواصلة الكتابة. ستصل رسائلك عند انضمام الداعية.",
+    "replySoon": "سيرد {name} قريبًا",
+    "joined": "انضم {name}",
+    "with": "مع {name}",
+    "placeholder": "اكتب رسالة…",
+    "send": "إرسال",
+    "sending": "جارٍ الإرسال",
+    "failed": "لم تُرسل. أعد المحاولة",
+    "endedTitle": "انتهت هذه المحادثة",
+    "endedBody": "احتفظ برمز العودة، فهو طريقك للعودة ومتابعة الحديث لاحقًا.",
+    "comeBack": "عُد لاحقًا",
+    "log": "الرسائل",
+    "waitingLabel": "الانتظار"
+  },
+  "Inbox": {
+    "title": "الوارد",
+    "waiting": "بانتظار الرد",
+    "active": "نشطة",
+    "empty": "لا توجد محادثات بعد.",
+    "emptyHint": "اجعل حالتك «متاح» لتصلك المحادثات.",
+    "selectTitle": "اختر محادثة",
+    "selectHint": "J وK للتنقل في القائمة.",
+    "about": "عنه",
+    "end": "إنهاء المحادثة",
+    "confirmEnd": "تأكيد الإنهاء",
+    "cancel": "إلغاء",
+    "ended": "منتهية",
+    "reply": "اكتب ردًا…",
+    "unread": "{count, plural, zero {لا جديد} one {# جديدة} two {# جديدتان} few {# جديدة} many {# جديدة} other {# جديدة}}",
+    "signOut": "تسجيل الخروج",
+    "shortcuts": "J/K تنقل · / رد · Shift+E إنهاء · 1/2/3 الحالة",
+    "notStarted": "رسالتك الأولى تبدأ المحادثة.",
+    "waitingLabel": "الانتظار"
+  },
+  "Presence": {
+    "label": "حالتك",
+    "available": "متاح",
+    "busy": "مشغول",
+    "offline": "غير متصل"
+  },
+  "Toasts": {
+    "routed": "محادثة جديدة: {pseudonym} ({language})",
+    "open": "فتح"
   }
 }

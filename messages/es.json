@@ -80,10 +80,12 @@
     "signOut": "Cerrar sesión"
   },
   "Wait": {
-    "title": "Ya estás dentro",
-    "signedInAs": "Sesión iniciada como {pseudonym}",
-    "placeholder": "Esta página es provisional para la sala de espera.",
-    "signOut": "Cerrar sesión"
+    "title": "¿Qué te gustaría preguntar?",
+    "hint": "Un dāʿī la leerá y te responderá aquí.",
+    "placeholder": "Escribe tu pregunta…",
+    "send": "Enviar",
+    "sending": "Enviando…",
+    "topicLabel": "Tema (opcional)"
   },
   "Errors": {
     "invalidInput": "Revisa los campos e inténtalo de nuevo.",
@@ -94,6 +96,64 @@
     "backgroundTooLong": "Mantenlo por debajo de 280 caracteres.",
     "returnFailed": "Seudónimo o código de regreso incorrectos.",
     "locked": "Demasiados intentos. Vuelve a intentarlo en {minutes, plural, one {# minuto} other {# minutos}}.",
-    "generic": "Algo salió mal. Inténtalo de nuevo."
+    "generic": "Algo salió mal. Inténtalo de nuevo.",
+    "messageFailed": "Mensaje no enviado.",
+    "questionInvalid": "Escribe tu pregunta en un máximo de 2000 caracteres."
+  },
+  "Topics": {
+    "quran": "Corán",
+    "prophet": "El Profeta",
+    "tawhid": "Unicidad de Dios",
+    "worship": "Adoración",
+    "ethics": "Ética",
+    "doubts": "Dudas",
+    "general": "General"
+  },
+  "Chat": {
+    "waitingTitle": "Esperando a un dāʿī",
+    "position": "Lugar en la fila: {position}",
+    "keepWriting": "Puedes seguir escribiendo. Tus mensajes estarán aquí cuando se una.",
+    "replySoon": "{name} responderá pronto",
+    "joined": "{name} se unió",
+    "with": "Con {name}",
+    "placeholder": "Escribe un mensaje…",
+    "send": "Enviar",
+    "sending": "Enviando",
+    "failed": "No enviado. Reintentar",
+    "endedTitle": "Esta conversación ha terminado",
+    "endedBody": "Guarda tu código de regreso. Es la forma de volver y continuar más tarde.",
+    "comeBack": "Volver más tarde",
+    "log": "Mensajes",
+    "waitingLabel": "Esperando"
+  },
+  "Inbox": {
+    "title": "Bandeja",
+    "waiting": "En espera",
+    "active": "Activas",
+    "empty": "Aún no hay conversaciones.",
+    "emptyHint": "Ponte como Disponible para recibirlas.",
+    "selectTitle": "Selecciona una conversación",
+    "selectHint": "J y K para moverte por la lista.",
+    "about": "Sobre esta persona",
+    "end": "Terminar conversación",
+    "confirmEnd": "Confirmar",
+    "cancel": "Cancelar",
+    "ended": "Terminada",
+    "reply": "Escribe una respuesta…",
+    "unread": "{count, plural, one {# sin leer} other {# sin leer}}",
+    "signOut": "Cerrar sesión",
+    "shortcuts": "J/K moverse · / responder · Mayús+E terminar · 1/2/3 estado",
+    "notStarted": "Tu primer mensaje inicia la conversación.",
+    "waitingLabel": "Esperando"
+  },
+  "Presence": {
+    "label": "Tu estado",
+    "available": "Disponible",
+    "busy": "Ocupado",
+    "offline": "Desconectado"
+  },
+  "Toasts": {
+    "routed": "Nueva conversación: {pseudonym} ({language})",
+    "open": "Abrir"
   }
 }

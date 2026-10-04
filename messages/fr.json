@@ -80,10 +80,12 @@
     "signOut": "Se déconnecter"
   },
   "Wait": {
-    "title": "Vous êtes connecté",
-    "signedInAs": "Connecté en tant que {pseudonym}",
-    "placeholder": "Cette page est provisoire en attendant la salle d'attente.",
-    "signOut": "Se déconnecter"
+    "title": "Quelle est votre question ?",
+    "hint": "Un dāʿī la lira et vous répondra ici.",
+    "placeholder": "Écrivez votre question…",
+    "send": "Envoyer",
+    "sending": "Envoi…",
+    "topicLabel": "Sujet (facultatif)"
   },
   "Errors": {
     "invalidInput": "Vérifiez les champs et réessayez.",
@@ -94,6 +96,64 @@
     "backgroundTooLong": "Restez sous 280 caractères.",
     "returnFailed": "Pseudonyme ou code de retour incorrect.",
     "locked": "Trop de tentatives. Réessayez dans {minutes, plural, one {# minute} other {# minutes}}.",
-    "generic": "Une erreur s'est produite. Réessayez."
+    "generic": "Une erreur s'est produite. Réessayez.",
+    "messageFailed": "Message non envoyé.",
+    "questionInvalid": "Écrivez votre question en 2000 caractères maximum."
+  },
+  "Topics": {
+    "quran": "Coran",
+    "prophet": "Le Prophète",
+    "tawhid": "Unicité de Dieu",
+    "worship": "Adoration",
+    "ethics": "Éthique",
+    "doubts": "Doutes",
+    "general": "Général"
+  },
+  "Chat": {
+    "waitingTitle": "En attente d'un dāʿī",
+    "position": "Place dans la file : {position}",
+    "keepWriting": "Vous pouvez continuer à écrire. Vos messages l'attendront.",
+    "replySoon": "{name} va bientôt répondre",
+    "joined": "{name} a rejoint la conversation",
+    "with": "Avec {name}",
+    "placeholder": "Écrivez un message…",
+    "send": "Envoyer",
+    "sending": "Envoi",
+    "failed": "Non envoyé. Réessayer",
+    "endedTitle": "Cette conversation est terminée",
+    "endedBody": "Gardez votre code de retour. C'est ainsi que vous reviendrez pour continuer.",
+    "comeBack": "Revenir plus tard",
+    "log": "Messages",
+    "waitingLabel": "Attente"
+  },
+  "Inbox": {
+    "title": "Boîte de réception",
+    "waiting": "En attente",
+    "active": "Actives",
+    "empty": "Aucune conversation pour l'instant.",
+    "emptyHint": "Passez en Disponible pour en recevoir.",
+    "selectTitle": "Sélectionnez une conversation",
+    "selectHint": "J et K pour parcourir la liste.",
+    "about": "À propos",
+    "end": "Terminer la conversation",
+    "confirmEnd": "Confirmer",
+    "cancel": "Annuler",
+    "ended": "Terminée",
+    "reply": "Écrivez une réponse…",
+    "unread": "{count, plural, one {# non lue} other {# non lues}}",
+    "signOut": "Se déconnecter",
+    "shortcuts": "J/K parcourir · / répondre · Maj+E terminer · 1/2/3 statut",
+    "notStarted": "Votre premier message démarre la conversation.",
+    "waitingLabel": "Attente"
+  },
+  "Presence": {
+    "label": "Votre statut",
+    "available": "Disponible",
+    "busy": "Occupé",
+    "offline": "Hors ligne"
+  },
+  "Toasts": {
+    "routed": "Nouvelle conversation : {pseudonym} ({language})",
+    "open": "Ouvrir"
   }
 }

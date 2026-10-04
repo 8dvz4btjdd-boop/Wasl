@@ -18,7 +18,9 @@ export const STAFF_HOME: Record<StaffRole, "/admin" | "/daee"> = {
 
 export const getSessionUser = cache(async () => {
   const supabase = await createClient();
-  const { data } = await supabase.auth.getUser();
+  const { data, error } = await supabase.auth.getUser();
+  // No session is normal for visitors; anything else is worth seeing.
+  if (error && error.name !== "AuthSessionMissingError") logServerError("dal.getSessionUser", error);
   return data.user;
 });
 

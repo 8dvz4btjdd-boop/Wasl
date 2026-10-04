@@ -12,6 +12,7 @@ export type FormError =
   | "backgroundTooLong"
   | "returnFailed"
   | "locked"
+  | "questionInvalid"
   | "generic";
 
 export type FormState = { error?: FormError; minutes?: number };
