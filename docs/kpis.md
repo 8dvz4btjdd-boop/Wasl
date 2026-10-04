@@ -75,8 +75,13 @@ Logged today:
 | `conversation_started` | the daee's first message | none |
 | `first_substantive_reply` | the daee's first message over 40 characters | none |
 | `ai_toggled` | an admin turns AI on or off in Settings | `{ enabled }` |
+| `card_generated` | the asker saves the first version of a card | `{ origin: "manual" }` |
+| `card_approved` | the asker approves a card | `{ origin: "manual", edited_major: false }` |
+| `transfer_completed` | a daee hands a conversation to a colleague | `{ from_daee, to_daee }` |
+| `followup_started` | a returning asker starts a follow-up | `{ mode: "none" | "manual" }` |
+| `followup_rated` | the daee answers "was the context enough?" | `{ mode, sufficient }` |
 
-Features built tomorrow **must** log these, with exactly these names and meta shapes:
+The manual path now logs all of the events below. The AI features **must** log the same names and meta shapes, with `origin: "ai"` / `mode: "ai"`; an AI card approved after a major edit logs `edited_major: true`:
 
 | Event | When | Meta (required) |
 |---|---|---|

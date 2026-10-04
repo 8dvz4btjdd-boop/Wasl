@@ -10,6 +10,7 @@ import { getDir, type Locale } from "@/i18n/routing";
 import { fetchInbox, isUnread } from "@/lib/chat/inbox-query";
 import type { ConversationSummary, MessageRow, Presence } from "@/lib/chat/types";
 import { createClient, subscribeResilient } from "@/lib/db/client";
+import type { VisibleCard } from "@/lib/db/queries/conversations";
 import { endConversation, markConversationRead, setPresence } from "@/lib/inbox/actions";
 import { cn } from "@/lib/utils";
 import { ContextPanel } from "./context-panel";
@@ -27,6 +28,8 @@ type InboxProps = {
   selected: ConversationSummary | null;
   messages: MessageRow[];
   pastCount: number | null;
+  cards: VisibleCard[];
+  transferPending: boolean;
 };
 
 const CONTEXT_KEY = "wasl.inbox.context";
@@ -45,7 +48,16 @@ function initialSegment(list: ConversationSummary[], selected: ConversationSumma
   return "waiting";
 }
 
-export function Inbox({ me, initialPresence, conversations: initial, selected, messages, pastCount }: InboxProps) {
+export function Inbox({
+  me,
+  initialPresence,
+  conversations: initial,
+  selected,
+  messages,
+  pastCount,
+  cards,
+  transferPending: initialTransferPending,
+}: InboxProps) {
   const tToast = useTranslations("Toasts");
   const locale = useLocale() as Locale;
   const router = useRouter();
@@ -61,6 +73,13 @@ export function Inbox({ me, initialPresence, conversations: initial, selected, m
   const [overlayContext, setOverlayContext] = useState(false);
   const contextOpen = wide ? storedContext : overlayContext;
   const [endRequest, setEndRequest] = useState(0);
+  const [substantive, setSubstantive] = useState(false);
+  const [transferPending, setTransferPending] = useState(initialTransferPending);
+  const [seenPending, setSeenPending] = useState(initialTransferPending);
+  if (initialTransferPending !== seenPending) {
+    setSeenPending(initialTransferPending);
+    setTransferPending(initialTransferPending);
+  }
   const [focusRequest, setFocusRequest] = useState(0);
 
   // Server data wins whenever the page re-renders (navigation, refresh).
@@ -117,9 +136,9 @@ export function Inbox({ me, initialPresence, conversations: initial, selected, m
   }, [selectedId]);
 
   // Latest callbacks for the long-lived subscription, so it isn't torn down on every render.
-  const handlers = useRef({ reload, open, tToast });
+  const handlers = useRef({ reload, open, tToast, router });
   useEffect(() => {
-    handlers.current = { reload, open, tToast };
+    handlers.current = { reload, open, tToast, router };
   });
 
   // Live list: conversation changes, new messages (preview, unread) and routed-to-you
@@ -136,15 +155,23 @@ export function Inbox({ me, initialPresence, conversations: initial, selected, m
             .on("postgres_changes", { event: "INSERT", schema: "public", table: "messages" }, () => {
               void handlers.current.reload();
             })
+            // An asker approved (or a new version of) a card this daee may see.
+            .on("postgres_changes", { event: "*", schema: "public", table: "cards" }, () => {
+              handlers.current.router.refresh();
+            })
             .on(
               "postgres_changes",
               { event: "INSERT", schema: "public", table: "notifications", filter: `recipient_id=eq.${me.id}` },
               (payload) => {
-                const p = (payload.new as { payload: { conversation_id: string; pseudonym: string; language: string } })
-                  .payload;
+                const note = payload.new as {
+                  type: string;
+                  payload: { conversation_id: string; pseudonym: string; language: string };
+                };
+                const p = note.payload;
                 const { reload, open, tToast } = handlers.current;
                 void reload();
-                toast(tToast("routed", { pseudonym: isolate(p.pseudonym), language: isolate(p.language.toUpperCase()) }), {
+                const key = note.type === "conversation_transferred" ? "transferred" : "routed";
+                toast(tToast(key, { pseudonym: isolate(p.pseudonym), language: isolate(p.language.toUpperCase()) }), {
                   action: { label: tToast("open"), onClick: () => open(p.conversation_id) },
                 });
               },
@@ -167,6 +194,21 @@ export function Inbox({ me, initialPresence, conversations: initial, selected, m
       else if (next === "available") void reload();
     },
     [presence, reload],
+  );
+
+  const transferred = useCallback(
+    (status: "completed" | "pending") => {
+      if (status === "pending") return setTransferPending(true);
+      // The conversation now belongs to a colleague (and RLS hides it from this daee).
+      startTransition(() => router.push("/daee"));
+    },
+    [router],
+  );
+
+  const rated = useCallback(
+    (sufficient: boolean) =>
+      setConversations((list) => list.map((c) => (c.id === selectedId ? { ...c, followup_sufficient: sufficient } : c))),
+    [selectedId],
   );
 
   const end = useCallback(async () => {
@@ -214,7 +256,8 @@ export function Inbox({ me, initialPresence, conversations: initial, selected, m
       <div className="grid h-full grid-cols-1 md:grid-cols-[56px_340px_minmax(0,1fr)]">
       <Rail name={me.name} presence={presence} unread={unread} />
 
-      <div className={cn("min-h-0", current ? "hidden md:grid" : "grid")}>
+      {/* min-w-0 + a minmax(0,1fr) column: long previews truncate instead of widening the column. */}
+      <div className={cn("min-h-0 min-w-0 grid-cols-1", current ? "hidden md:grid" : "grid")}>
         <ConversationList
           me={me}
           presence={presence}
@@ -245,11 +288,17 @@ export function Inbox({ me, initialPresence, conversations: initial, selected, m
               contextOpen={contextOpen}
               onToggleContext={toggleContext}
               onBack={() => startTransition(() => router.push("/daee"))}
+              transferPending={transferPending}
+              onTransferred={transferred}
+              onSubstantiveChange={setSubstantive}
             />
             {contextOpen && (
               <ContextPanel
                 conversation={current}
                 pastCount={pastCount}
+                cards={cards}
+                substantiveReply={substantive}
+                onRated={rated}
                 onClose={toggleContext}
                 // Beside the conversation on wide screens, over it on narrower ones.
                 className="absolute inset-y-0 end-0 z-20 shadow-lg xl:static xl:z-auto xl:shadow-none"

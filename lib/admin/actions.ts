@@ -117,6 +117,9 @@ export async function setDaeeActive(input: z.input<typeof ActiveInput>): Promise
   if (!active) {
     const { error: offlineError } = await service.from("profiles").update({ status: "offline" }).eq("user_id", userId);
     if (offlineError) logServerError("setDaeeActive.offline", offlineError, { userId });
+    // Their open conversations go back to the queue (and are re-routed) right away.
+    const { error: releaseError } = await service.rpc("release_daee_conversations", { d: userId });
+    if (releaseError) logServerError("setDaeeActive.release", releaseError, { userId });
   }
   revalidatePath("/[locale]/admin/team", "page");
   return { ok: true };

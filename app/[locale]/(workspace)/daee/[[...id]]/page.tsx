@@ -4,7 +4,7 @@ import { Inbox } from "@/components/inbox/inbox";
 import { redirect } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
 import { requireStaff } from "@/lib/auth/dal";
-import { getInbox, getMessages, getPastConversationCount } from "@/lib/db/queries/conversations";
+import { getInbox, getMessages, getPastConversationCount, getPendingTransfer, getVisibleCards } from "@/lib/db/queries/conversations";
 import { createClient } from "@/lib/db/server";
 
 export default async function DaeePage({ params }: PageProps<"/[locale]/daee/[[...id]]">) {
@@ -27,9 +27,14 @@ export default async function DaeePage({ params }: PageProps<"/[locale]/daee/[[.
   // RLS only returns conversations assigned to this daee; anything else isn't theirs.
   const selected = selectedId ? conversations.find((c) => c.id === selectedId) : undefined;
   if (selectedId && !selected) return redirect({ href: "/daee", locale });
-  const [messages, pastCount] = selected
-    ? await Promise.all([getMessages(selected.id), getPastConversationCount(selected.asker_id, selected.id)])
-    : [[], null];
+  const [messages, pastCount, cards, pendingTransfer] = selected
+    ? await Promise.all([
+        getMessages(selected.id),
+        getPastConversationCount(selected.asker_id, selected.id),
+        getVisibleCards(selected.id, selected.card_id),
+        getPendingTransfer(selected.id),
+      ])
+    : [[], null, [], null];
 
   return (
     <Inbox
@@ -39,6 +44,8 @@ export default async function DaeePage({ params }: PageProps<"/[locale]/daee/[[.
       selected={selected ?? null}
       messages={messages}
       pastCount={pastCount}
+      cards={cards}
+      transferPending={Boolean(pendingTransfer)}
     />
   );
 }

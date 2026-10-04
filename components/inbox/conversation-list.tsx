@@ -55,7 +55,7 @@ export function ConversationList({
   const empty: Record<Segment, string> = { waiting: t("emptyWaiting"), active: t("emptyActive"), ended: t("emptyEnded") };
 
   return (
-    <aside className="flex min-h-0 flex-col border-e bg-card">
+    <aside className="flex min-h-0 min-w-0 flex-col border-e bg-card">
       <header className="flex flex-col gap-3 px-4 pt-4 pb-3">
         <div className="flex items-center justify-between gap-2">
           <div className="flex items-center gap-2">
@@ -174,7 +174,7 @@ function Row({ conversation: c, selected, onOpen }: { conversation: Conversation
                 {tTopic(c.topic as never)}
               </span>
             )}
-            <span className={cn("truncate text-xs", unread ? "text-foreground" : "text-muted-foreground")}>
+            <span dir="auto" className={cn("truncate text-xs", unread ? "text-foreground" : "text-muted-foreground")}>
               {c.last_message?.body}
             </span>
             {unread && (

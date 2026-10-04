@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { MESSAGE_MAX, type ConversationSummary, type MessageRow } from "@/lib/chat/types";
 import { cn } from "@/lib/utils";
 import { Avatar } from "./avatar";
+import { TransferMenu } from "./transfer-menu";
 
 type ConversationPaneProps = {
   me: { id: string; name: string };
@@ -27,6 +28,11 @@ type ConversationPaneProps = {
   contextOpen: boolean;
   onToggleContext: () => void;
   onBack: () => void;
+  /** A card-first transfer is waiting for the asker. */
+  transferPending: boolean;
+  onTransferred: (status: "completed" | "pending") => void;
+  /** Reports whether this daee has sent a substantive reply (> 40 characters) yet. */
+  onSubstantiveChange: (value: boolean) => void;
 };
 
 export function ConversationPane({
@@ -40,6 +46,9 @@ export function ConversationPane({
   contextOpen,
   onToggleContext,
   onBack,
+  transferPending,
+  onTransferred,
+  onSubstantiveChange,
 }: ConversationPaneProps) {
   const t = useTranslations("Inbox");
   const tChat = useTranslations("Chat");
@@ -66,6 +75,9 @@ export function ConversationPane({
   useEffect(() => {
     if (focusRequest) composer.current?.focus();
   }, [focusRequest]);
+
+  const substantive = messages.some((m) => m.sender_role === "daee" && !m.state && m.body.trim().length > 40);
+  useEffect(() => onSubstantiveChange(substantive), [substantive, onSubstantiveChange]);
 
   async function confirmEnd() {
     setEnding(true);
@@ -106,10 +118,16 @@ export function ConversationPane({
             )}
             {!ended && <StatusPill conversation={c} />}
           </div>
-          {c.asker?.background && <p className="truncate text-xs text-muted-foreground">{c.asker.background}</p>}
+          {c.asker?.background && <p dir="auto" className="truncate text-xs text-muted-foreground">{c.asker.background}</p>}
         </div>
 
         <div className="flex shrink-0 items-center gap-2">
+          {!ended && !confirming &&
+            (transferPending ? (
+              <span className="rounded-full bg-warning-bg px-2.5 text-xs leading-6 font-medium text-warning-fg">{t("transferPending")}</span>
+            ) : (
+              <TransferMenu conversationId={c.id} askerLanguage={c.asker?.language ?? "ar"} onDone={onTransferred} />
+            ))}
           {!ended &&
             (confirming ? (
               <>
