@@ -29,7 +29,7 @@ export function ContextPanel({ conversation: c, pastCount, cards, substantiveRep
   const startedAt = c.started_at ?? c.created_at;
 
   return (
-    <aside aria-label={t("details")} className={cn("flex min-h-0 w-80 shrink-0 flex-col border-s bg-card", className)}>
+    <aside aria-label={t("details")} className={cn("flex min-h-0 w-[360px] shrink-0 flex-col border-s bg-card", className)}>
       <header className="flex items-center justify-between border-b px-4 py-3">
         <h2 className="text-sm font-semibold">{t("details")}</h2>
         <button

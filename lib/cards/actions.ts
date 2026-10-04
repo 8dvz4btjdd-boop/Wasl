@@ -141,6 +141,48 @@ async function completePendingTransfer(conversationId: string) {
   return data === true;
 }
 
+async function pendingTransferId(conversationId: string): Promise<string | null> {
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("transfers")
+    .select("id")
+    .eq("conversation_id", conversationId)
+    .eq("status", "pending")
+    .maybeSingle();
+  return data?.id ?? null;
+}
+
+/** Whether the colleague a card-first transfer is waiting on can still take it. */
+export async function checkTransferTarget(conversationId: string): Promise<{ available: boolean }> {
+  const asker = await getAsker();
+  if (!asker || !z.uuid().safeParse(conversationId).success) return { available: true };
+  const id = await pendingTransferId(conversationId);
+  if (!id) return { available: true };
+  const supabase = await createClient();
+  const { data, error } = await supabase.rpc("transfer_target_available", { t: id });
+  if (error) {
+    logServerError("checkTransferTarget", error, { conversationId });
+    return { available: true };
+  }
+  return { available: data === true };
+}
+
+/** The target left: drop the transfer and return the conversation to the queue. */
+export async function requeueTransfer(conversationId: string): Promise<{ ok: boolean }> {
+  const asker = await getAsker();
+  if (!asker || !z.uuid().safeParse(conversationId).success) return { ok: false };
+  const id = await pendingTransferId(conversationId);
+  if (!id) return { ok: false };
+  const supabase = await createClient();
+  const { error } = await supabase.rpc("requeue_transfer", { t: id });
+  if (error) {
+    logServerError("requeueTransfer", error, { conversationId });
+    return { ok: false };
+  }
+  revalidatePath("/[locale]/chat/[id]", "page");
+  return { ok: true };
+}
+
 /** The asker lets a pending transfer go ahead without a card. */
 export async function transferNow(conversationId: string): Promise<{ ok: boolean }> {
   const asker = await getAsker();

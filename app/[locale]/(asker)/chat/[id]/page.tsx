@@ -20,7 +20,7 @@ export default async function ChatPage({ params }: PageProps<"/[locale]/chat/[id
   const [messages, daeeName, transfers, card] = await Promise.all([
     getMessages(id),
     getDaeeName(conversation.daee_id),
-    supabase.from("transfers").select("id, status, created_at, to_daee").eq("conversation_id", id).order("created_at"),
+    supabase.from("transfers").select("id, status, created_at, to_daee, requeued_at").eq("conversation_id", id).order("created_at"),
     supabase.from("cards").select("id").eq("conversation_id", id).eq("status", "approved").limit(1).maybeSingle(),
   ]);
 
@@ -34,6 +34,7 @@ export default async function ChatPage({ params }: PageProps<"/[locale]/chat/[id
     status: t.status,
     created_at: t.created_at,
     to_name: nameOf.get(t.to_daee) ?? null,
+    requeued_at: t.requeued_at,
   }));
 
   return (

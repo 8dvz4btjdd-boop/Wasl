@@ -13,7 +13,7 @@ import { SignOutButton } from "@/components/sign-out-button";
 import { Surface } from "@/components/surface";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Link } from "@/i18n/navigation";
-import { transferNow } from "@/lib/cards/actions";
+import { checkTransferTarget, requeueTransfer, transferNow } from "@/lib/cards/actions";
 import { MESSAGE_MAX, type ConversationStatus, type MessageRow } from "@/lib/chat/types";
 import { createClient, subscribeResilient } from "@/lib/db/client";
 import { fadeUp, pulse } from "@/lib/motion";
@@ -28,7 +28,7 @@ type Conversation = {
   ended_at: string | null;
 };
 
-export type TransferLine = { id: string; status: "pending" | "accepted" | "declined"; created_at: string; to_name: string | null };
+export type TransferLine = { id: string; status: "pending" | "accepted" | "declined"; created_at: string; to_name: string | null; requeued_at: string | null };
 
 type AskerChatProps = {
   me: string;
@@ -44,7 +44,7 @@ async function loadTransfers(conversationId: string): Promise<TransferLine[]> {
   const supabase = createClient();
   const { data } = await supabase
     .from("transfers")
-    .select("id, status, created_at, to_daee")
+    .select("id, status, created_at, to_daee, requeued_at")
     .eq("conversation_id", conversationId)
     .order("created_at");
   if (!data?.length) return [];
@@ -53,7 +53,7 @@ async function loadTransfers(conversationId: string): Promise<TransferLine[]> {
     .select("user_id, display_name")
     .in("user_id", data.map((tr) => tr.to_daee));
   const nameOf = new Map((names ?? []).map((n) => [n.user_id, n.display_name]));
-  return data.map((tr) => ({ id: tr.id, status: tr.status, created_at: tr.created_at, to_name: nameOf.get(tr.to_daee) ?? null }));
+  return data.map((tr) => ({ id: tr.id, status: tr.status, created_at: tr.created_at, to_name: nameOf.get(tr.to_daee) ?? null, requeued_at: tr.requeued_at }));
 }
 
 const QUEUE_POLL_MS = 15_000;
@@ -151,19 +151,37 @@ export function AskerChat({
 
   const accepted = useMemo(() => transfers.filter((tr) => tr.status === "accepted"), [transfers]);
   const pendingTransfer = transfers.find((tr) => tr.status === "pending") ?? null;
+  const pendingId = pendingTransfer?.id ?? null;
+  // Whether the colleague a card-first transfer waits on is still free (null: not checked yet).
+  const [targetAvailable, setTargetAvailable] = useState<boolean | null>(null);
+  useEffect(() => {
+    if (!pendingId) return;
+    let active = true;
+    const check = () => checkTransferTarget(conversation.id).then((r) => active && setTargetAvailable(r.available));
+    void check();
+    const timer = window.setInterval(check, QUEUE_POLL_MS);
+    return () => {
+      active = false;
+      window.clearInterval(timer);
+    };
+  }, [pendingId, conversation.id]);
+  const targetGone = pendingTransfer !== null && targetAvailable === false;
+
   const system = useMemo<SystemLine[]>(() => {
-    if (!daeeName) return [];
     const lines: SystemLine[] = [];
     // After a transfer, assigned_at is the hand-over time; the transfer lines tell the story.
-    if (conversation.assigned_at && accepted.length === 0) {
+    if (daeeName && conversation.assigned_at && accepted.length === 0) {
       lines.push({ id: "joined", at: conversation.assigned_at, text: t("joined", { name: daeeName }) });
     }
     for (const tr of accepted) {
       lines.push({ id: `transfer-${tr.id}`, at: tr.created_at, text: t("transferred", { name: tr.to_name ?? "" }) });
     }
-    if (conversation.ended_at) lines.push({ id: "ended", at: conversation.ended_at, text: t("endedBy", { name: daeeName }) });
+    for (const tr of transfers) {
+      if (tr.requeued_at) lines.push({ id: `requeued-${tr.id}`, at: tr.requeued_at, text: t("requeued") });
+    }
+    if (daeeName && conversation.ended_at) lines.push({ id: "ended", at: conversation.ended_at, text: t("endedBy", { name: daeeName }) });
     return lines;
-  }, [conversation.assigned_at, conversation.ended_at, daeeName, accepted, t]);
+  }, [conversation.assigned_at, conversation.ended_at, daeeName, accepted, transfers, t]);
 
   const assignedNotStarted = Boolean(conversation.daee_id) && conversation.status === "waiting";
 
@@ -218,19 +236,40 @@ export function AskerChat({
           >
             <div className="flex flex-col gap-1">
               <p className="font-medium">{t("transferAsk", { from: daeeName ?? "", to: pendingTransfer.to_name ?? "" })}</p>
-              <p className="text-sm text-muted-foreground">{t("transferAskHint", { to: pendingTransfer.to_name ?? "" })}</p>
+              <p id="transfer-reason" className="text-sm text-muted-foreground">
+                {targetGone
+                  ? t("transferUnavailable", { to: pendingTransfer.to_name ?? "" })
+                  : t("transferAskHint", { to: pendingTransfer.to_name ?? "" })}
+              </p>
             </div>
             <div className="flex flex-wrap gap-2">
-              <Link href={`/card/${conversation.id}`} className={buttonVariants({ size: "lg" })}>
-                {t("transferCreateCard")}
-              </Link>
+              {targetGone ? (
+                <Button
+                  size="lg"
+                  disabled={moving}
+                  onClick={() =>
+                    startMoving(async () => {
+                      await requeueTransfer(conversation.id);
+                      await refreshTransfers();
+                    })
+                  }
+                >
+                  {t("requeue")}
+                </Button>
+              ) : (
+                <Link href={`/card/${conversation.id}`} className={buttonVariants({ size: "lg" })}>
+                  {t("transferCreateCard")}
+                </Link>
+              )}
               <Button
                 variant="outline"
                 size="lg"
-                disabled={moving}
+                disabled={moving || targetGone}
+                aria-describedby={targetGone ? "transfer-reason" : undefined}
                 onClick={() =>
                   startMoving(async () => {
-                    await transferNow(conversation.id);
+                    const r = await transferNow(conversation.id);
+                    if (!r.ok) setTargetAvailable(false);
                     await refreshTransfers();
                   })
                 }
