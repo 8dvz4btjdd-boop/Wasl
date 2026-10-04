@@ -1,8 +1,9 @@
 "use client";
 
+import { Check, IdCard } from "lucide-react";
 import { motion } from "motion/react";
 import { useTranslations } from "next-intl";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState, useTransition } from "react";
 import { Composer } from "@/components/chat/composer";
 import { Elapsed } from "@/components/chat/elapsed";
 import { MessageList, type SystemLine } from "@/components/chat/message-list";
@@ -10,9 +11,13 @@ import { useMessages } from "@/components/chat/use-messages";
 import { Logo } from "@/components/logo";
 import { SignOutButton } from "@/components/sign-out-button";
 import { Surface } from "@/components/surface";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { Link } from "@/i18n/navigation";
+import { transferNow } from "@/lib/cards/actions";
 import { MESSAGE_MAX, type ConversationStatus, type MessageRow } from "@/lib/chat/types";
 import { createClient, subscribeResilient } from "@/lib/db/client";
 import { fadeUp, pulse } from "@/lib/motion";
+import { cn } from "@/lib/utils";
 
 type Conversation = {
   id: string;
@@ -23,18 +28,53 @@ type Conversation = {
   ended_at: string | null;
 };
 
+export type TransferLine = { id: string; status: "pending" | "accepted" | "declined"; created_at: string; to_name: string | null };
+
 type AskerChatProps = {
   me: string;
   initialConversation: Conversation;
   initialDaeeName: string | null;
   initialMessages: MessageRow[];
+  initialTransfers: TransferLine[];
+  initialCardApproved: boolean;
 };
+
+/** Transfers of this conversation with the receiving daee's name (the asker can read both). */
+async function loadTransfers(conversationId: string): Promise<TransferLine[]> {
+  const supabase = createClient();
+  const { data } = await supabase
+    .from("transfers")
+    .select("id, status, created_at, to_daee")
+    .eq("conversation_id", conversationId)
+    .order("created_at");
+  if (!data?.length) return [];
+  const { data: names } = await supabase
+    .from("profiles")
+    .select("user_id, display_name")
+    .in("user_id", data.map((tr) => tr.to_daee));
+  const nameOf = new Map((names ?? []).map((n) => [n.user_id, n.display_name]));
+  return data.map((tr) => ({ id: tr.id, status: tr.status, created_at: tr.created_at, to_name: nameOf.get(tr.to_daee) ?? null }));
+}
 
 const QUEUE_POLL_MS = 15_000;
 
-export function AskerChat({ me, initialConversation, initialDaeeName, initialMessages }: AskerChatProps) {
+export function AskerChat({
+  me,
+  initialConversation,
+  initialDaeeName,
+  initialMessages,
+  initialTransfers,
+  initialCardApproved,
+}: AskerChatProps) {
   const t = useTranslations("Chat");
   const [conversation, setConversation] = useState(initialConversation);
+  const [transfers, setTransfers] = useState(initialTransfers);
+  const [cardApproved, setCardApproved] = useState(initialCardApproved);
+  const [moving, startMoving] = useTransition();
+  const refreshTransfers = useCallback(
+    () => loadTransfers(initialConversation.id).then(setTransfers),
+    [initialConversation.id],
+  );
   const [daeeName, setDaeeName] = useState(initialDaeeName);
   const [position, setPosition] = useState<number | null>(null);
   const { messages, send, retry } = useMessages(conversation.id, initialMessages, me, "asker");
@@ -42,17 +82,31 @@ export function AskerChat({ me, initialConversation, initialDaeeName, initialMes
   const waiting = conversation.status === "waiting" && !conversation.daee_id;
   const ended = conversation.status === "ended";
 
-  // Assignment, start and end arrive as updates to this conversation row.
+  // Assignment, transfers, start and end arrive as updates to this conversation, its
+  // transfers and its cards.
   useEffect(
     () =>
       subscribeResilient({
         name: `conversation:${conversation.id}`,
         configure: (channel) =>
-          channel.on(
-            "postgres_changes",
-            { event: "UPDATE", schema: "public", table: "conversations", filter: `id=eq.${conversation.id}` },
-            (payload) => setConversation((prev) => ({ ...prev, ...(payload.new as Partial<Conversation>) })),
-          ),
+          channel
+            .on(
+              "postgres_changes",
+              { event: "UPDATE", schema: "public", table: "conversations", filter: `id=eq.${conversation.id}` },
+              (payload) => setConversation((prev) => ({ ...prev, ...(payload.new as Partial<Conversation>) })),
+            )
+            .on(
+              "postgres_changes",
+              { event: "*", schema: "public", table: "transfers", filter: `conversation_id=eq.${conversation.id}` },
+              () => void refreshTransfers(),
+            )
+            .on(
+              "postgres_changes",
+              { event: "*", schema: "public", table: "cards", filter: `conversation_id=eq.${conversation.id}` },
+              (payload) => {
+                if ((payload.new as { status?: string }).status === "approved") setCardApproved(true);
+              },
+            ),
         onResync: async () => {
           const { data } = await createClient()
             .from("conversations")
@@ -60,9 +114,10 @@ export function AskerChat({ me, initialConversation, initialDaeeName, initialMes
             .eq("id", conversation.id)
             .maybeSingle();
           if (data) setConversation((prev) => ({ ...prev, ...data }));
+          void refreshTransfers();
         },
       }),
-    [conversation.id],
+    [conversation.id, refreshTransfers],
   );
 
   useEffect(() => {
@@ -94,13 +149,21 @@ export function AskerChat({ me, initialConversation, initialDaeeName, initialMes
     return () => clearInterval(timer);
   }, [waiting, conversation.id]);
 
+  const accepted = useMemo(() => transfers.filter((tr) => tr.status === "accepted"), [transfers]);
+  const pendingTransfer = transfers.find((tr) => tr.status === "pending") ?? null;
   const system = useMemo<SystemLine[]>(() => {
     if (!daeeName) return [];
     const lines: SystemLine[] = [];
-    if (conversation.assigned_at) lines.push({ id: "joined", at: conversation.assigned_at, text: t("joined", { name: daeeName }) });
+    // After a transfer, assigned_at is the hand-over time; the transfer lines tell the story.
+    if (conversation.assigned_at && accepted.length === 0) {
+      lines.push({ id: "joined", at: conversation.assigned_at, text: t("joined", { name: daeeName }) });
+    }
+    for (const tr of accepted) {
+      lines.push({ id: `transfer-${tr.id}`, at: tr.created_at, text: t("transferred", { name: tr.to_name ?? "" }) });
+    }
     if (conversation.ended_at) lines.push({ id: "ended", at: conversation.ended_at, text: t("endedBy", { name: daeeName }) });
     return lines;
-  }, [conversation.assigned_at, conversation.ended_at, daeeName, t]);
+  }, [conversation.assigned_at, conversation.ended_at, daeeName, accepted, t]);
 
   const assignedNotStarted = Boolean(conversation.daee_id) && conversation.status === "waiting";
 
@@ -122,6 +185,18 @@ export function AskerChat({ me, initialConversation, initialDaeeName, initialMes
               {assignedNotStarted && daeeName && t("replySoon", { name: daeeName })}
             </p>
           </div>
+          {messages.length > 0 && (
+            <Link
+              href={`/card/${conversation.id}`}
+              className={cn(
+                "ms-auto flex h-9 shrink-0 items-center gap-1.5 rounded-full border px-3 text-sm transition-colors hover:bg-muted focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none",
+                cardApproved ? "border-brand-teal/60 text-teal-fg" : "text-muted-foreground",
+              )}
+            >
+              {cardApproved ? <Check className="size-4" aria-hidden /> : <IdCard className="size-4" aria-hidden />}
+              {cardApproved ? t("cardApproved") : t("cardButton")}
+            </Link>
+          )}
         </div>
       </header>
 
@@ -133,12 +208,48 @@ export function AskerChat({ me, initialConversation, initialDaeeName, initialMes
         footer={waiting ? <WaitingState position={position} /> : null}
       />
 
-      <footer className="mx-auto w-full max-w-2xl px-4 pt-2 pb-4 sm:px-6">
+      <footer className="mx-auto flex w-full max-w-2xl flex-col gap-3 px-4 pt-2 pb-4 sm:px-6">
+        {pendingTransfer && !ended && (
+          <motion.div
+            variants={fadeUp}
+            initial="hidden"
+            animate="visible"
+            className="flex flex-col gap-3 rounded-2xl border border-brand-teal/40 bg-teal-bg p-4"
+          >
+            <div className="flex flex-col gap-1">
+              <p className="font-medium">{t("transferAsk", { from: daeeName ?? "", to: pendingTransfer.to_name ?? "" })}</p>
+              <p className="text-sm text-muted-foreground">{t("transferAskHint", { to: pendingTransfer.to_name ?? "" })}</p>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <Link href={`/card/${conversation.id}`} className={buttonVariants({ size: "lg" })}>
+                {t("transferCreateCard")}
+              </Link>
+              <Button
+                variant="outline"
+                size="lg"
+                disabled={moving}
+                onClick={() =>
+                  startMoving(async () => {
+                    await transferNow(conversation.id);
+                    await refreshTransfers();
+                  })
+                }
+              >
+                {t("transferNow")}
+              </Button>
+            </div>
+          </motion.div>
+        )}
         {ended ? (
           <motion.div variants={fadeUp} initial="hidden" animate="visible" className="flex flex-col gap-3 rounded-2xl border bg-card p-5">
             <p className="text-lg font-semibold">{t("endedTitle")}</p>
             <p className="text-muted-foreground">{t("endedBody")}</p>
-            <div>
+            <div className="flex flex-wrap gap-2">
+              {!cardApproved && (
+                <Link href={`/card/${conversation.id}`} className={buttonVariants({ size: "lg" })}>
+                  {t("createCard")}
+                </Link>
+              )}
               <SignOutButton label={t("comeBack")} to="/" />
             </div>
           </motion.div>

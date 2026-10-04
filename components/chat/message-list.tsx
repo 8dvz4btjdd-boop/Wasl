@@ -157,6 +157,7 @@ export function MessageList({ messages, me, system = [], onRetry, size = "asker"
                 return (
                   <motion.div
                     key={m.id}
+                    dir="auto"
                     variants={fadeUp}
                     initial={isNew ? "hidden" : false}
                     animate="visible"
