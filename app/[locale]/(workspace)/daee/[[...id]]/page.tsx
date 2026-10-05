@@ -6,6 +6,7 @@ import type { Locale } from "@/i18n/routing";
 import { requireStaff } from "@/lib/auth/dal";
 import { getInbox, getMessages, getPastConversationCount, getPendingTransfer, getVisibleCards } from "@/lib/db/queries/conversations";
 import { createClient } from "@/lib/db/server";
+import { getAIEnabled } from "@/lib/db/queries/org";
 
 export default async function DaeePage({ params }: PageProps<"/[locale]/daee/[[...id]]">) {
   const { locale: rawLocale, id } = await params;
@@ -19,9 +20,10 @@ export default async function DaeePage({ params }: PageProps<"/[locale]/daee/[[.
   }
 
   const supabase = await createClient();
-  const [conversations, profile] = await Promise.all([
+  const [conversations, profile, aiEnabled] = await Promise.all([
     getInbox(selectedId),
     supabase.from("profiles").select("status").eq("user_id", staff.user_id).single(),
+    getAIEnabled(),
   ]);
 
   // RLS only returns conversations assigned to this daee; anything else isn't theirs.
@@ -46,6 +48,7 @@ export default async function DaeePage({ params }: PageProps<"/[locale]/daee/[[.
       pastCount={pastCount}
       cards={cards}
       transferPending={Boolean(pendingTransfer)}
+      aiEnabled={aiEnabled}
     />
   );
 }

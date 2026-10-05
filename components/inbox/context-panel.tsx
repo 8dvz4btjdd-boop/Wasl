@@ -5,7 +5,8 @@ import { useLocale, useTranslations } from "next-intl";
 import type { ReactNode } from "react";
 import { formatDateTime, languageName } from "@/components/chat/format";
 import { useHydrated } from "@/components/chat/use-clock";
-import type { ConversationSummary } from "@/lib/chat/types";
+import type { ChatMessage, ConversationSummary } from "@/lib/chat/types";
+import { RecommendationPanel } from "@/components/recommendations/panel";
 import type { VisibleCard } from "@/lib/db/queries/conversations";
 import { cn } from "@/lib/utils";
 import { CardSection, FollowupSection } from "./card-section";
@@ -14,12 +15,14 @@ type ContextPanelProps = {
   conversation: ConversationSummary;
   pastCount: number | null;
   cards: VisibleCard[];
+  messages: ChatMessage[];
+  aiEnabled: boolean;
   onClose: () => void;
   className?: string;
 };
 
 /** The card first (what the daee needs before replying), then follow-up context, then the asker. */
-export function ContextPanel({ conversation: c, pastCount, cards, onClose, className }: ContextPanelProps) {
+export function ContextPanel({ conversation: c, pastCount, cards, messages, aiEnabled, onClose, className }: ContextPanelProps) {
   const t = useTranslations("Inbox");
   const tTopic = useTranslations("Topics");
   const locale = useLocale();
@@ -47,6 +50,11 @@ export function ContextPanel({ conversation: c, pastCount, cards, onClose, class
         </section>
 
         <FollowupSection conversation={c} />
+
+        <div className="border-t px-4 py-4">
+          <RecommendationPanel key={c.id} conversationId={c.id} messages={messages} audience="daee"
+            aiEnabled={aiEnabled} active={c.status !== "ended"} />
+        </div>
 
         <section className="border-t px-4 py-4">
           <h3 className="mb-3 text-xs font-medium text-muted-foreground">{t("askerSection")}</h3>

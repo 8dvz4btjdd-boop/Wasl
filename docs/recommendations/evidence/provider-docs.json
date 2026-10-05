@@ -1,0 +1,59 @@
+{
+  "checked_on": "2026-10-05T20:35:46Z",
+  "method": "HTTPS curl; plaintext extraction of rendered HTML; technical documentation verification, not account/model API verification",
+  "sources": [
+    {
+      "id": "pricing",
+      "url": "https://platform.claude.com/docs/en/about-claude/pricing",
+      "status": 200,
+      "artifact_sha256": "16f39e095a815df5efefc45aeae91498618c165d595ba21c1094bcad881ceffe",
+      "artifact_bytes": 861896
+    },
+    {
+      "id": "web-search",
+      "url": "https://platform.claude.com/docs/en/agents-and-tools/tool-use/web-search-tool",
+      "status": 200,
+      "artifact_sha256": "6257e69feb295709648b87face3a1e3f673f11d050c20774381d68890c8d893d",
+      "artifact_bytes": 648630
+    },
+    {
+      "id": "web-fetch",
+      "url": "https://platform.claude.com/docs/en/agents-and-tools/tool-use/web-fetch-tool",
+      "status": 200,
+      "artifact_sha256": "5621f97f1344b5065a293b735890efe404c36aa6d9a783d536f38422c609de7c",
+      "artifact_bytes": 775705
+    },
+    {
+      "id": "haiku",
+      "url": "https://platform.claude.com/docs/en/models/haiku-4-5/overview",
+      "status": 200,
+      "artifact_sha256": "70f36338c439f24c4023b03ce3d13c24d4082c82c0531bc2cdbf554df3910af9",
+      "artifact_bytes": 407552
+    },
+    {
+      "id": "tool-reference",
+      "url": "https://platform.claude.com/docs/en/agents-and-tools/tool-use/tool-reference",
+      "status": 200,
+      "artifact_sha256": "2a22cc5da17cf34901e96f2fc868acb2702c478ba121f2fbcbe872e94a7c4850",
+      "artifact_bytes": 390193
+    }
+  ],
+  "observed_facts": {
+    "model_id": "claude-haiku-4-5-20251001",
+    "context_window_tokens": 200000,
+    "input_usd_per_million": 1,
+    "output_usd_per_million": 5,
+    "cache_write_5m_usd_per_million": 1.25,
+    "cache_write_1h_usd_per_million": 2,
+    "cache_read_usd_per_million": 0.1,
+    "search_usd_per_thousand": 10,
+    "fetch_additional_fee_usd": 0,
+    "fetch_input_still_billed": true,
+    "fetch_max_content_tokens_approximate": true,
+    "fetch_max_content_tokens_does_not_bound_binary_pdf": true,
+    "native_dynamic_filtering_requires_model_4_6_or_newer": true,
+    "model_account_tool_compatibility_tested": false,
+    "paid_api_calls": 0
+  },
+  "human_scientific_review": false
+}

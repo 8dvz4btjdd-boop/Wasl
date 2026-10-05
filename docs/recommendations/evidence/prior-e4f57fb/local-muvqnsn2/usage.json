@@ -1,0 +1,54 @@
+[
+  {
+    "audience": "daee",
+    "model_calls": 0,
+    "model_steps": 0,
+    "searches": 0,
+    "fetches": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "elapsed_ms": 1,
+    "estimated_usd": 0,
+    "pricing_verified": false,
+    "reason": "source_needs_evaluation"
+  },
+  {
+    "audience": "asker",
+    "model_calls": 0,
+    "model_steps": 0,
+    "searches": 0,
+    "fetches": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "elapsed_ms": 0,
+    "estimated_usd": 0,
+    "pricing_verified": false,
+    "reason": "source_suggestions_only"
+  },
+  {
+    "audience": "asker",
+    "model_calls": 0,
+    "model_steps": 0,
+    "searches": 0,
+    "fetches": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "elapsed_ms": 1,
+    "estimated_usd": 0,
+    "pricing_verified": false,
+    "reason": "source_suggestions_only"
+  },
+  {
+    "audience": "daee",
+    "model_calls": 0,
+    "model_steps": 0,
+    "searches": 0,
+    "fetches": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "elapsed_ms": 1,
+    "estimated_usd": 0,
+    "pricing_verified": false,
+    "reason": "source_suggestions_only"
+  }
+]

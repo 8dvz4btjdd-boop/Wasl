@@ -1,0 +1,13 @@
+{
+  "model": "claude-haiku-4-5-20251001",
+  "sourceUrl": "https://platform.claude.com/docs/en/about-claude/pricing",
+  "verifiedOn": "2026-10-05",
+  "reviewedBy": "Codex: technical inspection of official documentation; not human scientific review",
+  "contextWindowTokens": 200000,
+  "inputUsdPerMillion": 1,
+  "outputUsdPerMillion": 5,
+  "cacheReadUsdPerMillion": 0.1,
+  "cacheWriteUsdPerMillion": 2,
+  "searchUsdPerThousand": 10,
+  "fetchUsdPerThousand": 0
+}

@@ -1,0 +1,63 @@
+Command: docker exec -i wasl-contextual-db psql -U postgres -v ON_ERROR_STOP=1 < tests/recommendations/ledger.sql
+Exit: 0
+BEGIN
+INSERT 0 4
+INSERT 0 1
+INSERT 0 1
+INSERT 0 3
+INSERT 0 1
+DO
+ROLLBACK
+NOTICE:  PASS: recommendation ledger leases, idempotency, cooldown, expired retry, usage whitelist and enforced privileges
+
+Command: docker exec -i wasl-contextual-db psql -U postgres -v ON_ERROR_STOP=1 < tests/recommendations/budget-ledger.sql
+Exit: 0
+BEGIN
+INSERT 0 2
+INSERT 0 2
+INSERT 0 2
+INSERT 0 2
+INSERT 0 3
+INSERT 0 1
+DO
+ROLLBACK
+NOTICE:  PASS: global USD5 cap, .15/.35 hardcaps, cross-org limit, immutable retry, no midnight/deletion reset, enforced private RPC/table privileges
+
+Command: docker exec -i wasl-contextual-db psql -U postgres -v ON_ERROR_STOP=1 < tests/recommendations/receipts.sql
+Exit: 0
+BEGIN
+INSERT 0 2
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+SET
+SET
+INSERT 0 1
+RESET
+UPDATE 1
+SET
+INSERT 0 1
+DO
+RESET
+DO
+SET
+SET
+DO
+RESET
+ROLLBACK
+NOTICE:  PASS: authenticated forged past/future receipt overridden, immutable update, RLS current participant, trusted segment cut
+
+Command: docker exec -i wasl-contextual-db psql -U postgres -v ON_ERROR_STOP=1 < tests/recommendations/assignment-clock.sql
+Exit: 0
+BEGIN
+INSERT 0 2
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+UPDATE 1
+DO
+ROLLBACK
+NOTICE:  PASS: assignment uses trusted current clock, excludes old receipt in same transaction, ignores timestamp-only mutation

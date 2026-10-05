@@ -1,0 +1,136 @@
+✔ browser origin uses actual Host despite Next dev's localhost URL (1.808821ms)
+✔ human requeue without an accepted transfer still requires a current trusted receipt (0.16539ms)
+✔ rerouting an initial waiting question keeps its corrections; unknown transfer evidence fails closed (0.180624ms)
+✔ assigned active daee obtains only authorized current conversation messages (1.223203ms)
+✔ admin is rejected before any conversation body read (0.302348ms)
+✔ unassigned daee and anonymous staff cannot obtain recommendations (2.960335ms)
+✔ banned/deactivated daee is rejected before content read (0.352304ms)
+✔ current assignment cutoff excludes previous segment, foreign senders and system text (0.245603ms)
+✔ explicit current-conversation initial question is allowed on first assignment, including a return (0.295027ms)
+✔ first assignment preserves a waiting correction rather than reverting to the initial topic (12.540399ms)
+✔ transferred segment excludes all pre-assignment corrections even when they are in the same conversation (0.667231ms)
+✔ transfer scope uses immutable receipt, rejects legacy/future-dated archive and accepts a newly received backdated question (0.32397ms)
+✔ transferred legacy-only context fails closed until a fresh current-segment question (0.767322ms)
+✔ stale need is rejected rather than exposing the previous response (0.220053ms)
+✔ AI off returns metadata-only disabled context without reading messages (0.223419ms)
+✔ asker guide stops on first human message even if status is still waiting (0.228957ms)
+✔ different asker, active dialogue and ended conversation do not start guide work (0.443822ms)
+✔ only whole latest context fits max six messages/eight thousand characters (0.3297ms)
+✔ zero spending remains disabled even with a price record (1.586123ms)
+✔ a key/spend flag cannot substitute for reviewed prices (0.177759ms)
+✔ pricing loader fails closed for malformed, unknown rates or unofficial evidence (0.342418ms)
+✔ native uses are reserved across retries and cannot be reset (0.643736ms)
+✔ one active request cannot start overlapping paid calls (0.242157ms)
+✔ private input uses bounded known bytes, not an entire context window (0.219122ms)
+✔ native context reservation refuses an unsupported 12k input cap (0.200584ms)
+✔ all positive input/output/tool/call/step/time/cost limits are enforced before dispatch (0.495961ms)
+✔ usage keeps actual/cache/tool counters and does not double record a call (0.325734ms)
+✔ model mismatches and nonfinite configuration are rejected (0.261085ms)
+✔ unknown failed usage retains monetary reservation and a null cost, never zero (0.170569ms)
+✔ failed durable reservation is not counted as a dispatched model call (0.380887ms)
+✔ merges close saved needs, keeps only the latest, and never dispatches mere state refresh (1.600005ms)
+✔ preserves the newest need throughout the twenty-second cooldown (0.282809ms)
+✔ aborts outdated context, ignores its result, and permits no overlapping client requests (0.365474ms)
+✔ AI off cancels pending work and closing the panel prevents future requests (0.833482ms)
+✔ retry and explicit expansion retain the context ID and share the cooldown (0.449371ms)
+✔ a disconnected browser request is bounded and cannot leak a stale result into another conversation (0.308798ms)
+✔ server cooldown retains the need and bounds repeated lease retries without resetting its context (0.537123ms)
+✔ a changed question replaces a queued server-cooldown retry (0.24449ms)
+✔ default browser timers are called with their own global receiver, never the controller (1.879517ms)
+✔ saved substantive text only; thanks and normalized repetitions do not replace the need (2.417062ms)
+✔ correction changes controlled query; previous question is not repeated (1.717702ms)
+✔ external query cannot contain private names, emails or injected instructions (0.220784ms)
+✔ exact source scopes and approved work requirement (1.542196ms)
+✔ encoded exclusions, malformed/nested encodings and separators fail closed before source selection (0.643285ms)
+✔ original material uses final redirect URL/source identity and rejects allowed sources outside the current intent (0.725098ms)
+✔ zero-paid run uses safe source suggestion, never a generated or unreviewed answer (2.220184ms)
+✔ AI off avoids reading/returning materials; ambiguity asks a short operational clarification (0.394778ms)
+✔ unapproved modified or made-up references never appear to asker on cache hit (3.289754ms)
+✔ reference PDF safety: reference_safety_01_kaaba_misconception (fallback only) (0.624887ms)
+✔ reference PDF safety: reference_safety_02_quran_authorship (fallback only) (0.46208ms)
+✔ reference PDF safety: reference_safety_03_spread_by_sword (fallback only) (0.183068ms)
+✔ reference PDF safety: reference_safety_04_scholarly_disagreement (fallback only) (0.211861ms)
+✔ reference PDF safety: reference_safety_05_personal_marriage (fallback only) (0.143328ms)
+✔ reference PDF safety: reference_safety_06_nonexistent_hadith (fallback only) (0.436832ms)
+✔ reference PDF safety: reference_safety_07_tawhid_beginner (fallback only) (0.256339ms)
+✔ reference PDF safety: reference_safety_08_translate_tawhid (fallback only) (0.422581ms)
+✔ reference PDF safety: reference_safety_09_hostile_question (fallback only) (0.230399ms)
+✔ reference PDF safety: reference_safety_10_unproven_agreement (fallback only) (0.173553ms)
+✔ reference PDF safety: reference_safety_11_misquoted_verse (fallback only) (0.183057ms)
+✔ reference PDF safety: reference_safety_12_culturally_loaded_term (fallback only) (0.256699ms)
+✔ extracts original text with negation/exception and actual DOM locator; excludes comments/navigation (4.108024ms)
+✔ multiple articles, missing article/main, and unsupported entities fail without synthesized or cut text (0.34351ms)
+✔ text entities are decoded as rendered source text; instructions inside material remain data (0.156397ms)
+✔ fetch success sends only the fixed source URL and no user/cookie/auth body (48.180324ms)
+✔ disallowed URL forms fail before DNS or fetch (6.070777ms)
+✔ all DNS answers must be public; private mixed answer and failed DNS prevent fetch (3.162391ms)
+✔ private, mapped, multicast, transition and reserved address forms are rejected (0.400436ms)
+✔ redirects outside scope and to internal URLs are never followed (3.153447ms)
+✔ approved redirect is DNS checked before its next request (1.639414ms)
+✔ redirect loop has a finite four-request bound (1.193539ms)
+✔ PDF, bad charset, bad UTF-8, and non-success are not treated as original text (2.328077ms)
+✔ byte limit is enforced on headers and streamed bytes, not PDF/content token estimates (1.257715ms)
+✔ aborted context returns promptly even when fixture transport ignores AbortSignal (0.55458ms)
+✔ hidden provider redirect cannot bypass final URL validation (1.083472ms)
+✔ scoped dictionary adapter keeps the full named reference, negation, attribution and bibliography (1.818666ms)
+✔ delegating failed DNS to a managed proxy requires all explicit environment settings (2.134344ms)
+✔ successful result is reauthorized/revalidated then stored with numeric usage (2.305282ms)
+✔ assignment revoked during request hides result while preserving actual usage (0.305643ms)
+✔ changed question during request returns 409 and cannot cache old source result (0.230229ms)
+✔ AI off during request blocks output and preserves measured usage (0.179482ms)
+✔ wrong actor/audience/version cache cannot bypass access (0.417042ms)
+✔ cache hit rechecks authorization, AI switch and current source-release eligibility (0.623555ms)
+✔ running/cooldown keeps latest client need queued without a second engine call (0.345533ms)
+✔ abort ignores completed old result but does not claim cost was undone (0.253173ms)
+✔ already closed request starts no new engine work (0.207575ms)
+✔ closed/failed engine releases lease with no private result (0.604686ms)
+✔ contextual test scope allows exactly its two budgeted tasks (0.8313ms)
+✔ unset test scope preserves the existing production task behavior (0.167143ms)
+✔ runAI itself refuses a non-contextual task before DB, prompt or paid API work (1.592203ms)
+✔ public query boundary accepts only fixed editorial knowledge labels (0.842717ms)
+✔ raw private text never reaches model or web tools (0.611306ms)
+✔ spend disabled never contacts database/API even when a query is valid (0.394418ms)
+✔ unauthorized domain scope is rejected before paid dispatch (0.392124ms)
+✔ stale/aborted work does not consume a model/tool budget (0.232712ms)
+✔ one request cannot borrow another request's budget (0.189757ms)
+✔ private intent is separately disabled without any web tools or paid call (1.53801ms)
+✔ cache contains only allowed original sources; clones values and expires stale source versions (2.033842ms)
+✔ redirect content is cached only under its final truthful URL, never another allowed source's key (0.570715ms)
+ℹ tests 98
+ℹ suites 0
+ℹ pass 98
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 874.244771
+✔ native SDK wire and original document decoding use zero network (mock) (42.279293ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 1
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 203.462711
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice
+
+> wasl@0.1.0 lint
+> eslint && node scripts/check-logical.mjs
+
+
+/workspace/Wasl-contextual/tests/recommendations/assignment-boundary.test.mjs
+  29:59  warning  Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+
+✖ 1 problem (0 errors, 1 warning)
+
+No physical left/right styles found.
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice

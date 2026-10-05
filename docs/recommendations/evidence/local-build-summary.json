@@ -1,0 +1,27 @@
+{
+  "provenance": "Observed successful local production build on the approved Joud basis; summary, not full streamed stdout. Fresh isolated Supabase runtime, cached PUBLIC font test responses; no paid keys.",
+  "baseSha": "e169d0f978104926632597fdd4d5f3d56232c932",
+  "branch": "feat/contextual-recommendations-joud-e169",
+  "command": "source /workspace/wasl-contextual-joud-local/runtime.sh; node scripts/dev/contextual-local.mjs build",
+  "exitCode": 0,
+  "nextVersion": "16.3.8",
+  "bundler": "webpack",
+  "compiledSeconds": 18.8,
+  "typescriptSeconds": 7.1,
+  "staticPages": 98,
+  "localAppPort": 3061,
+  "localGatewayPort": 55631,
+  "localDatabasePort": 55632,
+  "sqlContainer": "wasl-contextual-joud-db",
+  "paidCalls": 0,
+  "fontFixtureOnly": true,
+  "migrationsAppliedThrough": "0016_recommendation_assignment_boundary.sql",
+  "testedCodeFingerprints": {
+    "lib/db/queries/recommendations.ts": "824acbfda38845b3439606a093c6c422e23a4a185dd83b6156002dd0c272aada",
+    "lib/recommendations/engine.ts": "edb84ea0f38e4fc9a4b8f6eebe6de7a9452fe27defdbec9ac6d5cba4ac9b7990",
+    "lib/recommendations/fetch-source.ts": "d1038c4d5ce374f2c93521414ba11ddc3df5b5d3a7b44a830b87d0ae6bd22e4e",
+    "components/recommendations/panel.tsx": "184656848708bda6d654a8033d2ffc149b0db88c7956c7e1045d6ff61e822cc9",
+    "components/inbox/context-panel.tsx": "331ddcf5e34e96ddf28076a64a62b1b9a7f84d45bfdd45e4854578deffc4b52d",
+    "components/inbox/inbox.tsx": "a139760c8a842ff9593c0f73d4de68c4e561fdde2b52653f0fd07733637a923f"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "version": "user-decision-2026-10-05",
+  "productDecision": "Release to asker only after a team specialist approves and classifies the material a/b. Until then, daee sees an evaluation reference and asker sees a specific link.",
+  "scientificReviewPerformed": false,
+  "allowedSections": [
+    {
+      "sourceId": "dictionary",
+      "sourceUrl": "https://islamic-content.com/dictionary/word/1952",
+      "locator": "article.entry-wraper / .entry-main-content / h5: «من موسوعة المصطلحات الإسلامية»",
+      "levels": ["a", "b"]
+    }
+  ]
+}

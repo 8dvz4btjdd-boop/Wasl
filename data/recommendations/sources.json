@@ -1,0 +1,128 @@
+{
+  "version": "reference-1448-03-20",
+  "referenceSha256": "23d776c729fcf68f9c33152a22f34edb4cd80efc7c2b7c15981aff7c5a1cb9c7",
+  "sources": [
+    {
+      "id": "dawa_center",
+      "title": "المستودع الدعوي الرقمي",
+      "entryUrls": [
+        "https://dawa.center"
+      ],
+      "condition": "مرجعان شاملان",
+      "eligibleWorks": "المستودع الدعوي الرقمي: (dawa.center) موسوعة مفردات المحتوى الإسلامي: الجمهرة - (islamic-content.com) يوصى بالرجوع إليهما فيما يحتاج إليه في الدعوة إلى الله من الموضوعات والمصطلحات، والدعوة حسب البلدان، والدعوة حسب الأديان، والدعوة حسب اللغات، والدعوة حسب الفئات.",
+      "pdfPage": 3,
+      "rights": "unverified",
+      "askerRelease": false
+    },
+    {
+      "id": "jamhara",
+      "title": "الجمهرة — موسوعة مفردات المحتوى الإسلامي",
+      "entryUrls": [
+        "https://islamic-content.com"
+      ],
+      "condition": "مرجعان شاملان",
+      "eligibleWorks": "المستودع الدعوي الرقمي: (dawa.center) موسوعة مفردات المحتوى الإسلامي: الجمهرة - (islamic-content.com) يوصى بالرجوع إليهما فيما يحتاج إليه في الدعوة إلى الله من الموضوعات والمصطلحات، والدعوة حسب البلدان، والدعوة حسب الأديان، والدعوة حسب اللغات، والدعوة حسب الفئات.",
+      "pdfPage": 3,
+      "rights": "unverified",
+      "askerRelease": false
+    },
+    {
+      "id": "bayyinat",
+      "title": "بينات: أسئلة وأجوبة عن الإسلام",
+      "entryUrls": [
+        "https://dawa.center/file/7937"
+      ],
+      "condition": "تعد مصدرًا أساسيًا للحلول الحوارية في الشبهات",
+      "eligibleWorks": "بينات: أسئلة وأجوبة عن الإسلام dawa.center/file/7937.",
+      "pdfPage": 4,
+      "rights": "unverified",
+      "askerRelease": false
+    },
+    {
+      "id": "dictionary",
+      "title": "معجم المصطلحات — الجمهرة",
+      "entryUrls": [
+        "https://islamic-content.com/dictionary"
+      ],
+      "condition": "يقدم على الترجمة التلقائية في المصطلحات الشرعية الحساسة.",
+      "eligibleWorks": "موسوعة الجمهرة - مفردات المحتوى الإسلامي islamic-content.com/dictionary.",
+      "pdfPage": 4,
+      "rights": "unverified",
+      "askerRelease": false
+    },
+    {
+      "id": "quran",
+      "title": "القرآن الكريم وترجمات المعاني المعتمدة",
+      "entryUrls": [
+        "https://quranpedia.net"
+      ],
+      "condition": "أهمية التأكد من موثوقية نقل الآيات.",
+      "eligibleWorks": "النص القرآني بالرسم والنص المعتمد، مع ترجمات معتمدة لكل لغة مستخدمة (طبعة مجمع الملك فهد أو ترجماته أو الواردة في: quranpedia.net)",
+      "pdfPage": 3,
+      "rights": "unverified",
+      "askerRelease": false
+    },
+    {
+      "id": "tafseer",
+      "title": "التفسير",
+      "entryUrls": [
+        "https://dorar.net/tafseer"
+      ],
+      "condition": "يستخدم لشرح الآية مع تمييز كلام المفسر عن النص القرآني.",
+      "eligibleWorks": "أي مصادر إسلامية في القرون الثلاثة الأولى أو منصة dorar.net/tafseer.",
+      "pdfPage": 3,
+      "rights": "unverified",
+      "askerRelease": false
+    },
+    {
+      "id": "hadith",
+      "title": "الحديث النبوي",
+      "entryUrls": [
+        "https://dorar.net/hadith",
+        "https://shamela.ws"
+      ],
+      "condition": "لا ينسب حديث دون مصدر وحكم معتمد في البيانات.",
+      "eligibleWorks": "الأحاديث الصحيحة من الصحيحين، وما يضاف من كتب السنة بعد التأكد من صحته إن كان سيعتمد عليه (يرجع إلى منصة dorar.net/hadith، أو الطبعات المعتمدة لكتب السنة النبوية في المكتبة الشاملة shamela.ws).",
+      "pdfPage": 3,
+      "rights": "unverified",
+      "askerRelease": false
+    },
+    {
+      "id": "aqeeda",
+      "title": "العقيدة والتعريف بالإسلام",
+      "entryUrls": [
+        "https://dorar.net/aqeeda"
+      ],
+      "condition": "الالتزام بما عليه المسلمون خصوصًا الصحابة والتابعون ومن تبعهم.",
+      "eligibleWorks": "أي مصادر إسلامية في القرون الثلاثة الأولى أو منصة dorar.net/aqeeda.",
+      "pdfPage": 3,
+      "rights": "unverified",
+      "askerRelease": false
+    },
+    {
+      "id": "fiqh",
+      "title": "الفقه العام",
+      "entryUrls": [
+        "https://dorar.net/feqhia"
+      ],
+      "condition": "لا تتحول إلى فتوى شخصية أو ترجيح آلي مستقل.",
+      "eligibleWorks": "أي كتاب معتمد في الفقه على أحد المذاهب الفقهية الأربعة أو منصة dorar.net/feqhia.",
+      "pdfPage": 4,
+      "rights": "unverified",
+      "askerRelease": false
+    },
+    {
+      "id": "history",
+      "title": "السيرة والتاريخ",
+      "entryUrls": [
+        "https://dorar.net/history"
+      ],
+      "condition": "تعتمد الوقائع الثابتة وتحدد درجة ما يحتاج إلى احتراز.",
+      "eligibleWorks": "أي مصادر إسلامية في القرون الثلاثة الأولى أو منصة dorar.net/history.",
+      "pdfPage": 4,
+      "rights": "unverified",
+      "askerRelease": false
+    }
+  ],
+  "verifiedAdditionalWorks": []
+}

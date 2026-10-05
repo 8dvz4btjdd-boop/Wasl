@@ -1,0 +1,19 @@
+{
+  "checkedOn": "2026-10-05T21:36:39.809036+00:00",
+  "baseSha": "e4f57fbfa47f6a8bef62d22a659d1965ca28dc7b",
+  "ahmedMainSha": "e4f57fbfa47f6a8bef62d22a659d1965ca28dc7b",
+  "joudMainSha": "e169d0f978104926632597fdd4d5f3d56232c932",
+  "method": "git ls-remote; read-only fetch into refs/codex/joud-contextual-review; focused diff, no merge/reset/checkout sync",
+  "overlappingHooks": [
+    "app/[locale]/(workspace)/daee/[[...id]]/page.tsx",
+    "components/inbox/conversation-pane.tsx",
+    "components/inbox/inbox.tsx",
+    "messages/*.json",
+    "lib/db/types.ts"
+  ],
+  "migrationVersionCollisions": [
+    "0011_contextual_recommendations.sql vs 0011_master_card.sql",
+    "0012_recommendation_test_budget.sql vs 0012_master_card_visibility.sql"
+  ],
+  "userBaseChoice": "requested; not assumed"
+}

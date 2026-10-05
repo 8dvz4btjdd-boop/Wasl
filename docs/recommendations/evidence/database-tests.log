@@ -1,0 +1,11 @@
+✔ actual assignment/receipt transactions serialize both handoff orders without a transaction-start leak (1654.546404ms)
+✔ actual concurrent reservations share one global cap without duplicate retry charges (1604.993713ms)
+✔ actual DB receipt is server-set/immutable, preserves legacy NULL and ignores forged created_at for segment cuts (1591.481162ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1711.47339

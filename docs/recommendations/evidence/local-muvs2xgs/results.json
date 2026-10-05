@@ -1,0 +1,468 @@
+{
+  "provenance": "Real LOCAL Auth/Postgres/Realtime/Next/browser; synthetic accounts; no paid calls. Any original source text in daee view still requires scientific evaluation; MOCK UI images are separately labelled.",
+  "testRuntime": {
+    "baseSha": "e169d0f978104926632597fdd4d5f3d56232c932",
+    "branch": "feat/contextual-recommendations-joud-e169",
+    "appOrigin": "http://127.0.0.1:3061",
+    "gatewayOrigin": "http://127.0.0.1:55631",
+    "sqlContainer": "wasl-contextual-joud-db",
+    "prefix": "wasl-contextual-joud",
+    "assignmentFixture": "local service-role assignment; not routing-algorithm evidence"
+  },
+  "results": [
+    {
+      "name": "typing before send does not call recommendation API",
+      "ok": true
+    },
+    {
+      "name": "synthetic conversation uses this run's isolated organization",
+      "ok": true
+    },
+    {
+      "name": "authorized asker API succeeds",
+      "ok": true
+    },
+    {
+      "name": "asker waiting recommendation panel uses actual local API",
+      "ok": true
+    },
+    {
+      "name": "Arabic RTL document",
+      "ok": true
+    },
+    {
+      "name": "public request contains IDs/mode/locale only",
+      "ok": true
+    },
+    {
+      "name": "no original excerpt claimed when corpus is empty",
+      "ok": true
+    },
+    {
+      "name": "thanks and duplicate question do not make another recommendation request",
+      "ok": true
+    },
+    {
+      "name": "corrected intent eventually triggers latest context",
+      "ok": true
+    },
+    {
+      "name": "asker receives a specific source for corrected faith definition",
+      "ok": true
+    },
+    {
+      "name": "fresh unapproved source text is not exposed to asker",
+      "ok": true
+    },
+    {
+      "name": "authorized daee API succeeds",
+      "ok": true
+    },
+    {
+      "name": "assigned daee receives contextual recommendation through actual API",
+      "ok": true
+    },
+    {
+      "name": "daee remains responsible for any answer",
+      "ok": true
+    },
+    {
+      "name": "real daee view displays an original source passage",
+      "ok": true
+    },
+    {
+      "name": "original source has scoped locator and reference",
+      "ok": true
+    },
+    {
+      "name": "displayed text equals the independently acquired original passage",
+      "ok": true
+    },
+    {
+      "name": "fresh source clearly requires specialist evaluation",
+      "ok": true
+    },
+    {
+      "name": "recommendations do not insert a reply on the daee's behalf",
+      "ok": true
+    },
+    {
+      "name": "human dialogue suppresses asker recommendation requests",
+      "ok": true
+    },
+    {
+      "name": "unassigned daee cannot read recommendation context",
+      "ok": true,
+      "httpStatus": 403
+    },
+    {
+      "name": "admin cannot read recommendation context",
+      "ok": true,
+      "httpStatus": 403
+    },
+    {
+      "name": "closed daee panel stops subsequent requests",
+      "ok": true
+    },
+    {
+      "name": "AI off persisted in the synthetic organization",
+      "ok": true
+    },
+    {
+      "name": "AI off does not schedule a recommendation",
+      "ok": true
+    },
+    {
+      "name": "AI off is also enforced by server",
+      "ok": true
+    },
+    {
+      "name": "all local jobs have zero paid calls",
+      "ok": true
+    }
+  ],
+  "browserErrors": [],
+  "requestCount": 7,
+  "requests": [
+    {
+      "audience": "asker",
+      "method": "POST",
+      "keys": [
+        "contextVersion",
+        "conversationId",
+        "locale",
+        "mode"
+      ],
+      "contextVersion": "df911264-170e-4987-af46-9882cf3ab3bf",
+      "mode": "automatic",
+      "at": 1791236700102,
+      "evidence": "local_server",
+      "requestOrigin": "http://127.0.0.1:3061",
+      "headerOrigin": null,
+      "refererOrigin": "http://127.0.0.1:3061"
+    },
+    {
+      "audience": "asker",
+      "method": "POST",
+      "keys": [
+        "contextVersion",
+        "conversationId",
+        "locale",
+        "mode"
+      ],
+      "contextVersion": "0e7e01da-34a9-4834-8397-3042487cf5f9",
+      "mode": "automatic",
+      "at": 1791236720102,
+      "evidence": "local_server",
+      "requestOrigin": "http://127.0.0.1:3061",
+      "headerOrigin": null,
+      "refererOrigin": "http://127.0.0.1:3061"
+    },
+    {
+      "audience": "asker",
+      "method": "POST",
+      "keys": [
+        "contextVersion",
+        "conversationId",
+        "locale",
+        "mode"
+      ],
+      "contextVersion": "0e7e01da-34a9-4834-8397-3042487cf5f9",
+      "mode": "automatic",
+      "at": 1791236740102,
+      "evidence": "local_server",
+      "requestOrigin": "http://127.0.0.1:3061",
+      "headerOrigin": null,
+      "refererOrigin": "http://127.0.0.1:3061"
+    },
+    {
+      "audience": "daee",
+      "method": "POST",
+      "keys": [
+        "contextVersion",
+        "conversationId",
+        "locale",
+        "mode"
+      ],
+      "contextVersion": "0e7e01da-34a9-4834-8397-3042487cf5f9",
+      "mode": "automatic",
+      "at": 1791236741903,
+      "evidence": "local_server",
+      "requestOrigin": "http://127.0.0.1:3061",
+      "headerOrigin": null,
+      "refererOrigin": "http://127.0.0.1:3061"
+    },
+    {
+      "audience": "daee",
+      "method": "POST",
+      "keys": [
+        "contextVersion",
+        "conversationId",
+        "locale",
+        "mode"
+      ],
+      "contextVersion": "f457549a-d9aa-459b-ada8-4374ee5b1e5c",
+      "mode": "automatic",
+      "at": 1791236750861,
+      "evidence": "local_server",
+      "requestOrigin": "http://127.0.0.1:3061",
+      "headerOrigin": null,
+      "refererOrigin": "http://127.0.0.1:3061"
+    },
+    {
+      "audience": "daee",
+      "method": "POST",
+      "keys": [
+        "contextVersion",
+        "conversationId",
+        "locale",
+        "mode"
+      ],
+      "contextVersion": "f457549a-d9aa-459b-ada8-4374ee5b1e5c",
+      "mode": "automatic",
+      "at": 1791236770859,
+      "evidence": "local_server",
+      "requestOrigin": "http://127.0.0.1:3061",
+      "headerOrigin": null,
+      "refererOrigin": "http://127.0.0.1:3061"
+    },
+    {
+      "audience": "daee",
+      "method": "POST",
+      "keys": [
+        "contextVersion",
+        "conversationId",
+        "locale",
+        "mode"
+      ],
+      "contextVersion": "f457549a-d9aa-459b-ada8-4374ee5b1e5c",
+      "mode": "automatic",
+      "at": 1791236771509,
+      "evidence": "local_server",
+      "requestOrigin": "http://127.0.0.1:3061",
+      "headerOrigin": null,
+      "refererOrigin": "http://127.0.0.1:3061"
+    }
+  ],
+  "responses": [
+    {
+      "audience": "asker",
+      "status": 200,
+      "error": null,
+      "reason": "source_suggestions_only",
+      "requestId": "29c20656-593a-4f94-886c-3f2faa009166",
+      "usage": {
+        "modelCalls": 0,
+        "modelSteps": 0,
+        "searches": 0,
+        "fetches": 0,
+        "inputTokens": 0,
+        "outputTokens": 0,
+        "cacheReadTokens": 0,
+        "cacheWriteTokens": 0,
+        "uncachedInputTokens": 0,
+        "costEstimateUsd": 0,
+        "elapsedMs": 1,
+        "pricingVerified": false,
+        "providerReportedSearches": null,
+        "voiceCostUsd": 0,
+        "codexDevelopmentCostIncluded": false
+      },
+      "sourceEvidence": [
+        {
+          "sourceUrl": "https://islamic-content.com/dictionary",
+          "locator": "",
+          "contentHash": null,
+          "characters": 0,
+          "review": "source_only"
+        },
+        {
+          "sourceUrl": "https://dorar.net/feqhia",
+          "locator": "",
+          "contentHash": null,
+          "characters": 0,
+          "review": "source_only"
+        }
+      ],
+      "cacheControl": "no-store, private",
+      "contentType": "application/json",
+      "evidence": "local_server"
+    },
+    {
+      "audience": "asker",
+      "status": 429,
+      "error": "cooldown",
+      "reason": null,
+      "requestId": null,
+      "usage": null,
+      "sourceEvidence": [],
+      "cacheControl": "no-store, private",
+      "contentType": "application/json",
+      "evidence": "local_server"
+    },
+    {
+      "audience": "asker",
+      "status": 200,
+      "error": null,
+      "reason": "source_suggestions_only",
+      "requestId": "05506609-8727-483d-9d24-03f0127e5a60",
+      "usage": {
+        "modelCalls": 0,
+        "modelSteps": 0,
+        "searches": 0,
+        "fetches": 0,
+        "inputTokens": 0,
+        "outputTokens": 0,
+        "cacheReadTokens": 0,
+        "cacheWriteTokens": 0,
+        "uncachedInputTokens": 0,
+        "costEstimateUsd": 0,
+        "elapsedMs": 1,
+        "pricingVerified": false,
+        "providerReportedSearches": null,
+        "voiceCostUsd": 0,
+        "codexDevelopmentCostIncluded": false
+      },
+      "sourceEvidence": [
+        {
+          "sourceUrl": "https://islamic-content.com/dictionary/word/1952",
+          "locator": "",
+          "contentHash": null,
+          "characters": 0,
+          "review": "source_only"
+        },
+        {
+          "sourceUrl": "https://dorar.net/aqeeda",
+          "locator": "",
+          "contentHash": null,
+          "characters": 0,
+          "review": "source_only"
+        }
+      ],
+      "cacheControl": "no-store, private",
+      "contentType": "application/json",
+      "evidence": "local_server"
+    },
+    {
+      "audience": "daee",
+      "status": 200,
+      "error": null,
+      "reason": "source_needs_evaluation",
+      "requestId": "d7c6a0f3-fc13-496f-bef9-209453101e3e",
+      "usage": {
+        "modelCalls": 0,
+        "modelSteps": 0,
+        "searches": 0,
+        "fetches": 1,
+        "inputTokens": 0,
+        "outputTokens": 0,
+        "cacheReadTokens": 0,
+        "cacheWriteTokens": 0,
+        "uncachedInputTokens": 0,
+        "costEstimateUsd": 0,
+        "elapsedMs": 1987,
+        "pricingVerified": false,
+        "providerReportedSearches": null,
+        "voiceCostUsd": 0,
+        "codexDevelopmentCostIncluded": false
+      },
+      "sourceEvidence": [
+        {
+          "sourceUrl": "https://islamic-content.com/dictionary/word/1952",
+          "locator": "article.entry-wraper / .entry-main-content / h5: «من موسوعة المصطلحات الإسلامية»",
+          "contentHash": "6684aea866f0083ebe9bdbb91a260460ea50f89d9e6ed66cbf342491e5a15a08",
+          "characters": 1874,
+          "review": "daee_evaluation_required"
+        }
+      ],
+      "cacheControl": "no-store, private",
+      "contentType": "application/json",
+      "evidence": "local_server"
+    },
+    {
+      "audience": "daee",
+      "status": 429,
+      "error": "cooldown",
+      "reason": null,
+      "requestId": null,
+      "usage": null,
+      "sourceEvidence": [],
+      "cacheControl": "no-store, private",
+      "contentType": "application/json",
+      "evidence": "local_server"
+    },
+    {
+      "audience": "daee",
+      "status": 200,
+      "error": null,
+      "reason": "source_suggestions_only",
+      "requestId": "ad5759ca-dddd-4da1-98db-324f866d2a01",
+      "usage": {
+        "modelCalls": 0,
+        "modelSteps": 0,
+        "searches": 0,
+        "fetches": 0,
+        "inputTokens": 0,
+        "outputTokens": 0,
+        "cacheReadTokens": 0,
+        "cacheWriteTokens": 0,
+        "uncachedInputTokens": 0,
+        "costEstimateUsd": 0,
+        "elapsedMs": 1,
+        "pricingVerified": false,
+        "providerReportedSearches": null,
+        "voiceCostUsd": 0,
+        "codexDevelopmentCostIncluded": false
+      },
+      "sourceEvidence": [
+        {
+          "sourceUrl": "https://dorar.net/hadith",
+          "locator": "",
+          "contentHash": null,
+          "characters": 0,
+          "review": "source_only"
+        }
+      ],
+      "cacheControl": "no-store, private",
+      "contentType": "application/json",
+      "evidence": "local_server"
+    },
+    {
+      "audience": "daee",
+      "status": 200,
+      "error": null,
+      "reason": "source_suggestions_only",
+      "requestId": "ad5759ca-dddd-4da1-98db-324f866d2a01",
+      "usage": {
+        "fetches": 0,
+        "searches": 0,
+        "elapsedMs": 1,
+        "modelCalls": 0,
+        "modelSteps": 0,
+        "inputTokens": 0,
+        "outputTokens": 0,
+        "voiceCostUsd": 0,
+        "cacheReadTokens": 0,
+        "costEstimateUsd": 0,
+        "pricingVerified": false,
+        "cacheWriteTokens": 0,
+        "uncachedInputTokens": 0,
+        "providerReportedSearches": null,
+        "codexDevelopmentCostIncluded": false
+      },
+      "sourceEvidence": [
+        {
+          "sourceUrl": "https://dorar.net/hadith",
+          "locator": "",
+          "contentHash": null,
+          "characters": 0,
+          "review": "source_only"
+        }
+      ],
+      "cacheControl": "no-store, private",
+      "contentType": "application/json",
+      "evidence": "local_server"
+    }
+  ],
+  "originalPassagesDisplayed": 1
+}

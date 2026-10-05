@@ -8,7 +8,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { useRouter } from "@/i18n/navigation";
 import { getDir, type Locale } from "@/i18n/routing";
 import { fetchInbox, isUnread } from "@/lib/chat/inbox-query";
-import type { ConversationSummary, MessageRow, Presence } from "@/lib/chat/types";
+import type { ChatMessage, ConversationSummary, MessageRow, Presence } from "@/lib/chat/types";
 import { createClient, subscribeResilient } from "@/lib/db/client";
 import type { VisibleCard } from "@/lib/db/queries/conversations";
 import { endConversation, markConversationRead, setPresence } from "@/lib/inbox/actions";
@@ -32,6 +32,7 @@ type InboxProps = {
   pastCount: number | null;
   cards: VisibleCard[];
   transferPending: boolean;
+  aiEnabled: boolean;
 };
 
 const CONTEXT_KEY = "wasl.inbox.context";
@@ -58,6 +59,7 @@ export function Inbox({
   pastCount,
   cards,
   transferPending: initialTransferPending,
+  aiEnabled,
 }: InboxProps) {
   const tToast = useTranslations("Toasts");
   const locale = useLocale() as Locale;
@@ -82,6 +84,10 @@ export function Inbox({
     setTransferPending(initialTransferPending);
   }
   const [focusRequest, setFocusRequest] = useState(0);
+  const [liveMessages, setLiveMessages] = useState<{ conversationId: string; messages: ChatMessage[] } | null>(null);
+  const updateMessages = useCallback((conversationId: string, messages: ChatMessage[]) => {
+    setLiveMessages({ conversationId, messages });
+  }, []);
 
   // Server data wins whenever the page re-renders (navigation, refresh).
   const [seenInitial, setSeenInitial] = useState(initial);
@@ -297,12 +303,15 @@ export function Inbox({
                 if (!source) return null;
                 return [source.next_step, source.follow_up].find((v) => v && v !== "غير محدد") ?? null;
               })()}
+              onMessages={updateMessages}
             />
             {contextOpen && (
               <ContextPanel
                 conversation={current}
                 pastCount={pastCount}
                 cards={cards}
+                messages={liveMessages?.conversationId === current.id ? liveMessages.messages : messages.filter((message) => message.conversation_id === current.id)}
+                aiEnabled={aiEnabled}
                 onClose={toggleContext}
                 // Beside the conversation on wide screens, over it on narrower ones.
                 className="absolute inset-y-0 end-0 z-20 shadow-lg xl:static xl:z-auto xl:shadow-none"

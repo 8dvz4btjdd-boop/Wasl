@@ -1,0 +1,32 @@
+{
+  "provenance": "Observed successful local production build summary; not full streamed stdout. Local Supabase configuration and cached font test responses; no paid provider keys.",
+  "baseSha": "e4f57fbfa47f6a8bef62d22a659d1965ca28dc7b",
+  "command": "VERIFY_ISOLATED_TEST=1 NODE_USE_ENV_PROXY=1 WASL_RECOMMENDATIONS_TRUST_PROXY_DNS=true WASL_RECOMMENDATIONS_FREE_FETCH=true CONTEXTUAL_LOCAL_FONT_RESPONSES=/workspace/wasl-contextual-local/fonts/mock-responses.cjs node scripts/dev/contextual-local.mjs build",
+  "exitCode": 0,
+  "nextVersion": "16.3.8",
+  "bundler": "webpack",
+  "compiledSeconds": 5.5,
+  "typescriptSeconds": 3.6,
+  "staticPages": 90,
+  "localAppPort": 3060,
+  "localGatewayPort": 55621,
+  "paidCalls": 0,
+  "fontFixtureOnly": true,
+  "stage": "Final backend/source guard freeze, after local migrations0011–0014; no product UI edits afterwards",
+  "migrationsApplied": [
+    "0011_contextual_recommendations.sql",
+    "0012_recommendation_test_budget.sql",
+    "0013_recommendation_message_receipts.sql",
+    "0014_recommendation_assignment_boundary.sql"
+  ],
+  "testedCodeFingerprints": {
+    "lib/db/queries/recommendations.ts": "824acbfda38845b3439606a093c6c422e23a4a185dd83b6156002dd0c272aada",
+    "lib/recommendations/engine.ts": "edb84ea0f38e4fc9a4b8f6eebe6de7a9452fe27defdbec9ac6d5cba4ac9b7990",
+    "lib/recommendations/fetch-source.ts": "d1038c4d5ce374f2c93521414ba11ddc3df5b5d3a7b44a830b87d0ae6bd22e4e",
+    "components/recommendations/panel.tsx": "184656848708bda6d654a8033d2ffc149b0db88c7956c7e1045d6ff61e822cc9"
+  },
+  "finalBrowserRun": "local-muvrilmn",
+  "finalBrowserPassed": 27,
+  "finalBrowserFailed": 0,
+  "ownedServerStoppedAfterTests": true
+}

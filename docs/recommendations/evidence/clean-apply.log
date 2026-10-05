@@ -1,0 +1,145 @@
+Clean isolated application check — 2026-10-05
+base SHA: e169d0f978104926632597fdd4d5f3d56232c932
+checkout: /workspace/wasl-joud-apply-check-aou20dms
+commands: git apply --check joud-initial.patch; git apply --index joud-initial.patch; bash scripts/recommendations-check.sh
+exit=0; 98 TypeScript tests + 1 mocked SDK test, Next typegen, tsc and lint.
+No paid calls, external database, dependency/lockfile edits or deployment.
+This log documents the code patch before adding this evidence file; the final ZIP patch is separately checked for exact expected tree equality.
+
+✔ browser origin uses actual Host despite Next dev's localhost URL (2.210436ms)
+✔ human requeue without an accepted transfer still requires a current trusted receipt (0.248602ms)
+✔ rerouting an initial waiting question keeps its corrections; unknown transfer evidence fails closed (0.170505ms)
+✔ assigned active daee obtains only authorized current conversation messages (1.41738ms)
+✔ admin is rejected before any conversation body read (0.290124ms)
+✔ unassigned daee and anonymous staff cannot obtain recommendations (0.382563ms)
+✔ banned/deactivated daee is rejected before content read (0.205318ms)
+✔ current assignment cutoff excludes previous segment, foreign senders and system text (0.396564ms)
+✔ explicit current-conversation initial question is allowed on first assignment, including a return (0.537063ms)
+✔ first assignment preserves a waiting correction rather than reverting to the initial topic (8.969556ms)
+✔ transferred segment excludes all pre-assignment corrections even when they are in the same conversation (1.442798ms)
+✔ transfer scope uses immutable receipt, rejects legacy/future-dated archive and accepts a newly received backdated question (0.429423ms)
+✔ transferred legacy-only context fails closed until a fresh current-segment question (0.60805ms)
+✔ stale need is rejected rather than exposing the previous response (0.222783ms)
+✔ AI off returns metadata-only disabled context without reading messages (0.146199ms)
+✔ asker guide stops on first human message even if status is still waiting (0.136324ms)
+✔ different asker, active dialogue and ended conversation do not start guide work (0.26059ms)
+✔ only whole latest context fits max six messages/eight thousand characters (0.325076ms)
+✔ zero spending remains disabled even with a price record (1.362037ms)
+✔ a key/spend flag cannot substitute for reviewed prices (0.259548ms)
+✔ pricing loader fails closed for malformed, unknown rates or unofficial evidence (0.329032ms)
+✔ native uses are reserved across retries and cannot be reset (0.606417ms)
+✔ one active request cannot start overlapping paid calls (0.288121ms)
+✔ private input uses bounded known bytes, not an entire context window (0.223995ms)
+✔ native context reservation refuses an unsupported 12k input cap (0.284085ms)
+✔ all positive input/output/tool/call/step/time/cost limits are enforced before dispatch (0.747739ms)
+✔ usage keeps actual/cache/tool counters and does not double record a call (0.414169ms)
+✔ model mismatches and nonfinite configuration are rejected (0.341891ms)
+✔ unknown failed usage retains monetary reservation and a null cost, never zero (0.170365ms)
+✔ failed durable reservation is not counted as a dispatched model call (0.137516ms)
+✔ merges close saved needs, keeps only the latest, and never dispatches mere state refresh (1.623639ms)
+✔ preserves the newest need throughout the twenty-second cooldown (0.278536ms)
+✔ aborts outdated context, ignores its result, and permits no overlapping client requests (0.58105ms)
+✔ AI off cancels pending work and closing the panel prevents future requests (0.898784ms)
+✔ retry and explicit expansion retain the context ID and share the cooldown (0.380439ms)
+✔ a disconnected browser request is bounded and cannot leak a stale result into another conversation (0.556552ms)
+✔ server cooldown retains the need and bounds repeated lease retries without resetting its context (1.081748ms)
+✔ a changed question replaces a queued server-cooldown retry (0.177024ms)
+✔ default browser timers are called with their own global receiver, never the controller (1.366254ms)
+✔ saved substantive text only; thanks and normalized repetitions do not replace the need (2.53353ms)
+✔ correction changes controlled query; previous question is not repeated (2.022535ms)
+✔ external query cannot contain private names, emails or injected instructions (0.223684ms)
+✔ exact source scopes and approved work requirement (0.842931ms)
+✔ encoded exclusions, malformed/nested encodings and separators fail closed before source selection (0.290895ms)
+✔ original material uses final redirect URL/source identity and rejects allowed sources outside the current intent (0.732615ms)
+✔ zero-paid run uses safe source suggestion, never a generated or unreviewed answer (2.264067ms)
+✔ AI off avoids reading/returning materials; ambiguity asks a short operational clarification (0.529021ms)
+✔ unapproved modified or made-up references never appear to asker on cache hit (2.865446ms)
+✔ reference PDF safety: reference_safety_01_kaaba_misconception (fallback only) (0.99622ms)
+✔ reference PDF safety: reference_safety_02_quran_authorship (fallback only) (0.377034ms)
+✔ reference PDF safety: reference_safety_03_spread_by_sword (fallback only) (0.175723ms)
+✔ reference PDF safety: reference_safety_04_scholarly_disagreement (fallback only) (0.310284ms)
+✔ reference PDF safety: reference_safety_05_personal_marriage (fallback only) (0.149324ms)
+✔ reference PDF safety: reference_safety_06_nonexistent_hadith (fallback only) (0.622992ms)
+✔ reference PDF safety: reference_safety_07_tawhid_beginner (fallback only) (0.239949ms)
+✔ reference PDF safety: reference_safety_08_translate_tawhid (fallback only) (0.470214ms)
+✔ reference PDF safety: reference_safety_09_hostile_question (fallback only) (0.248141ms)
+✔ reference PDF safety: reference_safety_10_unproven_agreement (fallback only) (0.444625ms)
+✔ reference PDF safety: reference_safety_11_misquoted_verse (fallback only) (0.172277ms)
+✔ reference PDF safety: reference_safety_12_culturally_loaded_term (fallback only) (0.399417ms)
+✔ extracts original text with negation/exception and actual DOM locator; excludes comments/navigation (3.119827ms)
+✔ multiple articles, missing article/main, and unsupported entities fail without synthesized or cut text (0.436763ms)
+✔ text entities are decoded as rendered source text; instructions inside material remain data (0.171857ms)
+✔ fetch success sends only the fixed source URL and no user/cookie/auth body (30.082381ms)
+✔ disallowed URL forms fail before DNS or fetch (1.082739ms)
+✔ all DNS answers must be public; private mixed answer and failed DNS prevent fetch (0.940316ms)
+✔ private, mapped, multicast, transition and reserved address forms are rejected (0.271285ms)
+✔ redirects outside scope and to internal URLs are never followed (1.756948ms)
+✔ approved redirect is DNS checked before its next request (1.134978ms)
+✔ redirect loop has a finite four-request bound (0.783452ms)
+✔ PDF, bad charset, bad UTF-8, and non-success are not treated as original text (1.565993ms)
+✔ byte limit is enforced on headers and streamed bytes, not PDF/content token estimates (2.200902ms)
+✔ aborted context returns promptly even when fixture transport ignores AbortSignal (0.343795ms)
+✔ hidden provider redirect cannot bypass final URL validation (0.446808ms)
+✔ scoped dictionary adapter keeps the full named reference, negation, attribution and bibliography (1.240135ms)
+✔ delegating failed DNS to a managed proxy requires all explicit environment settings (1.191763ms)
+✔ successful result is reauthorized/revalidated then stored with numeric usage (3.300467ms)
+✔ assignment revoked during request hides result while preserving actual usage (0.357425ms)
+✔ changed question during request returns 409 and cannot cache old source result (0.351937ms)
+✔ AI off during request blocks output and preserves measured usage (0.883532ms)
+✔ wrong actor/audience/version cache cannot bypass access (0.392647ms)
+✔ cache hit rechecks authorization, AI switch and current source-release eligibility (0.497043ms)
+✔ running/cooldown keeps latest client need queued without a second engine call (0.370515ms)
+✔ abort ignores completed old result but does not claim cost was undone (0.357224ms)
+✔ already closed request starts no new engine work (0.384415ms)
+✔ closed/failed engine releases lease with no private result (0.431295ms)
+✔ contextual test scope allows exactly its two budgeted tasks (0.810572ms)
+✔ unset test scope preserves the existing production task behavior (0.147691ms)
+✔ runAI itself refuses a non-contextual task before DB, prompt or paid API work (1.156449ms)
+✔ public query boundary accepts only fixed editorial knowledge labels (1.00957ms)
+✔ raw private text never reaches model or web tools (0.532046ms)
+✔ spend disabled never contacts database/API even when a query is valid (0.409022ms)
+✔ unauthorized domain scope is rejected before paid dispatch (0.333779ms)
+✔ stale/aborted work does not consume a model/tool budget (0.213489ms)
+✔ one request cannot borrow another request's budget (0.140731ms)
+✔ private intent is separately disabled without any web tools or paid call (0.358786ms)
+✔ cache contains only allowed original sources; clones values and expires stale source versions (1.823317ms)
+✔ redirect content is cached only under its final truthful URL, never another allowed source's key (0.536492ms)
+ℹ tests 98
+ℹ suites 0
+ℹ pass 98
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1144.717909
+✔ native SDK wire and original document decoding use zero network (mock) (43.634516ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 1
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 199.927451
+Generating route types...
+✓ Types generated successfully
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice
+
+> wasl@0.1.0 lint
+> eslint && node scripts/check-logical.mjs
+
+No physical left/right styles found.
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice

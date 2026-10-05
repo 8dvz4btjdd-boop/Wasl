@@ -1,0 +1,10 @@
+✔ actual concurrent reservations share one global cap without duplicate retry charges (1181.230657ms)
+✔ actual DB receipt is server-set/immutable, preserves legacy NULL and ignores forged created_at for segment cuts (1359.462864ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1428.118007

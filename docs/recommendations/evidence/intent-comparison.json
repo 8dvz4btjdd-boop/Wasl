@@ -1,0 +1,398 @@
+{
+  "scope": "controlled intent/lookup comparison only; identical access to one original source; no paid model, no human scientific evaluation, no verified useful-passage timing",
+  "baseline": "single query from latest question, without prior context",
+  "contextual": "same current question plus explicit authorized context",
+  "results": [
+    {
+      "caseId": "reference_safety_01_kaaba_misconception",
+      "baseline": {
+        "concepts": [
+          "worship"
+        ],
+        "candidateUrl": null,
+        "intentSelectionMs": 1.0443989999999985
+      },
+      "contextual": {
+        "concepts": [
+          "worship"
+        ],
+        "candidateUrl": null,
+        "intentSelectionMs": 0.2699080000000009
+      },
+      "originalSourceInventory": [
+        "https://islamic-content.com/dictionary/word/1952"
+      ],
+      "relevanceHumanScore": null,
+      "scientificCorrectnessHumanScore": null,
+      "usefulPassageTimeMs": null,
+      "paidCostUsd": 0
+    },
+    {
+      "caseId": "reference_safety_02_quran_authorship",
+      "baseline": {
+        "concepts": [
+          "quran",
+          "faith"
+        ],
+        "candidateUrl": null,
+        "intentSelectionMs": 0.04019999999999868
+      },
+      "contextual": {
+        "concepts": [
+          "quran",
+          "faith"
+        ],
+        "candidateUrl": null,
+        "intentSelectionMs": 0.015654000000012047
+      },
+      "originalSourceInventory": [
+        "https://islamic-content.com/dictionary/word/1952"
+      ],
+      "relevanceHumanScore": null,
+      "scientificCorrectnessHumanScore": null,
+      "usefulPassageTimeMs": null,
+      "paidCostUsd": 0
+    },
+    {
+      "caseId": "reference_safety_03_spread_by_sword",
+      "baseline": {
+        "concepts": [],
+        "candidateUrl": null,
+        "intentSelectionMs": 0.046289999999999054
+      },
+      "contextual": {
+        "concepts": [],
+        "candidateUrl": null,
+        "intentSelectionMs": 0.028283000000001834
+      },
+      "originalSourceInventory": [
+        "https://islamic-content.com/dictionary/word/1952"
+      ],
+      "relevanceHumanScore": null,
+      "scientificCorrectnessHumanScore": null,
+      "usefulPassageTimeMs": null,
+      "paidCostUsd": 0
+    },
+    {
+      "caseId": "reference_safety_04_scholarly_disagreement",
+      "baseline": {
+        "concepts": [],
+        "candidateUrl": null,
+        "intentSelectionMs": 0.012489000000002193
+      },
+      "contextual": {
+        "concepts": [],
+        "candidateUrl": null,
+        "intentSelectionMs": 0.009444000000002006
+      },
+      "originalSourceInventory": [
+        "https://islamic-content.com/dictionary/word/1952"
+      ],
+      "relevanceHumanScore": null,
+      "scientificCorrectnessHumanScore": null,
+      "usefulPassageTimeMs": null,
+      "paidCostUsd": 0
+    },
+    {
+      "caseId": "reference_safety_05_personal_marriage",
+      "baseline": {
+        "concepts": [],
+        "candidateUrl": null,
+        "intentSelectionMs": 0.03668499999999142
+      },
+      "contextual": {
+        "concepts": [],
+        "candidateUrl": null,
+        "intentSelectionMs": 0.024557000000001494
+      },
+      "originalSourceInventory": [
+        "https://islamic-content.com/dictionary/word/1952"
+      ],
+      "relevanceHumanScore": null,
+      "scientificCorrectnessHumanScore": null,
+      "usefulPassageTimeMs": null,
+      "paidCostUsd": 0
+    },
+    {
+      "caseId": "reference_safety_06_nonexistent_hadith",
+      "baseline": {
+        "concepts": [
+          "hadith"
+        ],
+        "candidateUrl": null,
+        "intentSelectionMs": 0.020320000000012328
+      },
+      "contextual": {
+        "concepts": [
+          "hadith"
+        ],
+        "candidateUrl": null,
+        "intentSelectionMs": 0.010145000000008508
+      },
+      "originalSourceInventory": [
+        "https://islamic-content.com/dictionary/word/1952"
+      ],
+      "relevanceHumanScore": null,
+      "scientificCorrectnessHumanScore": null,
+      "usefulPassageTimeMs": null,
+      "paidCostUsd": 0
+    },
+    {
+      "caseId": "reference_safety_07_tawhid_beginner",
+      "baseline": {
+        "concepts": [],
+        "candidateUrl": null,
+        "intentSelectionMs": 0.11548399999999504
+      },
+      "contextual": {
+        "concepts": [],
+        "candidateUrl": null,
+        "intentSelectionMs": 0.009793999999999414
+      },
+      "originalSourceInventory": [
+        "https://islamic-content.com/dictionary/word/1952"
+      ],
+      "relevanceHumanScore": null,
+      "scientificCorrectnessHumanScore": null,
+      "usefulPassageTimeMs": null,
+      "paidCostUsd": 0
+    },
+    {
+      "caseId": "reference_safety_08_translate_tawhid",
+      "baseline": {
+        "concepts": [
+          "quran_translation",
+          "faith"
+        ],
+        "candidateUrl": null,
+        "intentSelectionMs": 0.03307999999999822
+      },
+      "contextual": {
+        "concepts": [
+          "quran_translation",
+          "faith"
+        ],
+        "candidateUrl": null,
+        "intentSelectionMs": 0.010204999999999131
+      },
+      "originalSourceInventory": [
+        "https://islamic-content.com/dictionary/word/1952"
+      ],
+      "relevanceHumanScore": null,
+      "scientificCorrectnessHumanScore": null,
+      "usefulPassageTimeMs": null,
+      "paidCostUsd": 0
+    },
+    {
+      "caseId": "reference_safety_09_hostile_question",
+      "baseline": {
+        "concepts": [],
+        "candidateUrl": null,
+        "intentSelectionMs": 0.008562999999995213
+      },
+      "contextual": {
+        "concepts": [],
+        "candidateUrl": null,
+        "intentSelectionMs": 0.004857999999998697
+      },
+      "originalSourceInventory": [
+        "https://islamic-content.com/dictionary/word/1952"
+      ],
+      "relevanceHumanScore": null,
+      "scientificCorrectnessHumanScore": null,
+      "usefulPassageTimeMs": null,
+      "paidCostUsd": 0
+    },
+    {
+      "caseId": "reference_safety_10_unproven_agreement",
+      "baseline": {
+        "concepts": [],
+        "candidateUrl": null,
+        "intentSelectionMs": 0.010565999999997189
+      },
+      "contextual": {
+        "concepts": [],
+        "candidateUrl": null,
+        "intentSelectionMs": 0.005217999999999279
+      },
+      "originalSourceInventory": [
+        "https://islamic-content.com/dictionary/word/1952"
+      ],
+      "relevanceHumanScore": null,
+      "scientificCorrectnessHumanScore": null,
+      "usefulPassageTimeMs": null,
+      "paidCostUsd": 0
+    },
+    {
+      "caseId": "reference_safety_11_misquoted_verse",
+      "baseline": {
+        "concepts": [],
+        "candidateUrl": null,
+        "intentSelectionMs": 0.0057879999999954634
+      },
+      "contextual": {
+        "concepts": [],
+        "candidateUrl": null,
+        "intentSelectionMs": 0.0379870000000011
+      },
+      "originalSourceInventory": [
+        "https://islamic-content.com/dictionary/word/1952"
+      ],
+      "relevanceHumanScore": null,
+      "scientificCorrectnessHumanScore": null,
+      "usefulPassageTimeMs": null,
+      "paidCostUsd": 0
+    },
+    {
+      "caseId": "reference_safety_12_culturally_loaded_term",
+      "baseline": {
+        "concepts": [
+          "terms"
+        ],
+        "candidateUrl": null,
+        "intentSelectionMs": 0.015463999999994371
+      },
+      "contextual": {
+        "concepts": [
+          "terms"
+        ],
+        "candidateUrl": null,
+        "intentSelectionMs": 0.00768199999998842
+      },
+      "originalSourceInventory": [
+        "https://islamic-content.com/dictionary/word/1952"
+      ],
+      "relevanceHumanScore": null,
+      "scientificCorrectnessHumanScore": null,
+      "usefulPassageTimeMs": null,
+      "paidCostUsd": 0
+    },
+    {
+      "caseId": "definition",
+      "baseline": {
+        "concepts": [
+          "terms",
+          "faith"
+        ],
+        "candidateUrl": "https://islamic-content.com/dictionary/word/1952",
+        "intentSelectionMs": 0.012669000000002484
+      },
+      "contextual": {
+        "concepts": [
+          "terms",
+          "faith"
+        ],
+        "candidateUrl": "https://islamic-content.com/dictionary/word/1952",
+        "intentSelectionMs": 0.008673000000001707
+      },
+      "originalSourceInventory": [
+        "https://islamic-content.com/dictionary/word/1952"
+      ],
+      "relevanceHumanScore": null,
+      "scientificCorrectnessHumanScore": null,
+      "usefulPassageTimeMs": null,
+      "paidCostUsd": 0
+    },
+    {
+      "caseId": "corrected_to_faith",
+      "baseline": {
+        "concepts": [
+          "terms",
+          "faith"
+        ],
+        "candidateUrl": "https://islamic-content.com/dictionary/word/1952",
+        "intentSelectionMs": 0.009163999999998396
+      },
+      "contextual": {
+        "concepts": [
+          "terms",
+          "faith"
+        ],
+        "candidateUrl": "https://islamic-content.com/dictionary/word/1952",
+        "intentSelectionMs": 0.0075909999999907996
+      },
+      "originalSourceInventory": [
+        "https://islamic-content.com/dictionary/word/1952"
+      ],
+      "relevanceHumanScore": null,
+      "scientificCorrectnessHumanScore": null,
+      "usefulPassageTimeMs": null,
+      "paidCostUsd": 0
+    },
+    {
+      "caseId": "corrected_away_from_faith",
+      "baseline": {
+        "concepts": [
+          "quran_translation"
+        ],
+        "candidateUrl": null,
+        "intentSelectionMs": 0.008473000000009279
+      },
+      "contextual": {
+        "concepts": [
+          "quran_translation"
+        ],
+        "candidateUrl": null,
+        "intentSelectionMs": 0.007041000000000963
+      },
+      "originalSourceInventory": [
+        "https://islamic-content.com/dictionary/word/1952"
+      ],
+      "relevanceHumanScore": null,
+      "scientificCorrectnessHumanScore": null,
+      "usefulPassageTimeMs": null,
+      "paidCostUsd": 0
+    },
+    {
+      "caseId": "return_to_earlier_subject",
+      "baseline": {
+        "concepts": [
+          "terms",
+          "faith"
+        ],
+        "candidateUrl": "https://islamic-content.com/dictionary/word/1952",
+        "intentSelectionMs": 0.006418999999993957
+      },
+      "contextual": {
+        "concepts": [
+          "terms",
+          "faith"
+        ],
+        "candidateUrl": "https://islamic-content.com/dictionary/word/1952",
+        "intentSelectionMs": 0.005427999999994881
+      },
+      "originalSourceInventory": [
+        "https://islamic-content.com/dictionary/word/1952"
+      ],
+      "relevanceHumanScore": null,
+      "scientificCorrectnessHumanScore": null,
+      "usefulPassageTimeMs": null,
+      "paidCostUsd": 0
+    },
+    {
+      "caseId": "explicit_followup",
+      "baseline": {
+        "concepts": [
+          "terms"
+        ],
+        "candidateUrl": null,
+        "intentSelectionMs": 0.20259599999999978
+      },
+      "contextual": {
+        "concepts": [
+          "terms",
+          "faith"
+        ],
+        "candidateUrl": "https://islamic-content.com/dictionary/word/1952",
+        "intentSelectionMs": 0.019900000000006912
+      },
+      "originalSourceInventory": [
+        "https://islamic-content.com/dictionary/word/1952"
+      ],
+      "relevanceHumanScore": null,
+      "scientificCorrectnessHumanScore": null,
+      "usefulPassageTimeMs": null,
+      "paidCostUsd": 0
+    }
+  ]
+}

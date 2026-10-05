@@ -1,0 +1,22 @@
+{
+  "checkedOn": "2026-10-05T21:41:38.678766+00:00",
+  "initialBaseSha": "e4f57fbfa47f6a8bef62d22a659d1965ca28dc7b",
+  "preservedFeatureSha": "36324276140678a627ce12546338bceaafb12943",
+  "finalApprovedBaseSha": "e169d0f978104926632597fdd4d5f3d56232c932",
+  "ahmedMainAtRead": "e4f57fbfa47f6a8bef62d22a659d1965ca28dc7b",
+  "joudMainAtRead": "e169d0f978104926632597fdd4d5f3d56232c932",
+  "choice": "User explicitly approved port to latest Joud in additional isolated branch. No main merge/sync.",
+  "branch": "feat/contextual-recommendations-joud-e169",
+  "migrationRenumbering": {
+    "0011_contextual_recommendations.sql": "0013_contextual_recommendations.sql",
+    "0012_recommendation_test_budget.sql": "0014_recommendation_test_budget.sql",
+    "0013_recommendation_message_receipts.sql": "0015_recommendation_message_receipts.sql",
+    "0014_recommendation_assignment_boundary.sql": "0016_recommendation_assignment_boundary.sql"
+  },
+  "portChanges": [
+    "Preserve Joud master card/resumeFrom/folded sessions in Inbox and ConversationPane",
+    "Explicit current conversation_id filter in recommendation inputs",
+    "Update three isolated DB tests migration paths",
+    "Separate local test stack; no reuse of old migrated DB"
+  ]
+}

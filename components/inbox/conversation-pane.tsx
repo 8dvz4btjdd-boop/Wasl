@@ -10,7 +10,7 @@ import { MessageList, type SystemLine } from "@/components/chat/message-list";
 import { useHydrated, useNow } from "@/components/chat/use-clock";
 import { useMessages } from "@/components/chat/use-messages";
 import { Button } from "@/components/ui/button";
-import { MESSAGE_MAX, type ConversationSummary, type MessageRow } from "@/lib/chat/types";
+import { MESSAGE_MAX, type ChatMessage, type ConversationSummary, type MessageRow } from "@/lib/chat/types";
 import { cn } from "@/lib/utils";
 import { isolate } from "@/lib/bidi";
 import { Avatar } from "./avatar";
@@ -38,6 +38,7 @@ type ConversationPaneProps = {
   onRated: (sufficient: boolean | null) => void;
   /** A follow-up's starting point: the master card's next step (or what to follow up on). */
   resumeFrom?: string | null;
+  onMessages: (conversationId: string, messages: ChatMessage[]) => void;
 };
 
 export function ConversationPane({
@@ -55,6 +56,7 @@ export function ConversationPane({
   onTransferred,
   onRated,
   resumeFrom,
+  onMessages,
 }: ConversationPaneProps) {
   const t = useTranslations("Inbox");
   const tChat = useTranslations("Chat");
@@ -62,6 +64,9 @@ export function ConversationPane({
   const locale = useLocale();
   const hydrated = useHydrated();
   const { messages, send, retry } = useMessages(c.id, initialMessages, me.id, "daee");
+  // The master/session cards are display context, never recommendation input.
+  const currentMessages = useMemo(() => messages.filter((message) => message.conversation_id === c.id), [c.id, messages]);
+  useEffect(() => onMessages(c.id, currentMessages), [c.id, currentMessages, onMessages]);
   const composer = useRef<ComposerHandle>(null);
   const confirmButton = useRef<HTMLButtonElement>(null);
   const [confirming, setConfirming] = useState(false);

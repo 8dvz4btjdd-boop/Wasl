@@ -5,6 +5,7 @@ import { motion } from "motion/react";
 import { useTranslations } from "next-intl";
 import { useCallback, useEffect, useMemo, useState, useTransition } from "react";
 import { Composer } from "@/components/chat/composer";
+import { RecommendationPanel } from "@/components/recommendations/panel";
 import { Elapsed } from "@/components/chat/elapsed";
 import { MessageList, type SystemLine } from "@/components/chat/message-list";
 import { useMessages } from "@/components/chat/use-messages";
@@ -236,7 +237,13 @@ export function AskerChat({
         me={me}
         system={system}
         onRetry={retry}
-        footer={waiting ? <WaitingState position={position} /> : null}
+        footer={waiting ? (
+          <div className="mx-auto flex w-full max-w-2xl flex-col gap-3 px-4 sm:px-6">
+            <WaitingState position={position} />
+            <RecommendationPanel conversationId={conversation.id} messages={messages} audience="asker"
+              aiEnabled={aiEnabled} active={!messages.some((message) => message.sender_role === "daee")} />
+          </div>
+        ) : null}
       />
 
       <footer className="mx-auto flex w-full max-w-2xl flex-col gap-3 px-4 pt-2 pb-4 sm:px-6">

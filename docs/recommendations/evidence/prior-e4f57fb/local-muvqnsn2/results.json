@@ -1,0 +1,1042 @@
+{
+  "provenance": "Real LOCAL Auth/Postgres/Realtime/Next/browser; synthetic accounts; no paid calls. Any original source text in daee view still requires scientific evaluation; MOCK UI images are separately labelled.",
+  "results": [
+    {
+      "name": "typing before send does not call recommendation API",
+      "ok": true
+    },
+    {
+      "name": "synthetic conversation uses this run's isolated organization",
+      "ok": true
+    },
+    {
+      "name": "authorized asker API succeeds",
+      "ok": true
+    },
+    {
+      "name": "asker waiting recommendation panel uses actual local API",
+      "ok": true
+    },
+    {
+      "name": "Arabic RTL document",
+      "ok": true
+    },
+    {
+      "name": "public request contains IDs/mode/locale only",
+      "ok": true
+    },
+    {
+      "name": "no original excerpt claimed when corpus is empty",
+      "ok": true
+    },
+    {
+      "name": "MOCK UI asker loading",
+      "ok": true
+    },
+    {
+      "name": "MOCK UI asker success",
+      "ok": true
+    },
+    {
+      "name": "MOCK UI asker partial",
+      "ok": true
+    },
+    {
+      "name": "MOCK UI asker clarification",
+      "ok": true
+    },
+    {
+      "name": "MOCK UI asker refer",
+      "ok": true
+    },
+    {
+      "name": "MOCK UI asker error",
+      "ok": true
+    },
+    {
+      "name": "thanks and duplicate question do not make another recommendation request",
+      "ok": true
+    },
+    {
+      "name": "corrected intent eventually triggers latest context",
+      "ok": true
+    },
+    {
+      "name": "asker receives a specific source for corrected faith definition",
+      "ok": true
+    },
+    {
+      "name": "fresh unapproved source text is not exposed to asker",
+      "ok": true
+    },
+    {
+      "name": "authorized daee API succeeds",
+      "ok": true
+    },
+    {
+      "name": "assigned daee receives contextual recommendation through actual API",
+      "ok": true
+    },
+    {
+      "name": "daee remains responsible for any answer",
+      "ok": true
+    },
+    {
+      "name": "recommendations do not insert a reply on the daee's behalf",
+      "ok": true
+    },
+    {
+      "name": "MOCK UI daee loading",
+      "ok": true
+    },
+    {
+      "name": "MOCK UI daee success",
+      "ok": true
+    },
+    {
+      "name": "MOCK UI daee partial",
+      "ok": true
+    },
+    {
+      "name": "MOCK UI daee clarification",
+      "ok": true
+    },
+    {
+      "name": "MOCK UI daee refer",
+      "ok": true
+    },
+    {
+      "name": "MOCK UI daee error",
+      "ok": true
+    },
+    {
+      "name": "human dialogue suppresses asker recommendation requests",
+      "ok": true
+    },
+    {
+      "name": "unassigned daee cannot read recommendation context",
+      "ok": true,
+      "httpStatus": 403
+    },
+    {
+      "name": "admin cannot read recommendation context",
+      "ok": true,
+      "httpStatus": 403
+    },
+    {
+      "name": "closed daee panel stops subsequent requests",
+      "ok": true
+    },
+    {
+      "name": "AI off persisted in the synthetic organization",
+      "ok": true
+    },
+    {
+      "name": "AI off does not schedule a recommendation",
+      "ok": true
+    },
+    {
+      "name": "AI off is also enforced by server",
+      "ok": true
+    },
+    {
+      "name": "all local jobs have zero paid calls",
+      "ok": true
+    }
+  ],
+  "browserErrors": [],
+  "requestCount": 18,
+  "requests": [
+    {
+      "audience": "asker",
+      "method": "POST",
+      "keys": [
+        "contextVersion",
+        "conversationId",
+        "locale",
+        "mode"
+      ],
+      "contextVersion": "a2a1e221-02f0-4d2f-8ccb-1b82abde2761",
+      "mode": "automatic",
+      "at": 1791234314155,
+      "evidence": "local_server",
+      "requestOrigin": "http://127.0.0.1:3060",
+      "headerOrigin": null,
+      "refererOrigin": "http://127.0.0.1:3060"
+    },
+    {
+      "audience": "asker",
+      "method": "POST",
+      "keys": [
+        "contextVersion",
+        "conversationId",
+        "locale",
+        "mode"
+      ],
+      "contextVersion": "a2a1e221-02f0-4d2f-8ccb-1b82abde2761",
+      "mode": "automatic",
+      "at": 1791234315217,
+      "evidence": "mock_ui",
+      "requestOrigin": "http://127.0.0.1:3060",
+      "headerOrigin": "http://127.0.0.1:3060",
+      "refererOrigin": "http://127.0.0.1:3060"
+    },
+    {
+      "audience": "asker",
+      "method": "POST",
+      "keys": [
+        "contextVersion",
+        "conversationId",
+        "locale",
+        "mode"
+      ],
+      "contextVersion": "a2a1e221-02f0-4d2f-8ccb-1b82abde2761",
+      "mode": "automatic",
+      "at": 1791234315891,
+      "evidence": "mock_ui",
+      "requestOrigin": "http://127.0.0.1:3060",
+      "headerOrigin": "http://127.0.0.1:3060",
+      "refererOrigin": "http://127.0.0.1:3060"
+    },
+    {
+      "audience": "asker",
+      "method": "POST",
+      "keys": [
+        "contextVersion",
+        "conversationId",
+        "locale",
+        "mode"
+      ],
+      "contextVersion": "a2a1e221-02f0-4d2f-8ccb-1b82abde2761",
+      "mode": "automatic",
+      "at": 1791234316537,
+      "evidence": "mock_ui",
+      "requestOrigin": "http://127.0.0.1:3060",
+      "headerOrigin": "http://127.0.0.1:3060",
+      "refererOrigin": "http://127.0.0.1:3060"
+    },
+    {
+      "audience": "asker",
+      "method": "POST",
+      "keys": [
+        "contextVersion",
+        "conversationId",
+        "locale",
+        "mode"
+      ],
+      "contextVersion": "a2a1e221-02f0-4d2f-8ccb-1b82abde2761",
+      "mode": "automatic",
+      "at": 1791234317196,
+      "evidence": "mock_ui",
+      "requestOrigin": "http://127.0.0.1:3060",
+      "headerOrigin": "http://127.0.0.1:3060",
+      "refererOrigin": "http://127.0.0.1:3060"
+    },
+    {
+      "audience": "asker",
+      "method": "POST",
+      "keys": [
+        "contextVersion",
+        "conversationId",
+        "locale",
+        "mode"
+      ],
+      "contextVersion": "a2a1e221-02f0-4d2f-8ccb-1b82abde2761",
+      "mode": "automatic",
+      "at": 1791234317835,
+      "evidence": "mock_ui",
+      "requestOrigin": "http://127.0.0.1:3060",
+      "headerOrigin": "http://127.0.0.1:3060",
+      "refererOrigin": "http://127.0.0.1:3060"
+    },
+    {
+      "audience": "asker",
+      "method": "POST",
+      "keys": [
+        "contextVersion",
+        "conversationId",
+        "locale",
+        "mode"
+      ],
+      "contextVersion": "a2a1e221-02f0-4d2f-8ccb-1b82abde2761",
+      "mode": "automatic",
+      "at": 1791234318451,
+      "evidence": "mock_ui",
+      "requestOrigin": "http://127.0.0.1:3060",
+      "headerOrigin": "http://127.0.0.1:3060",
+      "refererOrigin": "http://127.0.0.1:3060"
+    },
+    {
+      "audience": "asker",
+      "method": "POST",
+      "keys": [
+        "contextVersion",
+        "conversationId",
+        "locale",
+        "mode"
+      ],
+      "contextVersion": "a2a1e221-02f0-4d2f-8ccb-1b82abde2761",
+      "mode": "refresh",
+      "at": 1791234338452,
+      "evidence": "mock_ui",
+      "requestOrigin": "http://127.0.0.1:3060",
+      "headerOrigin": "http://127.0.0.1:3060",
+      "refererOrigin": "http://127.0.0.1:3060"
+    },
+    {
+      "audience": "asker",
+      "method": "POST",
+      "keys": [
+        "contextVersion",
+        "conversationId",
+        "locale",
+        "mode"
+      ],
+      "contextVersion": "18062512-38ac-4df0-b08b-31f40c6a9994",
+      "mode": "automatic",
+      "at": 1791234358453,
+      "evidence": "local_server",
+      "requestOrigin": "http://127.0.0.1:3060",
+      "headerOrigin": null,
+      "refererOrigin": "http://127.0.0.1:3060"
+    },
+    {
+      "audience": "daee",
+      "method": "POST",
+      "keys": [
+        "contextVersion",
+        "conversationId",
+        "locale",
+        "mode"
+      ],
+      "contextVersion": "18062512-38ac-4df0-b08b-31f40c6a9994",
+      "mode": "automatic",
+      "at": 1791234360884,
+      "evidence": "local_server",
+      "requestOrigin": "http://127.0.0.1:3060",
+      "headerOrigin": null,
+      "refererOrigin": "http://127.0.0.1:3060"
+    },
+    {
+      "audience": "daee",
+      "method": "POST",
+      "keys": [
+        "contextVersion",
+        "conversationId",
+        "locale",
+        "mode"
+      ],
+      "contextVersion": "18062512-38ac-4df0-b08b-31f40c6a9994",
+      "mode": "automatic",
+      "at": 1791234361960,
+      "evidence": "mock_ui",
+      "requestOrigin": "http://127.0.0.1:3060",
+      "headerOrigin": "http://127.0.0.1:3060",
+      "refererOrigin": "http://127.0.0.1:3060"
+    },
+    {
+      "audience": "daee",
+      "method": "POST",
+      "keys": [
+        "contextVersion",
+        "conversationId",
+        "locale",
+        "mode"
+      ],
+      "contextVersion": "18062512-38ac-4df0-b08b-31f40c6a9994",
+      "mode": "automatic",
+      "at": 1791234362666,
+      "evidence": "mock_ui",
+      "requestOrigin": "http://127.0.0.1:3060",
+      "headerOrigin": "http://127.0.0.1:3060",
+      "refererOrigin": "http://127.0.0.1:3060"
+    },
+    {
+      "audience": "daee",
+      "method": "POST",
+      "keys": [
+        "contextVersion",
+        "conversationId",
+        "locale",
+        "mode"
+      ],
+      "contextVersion": "18062512-38ac-4df0-b08b-31f40c6a9994",
+      "mode": "automatic",
+      "at": 1791234363352,
+      "evidence": "mock_ui",
+      "requestOrigin": "http://127.0.0.1:3060",
+      "headerOrigin": "http://127.0.0.1:3060",
+      "refererOrigin": "http://127.0.0.1:3060"
+    },
+    {
+      "audience": "daee",
+      "method": "POST",
+      "keys": [
+        "contextVersion",
+        "conversationId",
+        "locale",
+        "mode"
+      ],
+      "contextVersion": "18062512-38ac-4df0-b08b-31f40c6a9994",
+      "mode": "automatic",
+      "at": 1791234364006,
+      "evidence": "mock_ui",
+      "requestOrigin": "http://127.0.0.1:3060",
+      "headerOrigin": "http://127.0.0.1:3060",
+      "refererOrigin": "http://127.0.0.1:3060"
+    },
+    {
+      "audience": "daee",
+      "method": "POST",
+      "keys": [
+        "contextVersion",
+        "conversationId",
+        "locale",
+        "mode"
+      ],
+      "contextVersion": "18062512-38ac-4df0-b08b-31f40c6a9994",
+      "mode": "automatic",
+      "at": 1791234364663,
+      "evidence": "mock_ui",
+      "requestOrigin": "http://127.0.0.1:3060",
+      "headerOrigin": "http://127.0.0.1:3060",
+      "refererOrigin": "http://127.0.0.1:3060"
+    },
+    {
+      "audience": "daee",
+      "method": "POST",
+      "keys": [
+        "contextVersion",
+        "conversationId",
+        "locale",
+        "mode"
+      ],
+      "contextVersion": "18062512-38ac-4df0-b08b-31f40c6a9994",
+      "mode": "automatic",
+      "at": 1791234365328,
+      "evidence": "mock_ui",
+      "requestOrigin": "http://127.0.0.1:3060",
+      "headerOrigin": "http://127.0.0.1:3060",
+      "refererOrigin": "http://127.0.0.1:3060"
+    },
+    {
+      "audience": "daee",
+      "method": "POST",
+      "keys": [
+        "contextVersion",
+        "conversationId",
+        "locale",
+        "mode"
+      ],
+      "contextVersion": "18062512-38ac-4df0-b08b-31f40c6a9994",
+      "mode": "refresh",
+      "at": 1791234385329,
+      "evidence": "mock_ui",
+      "requestOrigin": "http://127.0.0.1:3060",
+      "headerOrigin": "http://127.0.0.1:3060",
+      "refererOrigin": "http://127.0.0.1:3060"
+    },
+    {
+      "audience": "daee",
+      "method": "POST",
+      "keys": [
+        "contextVersion",
+        "conversationId",
+        "locale",
+        "mode"
+      ],
+      "contextVersion": "43bcfc97-6841-401c-a20f-1370bfa45b4f",
+      "mode": "automatic",
+      "at": 1791234391187,
+      "evidence": "local_server",
+      "requestOrigin": "http://127.0.0.1:3060",
+      "headerOrigin": null,
+      "refererOrigin": "http://127.0.0.1:3060"
+    }
+  ],
+  "responses": [
+    {
+      "audience": "asker",
+      "status": 200,
+      "error": null,
+      "reason": "source_suggestions_only",
+      "requestId": "6fee3098-101a-4d96-92aa-8b66db3b68c0",
+      "usage": {
+        "modelCalls": 0,
+        "modelSteps": 0,
+        "searches": 0,
+        "fetches": 0,
+        "inputTokens": 0,
+        "outputTokens": 0,
+        "cacheReadTokens": 0,
+        "cacheWriteTokens": 0,
+        "uncachedInputTokens": 0,
+        "costEstimateUsd": 0,
+        "elapsedMs": 0,
+        "pricingVerified": false,
+        "providerReportedSearches": null,
+        "voiceCostUsd": 0,
+        "codexDevelopmentCostIncluded": false
+      },
+      "sourceEvidence": [
+        {
+          "sourceUrl": "https://islamic-content.com/dictionary",
+          "locator": "",
+          "contentHash": null,
+          "characters": 0,
+          "review": "source_only"
+        },
+        {
+          "sourceUrl": "https://dorar.net/feqhia",
+          "locator": "",
+          "contentHash": null,
+          "characters": 0,
+          "review": "source_only"
+        }
+      ],
+      "cacheControl": "no-store, private",
+      "contentType": "application/json",
+      "evidence": "local_server"
+    },
+    {
+      "audience": "asker",
+      "status": 200,
+      "error": null,
+      "reason": "mock_ui_only",
+      "requestId": "mock-ui-request",
+      "usage": {
+        "modelCalls": 0,
+        "modelSteps": 0,
+        "searches": 0,
+        "fetches": 0,
+        "inputTokens": 0,
+        "outputTokens": 0,
+        "cacheReadTokens": 0,
+        "cacheWriteTokens": 0,
+        "uncachedInputTokens": 0,
+        "costEstimateUsd": 0,
+        "elapsedMs": 0,
+        "pricingVerified": false,
+        "providerReportedSearches": null,
+        "voiceCostUsd": 0,
+        "codexDevelopmentCostIncluded": false
+      },
+      "sourceEvidence": [
+        {
+          "sourceUrl": "https://example.invalid/ui-fixture",
+          "locator": "fixture line 1; not an acquired source",
+          "contentHash": "aedb787ed6d5245301de99b0a4f9a7179aecac6ac940f9a8cf4257035fd38487",
+          "characters": 102,
+          "review": "released"
+        }
+      ],
+      "cacheControl": null,
+      "contentType": "application/json",
+      "evidence": "mock_ui"
+    },
+    {
+      "audience": "asker",
+      "status": 200,
+      "error": null,
+      "reason": "mock_ui_only",
+      "requestId": "mock-ui-request",
+      "usage": {
+        "modelCalls": 0,
+        "modelSteps": 0,
+        "searches": 0,
+        "fetches": 0,
+        "inputTokens": 0,
+        "outputTokens": 0,
+        "cacheReadTokens": 0,
+        "cacheWriteTokens": 0,
+        "uncachedInputTokens": 0,
+        "costEstimateUsd": 0,
+        "elapsedMs": 0,
+        "pricingVerified": false,
+        "providerReportedSearches": null,
+        "voiceCostUsd": 0,
+        "codexDevelopmentCostIncluded": false
+      },
+      "sourceEvidence": [
+        {
+          "sourceUrl": "https://example.invalid/ui-fixture",
+          "locator": "fixture line 1; not an acquired source",
+          "contentHash": "aedb787ed6d5245301de99b0a4f9a7179aecac6ac940f9a8cf4257035fd38487",
+          "characters": 102,
+          "review": "released"
+        }
+      ],
+      "cacheControl": null,
+      "contentType": "application/json",
+      "evidence": "mock_ui"
+    },
+    {
+      "audience": "asker",
+      "status": 200,
+      "error": null,
+      "reason": "mock_ui_only",
+      "requestId": "mock-ui-request",
+      "usage": {
+        "modelCalls": 0,
+        "modelSteps": 0,
+        "searches": 0,
+        "fetches": 0,
+        "inputTokens": 0,
+        "outputTokens": 0,
+        "cacheReadTokens": 0,
+        "cacheWriteTokens": 0,
+        "uncachedInputTokens": 0,
+        "costEstimateUsd": 0,
+        "elapsedMs": 0,
+        "pricingVerified": false,
+        "providerReportedSearches": null,
+        "voiceCostUsd": 0,
+        "codexDevelopmentCostIncluded": false
+      },
+      "sourceEvidence": [
+        {
+          "sourceUrl": "https://example.invalid/ui-fixture",
+          "locator": "fixture line 1; not an acquired source",
+          "contentHash": "aedb787ed6d5245301de99b0a4f9a7179aecac6ac940f9a8cf4257035fd38487",
+          "characters": 102,
+          "review": "released"
+        }
+      ],
+      "cacheControl": null,
+      "contentType": "application/json",
+      "evidence": "mock_ui"
+    },
+    {
+      "audience": "asker",
+      "status": 200,
+      "error": null,
+      "reason": "mock_ui_only",
+      "requestId": "mock-ui-request",
+      "usage": {
+        "modelCalls": 0,
+        "modelSteps": 0,
+        "searches": 0,
+        "fetches": 0,
+        "inputTokens": 0,
+        "outputTokens": 0,
+        "cacheReadTokens": 0,
+        "cacheWriteTokens": 0,
+        "uncachedInputTokens": 0,
+        "costEstimateUsd": 0,
+        "elapsedMs": 0,
+        "pricingVerified": false,
+        "providerReportedSearches": null,
+        "voiceCostUsd": 0,
+        "codexDevelopmentCostIncluded": false
+      },
+      "sourceEvidence": [],
+      "cacheControl": null,
+      "contentType": "application/json",
+      "evidence": "mock_ui"
+    },
+    {
+      "audience": "asker",
+      "status": 200,
+      "error": null,
+      "reason": "mock_ui_only",
+      "requestId": "mock-ui-request",
+      "usage": {
+        "modelCalls": 0,
+        "modelSteps": 0,
+        "searches": 0,
+        "fetches": 0,
+        "inputTokens": 0,
+        "outputTokens": 0,
+        "cacheReadTokens": 0,
+        "cacheWriteTokens": 0,
+        "uncachedInputTokens": 0,
+        "costEstimateUsd": 0,
+        "elapsedMs": 0,
+        "pricingVerified": false,
+        "providerReportedSearches": null,
+        "voiceCostUsd": 0,
+        "codexDevelopmentCostIncluded": false
+      },
+      "sourceEvidence": [],
+      "cacheControl": null,
+      "contentType": "application/json",
+      "evidence": "mock_ui"
+    },
+    {
+      "audience": "asker",
+      "status": 503,
+      "error": "unavailable",
+      "reason": null,
+      "requestId": null,
+      "usage": null,
+      "sourceEvidence": [],
+      "cacheControl": null,
+      "contentType": "application/json",
+      "evidence": "mock_ui"
+    },
+    {
+      "audience": "asker",
+      "status": 200,
+      "error": null,
+      "reason": "mock_ui_only",
+      "requestId": "mock-ui-request",
+      "usage": {
+        "modelCalls": 0,
+        "modelSteps": 0,
+        "searches": 0,
+        "fetches": 0,
+        "inputTokens": 0,
+        "outputTokens": 0,
+        "cacheReadTokens": 0,
+        "cacheWriteTokens": 0,
+        "uncachedInputTokens": 0,
+        "costEstimateUsd": 0,
+        "elapsedMs": 0,
+        "pricingVerified": false,
+        "providerReportedSearches": null,
+        "voiceCostUsd": 0,
+        "codexDevelopmentCostIncluded": false
+      },
+      "sourceEvidence": [
+        {
+          "sourceUrl": "https://example.invalid/ui-fixture",
+          "locator": "fixture line 1; not an acquired source",
+          "contentHash": "aedb787ed6d5245301de99b0a4f9a7179aecac6ac940f9a8cf4257035fd38487",
+          "characters": 102,
+          "review": "released"
+        }
+      ],
+      "cacheControl": null,
+      "contentType": "application/json",
+      "evidence": "mock_ui"
+    },
+    {
+      "audience": "asker",
+      "status": 200,
+      "error": null,
+      "reason": "source_suggestions_only",
+      "requestId": "e7200efb-4812-4bb3-8b8f-ed04db2c0e24",
+      "usage": {
+        "modelCalls": 0,
+        "modelSteps": 0,
+        "searches": 0,
+        "fetches": 0,
+        "inputTokens": 0,
+        "outputTokens": 0,
+        "cacheReadTokens": 0,
+        "cacheWriteTokens": 0,
+        "uncachedInputTokens": 0,
+        "costEstimateUsd": 0,
+        "elapsedMs": 1,
+        "pricingVerified": false,
+        "providerReportedSearches": null,
+        "voiceCostUsd": 0,
+        "codexDevelopmentCostIncluded": false
+      },
+      "sourceEvidence": [
+        {
+          "sourceUrl": "https://islamic-content.com/dictionary/word/1952",
+          "locator": "",
+          "contentHash": null,
+          "characters": 0,
+          "review": "source_only"
+        },
+        {
+          "sourceUrl": "https://dorar.net/aqeeda",
+          "locator": "",
+          "contentHash": null,
+          "characters": 0,
+          "review": "source_only"
+        }
+      ],
+      "cacheControl": "no-store, private",
+      "contentType": "application/json",
+      "evidence": "local_server"
+    },
+    {
+      "audience": "daee",
+      "status": 200,
+      "error": null,
+      "reason": "source_needs_evaluation",
+      "requestId": "857eeebb-67cc-4bc4-a32d-2deae37a450f",
+      "usage": {
+        "modelCalls": 0,
+        "modelSteps": 0,
+        "searches": 0,
+        "fetches": 0,
+        "inputTokens": 0,
+        "outputTokens": 0,
+        "cacheReadTokens": 0,
+        "cacheWriteTokens": 0,
+        "uncachedInputTokens": 0,
+        "costEstimateUsd": 0,
+        "elapsedMs": 1,
+        "pricingVerified": false,
+        "providerReportedSearches": null,
+        "voiceCostUsd": 0,
+        "codexDevelopmentCostIncluded": false
+      },
+      "sourceEvidence": [
+        {
+          "sourceUrl": "https://islamic-content.com/dictionary/word/1952",
+          "locator": "article.entry-wraper / .entry-main-content / h5: «من موسوعة المصطلحات الإسلامية»",
+          "contentHash": "6684aea866f0083ebe9bdbb91a260460ea50f89d9e6ed66cbf342491e5a15a08",
+          "characters": 1874,
+          "review": "daee_evaluation_required"
+        }
+      ],
+      "cacheControl": "no-store, private",
+      "contentType": "application/json",
+      "evidence": "local_server"
+    },
+    {
+      "audience": "daee",
+      "status": 200,
+      "error": null,
+      "reason": "mock_ui_only",
+      "requestId": "mock-ui-request",
+      "usage": {
+        "modelCalls": 0,
+        "modelSteps": 0,
+        "searches": 0,
+        "fetches": 0,
+        "inputTokens": 0,
+        "outputTokens": 0,
+        "cacheReadTokens": 0,
+        "cacheWriteTokens": 0,
+        "uncachedInputTokens": 0,
+        "costEstimateUsd": 0,
+        "elapsedMs": 0,
+        "pricingVerified": false,
+        "providerReportedSearches": null,
+        "voiceCostUsd": 0,
+        "codexDevelopmentCostIncluded": false
+      },
+      "sourceEvidence": [
+        {
+          "sourceUrl": "https://example.invalid/ui-fixture",
+          "locator": "fixture line 1; not an acquired source",
+          "contentHash": "aedb787ed6d5245301de99b0a4f9a7179aecac6ac940f9a8cf4257035fd38487",
+          "characters": 102,
+          "review": "daee_evaluation_required"
+        }
+      ],
+      "cacheControl": null,
+      "contentType": "application/json",
+      "evidence": "mock_ui"
+    },
+    {
+      "audience": "daee",
+      "status": 200,
+      "error": null,
+      "reason": "mock_ui_only",
+      "requestId": "mock-ui-request",
+      "usage": {
+        "modelCalls": 0,
+        "modelSteps": 0,
+        "searches": 0,
+        "fetches": 0,
+        "inputTokens": 0,
+        "outputTokens": 0,
+        "cacheReadTokens": 0,
+        "cacheWriteTokens": 0,
+        "uncachedInputTokens": 0,
+        "costEstimateUsd": 0,
+        "elapsedMs": 0,
+        "pricingVerified": false,
+        "providerReportedSearches": null,
+        "voiceCostUsd": 0,
+        "codexDevelopmentCostIncluded": false
+      },
+      "sourceEvidence": [
+        {
+          "sourceUrl": "https://example.invalid/ui-fixture",
+          "locator": "fixture line 1; not an acquired source",
+          "contentHash": "aedb787ed6d5245301de99b0a4f9a7179aecac6ac940f9a8cf4257035fd38487",
+          "characters": 102,
+          "review": "daee_evaluation_required"
+        }
+      ],
+      "cacheControl": null,
+      "contentType": "application/json",
+      "evidence": "mock_ui"
+    },
+    {
+      "audience": "daee",
+      "status": 200,
+      "error": null,
+      "reason": "mock_ui_only",
+      "requestId": "mock-ui-request",
+      "usage": {
+        "modelCalls": 0,
+        "modelSteps": 0,
+        "searches": 0,
+        "fetches": 0,
+        "inputTokens": 0,
+        "outputTokens": 0,
+        "cacheReadTokens": 0,
+        "cacheWriteTokens": 0,
+        "uncachedInputTokens": 0,
+        "costEstimateUsd": 0,
+        "elapsedMs": 0,
+        "pricingVerified": false,
+        "providerReportedSearches": null,
+        "voiceCostUsd": 0,
+        "codexDevelopmentCostIncluded": false
+      },
+      "sourceEvidence": [
+        {
+          "sourceUrl": "https://example.invalid/ui-fixture",
+          "locator": "fixture line 1; not an acquired source",
+          "contentHash": "aedb787ed6d5245301de99b0a4f9a7179aecac6ac940f9a8cf4257035fd38487",
+          "characters": 102,
+          "review": "daee_evaluation_required"
+        }
+      ],
+      "cacheControl": null,
+      "contentType": "application/json",
+      "evidence": "mock_ui"
+    },
+    {
+      "audience": "daee",
+      "status": 200,
+      "error": null,
+      "reason": "mock_ui_only",
+      "requestId": "mock-ui-request",
+      "usage": {
+        "modelCalls": 0,
+        "modelSteps": 0,
+        "searches": 0,
+        "fetches": 0,
+        "inputTokens": 0,
+        "outputTokens": 0,
+        "cacheReadTokens": 0,
+        "cacheWriteTokens": 0,
+        "uncachedInputTokens": 0,
+        "costEstimateUsd": 0,
+        "elapsedMs": 0,
+        "pricingVerified": false,
+        "providerReportedSearches": null,
+        "voiceCostUsd": 0,
+        "codexDevelopmentCostIncluded": false
+      },
+      "sourceEvidence": [],
+      "cacheControl": null,
+      "contentType": "application/json",
+      "evidence": "mock_ui"
+    },
+    {
+      "audience": "daee",
+      "status": 200,
+      "error": null,
+      "reason": "mock_ui_only",
+      "requestId": "mock-ui-request",
+      "usage": {
+        "modelCalls": 0,
+        "modelSteps": 0,
+        "searches": 0,
+        "fetches": 0,
+        "inputTokens": 0,
+        "outputTokens": 0,
+        "cacheReadTokens": 0,
+        "cacheWriteTokens": 0,
+        "uncachedInputTokens": 0,
+        "costEstimateUsd": 0,
+        "elapsedMs": 0,
+        "pricingVerified": false,
+        "providerReportedSearches": null,
+        "voiceCostUsd": 0,
+        "codexDevelopmentCostIncluded": false
+      },
+      "sourceEvidence": [],
+      "cacheControl": null,
+      "contentType": "application/json",
+      "evidence": "mock_ui"
+    },
+    {
+      "audience": "daee",
+      "status": 503,
+      "error": "unavailable",
+      "reason": null,
+      "requestId": null,
+      "usage": null,
+      "sourceEvidence": [],
+      "cacheControl": null,
+      "contentType": "application/json",
+      "evidence": "mock_ui"
+    },
+    {
+      "audience": "daee",
+      "status": 200,
+      "error": null,
+      "reason": "mock_ui_only",
+      "requestId": "mock-ui-request",
+      "usage": {
+        "modelCalls": 0,
+        "modelSteps": 0,
+        "searches": 0,
+        "fetches": 0,
+        "inputTokens": 0,
+        "outputTokens": 0,
+        "cacheReadTokens": 0,
+        "cacheWriteTokens": 0,
+        "uncachedInputTokens": 0,
+        "costEstimateUsd": 0,
+        "elapsedMs": 0,
+        "pricingVerified": false,
+        "providerReportedSearches": null,
+        "voiceCostUsd": 0,
+        "codexDevelopmentCostIncluded": false
+      },
+      "sourceEvidence": [
+        {
+          "sourceUrl": "https://example.invalid/ui-fixture",
+          "locator": "fixture line 1; not an acquired source",
+          "contentHash": "aedb787ed6d5245301de99b0a4f9a7179aecac6ac940f9a8cf4257035fd38487",
+          "characters": 102,
+          "review": "daee_evaluation_required"
+        }
+      ],
+      "cacheControl": null,
+      "contentType": "application/json",
+      "evidence": "mock_ui"
+    },
+    {
+      "audience": "daee",
+      "status": 200,
+      "error": null,
+      "reason": "source_suggestions_only",
+      "requestId": "d67ea309-529f-45a5-bc86-9eab75cbd0c6",
+      "usage": {
+        "modelCalls": 0,
+        "modelSteps": 0,
+        "searches": 0,
+        "fetches": 0,
+        "inputTokens": 0,
+        "outputTokens": 0,
+        "cacheReadTokens": 0,
+        "cacheWriteTokens": 0,
+        "uncachedInputTokens": 0,
+        "costEstimateUsd": 0,
+        "elapsedMs": 1,
+        "pricingVerified": false,
+        "providerReportedSearches": null,
+        "voiceCostUsd": 0,
+        "codexDevelopmentCostIncluded": false
+      },
+      "sourceEvidence": [
+        {
+          "sourceUrl": "https://dorar.net/hadith",
+          "locator": "",
+          "contentHash": null,
+          "characters": 0,
+          "review": "source_only"
+        }
+      ],
+      "cacheControl": "no-store, private",
+      "contentType": "application/json",
+      "evidence": "local_server"
+    }
+  ],
+  "originalPassagesDisplayed": 1
+}

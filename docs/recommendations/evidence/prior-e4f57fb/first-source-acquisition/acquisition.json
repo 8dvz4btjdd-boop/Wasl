@@ -1,0 +1,54 @@
+{
+  "provenance": "Real LOCAL production Next application request; synthetic conversation; fetched public original source; not a mock or paid model call. Displayed-text hash independently asserted in local-muvqq3x0. Source still needs specialist scientific evaluation.",
+  "originalRun": "local-muvqls1v",
+  "httpResponseMetadata": {
+    "audience": "daee",
+    "status": 200,
+    "error": null,
+    "reason": "source_needs_evaluation",
+    "requestId": "d149e82e-5ea5-42bf-81da-ffb4436166a8",
+    "usage": {
+      "modelCalls": 0,
+      "modelSteps": 0,
+      "searches": 0,
+      "fetches": 1,
+      "inputTokens": 0,
+      "outputTokens": 0,
+      "cacheReadTokens": 0,
+      "cacheWriteTokens": 0,
+      "uncachedInputTokens": 0,
+      "costEstimateUsd": 0,
+      "elapsedMs": 1550,
+      "pricingVerified": false,
+      "providerReportedSearches": null,
+      "voiceCostUsd": 0,
+      "codexDevelopmentCostIncluded": false
+    },
+    "sourceEvidence": [
+      {
+        "sourceUrl": "https://islamic-content.com/dictionary/word/1952",
+        "locator": "article.entry-wraper / .entry-main-content / h5: «من موسوعة المصطلحات الإسلامية»",
+        "contentHash": "6684aea866f0083ebe9bdbb91a260460ea50f89d9e6ed66cbf342491e5a15a08",
+        "characters": 1874,
+        "review": "daee_evaluation_required"
+      }
+    ],
+    "cacheControl": "no-store, private",
+    "contentType": "application/json",
+    "evidence": "local_server"
+  },
+  "actualBrowserChecks": [
+    {
+      "name": "authorized daee API succeeds",
+      "ok": true
+    },
+    {
+      "name": "assigned daee receives contextual recommendation through actual API",
+      "ok": true
+    },
+    {
+      "name": "recommendations do not insert a reply on the daee's behalf",
+      "ok": true
+    }
+  ]
+}

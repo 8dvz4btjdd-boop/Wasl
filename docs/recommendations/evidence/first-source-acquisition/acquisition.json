@@ -1,0 +1,49 @@
+{
+  "provenance": "Real LOCAL application request on Joud e169. Synthetic conversation; public original source fetched and displayed; not a mock/paid call. UI hash asserted and no automatic daee reply verified; scientific evaluation still pending.",
+  "actualRun": "local-muvs2xgs",
+  "testRuntime": {
+    "baseSha": "e169d0f978104926632597fdd4d5f3d56232c932",
+    "branch": "feat/contextual-recommendations-joud-e169",
+    "appOrigin": "http://127.0.0.1:3061",
+    "gatewayOrigin": "http://127.0.0.1:55631",
+    "sqlContainer": "wasl-contextual-joud-db",
+    "prefix": "wasl-contextual-joud",
+    "assignmentFixture": "local service-role assignment; not routing-algorithm evidence"
+  },
+  "responseMetadata": {
+    "audience": "daee",
+    "status": 200,
+    "error": null,
+    "reason": "source_needs_evaluation",
+    "requestId": "d7c6a0f3-fc13-496f-bef9-209453101e3e",
+    "usage": {
+      "modelCalls": 0,
+      "modelSteps": 0,
+      "searches": 0,
+      "fetches": 1,
+      "inputTokens": 0,
+      "outputTokens": 0,
+      "cacheReadTokens": 0,
+      "cacheWriteTokens": 0,
+      "uncachedInputTokens": 0,
+      "costEstimateUsd": 0,
+      "elapsedMs": 1987,
+      "pricingVerified": false,
+      "providerReportedSearches": null,
+      "voiceCostUsd": 0,
+      "codexDevelopmentCostIncluded": false
+    },
+    "sourceEvidence": [
+      {
+        "sourceUrl": "https://islamic-content.com/dictionary/word/1952",
+        "locator": "article.entry-wraper / .entry-main-content / h5: «من موسوعة المصطلحات الإسلامية»",
+        "contentHash": "6684aea866f0083ebe9bdbb91a260460ea50f89d9e6ed66cbf342491e5a15a08",
+        "characters": 1874,
+        "review": "daee_evaluation_required"
+      }
+    ],
+    "cacheControl": "no-store, private",
+    "contentType": "application/json",
+    "evidence": "local_server"
+  }
+}
