@@ -11,6 +11,9 @@ export async function signOut(formData: FormData) {
   const locale = LocaleField.catch(routing.defaultLocale).parse(formData.get("locale"));
   const to = formData.get("to") === "/login" ? "/login" : "/";
   const supabase = await createClient();
+  // A daee who signs out is offline at once (set_presence refuses anyone else; ignored).
+  const { data: claims } = await supabase.auth.getClaims();
+  if (claims?.claims && !claims.claims.is_anonymous) await supabase.rpc("set_presence", { p_status: "offline" });
   const { error } = await supabase.auth.signOut();
   if (error) logServerError("signOut", error);
   redirect({ href: to, locale });

@@ -14,14 +14,12 @@ type ContextPanelProps = {
   conversation: ConversationSummary;
   pastCount: number | null;
   cards: VisibleCard[];
-  substantiveReply: boolean;
-  onRated: (sufficient: boolean) => void;
   onClose: () => void;
   className?: string;
 };
 
 /** The card first (what the daee needs before replying), then follow-up context, then the asker. */
-export function ContextPanel({ conversation: c, pastCount, cards, substantiveReply, onRated, onClose, className }: ContextPanelProps) {
+export function ContextPanel({ conversation: c, pastCount, cards, onClose, className }: ContextPanelProps) {
   const t = useTranslations("Inbox");
   const tTopic = useTranslations("Topics");
   const locale = useLocale();
@@ -48,7 +46,7 @@ export function ContextPanel({ conversation: c, pastCount, cards, substantiveRep
           <CardSection cards={cards} />
         </section>
 
-        <FollowupSection conversation={c} substantiveReply={substantiveReply} onRated={onRated} />
+        <FollowupSection conversation={c} />
 
         <section className="border-t px-4 py-4">
           <h3 className="mb-3 text-xs font-medium text-muted-foreground">{t("askerSection")}</h3>

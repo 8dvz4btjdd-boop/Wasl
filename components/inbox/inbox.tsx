@@ -12,11 +12,13 @@ import type { ConversationSummary, MessageRow, Presence } from "@/lib/chat/types
 import { createClient, subscribeResilient } from "@/lib/db/client";
 import type { VisibleCard } from "@/lib/db/queries/conversations";
 import { endConversation, markConversationRead, setPresence } from "@/lib/inbox/actions";
+import { isolate } from "@/lib/bidi";
 import { cn } from "@/lib/utils";
 import { ContextPanel } from "./context-panel";
 import { ConversationList, segmentOf, type Segment } from "./conversation-list";
 import { ConversationPane } from "./conversation-pane";
 import { PRESENCE } from "./presence-toggle";
+import { usePresenceHeartbeat } from "./use-heartbeat";
 import { Rail } from "./rail";
 import { useMediaQuery } from "./use-media-query";
 import { useStoredFlag } from "./use-stored-flag";
@@ -34,7 +36,6 @@ type InboxProps = {
 
 const CONTEXT_KEY = "wasl.inbox.context";
 // First-strong isolates keep a Latin name and "(EN)" from scrambling inside Arabic text.
-const isolate = (text: string) => `⁨${text}⁩`;
 
 function isTyping(target: EventTarget | null) {
   const el = target as HTMLElement | null;
@@ -64,6 +65,7 @@ export function Inbox({
   const [isPending, startTransition] = useTransition();
   const [conversations, setConversations] = useState(initial);
   const [presence, setPresenceState] = useState(initialPresence);
+  usePresenceHeartbeat(setPresenceState);
   const [segment, setSegment] = useState<Segment>(() => initialSegment(initial, selected));
   const [query, setQuery] = useState("");
   // Wide screens: the panel sits beside the conversation and its state is remembered.
@@ -73,7 +75,6 @@ export function Inbox({
   const [overlayContext, setOverlayContext] = useState(false);
   const contextOpen = wide ? storedContext : overlayContext;
   const [endRequest, setEndRequest] = useState(0);
-  const [substantive, setSubstantive] = useState(false);
   const [transferPending, setTransferPending] = useState(initialTransferPending);
   const [seenPending, setSeenPending] = useState(initialTransferPending);
   if (initialTransferPending !== seenPending) {
@@ -206,7 +207,7 @@ export function Inbox({
   );
 
   const rated = useCallback(
-    (sufficient: boolean) =>
+    (sufficient: boolean | null) =>
       setConversations((list) => list.map((c) => (c.id === selectedId ? { ...c, followup_sufficient: sufficient } : c))),
     [selectedId],
   );
@@ -254,7 +255,7 @@ export function Inbox({
     <Surface kind="workspace" className="h-dvh overflow-hidden">
       {/* The toaster stays outside the grid: as a fourth child it would add a row and steal height. */}
       <div className="grid h-full grid-cols-1 md:grid-cols-[56px_340px_minmax(0,1fr)]">
-      <Rail name={me.name} presence={presence} unread={unread} />
+      <Rail name={me.name} presence={presence} onPresence={changePresence} unread={unread} />
 
       {/* min-w-0 + a minmax(0,1fr) column: long previews truncate instead of widening the column. */}
       <div className={cn("min-h-0 min-w-0 grid-cols-1", current ? "hidden md:grid" : "grid")}>
@@ -290,15 +291,13 @@ export function Inbox({
               onBack={() => startTransition(() => router.push("/daee"))}
               transferPending={transferPending}
               onTransferred={transferred}
-              onSubstantiveChange={setSubstantive}
+              onRated={rated}
             />
             {contextOpen && (
               <ContextPanel
                 conversation={current}
                 pastCount={pastCount}
                 cards={cards}
-                substantiveReply={substantive}
-                onRated={rated}
                 onClose={toggleContext}
                 // Beside the conversation on wide screens, over it on narrower ones.
                 className="absolute inset-y-0 end-0 z-20 shadow-lg xl:static xl:z-auto xl:shadow-none"

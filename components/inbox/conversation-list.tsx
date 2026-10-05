@@ -8,6 +8,7 @@ import { useNow } from "@/components/chat/use-clock";
 import { isUnread } from "@/lib/chat/inbox-query";
 import type { ConversationSummary, Presence } from "@/lib/chat/types";
 import { cn } from "@/lib/utils";
+import { isolate } from "@/lib/bidi";
 import { Avatar } from "./avatar";
 import { PresenceMenu } from "./presence-toggle";
 import { AccountMenu } from "./rail";
@@ -59,7 +60,7 @@ export function ConversationList({
       <header className="flex flex-col gap-3 px-4 pt-4 pb-3">
         <div className="flex items-center justify-between gap-2">
           <div className="flex items-center gap-2">
-            <AccountMenu name={me.name} presence={presence} className="md:hidden" />
+            <AccountMenu name={me.name} presence={presence} onPresence={onPresence} className="md:hidden" />
             <h1 className="text-base font-semibold">{t("title")}</h1>
           </div>
           <PresenceMenu value={presence} onChange={onPresence} />
@@ -105,7 +106,7 @@ export function ConversationList({
       <div role="tabpanel" className="min-h-0 flex-1 overflow-y-auto border-t">
         {visible.length === 0 ? (
           <div className="flex flex-col items-center gap-1 px-6 py-12 text-center">
-            <p className="text-sm font-medium">{query ? t("noResults", { query }) : empty[segment]}</p>
+            <p className="text-sm font-medium">{query ? t("noResults", { query: isolate(query) }) : empty[segment]}</p>
             {!query && segment === "waiting" && presence !== "available" && (
               <p className="text-xs text-muted-foreground">{t("emptyHint")}</p>
             )}

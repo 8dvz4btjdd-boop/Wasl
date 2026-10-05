@@ -12,7 +12,9 @@ import { useMessages } from "@/components/chat/use-messages";
 import { Button } from "@/components/ui/button";
 import { MESSAGE_MAX, type ConversationSummary, type MessageRow } from "@/lib/chat/types";
 import { cn } from "@/lib/utils";
+import { isolate } from "@/lib/bidi";
 import { Avatar } from "./avatar";
+import { EndFollowupPanel } from "./end-panel";
 import { TransferMenu } from "./transfer-menu";
 
 type ConversationPaneProps = {
@@ -31,8 +33,8 @@ type ConversationPaneProps = {
   /** A card-first transfer is waiting for the asker. */
   transferPending: boolean;
   onTransferred: (status: "completed" | "pending") => void;
-  /** Reports whether this daee has sent a substantive reply (> 40 characters) yet. */
-  onSubstantiveChange: (value: boolean) => void;
+  /** A follow-up was rated while ending (null: that question skipped). */
+  onRated: (sufficient: boolean | null) => void;
 };
 
 export function ConversationPane({
@@ -48,7 +50,7 @@ export function ConversationPane({
   onBack,
   transferPending,
   onTransferred,
-  onSubstantiveChange,
+  onRated,
 }: ConversationPaneProps) {
   const t = useTranslations("Inbox");
   const tChat = useTranslations("Chat");
@@ -76,8 +78,8 @@ export function ConversationPane({
     if (focusRequest) composer.current?.focus();
   }, [focusRequest]);
 
-  const substantive = messages.some((m) => m.sender_role === "daee" && !m.state && m.body.trim().length > 40);
-  useEffect(() => onSubstantiveChange(substantive), [substantive, onSubstantiveChange]);
+  // Ending a follow-up asks the two resumption questions first (EndFollowupPanel).
+  const followup = Boolean(c.previous_conversation_id);
 
   async function confirmEnd() {
     setEnding(true);
@@ -88,8 +90,8 @@ export function ConversationPane({
 
   const system = useMemo<SystemLine[]>(() => {
     const lines: SystemLine[] = [];
-    if (c.assigned_at) lines.push({ id: "joined", at: c.assigned_at, text: tChat("joined", { name: me.name }) });
-    if (c.ended_at) lines.push({ id: "ended", at: c.ended_at, text: tChat("endedBy", { name: me.name }) });
+    if (c.assigned_at) lines.push({ id: "joined", at: c.assigned_at, text: tChat("joined", { name: isolate(me.name) }) });
+    if (c.ended_at) lines.push({ id: "ended", at: c.ended_at, text: tChat("endedBy", { name: isolate(me.name) }) });
     return lines;
   }, [c.assigned_at, c.ended_at, me.name, tChat]);
 
@@ -129,7 +131,7 @@ export function ConversationPane({
               <TransferMenu conversationId={c.id} askerLanguage={c.asker?.language ?? "ar"} onDone={onTransferred} />
             ))}
           {!ended &&
-            (confirming ? (
+            (confirming && followup ? null : confirming ? (
               <>
                 <Button ref={confirmButton} size="sm" variant="destructive" disabled={ending} onClick={confirmEnd}>
                   {t("confirmEnd")}
@@ -155,6 +157,10 @@ export function ConversationPane({
           </Button>
         </div>
       </header>
+
+      {confirming && followup && !ended && (
+        <EndFollowupPanel conversation={c} ending={ending} onEnd={confirmEnd} onCancel={() => setConfirming(false)} onRated={onRated} />
+      )}
 
       <MessageList messages={messages} me={me.id} system={system} onRetry={retry} size="compact" />
 

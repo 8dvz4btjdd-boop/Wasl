@@ -2,15 +2,14 @@
 
 import { Check, IdCard } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
-import { useState, useTransition } from "react";
+import { useState } from "react";
 import { CardView } from "@/components/cards/card-view";
 import { formatTime } from "@/components/chat/format";
 import { useHydrated } from "@/components/chat/use-clock";
-import { Button } from "@/components/ui/button";
 import type { ConversationSummary } from "@/lib/chat/types";
 import { createClient } from "@/lib/db/client";
 import type { VisibleCard } from "@/lib/db/queries/conversations";
-import { rateFollowup } from "@/lib/inbox/actions";
+import { isolate } from "@/lib/bidi";
 import { cn } from "@/lib/utils";
 
 type Source = { id: string; sender_role: string; body: string; created_at: string };
@@ -58,8 +57,9 @@ function CardItem({ card }: { card: VisibleCard }) {
       {card.from_previous && <p className="text-[11px] font-medium text-teal-fg">{t("cardPrevious")}</p>}
       <CardView fields={card} size="compact" />
       <dl className="flex flex-col gap-1 border-t pt-3 text-xs text-muted-foreground">
-        {card.preferred_name && <dd>{t("cardPrefers", { name: card.preferred_name })}</dd>}
+        {card.preferred_name && <dd>{t("cardPrefers", { name: isolate(card.preferred_name) })}</dd>}
         <dd>{card.accept_substitute ? t("cardSubstituteOk") : t("cardSameOnly")}</dd>
+        {!card.expires_at && <dd>{t("cardUntilDeleted")}</dd>}
         {card.expires_at && hydrated && (
           <dd>{t("cardUntil", { date: new Intl.DateTimeFormat(locale, { dateStyle: "medium" }).format(new Date(card.expires_at)) })}</dd>
         )}
@@ -94,28 +94,12 @@ function CardItem({ card }: { card: VisibleCard }) {
 }
 
 /** Follow-up context and the one-click "was the context enough?" after a substantive reply. */
-export function FollowupSection({
-  conversation,
-  substantiveReply,
-  onRated,
-}: {
-  conversation: ConversationSummary;
-  substantiveReply: boolean;
-  onRated: (sufficient: boolean) => void;
-}) {
+/** Marks a follow-up and its mode; the resumption questions come when the daee ends it. */
+export function FollowupSection({ conversation }: { conversation: ConversationSummary }) {
   const t = useTranslations("Inbox");
-  const [pending, startTransition] = useTransition();
-  const [error, setError] = useState(false);
   if (!conversation.previous_conversation_id) return null;
   const mode = conversation.followup_mode ?? "none";
   const rated = conversation.followup_sufficient;
-
-  const rate = (sufficient: boolean) =>
-    startTransition(async () => {
-      const { ok } = await rateFollowup({ conversationId: conversation.id, sufficient });
-      if (ok) onRated(sufficient);
-      else setError(true);
-    });
 
   return (
     <section className="flex flex-col gap-3 border-t px-4 py-4">
@@ -123,26 +107,11 @@ export function FollowupSection({
         <h3 className="text-xs font-medium text-muted-foreground">{t("followup")}</h3>
         <span className="self-start rounded-full bg-muted px-2 text-[11px] leading-5 text-muted-foreground">{t(`mode_${mode}`)}</span>
       </div>
-      {rated !== null ? (
+      {rated !== null && (
         <p className="flex items-center gap-1.5 text-sm text-teal-fg">
           <Check className="size-4" aria-hidden />
           {t("rated")}: {rated ? t("yes") : t("no")}
         </p>
-      ) : (
-        substantiveReply && (
-          <div className="flex flex-col gap-2 rounded-lg border border-brand-teal/40 bg-teal-bg p-3">
-            <p className="text-sm font-medium">{t("rateQuestion")}</p>
-            <div className="flex gap-2">
-              <Button size="sm" disabled={pending} onClick={() => rate(true)}>
-                {t("yes")}
-              </Button>
-              <Button size="sm" variant="outline" disabled={pending} onClick={() => rate(false)}>
-                {t("no")}
-              </Button>
-            </div>
-            {error && <p className="text-xs text-destructive">{t("cancel")}</p>}
-          </div>
-        )
       )}
     </section>
   );
