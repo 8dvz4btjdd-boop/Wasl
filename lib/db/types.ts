@@ -212,7 +212,7 @@ export type Database = {
           ai_draft: Json | null
           approved_at: string | null
           asker_id: string
-          conversation_id: string
+          conversation_id: string | null
           covered: string | null
           created_at: string
           deleted_at: string | null
@@ -226,6 +226,8 @@ export type Database = {
           origin: string
           preferred_daee: string | null
           remaining: string | null
+          scope: string
+          source_card_ids: string[]
           source_message_ids: string[]
           status: Database["public"]["Enums"]["card_status"]
           version: number
@@ -236,7 +238,7 @@ export type Database = {
           ai_draft?: Json | null
           approved_at?: string | null
           asker_id: string
-          conversation_id: string
+          conversation_id?: string | null
           covered?: string | null
           created_at?: string
           deleted_at?: string | null
@@ -250,6 +252,8 @@ export type Database = {
           origin?: string
           preferred_daee?: string | null
           remaining?: string | null
+          scope?: string
+          source_card_ids?: string[]
           source_message_ids?: string[]
           status?: Database["public"]["Enums"]["card_status"]
           version?: number
@@ -260,7 +264,7 @@ export type Database = {
           ai_draft?: Json | null
           approved_at?: string | null
           asker_id?: string
-          conversation_id?: string
+          conversation_id?: string | null
           covered?: string | null
           created_at?: string
           deleted_at?: string | null
@@ -274,6 +278,8 @@ export type Database = {
           origin?: string
           preferred_daee?: string | null
           remaining?: string | null
+          scope?: string
+          source_card_ids?: string[]
           source_message_ids?: string[]
           status?: Database["public"]["Enums"]["card_status"]
           version?: number
@@ -825,6 +831,7 @@ export type Database = {
       complete_transfer: { Args: { t: string }; Returns: boolean }
       correct_topic: { Args: { conv: string; p_topic: string }; Returns: Json }
       delete_card: { Args: { conv: string }; Returns: number }
+      delete_master_card: { Args: never; Returns: number }
       do_transfer: { Args: { t: string }; Returns: undefined }
       end_conversation: { Args: { conv: string }; Returns: undefined }
       expire_stale_presence: { Args: never; Returns: number }
