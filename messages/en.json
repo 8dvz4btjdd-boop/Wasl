@@ -68,7 +68,8 @@
     "copied": "Copied",
     "saved": "I've saved it, continue",
     "haveCode": "Been here before? Return with your code",
-    "alreadyIn": "You are already in as {pseudonym}."
+    "alreadyIn": "You are already in as {pseudonym}.",
+    "notYou": "Not {pseudonym}? Start as someone new"
   },
   "Return": {
     "title": "Welcome back",
@@ -159,7 +160,7 @@
     "failed": "Not sent. Retry",
     "endedTitle": "This conversation has ended",
     "endedBody": "Keep your return code. It's how you come back to continue later.",
-    "comeBack": "Come back later",
+    "comeBack": "Sign out",
     "log": "Messages",
     "waitingLabel": "Waiting",
     "endedBy": "{name} ended the conversation",
@@ -174,12 +175,13 @@
     "transferUnavailable": "{to} isn't available right now.",
     "requeue": "Return to the queue",
     "requeued": "Your conversation went back to the queue",
-    "newCode": "Show a new return code",
+    "newCode": "Get a new return code",
     "newCodeWarning": "A new code replaces your current one, which stops working right away.",
     "newCodeConfirm": "Create a new code",
     "newCodeTitle": "Your new return code",
     "newCodeBody": "Copy it or write it down. It's shown only once, and your old code no longer works.",
-    "newCodeFailed": "Couldn't create a new code. Try again."
+    "newCodeFailed": "Couldn't create a new code. Try again.",
+    "newCodeHint": "Your previous code will stop working."
   },
   "Inbox": {
     "title": "Inbox",
@@ -243,7 +245,7 @@
     "cardUntilDeleted": "Visible until the asker deletes it",
     "endFollowupTitle": "Before you end this follow-up",
     "rateContext": "Did the context help you continue without starting from scratch?",
-    "rateCard": "Was the card accurate?",
+    "rateCard": "Did the card summarize the previous conversation accurately?",
     "saveAndEnd": "Save and end",
     "skipAndEnd": "Skip and end",
     "cardByAI": "Drafted by the AI guide, approved by the asker",
@@ -444,18 +446,19 @@
     "delete": "Delete card",
     "deleteHint": "Every version is deleted, and no dāʿī can see it from now on.",
     "confirmDelete": "Delete permanently",
-    "chooseTitle": "How would you like to write the card?",
-    "writeMyself": "Write it myself",
-    "writeMyselfHint": "You fill in the four fields.",
-    "aiDraft": "Draft it with AI",
-    "aiDraftHint": "The AI guide drafts from the messages you chose, and only those. You edit it.",
     "consentLead": "What the AI guide will read:",
     "consentReads": "{count, plural, one {# message you chose} other {# messages you chose}}",
     "consentSkips": "{count, plural, one {it won't read # other message} other {it won't read # other messages}}",
     "aiDraftLabel": "Draft created by AI. No one sees it before you approve it.",
     "notInSelection": "Not mentioned in the selected messages",
     "editedByYou": "Edited by you",
-    "aiUnavailable": "The AI guide isn't available right now. Write it yourself."
+    "aiUnavailable": "The AI guide isn't available right now. Write it yourself.",
+    "selectAll": "Select all",
+    "selectNone": "Clear all",
+    "showMore": "Show more",
+    "showLess": "Show less",
+    "aiLatestOnly": "The AI guide reads only the latest {count} selected messages.",
+    "writeFromScratch": "Write it from scratch"
   },
   "Site": {
     "how": "How it works",

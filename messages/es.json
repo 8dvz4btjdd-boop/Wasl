@@ -68,7 +68,8 @@
     "copied": "Copiado",
     "saved": "Ya lo guardé, continuar",
     "haveCode": "¿Ya estuviste aquí? Vuelve con tu código",
-    "alreadyIn": "Ya has entrado como {pseudonym}."
+    "alreadyIn": "Ya has entrado como {pseudonym}.",
+    "notYou": "¿No eres {pseudonym}? Empieza como otra persona"
   },
   "Return": {
     "title": "Bienvenido de nuevo",
@@ -159,7 +160,7 @@
     "failed": "No enviado. Reintentar",
     "endedTitle": "Esta conversación ha terminado",
     "endedBody": "Guarda tu código de regreso. Es la forma de volver y continuar más tarde.",
-    "comeBack": "Volver más tarde",
+    "comeBack": "Cerrar sesión",
     "log": "Mensajes",
     "waitingLabel": "Esperando",
     "endedBy": "{name} terminó la conversación",
@@ -174,12 +175,13 @@
     "transferUnavailable": "{to} no está disponible ahora.",
     "requeue": "Volver a la fila",
     "requeued": "Tu conversación volvió a la fila de espera",
-    "newCode": "Mostrar un nuevo código de regreso",
+    "newCode": "Obtener un nuevo código de regreso",
     "newCodeWarning": "Un código nuevo sustituye al actual, que deja de funcionar al instante.",
     "newCodeConfirm": "Crear un código nuevo",
     "newCodeTitle": "Tu nuevo código de regreso",
     "newCodeBody": "Cópialo o anótalo. Solo se muestra una vez, y tu código anterior ya no funciona.",
-    "newCodeFailed": "No se pudo crear un código nuevo. Inténtalo de nuevo."
+    "newCodeFailed": "No se pudo crear un código nuevo. Inténtalo de nuevo.",
+    "newCodeHint": "Tu código anterior dejará de funcionar."
   },
   "Inbox": {
     "cardByAI": "Redactada por la guía de IA, aprobada por la persona",
@@ -245,7 +247,7 @@
     "cardUntilDeleted": "Visible hasta que la persona la elimine",
     "endFollowupTitle": "Antes de terminar este seguimiento",
     "rateContext": "¿Te ayudó el contexto a continuar sin empezar de cero?",
-    "rateCard": "¿Era precisa la tarjeta?",
+    "rateCard": "¿La tarjeta resumió con precisión la conversación anterior?",
     "saveAndEnd": "Guardar y terminar",
     "skipAndEnd": "Omitir y terminar"
   },
@@ -396,11 +398,6 @@
     }
   },
   "Card": {
-    "chooseTitle": "¿Cómo quieres escribir la tarjeta?",
-    "writeMyself": "Escribirla yo",
-    "writeMyselfHint": "Tú rellenas los cuatro campos.",
-    "aiDraft": "Redactarla con IA",
-    "aiDraftHint": "La guía de IA redacta a partir de los mensajes que elegiste, y solo de esos. Luego tú lo editas.",
     "consentLead": "Lo que leerá la guía de IA:",
     "consentReads": "{count, plural, one {# mensaje que elegiste} other {# mensajes que elegiste}}",
     "consentSkips": "{count, plural, one {no leerá # mensaje más} other {no leerá # mensajes más}}",
@@ -455,7 +452,13 @@
     "approvedForever": "Aprobada. Visible hasta que la elimines.",
     "delete": "Eliminar tarjeta",
     "deleteHint": "Se eliminan todas las versiones y ningún dāʿī podrá verla desde ahora.",
-    "confirmDelete": "Eliminar definitivamente"
+    "confirmDelete": "Eliminar definitivamente",
+    "selectAll": "Seleccionar todo",
+    "selectNone": "Quitar todo",
+    "showMore": "Ver más",
+    "showLess": "Ver menos",
+    "aiLatestOnly": "La guía de IA solo lee los últimos {count} mensajes seleccionados.",
+    "writeFromScratch": "Escribirla desde cero"
   },
   "Site": {
     "how": "Cómo funciona",

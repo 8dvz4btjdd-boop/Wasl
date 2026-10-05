@@ -68,7 +68,8 @@
     "copied": "Nakopya na",
     "saved": "Naitabi ko na, magpatuloy",
     "haveCode": "Nakapunta ka na ba rito? Bumalik gamit ang code mo",
-    "alreadyIn": "Naka-sign in ka na bilang {pseudonym}."
+    "alreadyIn": "Naka-sign in ka na bilang {pseudonym}.",
+    "notYou": "Hindi ikaw si {pseudonym}? Magsimula bilang bagong tao"
   },
   "Return": {
     "title": "Maligayang pagbabalik",
@@ -159,7 +160,7 @@
     "failed": "Hindi naipadala. Subukan ulit",
     "endedTitle": "Natapos na ang pag-uusap na ito",
     "endedBody": "Itabi ang return code mo. Ito ang paraan para makabalik ka at magpatuloy mamaya.",
-    "comeBack": "Bumalik mamaya",
+    "comeBack": "Mag-sign out",
     "log": "Mga mensahe",
     "waitingLabel": "Naghihintay",
     "endedBy": "Tinapos ni {name} ang pag-uusap",
@@ -174,12 +175,13 @@
     "transferUnavailable": "Hindi available si {to} sa ngayon.",
     "requeue": "Ibalik sa pila",
     "requeued": "Naibalik sa pila ang pag-uusap mo",
-    "newCode": "Magpakita ng bagong return code",
+    "newCode": "Kumuha ng bagong return code",
     "newCodeWarning": "Papalitan ng bagong code ang kasalukuyan mong code, na agad nang hindi gagana.",
     "newCodeConfirm": "Gumawa ng bagong code",
     "newCodeTitle": "Ang bago mong return code",
     "newCodeBody": "Kopyahin o isulat ito. Isang beses lang itong ipapakita, at hindi na gumagana ang luma mong code.",
-    "newCodeFailed": "Hindi makagawa ng bagong code. Subukan ulit."
+    "newCodeFailed": "Hindi makagawa ng bagong code. Subukan ulit.",
+    "newCodeHint": "Hihinto na ang dating code."
   },
   "Inbox": {
     "cardByAI": "Ginawa ng AI guide, inaprubahan ng nagtatanong",
@@ -245,7 +247,7 @@
     "cardUntilDeleted": "Makikita hanggang burahin ito ng nagtatanong",
     "endFollowupTitle": "Bago mo tapusin ang pagpapatuloy na ito",
     "rateContext": "Nakatulong ba ang konteksto para makapagpatuloy ka nang hindi nagsisimula ulit?",
-    "rateCard": "Tumpak ba ang card?",
+    "rateCard": "Tumpak bang naibuod ng card ang nakaraang usapan?",
     "saveAndEnd": "I-save at tapusin",
     "skipAndEnd": "Laktawan at tapusin"
   },
@@ -396,11 +398,6 @@
     }
   },
   "Card": {
-    "chooseTitle": "Paano mo gustong isulat ang card?",
-    "writeMyself": "Ako na ang susulat",
-    "writeMyselfHint": "Ikaw ang pupuno sa apat na field.",
-    "aiDraft": "Ipa-draft sa AI",
-    "aiDraftHint": "Gagawa ng draft ang AI guide mula lamang sa mga mensaheng pinili mo. Ikaw ang mag-e-edit.",
     "consentLead": "Ang babasahin ng AI guide:",
     "consentReads": "{count, plural, one {# mensaheng pinili mo} other {# mensaheng pinili mo}}",
     "consentSkips": "{count, plural, one {hindi nito babasahin ang # iba pang mensahe} other {hindi nito babasahin ang # iba pang mensahe}}",
@@ -455,7 +452,13 @@
     "approvedForever": "Naaprubahan. Makikita hanggang burahin mo ito.",
     "delete": "Burahin ang card",
     "deleteHint": "Mabubura ang bawat bersyon, at wala nang dāʿī na makakakita nito mula ngayon.",
-    "confirmDelete": "Burahin nang permanente"
+    "confirmDelete": "Burahin nang permanente",
+    "selectAll": "Piliin lahat",
+    "selectNone": "Alisin lahat",
+    "showMore": "Ipakita pa",
+    "showLess": "Ipakita nang mas kaunti",
+    "aiLatestOnly": "Ang huling {count} napiling mensahe lang ang binabasa ng AI guide.",
+    "writeFromScratch": "Isulat mula sa simula"
   },
   "Site": {
     "how": "Paano ito gumagana",

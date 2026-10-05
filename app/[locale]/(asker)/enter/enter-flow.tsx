@@ -11,6 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Link } from "@/i18n/navigation";
 import { isolate } from "@/lib/bidi";
+import { signOut } from "@/lib/auth/actions";
 import { BACKGROUND_MAX, type FormError, PSEUDONYM_MAX, Pseudonym } from "@/lib/auth/forms";
 import { fadeUp } from "@/lib/motion";
 import { cn } from "@/lib/utils";
@@ -62,6 +63,17 @@ export function EnterFlow({ existingPseudonym }: { existingPseudonym: string | n
         <Link href="/wait" className={cn(buttonVariants({ size: "lg" }), "h-12 self-start px-5 text-base")}>
           {t("continue")}
         </Link>
+        {/* Shared devices: end this anonymous session and start the questions again. */}
+        <form action={signOut}>
+          <input type="hidden" name="locale" value={locale} />
+          <input type="hidden" name="to" value="/enter" />
+          <button
+            type="submit"
+            className="text-sm text-muted-foreground underline underline-offset-4 hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none"
+          >
+            {t("notYou", { pseudonym: isolate(existingPseudonym) })}
+          </button>
+        </form>
       </div>
     );
   }

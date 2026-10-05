@@ -84,6 +84,7 @@ export function NewReturnCode() {
               <KeyRound aria-hidden />
               {t("newCode")}
             </Button>
+            <p className="text-xs text-muted-foreground">{t("newCodeHint")}</p>
           </motion.div>
         )}
       </AnimatePresence>

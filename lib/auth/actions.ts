@@ -9,7 +9,8 @@ import { logServerError } from "@/lib/log";
 /** Signing out needs no role; any session (or none) may end itself. */
 export async function signOut(formData: FormData) {
   const locale = LocaleField.catch(routing.defaultLocale).parse(formData.get("locale"));
-  const to = formData.get("to") === "/login" ? "/login" : "/";
+  const requested = formData.get("to");
+  const to = requested === "/login" || requested === "/enter" ? requested : "/";
   const supabase = await createClient();
   // A daee who signs out is offline at once (set_presence refuses anyone else; ignored).
   const { data: claims } = await supabase.auth.getClaims();

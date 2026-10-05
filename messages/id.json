@@ -68,7 +68,8 @@
     "copied": "Tersalin",
     "saved": "Sudah saya simpan, lanjut",
     "haveCode": "Pernah ke sini sebelumnya? Kembali dengan kode Anda",
-    "alreadyIn": "Anda sudah masuk sebagai {pseudonym}."
+    "alreadyIn": "Anda sudah masuk sebagai {pseudonym}.",
+    "notYou": "Bukan {pseudonym}? Mulai sebagai orang baru"
   },
   "Return": {
     "title": "Selamat datang kembali",
@@ -159,7 +160,7 @@
     "failed": "Tidak terkirim. Coba lagi",
     "endedTitle": "Percakapan ini telah berakhir",
     "endedBody": "Simpan kode kembali Anda. Dengan kode itu Anda bisa kembali untuk melanjutkan nanti.",
-    "comeBack": "Kembali nanti",
+    "comeBack": "Keluar",
     "log": "Pesan",
     "waitingLabel": "Menunggu",
     "endedBy": "{name} mengakhiri percakapan",
@@ -174,12 +175,13 @@
     "transferUnavailable": "{to} sedang tidak tersedia.",
     "requeue": "Kembali ke antrean",
     "requeued": "Percakapan Anda kembali ke antrean",
-    "newCode": "Tampilkan kode kembali baru",
+    "newCode": "Dapatkan kode kembali baru",
     "newCodeWarning": "Kode baru menggantikan kode Anda saat ini, yang langsung tidak berlaku lagi.",
     "newCodeConfirm": "Buat kode baru",
     "newCodeTitle": "Kode kembali baru Anda",
     "newCodeBody": "Salin atau catat kode ini. Kode hanya ditampilkan sekali, dan kode lama Anda tidak berlaku lagi.",
-    "newCodeFailed": "Kode baru tidak dapat dibuat. Coba lagi."
+    "newCodeFailed": "Kode baru tidak dapat dibuat. Coba lagi.",
+    "newCodeHint": "Kode sebelumnya akan berhenti berfungsi."
   },
   "Inbox": {
     "cardByAI": "Disusun oleh pemandu AI, disetujui penanya",
@@ -245,7 +247,7 @@
     "cardUntilDeleted": "Terlihat hingga penanya menghapusnya",
     "endFollowupTitle": "Sebelum Anda mengakhiri tindak lanjut ini",
     "rateContext": "Apakah konteksnya membantu Anda melanjutkan tanpa mulai dari awal?",
-    "rateCard": "Apakah kartunya akurat?",
+    "rateCard": "Apakah kartu meringkas percakapan sebelumnya dengan akurat?",
     "saveAndEnd": "Simpan dan akhiri",
     "skipAndEnd": "Lewati dan akhiri"
   },
@@ -396,11 +398,6 @@
     }
   },
   "Card": {
-    "chooseTitle": "Bagaimana Anda ingin menulis kartu ini?",
-    "writeMyself": "Tulis sendiri",
-    "writeMyselfHint": "Anda mengisi keempat isian.",
-    "aiDraft": "Susun draf dengan AI",
-    "aiDraftHint": "Pemandu AI menyusun draf dari pesan yang Anda pilih, hanya itu. Anda yang menyuntingnya.",
     "consentLead": "Yang akan dibaca pemandu AI:",
     "consentReads": "{count, plural, one {# pesan yang Anda pilih} other {# pesan yang Anda pilih}}",
     "consentSkips": "{count, plural, one {tidak akan membaca # pesan lainnya} other {tidak akan membaca # pesan lainnya}}",
@@ -455,7 +452,13 @@
     "approvedForever": "Disetujui. Terlihat sampai Anda menghapusnya.",
     "delete": "Hapus kartu",
     "deleteHint": "Semua versi dihapus, dan mulai sekarang tidak ada dai yang dapat melihatnya.",
-    "confirmDelete": "Hapus permanen"
+    "confirmDelete": "Hapus permanen",
+    "selectAll": "Pilih semua",
+    "selectNone": "Hapus semua",
+    "showMore": "Tampilkan lebih banyak",
+    "showLess": "Tampilkan lebih sedikit",
+    "aiLatestOnly": "Pemandu AI hanya membaca {count} pesan terpilih terakhir.",
+    "writeFromScratch": "Tulis dari awal"
   },
   "Site": {
     "how": "Cara kerjanya",
