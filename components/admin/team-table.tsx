@@ -234,7 +234,8 @@ function DaeeFields({ draft, onChange }: { draft: Draft; onChange: (draft: Draft
       <fieldset className="flex flex-col gap-2">
         <legend className="mb-1 text-xs font-medium text-muted-foreground">{t("topics")}</legend>
         <div className="flex flex-wrap gap-1.5">
-          {TOPICS.map((topic) => (
+          {/* "general" isn't a specialty: every daee matches it. */}
+          {TOPICS.filter((topic) => topic !== "general").map((topic) => (
             <Chip key={topic} selected={draft.topics.includes(topic)} onClick={() => onChange({ ...draft, topics: toggle(draft.topics, topic) })}>
               {tTopic(topic)}
             </Chip>

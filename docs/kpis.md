@@ -37,12 +37,17 @@ Current state. `threshold_minutes` defaults to `organizations.wait_alert_minutes
 - **Events:** `followup_rated`. A follow-up ended with both questions skipped logs nothing and is not in `n`.
 
 ### Card accuracy
-- **Definition:** of the cards the asker approved, the share approved without a major edit.
+- **Definition:** of the session cards the asker approved, the share approved without a major edit. Session cards only: master cards are measured separately below.
 - **Formula:** `n` = `card_approved` events in range. `correct` = those with `meta.edited_major = false`. `rate = correct / n`.
 - **Major edit:** in any card field, the asker changed more than 30% of the characters (character-level edit distance ÷ the length of the generated text > 0.30), or replaced the content with "غير محدد".
 - **Events:** `card_approved`.
 - **Retention:** cards can be deleted by the asker at any time and are removed after 12 months without activity. This metric counts `card_approved` events, which are kept, so deleting or removing a card does not change it.
 - **Also recorded:** `followup_rated.card_accurate`, the daee's view of the card when a follow-up ends. It is stored for analysis and not shown as a tile yet.
+
+### Master card accuracy
+- **Definition:** of the master cards the asker approved (merged from their approved session cards), the share approved without a major edit.
+- **Formula:** `n` = `master_card_approved` events in range. `correct` = those with `meta.edited_major = false`. `rate = correct / n`. Same major-edit rule as above, comparing the AI merge with what the asker approved; a manual master card counts as not edited.
+- **Events:** `master_card_approved`. Returned by `admin_kpis` as `master_card_accuracy` (migration 0011).
 
 ## Comparison chart (`admin_comparison(from, to)`)
 Follow-up sessions grouped by `mode`:
@@ -81,6 +86,9 @@ Logged today:
 | `card_approved` | the asker approves a card | `{ origin: "manual", edited_major: false }` |
 | `transfer_completed` | a daee hands a conversation to a colleague | `{ from_daee, to_daee }` |
 | `followup_started` | a returning asker starts a follow-up | `{ mode: "none" \| "manual" }` |
+| `master_card_generated` | a master card draft is created (AI merge, or the first manual version) | `{ origin: "ai" | "manual" }` |
+| `master_card_approved` | the asker approves a master card | `{ origin, edited_major }` |
+| `classified` | a question is classified at start | `{ topic, confidence, source: "ai" | "chip", ai_topic }` |
 | `followup_rated` | the daee ends a follow-up and answers at least one of the two questions | `{ mode, sufficient, card_accurate }` (either may be null; `card_accurate` is null without a card) |
 
 The manual path now logs all of the events below. The AI features **must** log the same names and meta shapes, with `origin: "ai"` / `mode: "ai"`; an AI card approved after a major edit logs `edited_major: true`:

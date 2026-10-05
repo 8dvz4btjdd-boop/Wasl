@@ -36,6 +36,8 @@ type ConversationPaneProps = {
   onTransferred: (status: "completed" | "pending") => void;
   /** A follow-up was rated while ending (null: that question skipped). */
   onRated: (sufficient: boolean | null) => void;
+  /** A follow-up's starting point: the master card's next step (or what to follow up on). */
+  resumeFrom?: string | null;
 };
 
 export function ConversationPane({
@@ -52,6 +54,7 @@ export function ConversationPane({
   transferPending,
   onTransferred,
   onRated,
+  resumeFrom,
 }: ConversationPaneProps) {
   const t = useTranslations("Inbox");
   const tChat = useTranslations("Chat");
@@ -122,6 +125,11 @@ export function ConversationPane({
             {!ended && <StatusPill conversation={c} />}
           </div>
           {c.asker?.background && <p dir="auto" className="truncate text-xs text-muted-foreground">{c.asker.background}</p>}
+          {!ended && c.previous_conversation_id && resumeFrom && (
+            <p data-testid="resume-from" className="truncate text-xs text-teal-fg">
+              {t("resumeFrom", { text: isolate(resumeFrom) })}
+            </p>
+          )}
           {!ended && !c.started_at && <IntakeStrip topic={c.topic} depth={c.depth ?? null} by={c.classified_by ?? null} />}
         </div>
 

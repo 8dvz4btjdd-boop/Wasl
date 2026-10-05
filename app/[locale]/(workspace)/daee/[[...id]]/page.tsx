@@ -31,7 +31,7 @@ export default async function DaeePage({ params }: PageProps<"/[locale]/daee/[[.
     ? await Promise.all([
         getMessages(selected.id),
         getPastConversationCount(selected.asker_id, selected.id),
-        getVisibleCards(selected.id, selected.card_id),
+        getVisibleCards(selected.id, selected.asker_id),
         getPendingTransfer(selected.id),
       ])
     : [[], null, [], null];

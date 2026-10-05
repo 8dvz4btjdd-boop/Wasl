@@ -49,10 +49,13 @@ export async function startConversation(_prev: FormState, formData: FormData): P
     getFollowupLink(asker.user_id, parsed.data.resume),
     runAI(classifyTask, { question, locale }, { orgId: org.id, actorId: asker.user_id }),
   ]);
-  const source = classified.ok ? ("ai" as const) : ("chip" as const);
-  const topic = classified.ok ? classified.data.topic : (parsed.data.topic ?? "general");
+  // A chip the asker picked wins; the AI's reading is still logged next to it.
+  const chip = parsed.data.topic;
+  const source = chip || !classified.ok ? ("chip" as const) : ("ai" as const);
+  const topic = chip ?? (classified.ok ? classified.data.topic : "general");
   const depth = classified.ok ? classified.data.depth : null;
   const confidence = classified.ok ? classified.data.confidence : null;
+  const aiTopic = classified.ok ? classified.data.topic : null;
 
   const { data: intake, error: intakeError } = await supabase
     .from("intakes")
@@ -116,7 +119,7 @@ export async function startConversation(_prev: FormState, formData: FormData): P
     type: "classified",
     conversation_id: conversation.id,
     actor_role: "system",
-    meta: { topic, confidence, source },
+    meta: { topic, confidence, source, ai_topic: aiTopic },
   });
   if (classifiedError) logServerError("startConversation.logClassified", classifiedError);
   if (followup) {
@@ -157,10 +160,11 @@ async function getFollowupLink(askerId: string, resume: "same" | "substitute" | 
 
   const { data: card } = await supabase
     .from("cards")
-    .select("id, preferred_daee, accept_substitute")
+    .select("id, preferred_daee, accept_substitute, origin")
     .eq("asker_id", askerId)
     .eq("status", "approved")
     .or(`expires_at.is.null,expires_at.gt.${new Date().toISOString()}`)
+    .order("scope", { ascending: true })
     .order("approved_at", { ascending: false })
     .limit(1)
     .maybeSingle();
@@ -170,7 +174,8 @@ async function getFollowupLink(askerId: string, resume: "same" | "substitute" | 
   return {
     previousId: previous.id,
     cardId: card.id,
-    mode: "manual" as const,
+    // The follow-up's mode is how its card was written: by the asker or drafted by the AI.
+    mode: card.origin === "ai" ? ("ai" as const) : ("manual" as const),
     preferredDaeeId: holdForPreferred ? card.preferred_daee : null,
   };
 }

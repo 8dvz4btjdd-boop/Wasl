@@ -1,8 +1,9 @@
 "use client";
 
-import { Check, IdCard } from "lucide-react";
+import { Check, ChevronDown, IdCard } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useMemo, useState } from "react";
+import { AIBadge } from "@/components/ai/ai-badge";
 import { SourceChips } from "@/components/ai/source-chips";
 import { CardView } from "@/components/cards/card-view";
 import { formatTime } from "@/components/chat/format";
@@ -27,11 +28,103 @@ export function CardSection({ cards }: { cards: VisibleCard[] }) {
       </div>
     );
   }
+  const master = cards.find((c) => c.scope === "master");
+  if (!master) {
+    return (
+      <div className="flex flex-col gap-4">
+        {cards.map((card) => (
+          <CardItem key={card.id} card={card} />
+        ))}
+      </div>
+    );
+  }
+  return <MasterWithSessions master={master} sessions={cards.filter((c) => c.scope === "session")} />;
+}
+
+/**
+ * The master card first ("updated after N sessions"), then the session cards folded under
+ * "Previous sessions", each with its date and expandable. Chips on the master open the
+ * session card a field came from.
+ */
+function MasterWithSessions({ master, sessions }: { master: VisibleCard; sessions: VisibleCard[] }) {
+  const t = useTranslations("Inbox");
+  const locale = useLocale();
+  const hydrated = useHydrated();
+  const [open, setOpen] = useState<string | null>(null);
+  const [foldOpen, setFoldOpen] = useState(false);
+  // Numbered oldest first, like the sessions themselves.
+  const ordered = useMemo(() => [...sessions].sort((a, b) => Date.parse(a.approved_at ?? "") - Date.parse(b.approved_at ?? "")), [sessions]);
+  const numberOf = useMemo(() => new Map(ordered.map((c, i) => [c.id, i + 1])), [ordered]);
+  const isAI = master.origin === "ai";
+  const date = (iso: string | null) => (iso && hydrated ? new Intl.DateTimeFormat(locale, { dateStyle: "medium" }).format(new Date(iso)) : "");
+
   return (
-    <div className="flex flex-col gap-4">
-      {cards.map((card) => (
-        <CardItem key={card.id} card={card} />
-      ))}
+    <div className="flex flex-col gap-3">
+      <article
+        data-testid="master-card"
+        className={cn("flex flex-col gap-3 rounded-lg border bg-background p-3", isAI && "border-brand-violet/40 bg-brand-violet/[0.04]")}
+      >
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <p className="text-xs font-semibold">{t("masterTitle", { count: master.source_card_ids.length })}</p>
+          {isAI && <AIBadge />}
+        </div>
+        <p className="text-[11px] text-muted-foreground">{isAI ? t("cardByAI") : t("cardByAsker")}</p>
+        <CardView
+          fields={master}
+          size="compact"
+          aside={(field) => (
+            <SourceChips
+              ids={master.field_sources?.[field] ?? []}
+              numberOf={numberOf}
+              active={open}
+              onHighlight={(id) => {
+                if (!id) return;
+                setFoldOpen(true);
+                setOpen(id);
+              }}
+            />
+          )}
+        />
+        <p className="border-t pt-2 text-xs text-muted-foreground">
+          {master.expires_at ? t("cardUntil", { date: date(master.expires_at) }) : t("cardUntilDeleted")}
+        </p>
+      </article>
+
+      {ordered.length > 0 && (
+        <div className="rounded-lg border">
+          <button
+            type="button"
+            aria-expanded={foldOpen}
+            onClick={() => setFoldOpen(!foldOpen)}
+            className="flex w-full items-center gap-1.5 px-3 py-2 text-start text-xs font-medium text-muted-foreground hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none"
+          >
+            <ChevronDown className={cn("size-3.5 transition-transform duration-150", !foldOpen && "-rotate-90 rtl:rotate-90")} aria-hidden />
+            {t("previousSessions", { count: ordered.length })}
+          </button>
+          <ol data-testid="session-list" hidden={!foldOpen} className="flex flex-col gap-2 px-3 pb-3">
+            {ordered.map((card) => (
+              <li key={card.id} className={cn("rounded-md border bg-background", open === card.id && "border-brand-teal/60")}>
+                <button
+                  type="button"
+                  aria-expanded={open === card.id}
+                  onClick={() => setOpen(open === card.id ? null : card.id)}
+                  className="flex w-full items-center gap-2 px-2.5 py-2 text-start text-xs focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none"
+                >
+                  <span className="grid h-5 min-w-5 place-items-center rounded-full border border-brand-teal/50 px-1 text-[11px] font-semibold text-teal-fg tabular-nums">
+                    {numberOf.get(card.id)}
+                  </span>
+                  <span>{t("sessionOn", { date: date(card.approved_at) })}</span>
+                </button>
+                {open === card.id && (
+                  <div className="px-2.5 pb-2.5">
+                    <CardItem card={card} />
+                  </div>
+                )}
+              </li>
+            ))}
+          </ol>
+        </div>
+      )}
     </div>
   );
 }

@@ -247,9 +247,13 @@
     "cardUntilDeleted": "Makikita hanggang burahin ito ng nagtatanong",
     "endFollowupTitle": "Bago mo tapusin ang pagpapatuloy na ito",
     "rateContext": "Nakatulong ba ang konteksto para makapagpatuloy ka nang hindi nagsisimula ulit?",
-    "rateCard": "Tumpak bang naibuod ng card ang nakaraang usapan?",
+    "rateCard": "Tumpak bang naibuod ng card ang nakaraang usapan, nang hindi na kailangang baguhin?",
     "saveAndEnd": "I-save at tapusin",
-    "skipAndEnd": "Laktawan at tapusin"
+    "skipAndEnd": "Laktawan at tapusin",
+    "masterTitle": "{count, plural, one {Wasl card · na-update pagkatapos ng # session} other {Wasl card · na-update pagkatapos ng # na session}}",
+    "previousSessions": "Mga nakaraang session ({count})",
+    "sessionOn": "Session noong {date}",
+    "resumeFrom": "Itutuloy mula sa: {text}"
   },
   "Presence": {
     "label": "Ang status mo",
@@ -458,7 +462,14 @@
     "showMore": "Ipakita pa",
     "showLess": "Ipakita nang mas kaunti",
     "aiLatestOnly": "Ang huling {count} napiling mensahe lang ang binabasa ng AI guide.",
-    "writeFromScratch": "Isulat mula sa simula"
+    "writeFromScratch": "Isulat mula sa simula",
+    "masterTitle": "Ang iyong master card",
+    "masterHint": "Pinagsasama ng AI guide ang mga inaprubahan mong session card sa iisang card, na ikaw ang mag-e-edit at mag-aapruba.",
+    "masterConsent": "{count, plural, one {ang # session card na inaprubahan mo} other {ang # session card na inaprubahan mo}}, wala nang iba",
+    "masterPrefilled": "Napunan mula sa kasalukuyan mong master card (bersyon {version}). I-edit ayon sa gusto mo.",
+    "masterApproved": "{count, plural, one {Naaprubahan ang master card, mula sa # session.} other {Naaprubahan ang master card, mula sa # na session.}}",
+    "updateMaster": "I-update ang iyong master card",
+    "updateMasterHint": "{count, plural, one {Mayroon kang # inaprubahang session card.} other {Mayroon kang # na inaprubahang session card.}} Pagsamahin sila sa iisang card na pagsisimulan ng susunod na kakausap sa iyo."
   },
   "Site": {
     "how": "Paano ito gumagana",

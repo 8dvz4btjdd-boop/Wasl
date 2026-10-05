@@ -40,6 +40,7 @@ async function getResumeInfo(askerId: string): Promise<ResumeInfo | null> {
     .eq("asker_id", askerId)
     .eq("status", "approved")
     .or(`expires_at.is.null,expires_at.gt.${new Date().toISOString()}`)
+    .order("scope", { ascending: true })
     .order("approved_at", { ascending: false })
     .limit(1)
     .maybeSingle();

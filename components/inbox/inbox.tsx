@@ -292,6 +292,11 @@ export function Inbox({
               transferPending={transferPending}
               onTransferred={transferred}
               onRated={rated}
+              resumeFrom={(() => {
+                const source = cards.find((k) => k.scope === "master") ?? cards.find((k) => k.id === current.card_id);
+                if (!source) return null;
+                return [source.next_step, source.follow_up].find((v) => v && v !== "غير محدد") ?? null;
+              })()}
             />
             {contextOpen && (
               <ContextPanel

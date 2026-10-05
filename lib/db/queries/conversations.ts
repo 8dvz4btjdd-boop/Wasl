@@ -77,17 +77,17 @@ export async function getPastConversationCount(askerId: string, excludeId: strin
 export type VisibleCard = Card & { preferred_name: string | null; from_previous: boolean };
 
 /**
- * Approved cards this daee may see for a conversation: one written in it, and the card a
- * follow-up links to. RLS (can_view_card) decides; no access means no rows.
+ * Approved cards this daee may see for an asker: their master card (newest approved
+ * version) and the session cards (newest approved version per conversation), newest first.
+ * RLS (can_view_card) decides; no access means no rows.
  */
-export async function getVisibleCards(conversationId: string, linkedCardId: string | null): Promise<VisibleCard[]> {
+export async function getVisibleCards(conversationId: string, askerId: string): Promise<VisibleCard[]> {
   const supabase = await createClient();
-  const filter = linkedCardId ? `conversation_id.eq.${conversationId},id.eq.${linkedCardId}` : `conversation_id.eq.${conversationId}`;
   const { data, error } = await supabase
     .from("cards")
     .select(CARD_COLUMNS)
+    .eq("asker_id", askerId)
     .eq("status", "approved")
-    .or(filter)
     .order("version", { ascending: false });
   if (error) logServerError("getVisibleCards", error, { conversationId });
   const cards = (data ?? []) as Card[];
@@ -96,14 +96,19 @@ export async function getVisibleCards(conversationId: string, linkedCardId: stri
     ? await supabase.from("profiles").select("user_id, display_name").in("user_id", preferred)
     : { data: [] };
   const nameOf = new Map((names ?? []).map((n) => [n.user_id, n.display_name]));
-  // The newest version per conversation is the one that counts.
+  // The newest version counts: one master, one per conversation.
   const latest = new Map<string, Card>();
-  for (const c of cards) if (!latest.has(c.conversation_id)) latest.set(c.conversation_id, c);
-  return [...latest.values()].map((c) => ({
-    ...c,
-    preferred_name: c.preferred_daee ? (nameOf.get(c.preferred_daee) ?? null) : null,
-    from_previous: c.conversation_id !== conversationId,
-  }));
+  for (const c of cards) {
+    const key = c.scope === "master" ? "master" : (c.conversation_id ?? c.id);
+    if (!latest.has(key)) latest.set(key, c);
+  }
+  return [...latest.values()]
+    .sort((a, b) => (a.scope === b.scope ? Date.parse(b.approved_at ?? "") - Date.parse(a.approved_at ?? "") : a.scope === "master" ? -1 : 1))
+    .map((c) => ({
+      ...c,
+      preferred_name: c.preferred_daee ? (nameOf.get(c.preferred_daee) ?? null) : null,
+      from_previous: c.scope === "session" && c.conversation_id !== conversationId,
+    }));
 }
 
 /** A card-first transfer this daee started and the asker hasn't answered yet. */

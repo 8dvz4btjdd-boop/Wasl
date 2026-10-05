@@ -247,9 +247,13 @@
     "cardUntilDeleted": "Visible hasta que la persona la elimine",
     "endFollowupTitle": "Antes de terminar este seguimiento",
     "rateContext": "¿Te ayudó el contexto a continuar sin empezar de cero?",
-    "rateCard": "¿La tarjeta resumió con precisión la conversación anterior?",
+    "rateCard": "¿La tarjeta resumió con precisión la conversación anterior, sin necesidad de cambios?",
     "saveAndEnd": "Guardar y terminar",
-    "skipAndEnd": "Omitir y terminar"
+    "skipAndEnd": "Omitir y terminar",
+    "masterTitle": "{count, plural, one {Tarjeta Wasl · actualizada tras # sesión} other {Tarjeta Wasl · actualizada tras # sesiones}}",
+    "previousSessions": "Sesiones anteriores ({count})",
+    "sessionOn": "Sesión del {date}",
+    "resumeFrom": "Se retoma desde: {text}"
   },
   "Presence": {
     "label": "Tu estado",
@@ -458,7 +462,14 @@
     "showMore": "Ver más",
     "showLess": "Ver menos",
     "aiLatestOnly": "La guía de IA solo lee los últimos {count} mensajes seleccionados.",
-    "writeFromScratch": "Escribirla desde cero"
+    "writeFromScratch": "Escribirla desde cero",
+    "masterTitle": "Tu tarjeta principal",
+    "masterHint": "La guía de IA reúne tus tarjetas de sesión aprobadas en una sola tarjeta, que tú editas y apruebas.",
+    "masterConsent": "{count, plural, one {la # tarjeta de sesión que aprobaste} other {las # tarjetas de sesión que aprobaste}}, nada más",
+    "masterPrefilled": "Rellenada con tu tarjeta principal actual (versión {version}). Edítala como quieras.",
+    "masterApproved": "{count, plural, one {Tarjeta principal aprobada, a partir de # sesión.} other {Tarjeta principal aprobada, a partir de # sesiones.}}",
+    "updateMaster": "Actualizar tu tarjeta principal",
+    "updateMasterHint": "{count, plural, one {Tienes # tarjeta de sesión aprobada.} other {Tienes # tarjetas de sesión aprobadas.}} Reúnelas en una tarjeta desde la que empiece quien siga contigo."
   },
   "Site": {
     "how": "Cómo funciona",

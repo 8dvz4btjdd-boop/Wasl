@@ -247,9 +247,13 @@
     "cardUntilDeleted": "Terlihat hingga penanya menghapusnya",
     "endFollowupTitle": "Sebelum Anda mengakhiri tindak lanjut ini",
     "rateContext": "Apakah konteksnya membantu Anda melanjutkan tanpa mulai dari awal?",
-    "rateCard": "Apakah kartu meringkas percakapan sebelumnya dengan akurat?",
+    "rateCard": "Apakah kartu meringkas percakapan sebelumnya dengan akurat, tanpa perlu diubah?",
     "saveAndEnd": "Simpan dan akhiri",
-    "skipAndEnd": "Lewati dan akhiri"
+    "skipAndEnd": "Lewati dan akhiri",
+    "masterTitle": "{count, plural, one {Kartu Wasl · diperbarui setelah # sesi} other {Kartu Wasl · diperbarui setelah # sesi}}",
+    "previousSessions": "Sesi sebelumnya ({count})",
+    "sessionOn": "Sesi {date}",
+    "resumeFrom": "Melanjutkan dari: {text}"
   },
   "Presence": {
     "label": "Status Anda",
@@ -458,7 +462,14 @@
     "showMore": "Tampilkan lebih banyak",
     "showLess": "Tampilkan lebih sedikit",
     "aiLatestOnly": "Pemandu AI hanya membaca {count} pesan terpilih terakhir.",
-    "writeFromScratch": "Tulis dari awal"
+    "writeFromScratch": "Tulis dari awal",
+    "masterTitle": "Kartu utama Anda",
+    "masterHint": "Pemandu AI menggabungkan kartu sesi yang Anda setujui menjadi satu kartu, yang Anda ubah dan setujui.",
+    "masterConsent": "{count, plural, one {# kartu sesi yang Anda setujui} other {# kartu sesi yang Anda setujui}}, tidak lebih",
+    "masterPrefilled": "Diisi dari kartu utama Anda saat ini (versi {version}). Ubah sesuai keinginan.",
+    "masterApproved": "{count, plural, one {Kartu utama disetujui, dari # sesi.} other {Kartu utama disetujui, dari # sesi.}}",
+    "updateMaster": "Perbarui kartu utama Anda",
+    "updateMasterHint": "{count, plural, one {Anda punya # kartu sesi yang disetujui.} other {Anda punya # kartu sesi yang disetujui.}} Gabungkan menjadi satu kartu sebagai titik awal bagi yang melanjutkan bersama Anda."
   },
   "Site": {
     "how": "Cara kerjanya",

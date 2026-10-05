@@ -245,11 +245,15 @@
     "cardUntilDeleted": "Visible until the asker deletes it",
     "endFollowupTitle": "Before you end this follow-up",
     "rateContext": "Did the context help you continue without starting from scratch?",
-    "rateCard": "Did the card summarize the previous conversation accurately?",
+    "rateCard": "Did the card summarize the previous conversation accurately, without needing edits?",
     "saveAndEnd": "Save and end",
     "skipAndEnd": "Skip and end",
     "cardByAI": "Drafted by the AI guide, approved by the asker",
-    "cardByAsker": "Written by the asker"
+    "cardByAsker": "Written by the asker",
+    "masterTitle": "{count, plural, one {Wasl card · updated after # session} other {Wasl card · updated after # sessions}}",
+    "previousSessions": "Previous sessions ({count})",
+    "sessionOn": "Session of {date}",
+    "resumeFrom": "Picking up from: {text}"
   },
   "Presence": {
     "label": "Your status",
@@ -458,7 +462,14 @@
     "showMore": "Show more",
     "showLess": "Show less",
     "aiLatestOnly": "The AI guide reads only the latest {count} selected messages.",
-    "writeFromScratch": "Write it from scratch"
+    "writeFromScratch": "Write it from scratch",
+    "masterTitle": "Your master card",
+    "masterHint": "The AI guide combines your approved session cards into one card. You edit and approve it.",
+    "masterConsent": "{count, plural, one {the # session card you approved} other {the # session cards you approved}}, nothing else",
+    "masterPrefilled": "Prefilled from your current master card (version {version}). Edit it as you like.",
+    "masterApproved": "{count, plural, one {Master card approved, built from # session.} other {Master card approved, built from # sessions.}}",
+    "updateMaster": "Update your master card",
+    "updateMasterHint": "{count, plural, one {You have # approved session card.} other {You have # approved session cards.}} Combine them into one card that whoever continues with you starts from."
   },
   "Site": {
     "how": "How it works",

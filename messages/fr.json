@@ -247,9 +247,13 @@
     "cardUntilDeleted": "Visible jusqu'à ce que la personne la supprime",
     "endFollowupTitle": "Avant de terminer ce suivi",
     "rateContext": "Le contexte vous a-t-il aidé à continuer sans repartir de zéro ?",
-    "rateCard": "La carte a-t-elle résumé fidèlement la conversation précédente ?",
+    "rateCard": "La carte a-t-elle résumé fidèlement la conversation précédente, sans besoin de modification ?",
     "saveAndEnd": "Enregistrer et terminer",
-    "skipAndEnd": "Passer et terminer"
+    "skipAndEnd": "Passer et terminer",
+    "masterTitle": "{count, plural, one {Carte Wasl · mise à jour après # séance} other {Carte Wasl · mise à jour après # séances}}",
+    "previousSessions": "Séances précédentes ({count})",
+    "sessionOn": "Séance du {date}",
+    "resumeFrom": "Reprise à partir de : {text}"
   },
   "Presence": {
     "label": "Votre statut",
@@ -458,7 +462,14 @@
     "showMore": "Afficher plus",
     "showLess": "Afficher moins",
     "aiLatestOnly": "Le guide IA ne lit que les {count} derniers messages sélectionnés.",
-    "writeFromScratch": "L'écrire de zéro"
+    "writeFromScratch": "L'écrire de zéro",
+    "masterTitle": "Votre carte principale",
+    "masterHint": "Le guide IA réunit vos cartes de séance approuvées en une seule carte, que vous modifiez et approuvez.",
+    "masterConsent": "{count, plural, one {la # carte de séance que vous avez approuvée} other {les # cartes de séance que vous avez approuvées}}, rien d'autre",
+    "masterPrefilled": "Préremplie à partir de votre carte principale actuelle (version {version}). Modifiez-la à votre guise.",
+    "masterApproved": "{count, plural, one {Carte principale approuvée, à partir de # séance.} other {Carte principale approuvée, à partir de # séances.}}",
+    "updateMaster": "Mettre à jour votre carte principale",
+    "updateMasterHint": "{count, plural, one {Vous avez # carte de séance approuvée.} other {Vous avez # cartes de séance approuvées.}} Réunissez-les en une carte dont partira la personne qui continue avec vous."
   },
   "Site": {
     "how": "Comment ça marche",
