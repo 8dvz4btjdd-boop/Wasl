@@ -30,6 +30,9 @@ check("verse text from quranpedia.net is kept", kept([verseQuranpedia]).length =
 
 const dorarOther = { url: "https://dorar.net/article/5", title: "مقال", cited_text: "نص." };
 check("dorar.net outside aqeeda, tafseer, history, hadith, feqhia is dropped", kept([dorarOther], daee).length === 0);
+check("dorar.net with a language prefix: /en/tafseer is kept", kept([{ url: "https://dorar.net/en/tafseer/44", title: "Tafseer", cited_text: "An explanation." }]).length === 1);
+check("dorar.net /en/ahadith is the hadith section (grading required)", kept([{ url: "https://dorar.net/en/ahadith/9", title: "Hadith", cited_text: "The Prophet said: actions are by intentions." }], daee).length === 0);
+check("dorar.net /en/feqhia never reaches an asker", kept([{ url: "https://dorar.net/en/feqhia/3", title: "Fiqh", cited_text: "A ruling." }]).length === 0);
 check("dorar.net aqeeda is kept", kept([{ url: "https://dorar.net/aqeeda/12", title: "عقيدة", cited_text: "نص في العقيدة." }]).length === 1);
 
 check("level c or d returns nothing for askers", keepApproved([verseQuranpedia], { ...asker, level: "d" }).length === 0);

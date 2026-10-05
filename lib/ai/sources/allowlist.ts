@@ -26,13 +26,20 @@ const VERSE = /[﴿﴾]|قال (الله )?تعالى|قوله تعالى/;
 const HADITH = /قال رسول الله|قال النبي|سمعت رسول الله|عن النبي ﷺ (قال|أنه قال)|أن (النبي|رسول الله) ﷺ قال|صلى الله عليه وسلم:? قال|صلى الله عليه وسلم يقول/;
 const GRADING = /خلاصة حكم المحدث|حكم المحدث|إسناده (صحيح|حسن|ضعيف)|\b(صحيح|حسن|ضعيف|موضوع|منكر)\b|(صحيح|حسن|ضعيف)(\s|،|\.)/;
 
-const DORAR_SECTIONS = ["hadith", "aqeeda", "tafseer", "history", "feqhia"] as const;
+const DORAR_SECTIONS = ["hadith", "ahadith", "aqeeda", "tafseer", "history", "feqhia"] as const;
+
+/** dorar.net's section, ignoring a language prefix (/en/tafseer/… is the tafseer section). */
+function dorarSection(url: string) {
+  const path = new URL(url).pathname.toLowerCase().replace(/^\/(ar|en|fr|es|ur|id|tl|tr|ru|de)(?=\/)/, "");
+  const section = DORAR_SECTIONS.find((s) => path === `/${s}` || path.startsWith(`/${s}/`));
+  return section === "ahadith" ? "hadith" : section;
+}
 
 /** Whether the asker may see an item from this URL (dorar feqhia never). */
 export function askerAllowed(url: string): boolean {
   const domain = allowedDomain(url);
   if (domain !== "dorar.net") return domain !== null;
-  return !new URL(url).pathname.toLowerCase().startsWith("/feqhia");
+  return dorarSection(url) !== "feqhia";
 }
 
 /**
@@ -49,7 +56,7 @@ export function rejectReason(c: Citation, audience: Audience): string | null {
   if (domain !== "quranpedia.net" && VERSE.test(c.cited_text)) return "verse_outside_quranpedia";
 
   if (domain === "dorar.net") {
-    const section = DORAR_SECTIONS.find((s) => path.startsWith(`/${s}`));
+    const section = dorarSection(c.url);
     if (!section) return "dorar_section";
     if (section === "feqhia" && audience === "asker") return "feqhia_asker";
     if (section === "hadith" && !GRADING.test(c.cited_text)) return "hadith_ungraded";
