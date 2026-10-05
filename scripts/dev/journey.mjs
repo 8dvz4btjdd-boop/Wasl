@@ -111,6 +111,7 @@ try {
   await asker.locator("ul li label").nth(2).click();
   await shots(asker, "card-select-en");
   await asker.getByRole("button", { name: "Continue" }).click();
+  await asker.getByRole("button", { name: /Write it myself/ }).click();
   await asker.locator("#card-follow_up").fill("How the five prayers fit into a working day.");
   await asker.locator("#card-covered").fill("What the five daily prayers are.");
   await asker.locator("#card-next_step").fill("Talk through a typical day.");
@@ -138,6 +139,7 @@ try {
   await asker.getByRole("button", { name: "نسخة جديدة" }).click();
   await shots(asker, "card-select-ar");
   await asker.getByRole("button", { name: "متابعة" }).click();
+  await asker.getByRole("button", { name: /اكتبها بنفسي/ }).click();
   await shots(asker, "card-fields-ar");
   await asker.getByRole("button", { name: "متابعة" }).click();
   await shots(asker, "card-sharing-ar");

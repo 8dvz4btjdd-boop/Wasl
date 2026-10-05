@@ -116,7 +116,7 @@ try {
   // Language now has an Urdu daee: the ur landing shows availability, Tagalog shows none (سارة busy).
   await page.goto(`${BASE}/tl`);
   await page.waitForTimeout(1500);
-  check("tl: hidden when zero available", !((await page.locator("p[aria-live]").first().textContent())?.trim()));
+  check("tl: zero available invites a question", ((await page.locator("p[aria-live]").first().textContent()) ?? "").includes("Iwan ang iyong tanong"));
 
   // Footer: one row with three links and the year, no language menu.
   await page.goto(`${BASE}/en`);
@@ -147,7 +147,7 @@ try {
     const html = await (await fetch(`${BASE}/en/${path}`)).text();
     check(`no footer on /${path}`, !html.includes("<footer"));
   }
-  check("footer on login", (await (await fetch(`${BASE}/en/login`)).text()).includes("<footer"));
+  check("no footer on login", !(await (await fetch(`${BASE}/en/login`)).text()).includes("<footer"));
 
   const flow = await (await browser.newContext({ viewport: SIZES[390] })).newPage();
   await flow.goto(`${BASE}/en/enter`);
