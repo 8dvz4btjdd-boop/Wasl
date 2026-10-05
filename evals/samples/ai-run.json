@@ -1,19 +1,19 @@
 {
   "task": "card",
   "model": "claude-sonnet-5-5",
-  "input_hash": "d11b4a659fb82f50a50feae359f727e5313be47b7c928da3db323f3ab71cf60d",
+  "input_hash": "ff66211ce688c4bd8f7482eca65a37095f64f6eeb730bf04ceb089a107e69b5d",
   "output": {
     "covered": {
-      "text": "[redacted:112]",
+      "text": "[redacted:102]",
       "source_ids": [
-        "f9009a09-d708-4204-9423-ff609c634738",
-        "2e99db5c-a6f5-4b78-ac9b-15f6c2604d5c"
+        "0cb083aa-70c2-4f2b-9b14-8aeefac28958",
+        "30dae6cb-ce90-4054-9c0b-549da8163b6b"
       ]
     },
     "follow_up": {
       "text": "[redacted:42]",
       "source_ids": [
-        "f9009a09-d708-4204-9423-ff609c634738"
+        "0cb083aa-70c2-4f2b-9b14-8aeefac28958"
       ]
     },
     "next_step": {
@@ -29,8 +29,8 @@
       "next_step"
     ]
   },
-  "latency_ms": 4724,
+  "latency_ms": 5095,
   "fallback": false,
   "reason": null,
-  "created_at": "2026-10-05T21:39:56.269272+00:00"
+  "created_at": "2026-10-05T22:46:09.2503+00:00"
 }

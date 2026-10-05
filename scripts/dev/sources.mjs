@@ -50,6 +50,9 @@ const { data: staff } = await db.from("profiles").select("user_id, display_name,
 await db.from("organizations").update({ ai_enabled: true }).eq("id", ORG);
 await db.from("profiles").update({ status: "offline" }).eq("role", "daee");
 
+// Start the live case from an empty cache for Arabic doubts (auto items are regenerable).
+await db.from("library_items").delete().eq("verified_by", "auto").eq("topic", "doubts").eq("language", "ar");
+
 const browser = await chromium.launch();
 try {
   // ---- Live: the asker waits; readings fill in from a live search of the approved sites ----

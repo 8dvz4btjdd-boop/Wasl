@@ -67,8 +67,6 @@ try {
   const cl = await events(a.id, "classified");
   check("classified event { topic, confidence, source: ai }", cl[0]?.meta.source === "ai" && typeof cl[0]?.meta.confidence === "number");
   check("full match to خالد", ca.match_quality === "full" && ca.daee_id === KHALID, JSON.stringify(ca.match_reasons));
-  await a.page.getByTestId("classification").waitFor({ timeout: 10_000 });
-  check("asker sees what the guide understood", (await a.page.getByTestId("classification").textContent()).includes("فهم المرشد الآلي سؤالك"));
   check("asker sees the match reasons", (await a.page.getByTestId("match").textContent()).includes("خالد"));
   await shots(a.page, "routing-confirm-ar");
 
@@ -78,20 +76,21 @@ try {
   check("daee intake strip: classified by the AI guide", (await d1.getByTestId("intake-strip").textContent()).includes("صنّف المرشد الآلي"));
   await shots(d1, "routing-intake-strip-ar");
 
-  // ---- Correction: change the topic → logged, re-routed (now a partial match) -------------
-  await a.page.getByRole("button", { name: "عدّل" }).click();
-  await a.page.getByRole("button", { name: "العبادة" }).click();
-  await a.page.waitForTimeout(1500);
-  const corr = await events(a.id, "classification_corrected");
-  check("classification_corrected { from, to }", corr[0]?.meta.to === "worship" && corr[0]?.meta.from === ca.topic, JSON.stringify(corr[0]?.meta));
-  const cb = await conv(a.id);
-  check("re-routed on the new topic (partial: خالد has no worship)", cb.topic === "worship" && cb.match_quality === "partial" && cb.daee_id === KHALID);
-  await a.page.reload();
-  await a.page.getByTestId("match").waitFor({ timeout: 10_000 });
-  check("asker sees the partial match", (await a.page.getByTestId("match").textContent()).includes("تطابق جزئي"));
-  await shots(a.page, "routing-partial-ar");
-  // Free خالد's slot for the next cases.
+  // ---- Partial match: the asker picks worship; خالد (Arabic, no worship) still takes it ----
+  // (Correcting the topic now happens in the guide's summary card: scripts/dev/guide.mjs.)
   await d1.goto(`${BASE}/en/daee/${a.id}`);
+  await d1.getByRole("button", { name: /End conversation/ }).click();
+  await d1.getByRole("button", { name: "Confirm end" }).click();
+  await d1.waitForTimeout(800);
+  const p2 = await ask(browser, "ar", `rt4-${TAG}`, "سؤال عن الصلاة وأوقاتها.", "العبادة");
+  const cb = await conv(p2.id);
+  check("partial match when the topic isn't the daee's (worship)", cb.topic === "worship" && cb.match_quality === "partial" && cb.daee_id === KHALID, JSON.stringify(cb.match_reasons));
+  await p2.page.getByTestId("match").waitFor({ timeout: 10_000 });
+  check("asker sees the partial match", (await p2.page.getByTestId("match").textContent()).includes("تطابق جزئي"));
+  await shots(p2.page, "routing-partial-ar");
+  const a2 = p2;
+  // Free خالد's slot for the next cases.
+  await d1.goto(`${BASE}/en/daee/${a2.id}`);
   await d1.getByRole("button", { name: /End conversation/ }).click();
   await d1.getByRole("button", { name: "Confirm end" }).click();
   await d1.waitForTimeout(800);
