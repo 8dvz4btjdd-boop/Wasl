@@ -4,6 +4,7 @@ import type { Locale } from "@/i18n/routing";
 import { requireAsker } from "@/lib/auth/dal";
 import { CARD_COLUMNS, type Card } from "@/lib/cards/types";
 import { getConversation, getDaeeName, getMessages } from "@/lib/db/queries/conversations";
+import { getAIEnabled } from "@/lib/db/queries/org";
 import { createClient } from "@/lib/db/server";
 import { CardBuilder } from "./card-builder";
 
@@ -18,11 +19,12 @@ export default async function CardPage({ params }: PageProps<"/[locale]/card/[id
   if (!conversation || conversation.asker_id !== asker.user_id) return redirect({ href: "/wait", locale });
 
   const supabase = await createClient();
-  const [messages, daeeName, latest, pending] = await Promise.all([
+  const [messages, daeeName, latest, pending, aiEnabled] = await Promise.all([
     getMessages(id),
     getDaeeName(conversation.daee_id),
     supabase.from("cards").select(CARD_COLUMNS).eq("conversation_id", id).order("version", { ascending: false }).limit(1).maybeSingle(),
     supabase.from("transfers").select("id").eq("conversation_id", id).eq("status", "pending").maybeSingle(),
+    getAIEnabled(),
   ]);
 
   return (
@@ -34,6 +36,7 @@ export default async function CardPage({ params }: PageProps<"/[locale]/card/[id
       latest={(latest.data as Card | null) ?? null}
       latestActive={isActive(latest.data as Card | null)}
       transferPending={Boolean(pending.data)}
+      aiEnabled={aiEnabled}
     />
   );
 }

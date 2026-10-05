@@ -35,7 +35,8 @@
     "aiNever1": "Donner une fatwa (un avis juridique religieux) ou répondre à des questions religieuses. C'est le rôle d'un dāʿī.",
     "aiNever2": "Deviner vos croyances ou vous étiqueter.",
     "aiNever3": "Partager quoi que ce soit sans votre accord.",
-    "aiManual": "Wasl fonctionne entièrement sans IA : chaque étape a un parcours manuel."
+    "aiManual": "Wasl fonctionne entièrement sans IA : chaque étape a un parcours manuel.",
+    "availableNone": "Laissez votre question : le premier dāʿī disponible vous répondra."
   },
   "LocaleSwitcher": {
     "label": "Langue",
@@ -181,6 +182,8 @@
     "newCodeFailed": "Impossible de créer un nouveau code. Réessayez."
   },
   "Inbox": {
+    "cardByAI": "Rédigée par le guide IA, approuvée par la personne",
+    "cardByAsker": "Rédigée par la personne",
     "title": "Boîte de réception",
     "waiting": "En attente",
     "active": "Actives",
@@ -393,6 +396,18 @@
     }
   },
   "Card": {
+    "chooseTitle": "Comment voulez-vous rédiger la carte ?",
+    "writeMyself": "La rédiger moi-même",
+    "writeMyselfHint": "Vous remplissez les quatre champs.",
+    "aiDraft": "La faire rédiger par l'IA",
+    "aiDraftHint": "Le guide IA rédige à partir des messages que vous avez choisis, et seulement ceux-là. Vous le modifiez ensuite.",
+    "consentLead": "Ce que le guide IA lira :",
+    "consentReads": "{count, plural, one {# message que vous avez choisi} other {# messages que vous avez choisis}}",
+    "consentSkips": "{count, plural, one {il ne lira pas # autre message} other {il ne lira pas # autres messages}}",
+    "aiDraftLabel": "Brouillon créé par l'IA. Personne ne le voit avant votre accord.",
+    "notInSelection": "Non mentionné dans les messages choisis",
+    "editedByYou": "Modifié par vous",
+    "aiUnavailable": "Le guide IA n'est pas disponible pour le moment. Rédigez-la vous-même.",
     "title": "Carte Wasl",
     "stepSelect": "Choisissez les messages sur lesquels repose votre carte",
     "stepSelectHint": "Seul ce que vous choisissez est utilisé. Rien n'est partagé avant votre accord.",
@@ -496,5 +511,16 @@
     "aiTitle": "Le guide IA",
     "aiBody": "Lorsque l'organisation l'active, un guide IA peut organiser votre demande, suggérer des lectures issues de sources approuvées avec leurs références, et rédiger une carte que vous modifiez et approuvez. Il ne donne jamais de fatwa (un avis juridique religieux) et ne répond pas aux questions religieuses, ne devine jamais vos convictions et ne partage rien sans votre accord. Wasl fonctionne pleinement sans lui.",
     "aiMore": "Notre usage de l'IA"
+  },
+  "AI": {
+    "badge": "Guide IA",
+    "readingSelected": "Lecture des messages choisis",
+    "drafting": "Rédaction",
+    "streaming": "Rédaction des champs",
+    "done": "Brouillon prêt",
+    "fallback": "Parcours manuel",
+    "tierCard": "Modèle de carte",
+    "tierFast": "Modèle rapide",
+    "sourceLabel": "Source : message {n}"
   }
 }

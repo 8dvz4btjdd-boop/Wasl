@@ -6,7 +6,8 @@ import { getAsker } from "@/lib/auth/dal";
 import { createClient } from "@/lib/db/server";
 import { createServiceClient } from "@/lib/db/service";
 import { logServerError } from "@/lib/log";
-import { CARD_FIELD_MAX, DURATIONS, UNDEFINED_FIELD, VISIBILITIES } from "./types";
+import { isMajorEdit } from "./edits";
+import { CARD_FIELD_MAX, CARD_FIELDS, DURATIONS, UNDEFINED_FIELD, VISIBILITIES } from "./types";
 
 const Field = z.string().trim().max(CARD_FIELD_MAX);
 
@@ -18,6 +19,19 @@ const SubmitInput = z.object({
   visibility: z.enum(VISIBILITIES),
   days: z.union([z.literal(DURATIONS[0]), z.literal(7), z.literal(14), z.literal(30)]),
   approve: z.boolean(),
+  /** The AI draft this card started from (texts and per-field sources), or null for manual. */
+  ai: z
+    .object({
+      draft: z.object({ follow_up: z.string(), covered: z.string(), remaining: z.string(), next_step: z.string() }),
+      sources: z.object({
+        follow_up: z.array(z.uuid()),
+        covered: z.array(z.uuid()),
+        remaining: z.array(z.uuid()),
+        next_step: z.array(z.uuid()),
+      }),
+    })
+    .nullable()
+    .default(null),
 });
 
 export type SubmitCardResult = { ok: true; cardId: string; approved: boolean; transferred: boolean } | { ok: false };
@@ -30,7 +44,7 @@ export async function submitCard(input: z.input<typeof SubmitInput>): Promise<Su
   const asker = await getAsker();
   const parsed = SubmitInput.safeParse(input);
   if (!asker || !parsed.success) return { ok: false };
-  const { conversationId, sourceMessageIds, fields, acceptSubstitute, visibility, days, approve } = parsed.data;
+  const { conversationId, sourceMessageIds, fields, acceptSubstitute, visibility, days, approve, ai } = parsed.data;
 
   const supabase = await createClient();
   const service = createServiceClient();
@@ -59,6 +73,22 @@ export async function submitCard(input: z.input<typeof SubmitInput>): Promise<Su
     .maybeSingle();
   const version = (latest?.version ?? 0) + 1;
   const orUndefined = (value: string) => (value.trim() ? value.trim() : UNDEFINED_FIELD);
+  const final = {
+    follow_up: orUndefined(fields.follow_up),
+    covered: orUndefined(fields.covered),
+    remaining: orUndefined(fields.remaining),
+    next_step: orUndefined(fields.next_step),
+  };
+  // AI card: per-field sources must stay inside the selection; a field the asker emptied
+  // has no sources. edited_major follows docs/kpis.md.
+  const selection = new Set(sourceMessageIds);
+  const fieldSources = ai
+    ? Object.fromEntries(
+        CARD_FIELDS.map((f) => [f, final[f] === UNDEFINED_FIELD ? [] : ai.sources[f].filter((id) => selection.has(id))]),
+      )
+    : {};
+  const editedMajor = ai ? isMajorEdit(ai.draft, final) : false;
+  const origin = ai ? "ai" : "manual";
 
   const { data: card, error: insertError } = await supabase
     .from("cards")
@@ -66,11 +96,12 @@ export async function submitCard(input: z.input<typeof SubmitInput>): Promise<Su
       conversation_id: conversationId,
       asker_id: asker.user_id,
       version,
-      generated_by: "manual",
-      follow_up: orUndefined(fields.follow_up),
-      covered: orUndefined(fields.covered),
-      remaining: orUndefined(fields.remaining),
-      next_step: orUndefined(fields.next_step),
+      generated_by: origin,
+      origin,
+      ...final,
+      field_sources: fieldSources,
+      ai_draft: ai ? ai.draft : null,
+      edited_major: editedMajor,
       // "Same daee" is whoever the asker is talking to when they make the card.
       preferred_daee: conversation.daee_id,
       accept_substitute: acceptSubstitute,
@@ -84,7 +115,7 @@ export async function submitCard(input: z.input<typeof SubmitInput>): Promise<Su
     logServerError("submitCard.insert", insertError, { conversationId });
     return { ok: false };
   }
-  if (version === 1) {
+  if (version === 1 && !ai) {
     const { error } = await service.from("events").insert({
       org_id: conversation.org_id,
       type: "card_generated",
@@ -117,7 +148,7 @@ export async function submitCard(input: z.input<typeof SubmitInput>): Promise<Su
     type: "card_approved",
     conversation_id: conversationId,
     actor_role: "asker",
-    meta: { origin: "manual", edited_major: false },
+    meta: { origin, edited_major: editedMajor },
   });
   if (eventError) logServerError("submitCard.cardApproved", eventError);
 

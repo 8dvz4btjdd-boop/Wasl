@@ -1,10 +1,12 @@
 "use client";
 
-import { Check, Trash2, X } from "lucide-react";
+import { Check, PenLine, Sparkles, Trash2, X } from "lucide-react";
 import { motion } from "motion/react";
 import { useLocale, useTranslations } from "next-intl";
 import { useMemo, useState, useTransition } from "react";
 import { CardView } from "@/components/cards/card-view";
+import { useAITask } from "@/lib/ai/useAITask";
+import { AIDraft, ConsentLine, type AIDraftData } from "./ai-draft";
 import { useHydrated } from "@/components/chat/use-clock";
 import { Surface } from "@/components/surface";
 import { Button, buttonVariants } from "@/components/ui/button";
@@ -16,6 +18,7 @@ import {
   CARD_FIELDS,
   DURATIONS,
   isUndefinedField,
+  UNDEFINED_FIELD,
   VISIBILITIES,
   type Card,
   type CardField,
@@ -26,8 +29,8 @@ import type { MessageRow } from "@/lib/chat/types";
 import { fadeUp, sheetIn, staggerChildren } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
-type Step = "select" | "fields" | "sharing" | "review";
-const STEPS: Step[] = ["select", "fields", "sharing", "review"];
+type Step = "select" | "choose" | "fields" | "sharing" | "review";
+const ALL_STEPS: Step[] = ["select", "choose", "fields", "sharing", "review"];
 
 type CardBuilderProps = {
   conversationId: string;
@@ -38,12 +41,14 @@ type CardBuilderProps = {
   /** The latest version is approved and not yet expired (decided on the server). */
   latestActive: boolean;
   transferPending: boolean;
+  /** The organization's AI switch: off means no choice, the manual form directly. */
+  aiEnabled: boolean;
 };
 
 const emptyFields = (): Record<CardField, string> => ({ follow_up: "", covered: "", remaining: "", next_step: "" });
 
 /** One step at a time on a bottom sheet; nothing is shared until "Approve and share". */
-export function CardBuilder({ conversationId, messages, me, daeeName, latest, latestActive, transferPending }: CardBuilderProps) {
+export function CardBuilder({ conversationId, messages, me, daeeName, latest, latestActive, transferPending, aiEnabled }: CardBuilderProps) {
   const t = useTranslations("Card");
   const locale = useLocale();
   const hydrated = useHydrated();
@@ -66,7 +71,43 @@ export function CardBuilder({ conversationId, messages, me, daeeName, latest, la
 
   const date = (iso: string) => new Intl.DateTimeFormat(locale, { dateStyle: "medium" }).format(new Date(iso));
   const chosen = useMemo(() => messages.filter((m) => selected.has(m.id)), [messages, selected]);
+  const STEPS = aiEnabled ? ALL_STEPS : ALL_STEPS.filter((s) => s !== "choose");
   const index = STEPS.indexOf(step);
+
+  // AI draft: generated from the selected messages only; nothing is saved or shared until
+  // the asker continues, edits and approves. Any failure falls back to the manual form.
+  const [mode, setMode] = useState<"manual" | "ai">("manual");
+  const ai = useAITask<AIDraftData>("/api/ai/card");
+  const [generated, setGenerated] = useState<Record<CardField, string> | null>(null);
+  const [aiUnavailable, setAIUnavailable] = useState(false);
+  // React to the run's end during render (not in an effect): fill the fields, or fall back.
+  const [seenAI, setSeenAI] = useState(ai.state);
+  if (seenAI !== ai.state) {
+    setSeenAI(ai.state);
+    if (ai.state === "done" && ai.data) {
+      const texts = Object.fromEntries(
+        CARD_FIELDS.map((f) => [f, ai.data![f].text === UNDEFINED_FIELD ? "" : (ai.data![f].text ?? "")]),
+      ) as Record<CardField, string>;
+      setGenerated(texts);
+      setFields(texts);
+    }
+    if (ai.state === "fallback") {
+      setMode("manual");
+      setAIUnavailable(true);
+    }
+  }
+
+  function startAI() {
+    setMode("ai");
+    setAIUnavailable(false);
+    setGenerated(null);
+    setStep("fields");
+    void ai.run({ conversationId, messageIds: [...selected], locale });
+  }
+  function startManual() {
+    setMode("manual");
+    setStep("fields");
+  }
 
   const submit = (approve: boolean) =>
     startTransition(async () => {
@@ -78,6 +119,13 @@ export function CardBuilder({ conversationId, messages, me, daeeName, latest, la
         visibility,
         days,
         approve,
+        ai:
+          mode === "ai" && ai.data
+            ? {
+                draft: Object.fromEntries(CARD_FIELDS.map((f) => [f, ai.data![f].text ?? UNDEFINED_FIELD])) as Record<CardField, string>,
+                sources: Object.fromEntries(CARD_FIELDS.map((f) => [f, ai.data![f].source_ids ?? []])) as Record<CardField, string[]>,
+              }
+            : null,
       });
       if (!res.ok) return setResult("error");
       setResult(approve ? "approved" : "draft");
@@ -134,7 +182,7 @@ export function CardBuilder({ conversationId, messages, me, daeeName, latest, la
     );
   }
 
-  const canContinue = step !== "select" || selected.size > 0;
+  const canContinue = step === "select" ? selected.size > 0 : step === "fields" && mode === "ai" ? ai.state === "done" : true;
 
   return (
     <Surface kind="asker" className="flex h-dvh flex-col">
@@ -210,8 +258,41 @@ export function CardBuilder({ conversationId, messages, me, daeeName, latest, la
               </>
             )}
 
-            {step === "fields" && (
+            {step === "choose" && (
               <>
+                <StepTitle title={t("chooseTitle")} />
+                <div className="grid gap-3 sm:grid-cols-2">
+                  <ChoiceCard icon={<PenLine className="size-5" aria-hidden />} title={t("writeMyself")} hint={t("writeMyselfHint")} onClick={startManual} />
+                  <ChoiceCard icon={<Sparkles className="size-5" aria-hidden />} title={t("aiDraft")} hint={t("aiDraftHint")} onClick={startAI} />
+                </div>
+                <ConsentLine selected={selected.size} total={messages.length} />
+              </>
+            )}
+
+            {step === "fields" && mode === "ai" && (
+              <>
+                <StepTitle title={t("stepFields")} />
+                <AIDraft
+                  messages={messages}
+                  me={me}
+                  selected={selected}
+                  state={ai.state}
+                  meta={ai.meta}
+                  draft={ai.state === "done" ? ai.data : (ai.partial as Partial<AIDraftData> | null)}
+                  generated={generated}
+                  fields={fields}
+                  onChange={(field, value) => setFields({ ...fields, [field]: value })}
+                />
+              </>
+            )}
+
+            {step === "fields" && mode === "manual" && (
+              <>
+                {aiUnavailable && (
+                  <p role="status" className="rounded-xl bg-muted px-4 py-3 text-sm text-muted-foreground">
+                    {t("aiUnavailable")}
+                  </p>
+                )}
                 <StepTitle title={t("stepFields")} hint={t("emptyNote")} />
                 <motion.div variants={staggerChildren(0.06)} initial="hidden" animate="visible" className="flex flex-col gap-5">
                   {CARD_FIELDS.map((field) => (
@@ -318,7 +399,7 @@ export function CardBuilder({ conversationId, messages, me, daeeName, latest, la
                 {t("approve")}
               </Button>
             </div>
-          ) : (
+          ) : step === "choose" ? null : (
             <Button size="lg" className="h-12 px-6" disabled={!canContinue} onClick={() => setStep(STEPS[index + 1])}>
               {t("continue")}
             </Button>
@@ -426,5 +507,22 @@ function DeleteCard({ conversationId }: { conversationId: string }) {
         </Button>
       </div>
     </div>
+  );
+}
+
+/** One of the two equal ways to write the card. */
+function ChoiceCard({ icon, title, hint, onClick }: { icon: React.ReactNode; title: string; hint: string; onClick: () => void }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className="flex flex-col items-start gap-3 rounded-2xl border p-5 text-start transition-colors duration-150 hover:border-brand-teal/60 hover:bg-teal-bg focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none"
+    >
+      <span className="grid size-10 place-items-center rounded-full border border-brand-teal/40 text-teal-fg">{icon}</span>
+      <span className="flex flex-col gap-1">
+        <span className="text-lg font-semibold">{title}</span>
+        <span className="text-sm text-muted-foreground">{hint}</span>
+      </span>
+    </button>
   );
 }

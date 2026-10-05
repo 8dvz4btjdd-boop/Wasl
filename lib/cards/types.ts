@@ -30,11 +30,14 @@ export type Card = {
   source_message_ids: string[];
   expires_at: string | null;
   approved_at: string | null;
+  origin: "manual" | "ai";
+  /** AI cards: the selected messages each field came from. */
+  field_sources: Partial<Record<CardField, string[]>>;
   created_at: string;
 };
 
 export const CARD_COLUMNS =
-  "id, conversation_id, version, status, follow_up, covered, remaining, next_step, preferred_daee, accept_substitute, visibility, source_message_ids, expires_at, approved_at, created_at";
+  "id, conversation_id, version, status, follow_up, covered, remaining, next_step, preferred_daee, accept_substitute, visibility, source_message_ids, expires_at, approved_at, created_at, origin, field_sources";
 
 export function isUndefinedField(value: string | null) {
   return !value || value === UNDEFINED_FIELD;

@@ -35,7 +35,8 @@
     "aiNever1": "Da una fatwa (un dictamen religioso) ni responde preguntas religiosas. Eso lo hace un dāʿī.",
     "aiNever2": "Adivina tus creencias ni te etiqueta.",
     "aiNever3": "Comparte nada sin tu aprobación.",
-    "aiManual": "Wasl funciona por completo sin IA: cada paso tiene un camino manual."
+    "aiManual": "Wasl funciona por completo sin IA: cada paso tiene un camino manual.",
+    "availableNone": "Deja tu pregunta y te responderá el primer dāʿī disponible."
   },
   "LocaleSwitcher": {
     "label": "Idioma",
@@ -181,6 +182,8 @@
     "newCodeFailed": "No se pudo crear un código nuevo. Inténtalo de nuevo."
   },
   "Inbox": {
+    "cardByAI": "Redactada por la guía de IA, aprobada por la persona",
+    "cardByAsker": "Escrita por la persona",
     "title": "Bandeja",
     "waiting": "En espera",
     "active": "Activas",
@@ -393,6 +396,18 @@
     }
   },
   "Card": {
+    "chooseTitle": "¿Cómo quieres escribir la tarjeta?",
+    "writeMyself": "Escribirla yo",
+    "writeMyselfHint": "Tú rellenas los cuatro campos.",
+    "aiDraft": "Redactarla con IA",
+    "aiDraftHint": "La guía de IA redacta a partir de los mensajes que elegiste, y solo de esos. Luego tú lo editas.",
+    "consentLead": "Lo que leerá la guía de IA:",
+    "consentReads": "{count, plural, one {# mensaje que elegiste} other {# mensajes que elegiste}}",
+    "consentSkips": "{count, plural, one {no leerá # mensaje más} other {no leerá # mensajes más}}",
+    "aiDraftLabel": "Borrador creado por IA. Nadie lo ve antes de que lo apruebes.",
+    "notInSelection": "No se menciona en los mensajes elegidos",
+    "editedByYou": "Editado por ti",
+    "aiUnavailable": "La guía de IA no está disponible ahora. Escríbela tú.",
     "title": "Tarjeta Wasl",
     "stepSelect": "Elige los mensajes en los que se basa tu tarjeta",
     "stepSelectHint": "Solo se usa lo que eliges. Nada se comparte antes de tu aprobación.",
@@ -496,5 +511,16 @@
     "aiTitle": "La guía de IA",
     "aiBody": "Cuando la organización la activa, una guía de IA puede ordenar tu solicitud, sugerir lecturas de fuentes aprobadas con sus citas y redactar una tarjeta que tú editas y apruebas. Nunca da una fatwa (un dictamen religioso) ni responde preguntas religiosas, nunca adivina tus creencias y no comparte nada sin tu aprobación. Wasl funciona por completo sin ella.",
     "aiMore": "Cómo usamos la IA"
+  },
+  "AI": {
+    "badge": "Guía de IA",
+    "readingSelected": "Leyendo los mensajes elegidos",
+    "drafting": "Redactando",
+    "streaming": "Escribiendo los campos",
+    "done": "Borrador listo",
+    "fallback": "Camino manual",
+    "tierCard": "Modelo de tarjeta",
+    "tierFast": "Modelo rápido",
+    "sourceLabel": "Fuente: mensaje {n}"
   }
 }

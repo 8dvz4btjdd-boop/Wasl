@@ -35,7 +35,8 @@
     "aiNever1": "Gives a fatwa (a religious ruling) or answers religious questions. A dāʿī does that.",
     "aiNever2": "Guesses your beliefs or labels you.",
     "aiNever3": "Shares anything without your approval.",
-    "aiManual": "Wasl works fully without AI: every step has a manual path."
+    "aiManual": "Wasl works fully without AI: every step has a manual path.",
+    "availableNone": "Leave your question, and the first available dāʿī will reply."
   },
   "LocaleSwitcher": {
     "label": "Language",
@@ -244,7 +245,9 @@
     "rateContext": "Did the context help you continue without starting from scratch?",
     "rateCard": "Was the card accurate?",
     "saveAndEnd": "Save and end",
-    "skipAndEnd": "Skip and end"
+    "skipAndEnd": "Skip and end",
+    "cardByAI": "Drafted by the AI guide, approved by the asker",
+    "cardByAsker": "Written by the asker"
   },
   "Presence": {
     "label": "Your status",
@@ -440,7 +443,19 @@
     "approvedForever": "Approved. Visible until you delete it.",
     "delete": "Delete card",
     "deleteHint": "Every version is deleted, and no dāʿī can see it from now on.",
-    "confirmDelete": "Delete permanently"
+    "confirmDelete": "Delete permanently",
+    "chooseTitle": "How would you like to write the card?",
+    "writeMyself": "Write it myself",
+    "writeMyselfHint": "You fill in the four fields.",
+    "aiDraft": "Draft it with AI",
+    "aiDraftHint": "The AI guide drafts from the messages you chose, and only those. You edit it.",
+    "consentLead": "What the AI guide will read:",
+    "consentReads": "{count, plural, one {# message you chose} other {# messages you chose}}",
+    "consentSkips": "{count, plural, one {it won't read # other message} other {it won't read # other messages}}",
+    "aiDraftLabel": "Draft created by AI. No one sees it before you approve it.",
+    "notInSelection": "Not mentioned in the selected messages",
+    "editedByYou": "Edited by you",
+    "aiUnavailable": "The AI guide isn't available right now. Write it yourself."
   },
   "Site": {
     "how": "How it works",
@@ -496,5 +511,16 @@
     "aiTitle": "The AI guide",
     "aiBody": "When the organization turns it on, an AI guide can organize your request, suggest reading from approved sources with their citations, and draft a card that you edit and approve. It never gives a fatwa (a religious ruling) or answers religious questions, never guesses your beliefs, and shares nothing without your approval. Wasl works fully without it.",
     "aiMore": "How we use AI"
+  },
+  "AI": {
+    "badge": "AI guide",
+    "readingSelected": "Reading the selected messages",
+    "drafting": "Drafting",
+    "streaming": "Writing the fields",
+    "done": "Draft ready",
+    "fallback": "Manual path",
+    "tierCard": "Card model",
+    "tierFast": "Fast model",
+    "sourceLabel": "Source: message {n}"
   }
 }

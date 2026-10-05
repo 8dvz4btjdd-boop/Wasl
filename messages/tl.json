@@ -35,7 +35,8 @@
     "aiNever1": "Nagbibigay ng fatwa (relihiyosong pasya) o sumasagot sa mga tanong tungkol sa relihiyon. Ang dāʿī ang gumagawa niyan.",
     "aiNever2": "Hinuhulaan ang paniniwala mo o binibigyan ka ng label.",
     "aiNever3": "Nagbabahagi ng kahit ano nang walang pahintulot mo.",
-    "aiManual": "Gumagana nang buo ang Wasl kahit walang AI: may manual na paraan ang bawat hakbang."
+    "aiManual": "Gumagana nang buo ang Wasl kahit walang AI: may manual na paraan ang bawat hakbang.",
+    "availableNone": "Iwan ang iyong tanong, at sasagot ang unang available na dāʿī."
   },
   "LocaleSwitcher": {
     "label": "Wika",
@@ -181,6 +182,8 @@
     "newCodeFailed": "Hindi makagawa ng bagong code. Subukan ulit."
   },
   "Inbox": {
+    "cardByAI": "Ginawa ng AI guide, inaprubahan ng nagtatanong",
+    "cardByAsker": "Isinulat ng nagtatanong",
     "title": "Inbox",
     "waiting": "Naghihintay",
     "active": "Aktibo",
@@ -393,6 +396,18 @@
     }
   },
   "Card": {
+    "chooseTitle": "Paano mo gustong isulat ang card?",
+    "writeMyself": "Ako na ang susulat",
+    "writeMyselfHint": "Ikaw ang pupuno sa apat na field.",
+    "aiDraft": "Ipa-draft sa AI",
+    "aiDraftHint": "Gagawa ng draft ang AI guide mula lamang sa mga mensaheng pinili mo. Ikaw ang mag-e-edit.",
+    "consentLead": "Ang babasahin ng AI guide:",
+    "consentReads": "{count, plural, one {# mensaheng pinili mo} other {# mensaheng pinili mo}}",
+    "consentSkips": "{count, plural, one {hindi nito babasahin ang # iba pang mensahe} other {hindi nito babasahin ang # iba pang mensahe}}",
+    "aiDraftLabel": "Draft na ginawa ng AI. Walang makakakita nito bago mo aprubahan.",
+    "notInSelection": "Hindi binanggit sa mga piniling mensahe",
+    "editedByYou": "In-edit mo",
+    "aiUnavailable": "Hindi available ang AI guide ngayon. Ikaw na ang sumulat.",
     "title": "Wasl card",
     "stepSelect": "Piliin ang mga mensaheng pagbabatayan ng card mo",
     "stepSelectHint": "Ang pipiliin mo lang ang gagamitin. Walang ibabahagi hangga't hindi mo inaaprubahan.",
@@ -496,5 +511,16 @@
     "aiTitle": "Ang AI guide",
     "aiBody": "Kapag binuksan ito ng organisasyon, puwedeng ayusin ng AI guide ang kahilingan mo, magmungkahi ng babasahin mula sa mga aprubadong sanggunian kasama ang mga sipi nito, at gumawa ng draft ng card na ikaw ang mag-e-edit at mag-aapruba. Hindi ito kailanman nagbibigay ng fatwa (relihiyosong pasya) o sumasagot sa mga tanong tungkol sa relihiyon, hindi kailanman nanghuhula ng paniniwala mo, at walang ibinabahagi nang walang pag-apruba mo. Gumagana nang buo ang Wasl kahit wala ito.",
     "aiMore": "Paano namin ginagamit ang AI"
+  },
+  "AI": {
+    "badge": "AI guide",
+    "readingSelected": "Binabasa ang mga piniling mensahe",
+    "drafting": "Gumagawa ng draft",
+    "streaming": "Isinusulat ang mga field",
+    "done": "Handa na ang draft",
+    "fallback": "Manual na paraan",
+    "tierCard": "Model para sa card",
+    "tierFast": "Mabilis na model",
+    "sourceLabel": "Pinagmulan: mensahe {n}"
   }
 }

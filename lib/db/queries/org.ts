@@ -27,3 +27,9 @@ export const getOrgName = cache(async (): Promise<string | null> => {
     .maybeSingle();
   return data?.name ?? null;
 });
+
+/** The organization's AI switch, for pages askers see (organizations is hidden from them). */
+export const getAIEnabled = cache(async (): Promise<boolean> => {
+  const { data } = await createServiceClient().from("organizations").select("ai_enabled").order("created_at").limit(1).maybeSingle();
+  return data?.ai_enabled ?? false;
+});

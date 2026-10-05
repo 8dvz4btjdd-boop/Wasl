@@ -2,7 +2,8 @@
 
 import { Check, IdCard } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { SourceChips } from "@/components/ai/source-chips";
 import { CardView } from "@/components/cards/card-view";
 import { formatTime } from "@/components/chat/format";
 import { useHydrated } from "@/components/chat/use-clock";
@@ -41,12 +42,27 @@ function CardItem({ card }: { card: VisibleCard }) {
   const hydrated = useHydrated();
   const [sources, setSources] = useState<Source[] | null>(null);
   const [open, setOpen] = useState(false);
+  const [active, setActive] = useState<string | null>(null);
+  const isAI = card.origin === "ai";
+
+  // Only readable through card_sources, and only for daee who can view this card. AI cards
+  // load them up front so each field's chips can point at its messages.
+  useEffect(() => {
+    if (!isAI) return;
+    let alive = true;
+    void createClient()
+      .rpc("card_sources", { card: card.id })
+      .then(({ data }) => alive && setSources(data ?? []));
+    return () => {
+      alive = false;
+    };
+  }, [card.id, isAI]);
+  const numberOf = useMemo(() => new Map((sources ?? []).map((s, i) => [s.id, i + 1])), [sources]);
 
   async function toggleSources() {
     const next = !open;
     setOpen(next);
     if (next && sources === null) {
-      // Only readable through card_sources, and only for daee who can view this card.
       const { data } = await createClient().rpc("card_sources", { card: card.id });
       setSources(data ?? []);
     }
@@ -55,7 +71,26 @@ function CardItem({ card }: { card: VisibleCard }) {
   return (
     <article className="flex flex-col gap-3 rounded-lg border bg-background p-3">
       {card.from_previous && <p className="text-[11px] font-medium text-teal-fg">{t("cardPrevious")}</p>}
-      <CardView fields={card} size="compact" />
+      <p className="text-[11px] text-muted-foreground">{isAI ? t("cardByAI") : t("cardByAsker")}</p>
+      <CardView
+        fields={card}
+        size="compact"
+        aside={
+          isAI
+            ? (field) => (
+                <SourceChips
+                  ids={card.field_sources?.[field] ?? []}
+                  numberOf={numberOf}
+                  active={active}
+                  onHighlight={(id) => {
+                    setActive(id);
+                    if (id) setOpen(true);
+                  }}
+                />
+              )
+            : undefined
+        }
+      />
       <dl className="flex flex-col gap-1 border-t pt-3 text-xs text-muted-foreground">
         {card.preferred_name && <dd>{t("cardPrefers", { name: isolate(card.preferred_name) })}</dd>}
         <dd>{card.accept_substitute ? t("cardSubstituteOk") : t("cardSameOnly")}</dd>
@@ -79,7 +114,8 @@ function CardItem({ card }: { card: VisibleCard }) {
               key={s.id}
               dir="auto"
               className={cn(
-                "border-s-2 ps-2.5 text-xs whitespace-pre-wrap",
+                "border-s-2 ps-2.5 text-xs whitespace-pre-wrap transition-colors duration-150",
+                active === s.id && "rounded-e bg-teal-bg",
                 s.sender_role === "asker" ? "border-brand-violet/60" : "border-brand-teal/60 text-muted-foreground",
               )}
             >

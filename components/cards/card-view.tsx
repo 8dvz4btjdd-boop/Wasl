@@ -8,10 +8,12 @@ type CardViewProps = {
   fields: Record<CardField, string | null>;
   size?: "asker" | "compact";
   className?: string;
+  /** Extra content beside a field's label (e.g. source chips). */
+  aside?: (field: CardField) => React.ReactNode;
 };
 
 /** The four card fields exactly as a daee sees them; empty fields read "غير محدد". */
-export function CardView({ fields, size = "asker", className }: CardViewProps) {
+export function CardView({ fields, size = "asker", className, aside }: CardViewProps) {
   const t = useTranslations("Card");
   const compact = size === "compact";
   return (
@@ -21,7 +23,10 @@ export function CardView({ fields, size = "asker", className }: CardViewProps) {
         const empty = isUndefinedField(value);
         return (
           <div key={field} className="flex flex-col gap-1">
-            <dt className={cn("font-medium text-muted-foreground", compact ? "text-xs" : "text-sm")}>{t(field)}</dt>
+            <dt className={cn("flex flex-wrap items-center gap-1.5 font-medium text-muted-foreground", compact ? "text-xs" : "text-sm")}>
+              {t(field)}
+              {!empty && aside?.(field)}
+            </dt>
             <dd dir={empty ? undefined : "auto"} className={cn("whitespace-pre-wrap", compact ? "text-sm" : "text-base", empty && "text-muted-foreground")}>
               {empty ? t("undefined") : value}
             </dd>

@@ -35,7 +35,8 @@
     "aiNever1": "Memberikan fatwa (ketetapan hukum agama) atau menjawab pertanyaan agama. Itu tugas dai.",
     "aiNever2": "Menebak keyakinan Anda atau memberi Anda label.",
     "aiNever3": "Membagikan apa pun tanpa persetujuan Anda.",
-    "aiManual": "Wasl berfungsi penuh tanpa AI: setiap langkah memiliki jalur manual."
+    "aiManual": "Wasl berfungsi penuh tanpa AI: setiap langkah memiliki jalur manual.",
+    "availableNone": "Tinggalkan pertanyaan Anda, dan dai pertama yang tersedia akan membalas."
   },
   "LocaleSwitcher": {
     "label": "Bahasa",
@@ -181,6 +182,8 @@
     "newCodeFailed": "Kode baru tidak dapat dibuat. Coba lagi."
   },
   "Inbox": {
+    "cardByAI": "Disusun oleh pemandu AI, disetujui penanya",
+    "cardByAsker": "Ditulis oleh penanya",
     "title": "Kotak masuk",
     "waiting": "Menunggu",
     "active": "Aktif",
@@ -393,6 +396,18 @@
     }
   },
   "Card": {
+    "chooseTitle": "Bagaimana Anda ingin menulis kartu ini?",
+    "writeMyself": "Tulis sendiri",
+    "writeMyselfHint": "Anda mengisi keempat isian.",
+    "aiDraft": "Susun draf dengan AI",
+    "aiDraftHint": "Pemandu AI menyusun draf dari pesan yang Anda pilih, hanya itu. Anda yang menyuntingnya.",
+    "consentLead": "Yang akan dibaca pemandu AI:",
+    "consentReads": "{count, plural, one {# pesan yang Anda pilih} other {# pesan yang Anda pilih}}",
+    "consentSkips": "{count, plural, one {tidak akan membaca # pesan lainnya} other {tidak akan membaca # pesan lainnya}}",
+    "aiDraftLabel": "Draf dibuat oleh AI. Tidak ada yang melihatnya sebelum Anda setujui.",
+    "notInSelection": "Tidak disebut dalam pesan yang dipilih",
+    "editedByYou": "Disunting oleh Anda",
+    "aiUnavailable": "Pemandu AI sedang tidak tersedia. Tulis sendiri.",
     "title": "Kartu Wasl",
     "stepSelect": "Pilih pesan yang menjadi dasar kartu Anda",
     "stepSelectHint": "Hanya yang Anda pilih yang digunakan. Tidak ada yang dibagikan sampai Anda menyetujuinya.",
@@ -496,5 +511,16 @@
     "aiTitle": "Pemandu AI",
     "aiBody": "Jika organisasi mengaktifkannya, pemandu AI dapat merapikan permintaan Anda, menyarankan bacaan dari sumber yang disetujui beserta rujukannya, dan menyusun draf kartu yang Anda sunting dan setujui. Pemandu AI tidak pernah memberikan fatwa (ketetapan hukum agama) atau menjawab pertanyaan agama, tidak pernah menebak keyakinan Anda, dan tidak membagikan apa pun tanpa persetujuan Anda. Wasl berfungsi sepenuhnya tanpanya.",
     "aiMore": "Cara kami menggunakan AI"
+  },
+  "AI": {
+    "badge": "Pemandu AI",
+    "readingSelected": "Membaca pesan yang dipilih",
+    "drafting": "Menyusun draf",
+    "streaming": "Menulis isian",
+    "done": "Draf siap",
+    "fallback": "Jalur manual",
+    "tierCard": "Model kartu",
+    "tierFast": "Model cepat",
+    "sourceLabel": "Sumber: pesan {n}"
   }
 }
