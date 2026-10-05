@@ -130,7 +130,7 @@ export function ConversationPane({
               {t("resumeFrom", { text: isolate(resumeFrom) })}
             </p>
           )}
-          {!ended && !c.started_at && <IntakeStrip topic={c.topic} depth={c.depth ?? null} by={c.classified_by ?? null} />}
+          {!ended && !c.started_at && <IntakeStrip topic={c.topic} depth={c.depth ?? null} by={c.classified_by ?? null} level={c.level ?? null} />}
         </div>
 
         <div className="flex shrink-0 items-center gap-2">

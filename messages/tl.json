@@ -559,12 +559,32 @@
     "depth_intro": "panimula",
     "depth_explain": "paliwanag",
     "depth_detailed": "malalim",
-    "stripChip": "Pinili ng nagtatanong: {topic}"
+    "stripChip": "Pinili ng nagtatanong: {topic}",
+    "needsSpecialist": "Kailangan ng espesyalista"
   },
   "Readings": {
     "title": "Mga babasahin mula sa aprubadong sanggunian",
     "loading": "Naghahanap sa mga aprubadong sanggunian…",
     "empty": "Wala pang aprubadong babasahin para sa tanong na ito.",
-    "verbatim": "Sinipi nang eksakto mula sa sanggunian"
+    "verbatim": "Sinipi nang eksakto mula sa sanggunian",
+    "excerpt": "Sipi",
+    "readFull": "Basahin ang buong sanggunian"
+  },
+  "Guide": {
+    "label": "AI guide",
+    "listening": "Nakikinig…",
+    "reading": "Binabasa ang iyong tanong…",
+    "thinking": "Sandali…",
+    "transcript": "Ang usapan mo sa guide",
+    "skip": "Laktawan at hintayin ang dāʿī",
+    "refused": "Ang dāʿī ang sasagot dito.",
+    "answerPlaceholder": "Sagutin ang guide…",
+    "confirmedTitle": "Ang iyong tanong, ayon sa kinumpirma mo:",
+    "summaryLead": "Ganito naunawaan ng guide ang iyong tanong:",
+    "specialistNote": "Humihingi ito ng personal na pasya, kaya ipapasa ito sa espesyalista.",
+    "speak": "Sabihin ang iyong sagot",
+    "stopListening": "Itigil ang pakikinig",
+    "speaker": "Basahin nang malakas ang mga tanong",
+    "unmute": "Buksan muli ang boses"
   }
 }

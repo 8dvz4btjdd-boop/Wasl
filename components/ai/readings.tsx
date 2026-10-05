@@ -72,15 +72,21 @@ export function Readings({ conversationId, tone = "asker", className }: { conver
                 <span className="whitespace-pre-wrap">{item.text}</span>
               </blockquote>
               <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-muted-foreground">
-                <span>{t("verbatim")}</span>
+                <span className="flex items-center gap-1.5">
+                  <span className="rounded-full border px-2 leading-5">{t("excerpt")}</span>
+                  {t("verbatim")}
+                </span>
+                {/* The API caps a passage at 150 characters: the full source is one tap away. */}
                 <a
                   href={item.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  dir="ltr"
-                  className="inline-flex max-w-full items-center gap-1 truncate text-teal-fg underline-offset-4 hover:underline focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none"
+                  className="inline-flex items-center gap-1 font-medium text-teal-fg underline underline-offset-4 focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none"
                 >
-                  <span className="truncate">{new URL(item.url).hostname.replace(/^www\./, "")}</span>
+                  {t("readFull")}
+                  <span dir="ltr" className="font-normal text-muted-foreground">
+                    ({new URL(item.url).hostname.replace(/^www\./, "")})
+                  </span>
                   <ExternalLink className="size-3 shrink-0" aria-hidden />
                 </a>
               </div>

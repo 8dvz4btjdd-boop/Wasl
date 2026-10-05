@@ -559,12 +559,32 @@
     "depth_intro": "pengantar",
     "depth_explain": "penjelasan",
     "depth_detailed": "mendalam",
-    "stripChip": "Dipilih penanya: {topic}"
+    "stripChip": "Dipilih penanya: {topic}",
+    "needsSpecialist": "Perlu ahli"
   },
   "Readings": {
     "title": "Bacaan dari sumber yang disetujui",
     "loading": "Mencari di sumber yang disetujui…",
     "empty": "Belum ada bacaan yang disetujui untuk pertanyaan ini.",
-    "verbatim": "Dikutip kata demi kata dari sumbernya"
+    "verbatim": "Dikutip kata demi kata dari sumbernya",
+    "excerpt": "Kutipan",
+    "readFull": "Baca sumber lengkap"
+  },
+  "Guide": {
+    "label": "Pemandu AI",
+    "listening": "Mendengarkan…",
+    "reading": "Membaca pertanyaan Anda…",
+    "thinking": "Sebentar…",
+    "transcript": "Percakapan Anda dengan pemandu",
+    "skip": "Lewati dan tunggu dai",
+    "refused": "Ini akan dijawab oleh dai.",
+    "answerPlaceholder": "Jawab pemandu…",
+    "confirmedTitle": "Pertanyaan Anda, seperti yang Anda konfirmasi:",
+    "summaryLead": "Beginilah pemandu memahami pertanyaan Anda:",
+    "specialistNote": "Ini meminta ketetapan pribadi, jadi diteruskan ke ahlinya.",
+    "speak": "Ucapkan jawaban Anda",
+    "stopListening": "Berhenti mendengarkan",
+    "speaker": "Bacakan pertanyaan",
+    "unmute": "Nyalakan suara lagi"
   }
 }

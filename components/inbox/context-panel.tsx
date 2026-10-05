@@ -49,9 +49,11 @@ export function ContextPanel({ conversation: c, pastCount, cards, onClose, class
 
         <FollowupSection conversation={c} />
 
-        <section className="border-t px-4 py-4">
-          <Readings key={c.id} conversationId={c.id} tone="workspace" />
-        </section>
+        {c.level !== "d" && (
+          <section className="border-t px-4 py-4">
+            <Readings key={c.id} conversationId={c.id} tone="workspace" />
+          </section>
+        )}
 
         <section className="border-t px-4 py-4">
           <h3 className="mb-3 text-xs font-medium text-muted-foreground">{t("askerSection")}</h3>

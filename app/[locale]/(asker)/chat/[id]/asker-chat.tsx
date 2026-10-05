@@ -2,15 +2,19 @@
 
 import { Check, IdCard } from "lucide-react";
 import { motion } from "motion/react";
-import { useTranslations } from "next-intl";
-import { useCallback, useEffect, useMemo, useState, useTransition } from "react";
-import { Composer } from "@/components/chat/composer";
+import { useLocale, useTranslations } from "next-intl";
+import { useCallback, useEffect, useMemo, useRef, useState, useTransition } from "react";
+import { Composer, type ComposerHandle } from "@/components/chat/composer";
+import { GuideView } from "@/components/guide/guide-view";
+import { VoiceControls } from "@/components/guide/voice-controls";
+import { useSpeechInput, useSpeechOutput } from "@/lib/guide/voice";
+import { useGuide } from "@/lib/guide/use-guide";
 import { Elapsed } from "@/components/chat/elapsed";
 import { MessageList, type SystemLine } from "@/components/chat/message-list";
 import { useMessages } from "@/components/chat/use-messages";
 import { NewReturnCode } from "@/components/asker/new-code";
 import { Readings } from "@/components/ai/readings";
-import { ClassificationConfirm, MatchLine, type MatchReasons } from "@/components/ai/routing";
+import { MatchLine, type MatchReasons } from "@/components/ai/routing";
 import { Logo } from "@/components/logo";
 import { SignOutButton } from "@/components/sign-out-button";
 import { Surface } from "@/components/surface";
@@ -34,6 +38,7 @@ type Conversation = {
   classified_by?: string | null;
   match_quality?: string | null;
   match_reasons?: unknown;
+  guide_summary?: string | null;
 };
 
 export type TransferLine = { id: string; status: "pending" | "accepted" | "declined"; created_at: string; to_name: string | null; requeued_at: string | null };
@@ -94,6 +99,24 @@ export function AskerChat({
   const { messages, send, retry } = useMessages(conversation.id, initialMessages, me, "asker");
 
   const waiting = conversation.status === "waiting" && !conversation.daee_id;
+
+  // The guide runs on the waiting screen while nobody has joined: AI on, still waiting when the
+  // page opened, and no confirmed summary yet. A daee joining stops it.
+  const locale = useLocale();
+  const tGuide = useTranslations("Guide");
+  const [guideApplies] = useState(() => aiEnabled && waiting && !conversation.guide_summary);
+  const composer = useRef<ComposerHandle>(null);
+  const speech = useSpeechOutput(locale);
+  const guide = useGuide({
+    conversationId: conversation.id,
+    locale,
+    enabled: guideApplies,
+    stopped: !waiting,
+    refusalText: tGuide("refused"),
+    onQuestion: (q) => void speech.speak(q),
+  });
+  const mic = useSpeechInput(locale, (text) => composer.current?.setText(text));
+  const guideAsking = guideApplies && waiting && guide.phase === "asking";
   const ended = conversation.status === "ended";
 
   // Assignment, transfers, start and end arrive as updates to this conversation, its
@@ -237,13 +260,30 @@ export function AskerChat({
         me={me}
         system={system}
         onRetry={retry}
-        footer={waiting ? <WaitingState position={position} conversationId={conversation.id} /> : null}
+        footer={
+          waiting ? (
+            guideApplies ? (
+              <GuideView
+                conversationId={conversation.id}
+                phase={guide.phase}
+                lines={guide.lines}
+                question={guide.question}
+                summary={guide.summary}
+                speaking={speech.speaking}
+                listening={mic.listening}
+                position={position}
+                language={language}
+                onSkip={guide.skip}
+                onConfirm={guide.confirm}
+              />
+            ) : (
+              <WaitingState position={position} conversationId={conversation.id} />
+            )
+          ) : null
+        }
       />
 
       <footer className="mx-auto flex w-full max-w-2xl flex-col gap-3 px-4 pt-2 pb-4 sm:px-6">
-        {aiEnabled && conversation.classified_by === "ai" && conversation.topic && conversation.status === "waiting" && (
-          <ClassificationConfirm conversationId={conversation.id} topic={conversation.topic} language={language} />
-        )}
         {conversation.status === "waiting" && conversation.match_quality && conversation.match_reasons ? (
           <MatchLine quality={conversation.match_quality as "full" | "partial" | "none"} reasons={conversation.match_reasons as MatchReasons} />
         ) : null}
@@ -314,7 +354,34 @@ export function AskerChat({
             <NewReturnCode />
           </motion.div>
         ) : (
-          <Composer onSend={send} placeholder={t("placeholder")} sendLabel={t("send")} maxLength={MESSAGE_MAX} autoFocus />
+          <Composer
+            ref={composer}
+            onSend={(text) => (guideAsking ? guide.answer(text) : send(text))}
+            placeholder={guideAsking ? tGuide("answerPlaceholder") : t("placeholder")}
+            sendLabel={t("send")}
+            maxLength={MESSAGE_MAX}
+            autoFocus
+            extra={
+              guideAsking ? (
+                <VoiceControls
+                  micSupported={mic.supported}
+                  listening={mic.listening}
+                  muted={speech.muted}
+                  onMic={() => {
+                    speech.unlock();
+                    if (mic.listening) mic.stop();
+                    else mic.start();
+                  }}
+                  onSpeaker={() => {
+                    if (!speech.unlocked) {
+                      speech.unlock();
+                      if (guide.question) void speech.speak(guide.question, true);
+                    } else speech.toggleMute();
+                  }}
+                />
+              ) : null
+            }
+          />
         )}
       </footer>
     </Surface>

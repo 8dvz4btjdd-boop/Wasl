@@ -176,12 +176,17 @@ export function MatchLine({ quality, reasons }: { quality: "full" | "partial" | 
 }
 
 /** Daee header strip before the first reply: how the question was classified, and by whom. */
-export function IntakeStrip({ topic, depth, by }: { topic: string | null; depth: string | null; by: "ai" | "chip" | null }) {
+export function IntakeStrip({ topic, depth, by, level }: { topic: string | null; depth: string | null; by: "ai" | "chip" | null; level?: string | null }) {
   const t = useTranslations("Routing");
   const tTopic = useTranslations("Topics");
   if (!topic) return null;
   return (
     <p data-testid="intake-strip" className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
+      {level === "d" && (
+        <span data-testid="needs-specialist" className="rounded-full bg-warning-bg px-2 leading-5 font-medium text-warning-fg">
+          {t("needsSpecialist")}
+        </span>
+      )}
       {by === "ai" ? (
         <>
           <AIBadge />

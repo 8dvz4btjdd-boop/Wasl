@@ -559,12 +559,32 @@
     "depth_intro": "introducción",
     "depth_explain": "explicación",
     "depth_detailed": "a fondo",
-    "stripChip": "Elegido por la persona: {topic}"
+    "stripChip": "Elegido por la persona: {topic}",
+    "needsSpecialist": "Requiere un especialista"
   },
   "Readings": {
     "title": "Lecturas de fuentes aprobadas",
     "loading": "Buscando en las fuentes aprobadas…",
     "empty": "Aún no hay lecturas aprobadas para esta pregunta.",
-    "verbatim": "Citado textualmente de la fuente"
+    "verbatim": "Citado textualmente de la fuente",
+    "excerpt": "Fragmento",
+    "readFull": "Leer la fuente completa"
+  },
+  "Guide": {
+    "label": "Guía de IA",
+    "listening": "Escuchando…",
+    "reading": "Leyendo tu pregunta…",
+    "thinking": "Un momento…",
+    "transcript": "Tu conversación con la guía",
+    "skip": "Saltar y esperar al dāʿī",
+    "refused": "Esto lo responderá el dāʿī.",
+    "answerPlaceholder": "Responde a la guía…",
+    "confirmedTitle": "Tu pregunta, tal como la confirmaste:",
+    "summaryLead": "Así entendió la guía tu pregunta:",
+    "specialistNote": "Pide un dictamen personal, así que pasa a un especialista.",
+    "speak": "Di tu respuesta",
+    "stopListening": "Dejar de escuchar",
+    "speaker": "Leer las preguntas en voz alta",
+    "unmute": "Volver a activar la voz"
   }
 }

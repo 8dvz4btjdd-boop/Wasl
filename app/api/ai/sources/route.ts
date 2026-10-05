@@ -23,11 +23,14 @@ export async function POST(request: Request) {
   const supabase = await createClient();
   const { data: c } = await supabase
     .from("conversations")
-    .select("id, org_id, topic, depth, intake:intakes(raw_text), asker:askers(language)")
+    .select("id, org_id, topic, depth, level, guide_summary, intake:intakes(raw_text), asker:askers(language)")
     .eq("id", parsed.data.conversationId)
     .maybeSingle();
   if (!c) return Response.json({ error: "not_found" }, { status: 404 });
-  let question = (c.intake as { raw_text: string } | null)?.raw_text ?? "";
+  // A personal ruling needs a specialist: no readings are suggested for it.
+  if (c.level === "d") return Response.json({ items: [], live: false });
+  // The guide's confirmed summary when there is one, else the first message.
+  let question = c.guide_summary ?? (c.intake as { raw_text: string } | null)?.raw_text ?? "";
   if (!question) {
     const { data: first } = await supabase.from("messages").select("body").eq("conversation_id", c.id).eq("sender_role", "asker").order("created_at").limit(1).maybeSingle();
     question = first?.body ?? "";
@@ -40,7 +43,7 @@ export async function POST(request: Request) {
     conversationId: c.id,
     question,
     topic: c.topic ?? "general",
-    level: c.depth ? LEVEL[c.depth] : "b",
+    level: (c.level as "a" | "b" | "c" | "d" | null) ?? (c.depth ? LEVEL[c.depth] : "b"),
     locale: (c.asker as { language: string } | null)?.language ?? "ar",
     audience,
   });

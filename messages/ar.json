@@ -559,12 +559,32 @@
     "depth_intro": "تمهيد",
     "depth_explain": "توضيح",
     "depth_detailed": "تفصيل",
-    "stripChip": "اختار السائل: {topic}"
+    "stripChip": "اختار السائل: {topic}",
+    "needsSpecialist": "يتطلب مختصًا"
   },
   "Readings": {
     "title": "قراءات من مصادر معتمدة",
     "loading": "يبحث في المصادر المعتمدة…",
     "empty": "لا توجد قراءات معتمدة لهذا السؤال بعد",
-    "verbatim": "منقول حرفيًا من المصدر"
+    "verbatim": "منقول حرفيًا من المصدر",
+    "excerpt": "مقتطف",
+    "readFull": "اقرأ المصدر كاملًا"
+  },
+  "Guide": {
+    "label": "المرشد الآلي",
+    "listening": "يستمع…",
+    "reading": "يقرأ سؤالك…",
+    "thinking": "لحظة…",
+    "transcript": "حديثك مع المرشد",
+    "skip": "تخطَّ وانتظر الداعية",
+    "refused": "هذا سيجيب عنه الداعية",
+    "answerPlaceholder": "أجب المرشد…",
+    "confirmedTitle": "سؤالك كما أكدته:",
+    "summaryLead": "هذا سؤالك كما فهمه المرشد:",
+    "specialistNote": "يطلب هذا حكمًا شخصيًا، فيُحال إلى مختص.",
+    "speak": "تحدّث بإجابتك",
+    "stopListening": "أوقف الاستماع",
+    "speaker": "اقرأ الأسئلة بصوت",
+    "unmute": "أعد تشغيل الصوت"
   }
 }

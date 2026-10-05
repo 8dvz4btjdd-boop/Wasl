@@ -15,18 +15,20 @@ type ComposerProps = {
   size?: "asker" | "compact";
   autoFocus?: boolean;
   onEscape?: () => void;
+  /** Controls before the send button (the guide's mic and speaker). */
+  extra?: React.ReactNode;
 };
 
-export type ComposerHandle = { focus: () => void };
+export type ComposerHandle = { focus: () => void; setText: (text: string) => void };
 
 /** Enter sends, Shift+Enter adds a line, IME composition (e.g. Arabic input) never sends. */
 export const Composer = forwardRef<ComposerHandle, ComposerProps>(function Composer(
-  { onSend, placeholder, sendLabel, maxLength, disabled, size = "asker", autoFocus, onEscape },
+  { onSend, placeholder, sendLabel, maxLength, disabled, size = "asker", autoFocus, onEscape, extra },
   ref,
 ) {
   const [text, setText] = useState("");
   const textarea = useRef<HTMLTextAreaElement>(null);
-  useImperativeHandle(ref, () => ({ focus: () => textarea.current?.focus() }));
+  useImperativeHandle(ref, () => ({ focus: () => textarea.current?.focus(), setText: (value: string) => setText(value.slice(0, maxLength)) }));
 
   const canSend = !disabled && text.trim().length > 0;
 
@@ -72,6 +74,7 @@ export const Composer = forwardRef<ComposerHandle, ComposerProps>(function Compo
           asker ? "max-h-48 min-h-14 rounded-2xl px-5 py-4 text-lg" : "max-h-40 min-h-10 rounded-lg px-3 py-2 text-sm",
         )}
       />
+      {extra}
       <Button
         type="submit"
         disabled={!canSend}

@@ -51,7 +51,6 @@ export function rejectReason(c: Citation, audience: Audience): string | null {
   const domain = allowedDomain(c.url);
   if (!domain) return "domain";
   if (!c.cited_text.trim()) return "empty";
-  const path = new URL(c.url).pathname.toLowerCase();
 
   // Verse text only from quranpedia.net.
   if (domain !== "quranpedia.net" && VERSE.test(c.cited_text)) return "verse_outside_quranpedia";

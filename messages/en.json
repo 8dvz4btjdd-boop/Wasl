@@ -559,12 +559,32 @@
     "depth_intro": "intro",
     "depth_explain": "explanation",
     "depth_detailed": "in depth",
-    "stripChip": "Asker chose: {topic}"
+    "stripChip": "Asker chose: {topic}",
+    "needsSpecialist": "Needs a specialist"
   },
   "Readings": {
     "title": "Readings from approved sources",
     "loading": "Searching the approved sources…",
     "empty": "No approved readings for this question yet.",
-    "verbatim": "Quoted verbatim from the source"
+    "verbatim": "Quoted verbatim from the source",
+    "excerpt": "Excerpt",
+    "readFull": "Read the full source"
+  },
+  "Guide": {
+    "label": "AI guide",
+    "listening": "Listening…",
+    "reading": "Reading your question…",
+    "thinking": "One moment…",
+    "transcript": "Your conversation with the guide",
+    "skip": "Skip and wait for the dāʿī",
+    "refused": "The dāʿī will answer this.",
+    "answerPlaceholder": "Answer the guide…",
+    "confirmedTitle": "Your question, as you confirmed it:",
+    "summaryLead": "Here is your question as the guide understood it:",
+    "specialistNote": "This asks for a personal ruling, so it goes to a specialist.",
+    "speak": "Speak your answer",
+    "stopListening": "Stop listening",
+    "speaker": "Read the questions aloud",
+    "unmute": "Turn the voice back on"
   }
 }
