@@ -48,22 +48,29 @@ export const cardTask: AITask<CardInput, AICard> = {
   },
 
   postValidate(output, input) {
-    const selected = new Set(input.messages.map((m) => m.id));
-    const undefinedFields = new Set<CardField>();
-    const result = { ...output } as AICard;
-    for (const field of CARD_FIELDS) {
-      const sources = [...new Set(output[field].source_ids.filter((id) => selected.has(id)))];
-      let text = output[field].text.trim();
-      if (!text || text === UNDEFINED_FIELD || sources.length === 0) {
-        text = UNDEFINED_FIELD;
-        undefinedFields.add(field);
-        result[field] = { text, source_ids: [] };
-        continue;
-      }
-      if (text.length > CARD_FIELD_MAX) text = `${text.slice(0, CARD_FIELD_MAX - 1).trimEnd()}…`;
-      result[field] = { text, source_ids: sources };
-    }
-    result.undefined_fields = CARD_FIELDS.filter((f) => undefinedFields.has(f));
-    return { ok: true, output: result };
+    return { ok: true, output: keepSourcedFields(output, input.messages.map((m) => m.id)) };
   },
 };
+
+/**
+ * Shared by the card tasks: drop source ids outside what was sent; a field with text but no
+ * valid source becomes "غير محدد" and joins undefined_fields; cap each field's length.
+ */
+export function keepSourcedFields(output: AICard, allowedIds: string[]): AICard {
+  const allowed = new Set(allowedIds);
+  const undefinedFields = new Set<CardField>();
+  const result = { ...output } as AICard;
+  for (const field of CARD_FIELDS) {
+    const sources = [...new Set(output[field].source_ids.filter((id) => allowed.has(id)))];
+    let text = output[field].text.trim();
+    if (!text || text === UNDEFINED_FIELD || sources.length === 0) {
+      undefinedFields.add(field);
+      result[field] = { text: UNDEFINED_FIELD, source_ids: [] };
+      continue;
+    }
+    if (text.length > CARD_FIELD_MAX) text = `${text.slice(0, CARD_FIELD_MAX - 1).trimEnd()}…`;
+    result[field] = { text, source_ids: sources };
+  }
+  result.undefined_fields = CARD_FIELDS.filter((f) => undefinedFields.has(f));
+  return result;
+}

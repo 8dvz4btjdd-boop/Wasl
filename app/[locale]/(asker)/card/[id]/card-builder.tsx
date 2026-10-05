@@ -46,12 +46,14 @@ type CardBuilderProps = {
   transferPending: boolean;
   /** The organization's AI switch: off means no choice, the manual form directly. */
   aiEnabled: boolean;
+  /** Approved session cards in the asker's other conversations (master card needs two). */
+  otherApprovedSessions: number;
 };
 
 const emptyFields = (): Record<CardField, string> => ({ follow_up: "", covered: "", remaining: "", next_step: "" });
 
 /** One step at a time on a bottom sheet; nothing is shared until "Approve and share". */
-export function CardBuilder({ conversationId, messages, me, daeeName, latest, latestActive, transferPending, aiEnabled }: CardBuilderProps) {
+export function CardBuilder({ conversationId, messages, me, daeeName, latest, latestActive, transferPending, aiEnabled, otherApprovedSessions }: CardBuilderProps) {
   const t = useTranslations("Card");
   const locale = useLocale();
   const hydrated = useHydrated();
@@ -195,6 +197,14 @@ export function CardBuilder({ conversationId, messages, me, daeeName, latest, la
             </Button>
             <DeleteCard conversationId={conversationId} />
           </div>
+          {otherApprovedSessions >= 1 && (
+            <div data-testid="update-master" className="flex flex-col gap-2 rounded-2xl border border-brand-teal/40 bg-teal-bg p-4">
+              <p className="text-sm">{t("updateMasterHint", { count: otherApprovedSessions + 1 })}</p>
+              <Link href="/card/master" className={cn(buttonVariants({ size: "lg" }), "h-11 self-start px-5")}>
+                {t("updateMaster")}
+              </Link>
+            </div>
+          )}
         </motion.main>
       </Surface>
     );
@@ -462,7 +472,7 @@ export function CardBuilder({ conversationId, messages, me, daeeName, latest, la
   );
 }
 
-function StepTitle({ title, hint }: { title: string; hint?: string }) {
+export function StepTitle({ title, hint }: { title: string; hint?: string }) {
   return (
     <div className="flex flex-col gap-2">
       <h2 className="text-2xl leading-snug font-semibold text-balance sm:text-3xl">{title}</h2>
@@ -471,7 +481,7 @@ function StepTitle({ title, hint }: { title: string; hint?: string }) {
   );
 }
 
-function OptionGroup({ legend, children }: { legend: string; children: React.ReactNode }) {
+export function OptionGroup({ legend, children }: { legend: string; children: React.ReactNode }) {
   return (
     <fieldset className="flex flex-col gap-2">
       <legend className="mb-2 text-sm font-medium text-muted-foreground">{legend}</legend>
@@ -480,7 +490,7 @@ function OptionGroup({ legend, children }: { legend: string; children: React.Rea
   );
 }
 
-function Option({ checked, onSelect, name, title, hint }: { checked: boolean; onSelect: () => void; name: string; title: string; hint?: string }) {
+export function Option({ checked, onSelect, name, title, hint }: { checked: boolean; onSelect: () => void; name: string; title: string; hint?: string }) {
   return (
     <label
       className={cn(
@@ -500,7 +510,7 @@ function Option({ checked, onSelect, name, title, hint }: { checked: boolean; on
   );
 }
 
-function SharingSummary({ daeeName, acceptSubstitute, visibility, days }: { daeeName: string | null; acceptSubstitute: boolean; visibility: Visibility; days?: Duration }) {
+export function SharingSummary({ daeeName, acceptSubstitute, visibility, days }: { daeeName: string | null; acceptSubstitute: boolean; visibility: Visibility; days?: Duration }) {
   const t = useTranslations("Card");
   const rows = [
     { label: t("preferredTitle"), value: acceptSubstitute ? (daeeName ? t("preferSubstitute", { name: isolate(daeeName) }) : t("preferSubstituteAnyone")) : daeeName ? t("preferSame", { name: isolate(daeeName) }) : t("preferSameAnyone") },

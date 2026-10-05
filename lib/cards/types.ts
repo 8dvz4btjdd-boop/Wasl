@@ -15,9 +15,13 @@ export type Duration = (typeof DURATIONS)[number];
 
 export const CARD_FIELD_MAX = 300;
 
+/** A master card merges at most this many of the latest approved session cards. */
+export const MASTER_SOURCE_LIMIT = 20;
+
 export type Card = {
   id: string;
-  conversation_id: string;
+  /** Null for a master card. */
+  conversation_id: string | null;
   version: number;
   status: "draft" | "daee_reviewed" | "approved" | "expired";
   follow_up: string | null;
@@ -31,13 +35,16 @@ export type Card = {
   expires_at: string | null;
   approved_at: string | null;
   origin: "manual" | "ai";
+  scope: "session" | "master";
+  /** Master cards: the approved session cards they were merged from. */
+  source_card_ids: string[];
   /** AI cards: the selected messages each field came from. */
   field_sources: Partial<Record<CardField, string[]>>;
   created_at: string;
 };
 
 export const CARD_COLUMNS =
-  "id, conversation_id, version, status, follow_up, covered, remaining, next_step, preferred_daee, accept_substitute, visibility, source_message_ids, expires_at, approved_at, created_at, origin, field_sources";
+  "id, conversation_id, version, status, follow_up, covered, remaining, next_step, preferred_daee, accept_substitute, visibility, source_message_ids, expires_at, approved_at, created_at, origin, field_sources, scope, source_card_ids";
 
 export function isUndefinedField(value: string | null) {
   return !value || value === UNDEFINED_FIELD;

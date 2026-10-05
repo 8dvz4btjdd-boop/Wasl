@@ -36,9 +36,16 @@ export function ConsentLine({ selected, total }: { selected: number; total: numb
   );
 }
 
+/** What the model read, numbered for the source chips (messages, or session cards). */
+export type DraftSource = { id: string; body: string; muted?: boolean };
+
 type AIDraftProps = {
   messages: MessageRow[];
   me: string;
+  /** Instead of messages: the sources to list (the master card's session cards). */
+  sources?: DraftSource[];
+  /** Instead of the message consent line. */
+  consent?: React.ReactNode;
   /** The messages sent to the model (the latest of the selection, up to the limit). */
   selected: Set<string>;
   /** Everything the asker selected (more than sent when over the limit). */
@@ -58,12 +65,15 @@ type AIDraftProps = {
  * fields filling in as the model writes, each with its source chips. Once done, every field
  * is editable; an edited field is marked "edited by you".
  */
-export function AIDraft({ messages, me, selected, totalSelected, state, meta, draft, generated, fields, onChange }: AIDraftProps) {
+export function AIDraft({ messages, me, sources, consent, selected, totalSelected, state, meta, draft, generated, fields, onChange }: AIDraftProps) {
   const t = useTranslations("Card");
   const tAI = useTranslations("AI");
   const format = new Intl.NumberFormat(useLocale());
   const [active, setActive] = useState<string | null>(null);
-  const chosen = useMemo(() => messages.filter((m) => selected.has(m.id)), [messages, selected]);
+  const chosen = useMemo<DraftSource[]>(
+    () => sources ?? messages.filter((m) => selected.has(m.id)).map((m) => ({ id: m.id, body: m.body, muted: m.sender_id !== me })),
+    [sources, messages, selected, me],
+  );
   const numberOf = useMemo(() => new Map(chosen.map((m, i) => [m.id, i + 1])), [chosen]);
   const editable = state === "done";
 
@@ -73,8 +83,8 @@ export function AIDraft({ messages, me, selected, totalSelected, state, meta, dr
         <AIStatus state={state} steps={[tAI("readingSelected"), tAI("drafting")]} meta={meta} />
         <AIBadge />
       </div>
-      <ConsentLine selected={chosen.length} total={messages.length} />
-      {totalSelected > chosen.length && <p className="text-sm text-muted-foreground">{t("aiLatestOnly", { count: chosen.length })}</p>}
+      {consent ?? <ConsentLine selected={chosen.length} total={messages.length} />}
+      {!sources && totalSelected > chosen.length && <p className="text-sm text-muted-foreground">{t("aiLatestOnly", { count: chosen.length })}</p>}
 
       <ol className="flex flex-col gap-1.5">
         {chosen.map((m) => (
@@ -88,7 +98,7 @@ export function AIDraft({ messages, me, selected, totalSelected, state, meta, dr
             <span className="mt-px grid h-5 min-w-5 place-items-center rounded-full border border-brand-teal/50 px-1 text-[11px] font-semibold text-teal-fg tabular-nums">
               {format.format(numberOf.get(m.id)!)}
             </span>
-            <span dir="auto" className={cn("min-w-0 flex-1 break-words whitespace-pre-wrap", m.sender_id === me ? "" : "text-muted-foreground")}>
+            <span dir="auto" className={cn("min-w-0 flex-1 break-words whitespace-pre-wrap", m.muted && "text-muted-foreground")}>
               {m.body}
             </span>
           </li>
