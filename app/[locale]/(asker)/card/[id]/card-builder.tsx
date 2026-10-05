@@ -1,12 +1,12 @@
 "use client";
 
-import { Check, PenLine, Sparkles, Trash2, X } from "lucide-react";
+import { Check, Trash2, X } from "lucide-react";
 import { motion } from "motion/react";
 import { useLocale, useTranslations } from "next-intl";
 import { useMemo, useState, useTransition } from "react";
 import { CardView } from "@/components/cards/card-view";
 import { useAITask } from "@/lib/ai/useAITask";
-import { AIDraft, ConsentLine, type AIDraftData } from "./ai-draft";
+import { AIDraft, type AIDraftData } from "./ai-draft";
 import { useHydrated } from "@/components/chat/use-clock";
 import { Surface } from "@/components/surface";
 import { Button, buttonVariants } from "@/components/ui/button";
@@ -29,8 +29,11 @@ import type { MessageRow } from "@/lib/chat/types";
 import { fadeUp, sheetIn, staggerChildren } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
-type Step = "select" | "choose" | "fields" | "sharing" | "review";
-const ALL_STEPS: Step[] = ["select", "choose", "fields", "sharing", "review"];
+type Step = "select" | "fields" | "sharing" | "review";
+const STEPS: Step[] = ["select", "fields", "sharing", "review"];
+/** The model reads at most this many messages: the latest ones of the selection. */
+const AI_MESSAGE_LIMIT = 60;
+const LONG_MESSAGE = 280;
 
 type CardBuilderProps = {
   conversationId: string;
@@ -54,7 +57,8 @@ export function CardBuilder({ conversationId, messages, me, daeeName, latest, la
   const hydrated = useHydrated();
   const [editing, setEditing] = useState(!latestActive);
   const [step, setStep] = useState<Step>("select");
-  const [selected, setSelected] = useState<Set<string>>(() => new Set(latest?.source_message_ids ?? []));
+  const [selected, setSelected] = useState<Set<string>>(() => new Set(latest?.source_message_ids ?? messages.map((m) => m.id)));
+  const [expanded, setExpanded] = useState<Set<string>>(() => new Set());
   const [fields, setFields] = useState<Record<CardField, string>>(() => {
     const base = emptyFields();
     if (!latest) return base;
@@ -71,7 +75,6 @@ export function CardBuilder({ conversationId, messages, me, daeeName, latest, la
 
   const date = (iso: string) => new Intl.DateTimeFormat(locale, { dateStyle: "medium" }).format(new Date(iso));
   const chosen = useMemo(() => messages.filter((m) => selected.has(m.id)), [messages, selected]);
-  const STEPS = aiEnabled ? ALL_STEPS : ALL_STEPS.filter((s) => s !== "choose");
   const index = STEPS.indexOf(step);
 
   // AI draft: generated from the selected messages only; nothing is saved or shared until
@@ -84,29 +87,44 @@ export function CardBuilder({ conversationId, messages, me, daeeName, latest, la
   const [seenAI, setSeenAI] = useState(ai.state);
   if (seenAI !== ai.state) {
     setSeenAI(ai.state);
-    if (ai.state === "done" && ai.data) {
+    // Ignore a draft that arrives after the asker chose to write from scratch.
+    if (ai.state === "done" && ai.data && mode === "ai") {
       const texts = Object.fromEntries(
         CARD_FIELDS.map((f) => [f, ai.data![f].text === UNDEFINED_FIELD ? "" : (ai.data![f].text ?? "")]),
       ) as Record<CardField, string>;
       setGenerated(texts);
       setFields(texts);
     }
-    if (ai.state === "fallback") {
+    if (ai.state === "fallback" && mode === "ai") {
       setMode("manual");
       setAIUnavailable(true);
     }
   }
 
-  function startAI() {
-    setMode("ai");
-    setAIUnavailable(false);
-    setGenerated(null);
-    setStep("fields");
-    void ai.run({ conversationId, messageIds: [...selected], locale });
+  // The latest messages of the selection, up to the model's limit, in conversation order.
+  const chosenAll = useMemo(() => messages.filter((m) => selected.has(m.id)), [messages, selected]);
+  const sent = useMemo(() => new Set(chosenAll.slice(-AI_MESSAGE_LIMIT).map((m) => m.id)), [chosenAll]);
+
+  // After selection the AI draft is the default (when the organization has AI on).
+  function next() {
+    if (step === "select") {
+      setStep("fields");
+      if (aiEnabled) {
+        setMode("ai");
+        setAIUnavailable(false);
+        setGenerated(null);
+        void ai.run({ conversationId, messageIds: [...sent], locale });
+      } else {
+        setMode("manual");
+      }
+      return;
+    }
+    setStep(STEPS[index + 1]);
   }
-  function startManual() {
+  function writeFromScratch() {
     setMode("manual");
-    setStep("fields");
+    setGenerated(null);
+    setFields(emptyFields());
   }
 
   const submit = (approve: boolean) =>
@@ -205,6 +223,19 @@ export function CardBuilder({ conversationId, messages, me, daeeName, latest, la
             {step === "select" && (
               <>
                 <StepTitle title={t("stepSelect")} hint={t("stepSelectHint")} />
+                {messages.length > 0 && (
+                  <div className="flex flex-wrap items-center gap-2">
+                    <Button variant="outline" size="sm" onClick={() => setSelected(new Set(messages.map((m) => m.id)))}>
+                      {t("selectAll")}
+                    </Button>
+                    <Button variant="ghost" size="sm" onClick={() => setSelected(new Set())}>
+                      {t("selectNone")}
+                    </Button>
+                    {aiEnabled && chosenAll.length > AI_MESSAGE_LIMIT && (
+                      <p className="text-sm text-muted-foreground">{t("aiLatestOnly", { count: AI_MESSAGE_LIMIT })}</p>
+                    )}
+                  </div>
+                )}
                 {messages.length === 0 ? (
                   <p className="text-muted-foreground">{t("noMessages")}</p>
                 ) : (
@@ -241,13 +272,37 @@ export function CardBuilder({ conversationId, messages, me, daeeName, latest, la
                               {checked && <Check className="size-4" strokeWidth={3} />}
                             </span>
                             <span
-                              dir="auto"
                               className={cn(
-                                "min-w-0 flex-1 rounded-xl px-3 py-2 whitespace-pre-wrap break-words",
+                                "flex min-w-0 flex-1 flex-col items-start gap-1 rounded-xl px-3 py-2",
                                 mine ? "bg-brand-violet/25" : "bg-muted",
                               )}
                             >
-                              {m.body}
+                              <span
+                                dir="auto"
+                                className={cn(
+                                  "w-full whitespace-pre-wrap break-words",
+                                  m.body.length > LONG_MESSAGE && !expanded.has(m.id) && "line-clamp-4",
+                                )}
+                              >
+                                {m.body}
+                              </span>
+                              {m.body.length > LONG_MESSAGE && (
+                                <button
+                                  type="button"
+                                  onClick={(e) => {
+                                    // Inside the label: show more without toggling the selection.
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    const next = new Set(expanded);
+                                    if (next.has(m.id)) next.delete(m.id);
+                                    else next.add(m.id);
+                                    setExpanded(next);
+                                  }}
+                                  className="text-xs font-medium text-teal-fg underline-offset-4 hover:underline focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none"
+                                >
+                                  {expanded.has(m.id) ? t("showLess") : t("showMore")}
+                                </button>
+                              )}
                             </span>
                           </label>
                         </li>
@@ -258,24 +313,14 @@ export function CardBuilder({ conversationId, messages, me, daeeName, latest, la
               </>
             )}
 
-            {step === "choose" && (
-              <>
-                <StepTitle title={t("chooseTitle")} />
-                <div className="grid gap-3 sm:grid-cols-2">
-                  <ChoiceCard icon={<PenLine className="size-5" aria-hidden />} title={t("writeMyself")} hint={t("writeMyselfHint")} onClick={startManual} />
-                  <ChoiceCard icon={<Sparkles className="size-5" aria-hidden />} title={t("aiDraft")} hint={t("aiDraftHint")} onClick={startAI} />
-                </div>
-                <ConsentLine selected={selected.size} total={messages.length} />
-              </>
-            )}
-
             {step === "fields" && mode === "ai" && (
               <>
                 <StepTitle title={t("stepFields")} />
                 <AIDraft
                   messages={messages}
                   me={me}
-                  selected={selected}
+                  selected={sent}
+                  totalSelected={chosenAll.length}
                   state={ai.state}
                   meta={ai.meta}
                   draft={ai.state === "done" ? ai.data : (ai.partial as Partial<AIDraftData> | null)}
@@ -283,6 +328,13 @@ export function CardBuilder({ conversationId, messages, me, daeeName, latest, la
                   fields={fields}
                   onChange={(field, value) => setFields({ ...fields, [field]: value })}
                 />
+                <button
+                  type="button"
+                  onClick={writeFromScratch}
+                  className="self-start text-sm text-muted-foreground underline underline-offset-4 hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none"
+                >
+                  {t("writeFromScratch")}
+                </button>
               </>
             )}
 
@@ -399,8 +451,8 @@ export function CardBuilder({ conversationId, messages, me, daeeName, latest, la
                 {t("approve")}
               </Button>
             </div>
-          ) : step === "choose" ? null : (
-            <Button size="lg" className="h-12 px-6" disabled={!canContinue} onClick={() => setStep(STEPS[index + 1])}>
+          ) : (
+            <Button size="lg" className="h-12 px-6" disabled={!canContinue} onClick={next}>
               {t("continue")}
             </Button>
           )}
@@ -510,19 +562,3 @@ function DeleteCard({ conversationId }: { conversationId: string }) {
   );
 }
 
-/** One of the two equal ways to write the card. */
-function ChoiceCard({ icon, title, hint, onClick }: { icon: React.ReactNode; title: string; hint: string; onClick: () => void }) {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      className="flex flex-col items-start gap-3 rounded-2xl border p-5 text-start transition-colors duration-150 hover:border-brand-teal/60 hover:bg-teal-bg focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none"
-    >
-      <span className="grid size-10 place-items-center rounded-full border border-brand-teal/40 text-teal-fg">{icon}</span>
-      <span className="flex flex-col gap-1">
-        <span className="text-lg font-semibold">{title}</span>
-        <span className="text-sm text-muted-foreground">{hint}</span>
-      </span>
-    </button>
-  );
-}

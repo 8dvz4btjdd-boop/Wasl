@@ -39,7 +39,10 @@ export function ConsentLine({ selected, total }: { selected: number; total: numb
 type AIDraftProps = {
   messages: MessageRow[];
   me: string;
+  /** The messages sent to the model (the latest of the selection, up to the limit). */
   selected: Set<string>;
+  /** Everything the asker selected (more than sent when over the limit). */
+  totalSelected: number;
   state: AIState;
   meta: AIMetaClient | null;
   /** The streaming partial, then the validated draft. */
@@ -55,7 +58,7 @@ type AIDraftProps = {
  * fields filling in as the model writes, each with its source chips. Once done, every field
  * is editable; an edited field is marked "edited by you".
  */
-export function AIDraft({ messages, me, selected, state, meta, draft, generated, fields, onChange }: AIDraftProps) {
+export function AIDraft({ messages, me, selected, totalSelected, state, meta, draft, generated, fields, onChange }: AIDraftProps) {
   const t = useTranslations("Card");
   const tAI = useTranslations("AI");
   const format = new Intl.NumberFormat(useLocale());
@@ -71,6 +74,7 @@ export function AIDraft({ messages, me, selected, state, meta, draft, generated,
         <AIBadge />
       </div>
       <ConsentLine selected={chosen.length} total={messages.length} />
+      {totalSelected > chosen.length && <p className="text-sm text-muted-foreground">{t("aiLatestOnly", { count: chosen.length })}</p>}
 
       <ol className="flex flex-col gap-1.5">
         {chosen.map((m) => (

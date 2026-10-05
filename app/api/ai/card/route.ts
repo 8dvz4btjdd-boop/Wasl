@@ -8,7 +8,7 @@ import { createServiceClient } from "@/lib/db/service";
 
 const Body = z.object({
   conversationId: z.uuid(),
-  messageIds: z.array(z.uuid()).min(1).max(50),
+  messageIds: z.array(z.uuid()).min(1).max(500),
   locale: z.enum(routing.locales),
 });
 
@@ -41,9 +41,10 @@ export async function POST(request: Request) {
     .order("created_at");
   if (!rows || rows.length !== ids.length) return Response.json({ error: "bad_selection" }, { status: 400 });
 
+  // At most the latest 60 selected messages are read (the asker is told).
   const input = {
     locale,
-    messages: rows.map((m) => ({ id: m.id, role: m.sender_role === "asker" ? ("asker" as const) : ("daee" as const), body: m.body })),
+    messages: rows.slice(-60).map((m) => ({ id: m.id, role: m.sender_role === "asker" ? ("asker" as const) : ("daee" as const), body: m.body })),
   };
 
   const encoder = new TextEncoder();
