@@ -20,7 +20,8 @@ export function allowedDomain(url: string): (typeof ALLOWED_DOMAINS)[number] | n
 }
 
 // A Qur'anic verse in the passage: the ornate brackets around verse text, or a verse-quoting formula.
-const VERSE = /[﴿﴾]|قال (الله )?تعالى|قوله تعالى/;
+// Also the citation formats around a quoted verse: "[سورة البقرة: ٢٥٦]", "(البقرة: 256)", "{…}".
+const VERSE = /[﴿﴾]|قال (الله )?تعالى|قوله تعالى|\[\s*سورة\s|\{[^}]*[؀-ۿ][^}]*\}|\((سورة\s)?[؀-ۿ ]+:\s*[0-9٠-٩]+\)/;
 // A hadith in the passage, and a grading next to it.
 // Narration formulas only: a biography that names the Prophet ﷺ is not a hadith.
 const HADITH = /قال رسول الله|قال النبي|سمعت رسول الله|عن النبي ﷺ (قال|أنه قال)|أن (النبي|رسول الله) ﷺ قال|صلى الله عليه وسلم:? قال|صلى الله عليه وسلم يقول/;

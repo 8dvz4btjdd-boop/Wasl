@@ -26,6 +26,7 @@ check("a citation from any other domain is dropped", kept([other, lookalike, htt
 const verseElsewhere = { url: "https://islamic-content.com/article/1", title: "Article", cited_text: "قال تعالى ﴿قل هو الله أحد﴾" };
 const verseQuranpedia = { url: "https://quranpedia.net/surah/1/112", title: "سورة الإخلاص", cited_text: "﴿قل هو الله أحد﴾" };
 check("verse text from outside quranpedia.net is dropped", kept([verseElsewhere]).length === 0);
+check("a verse quoted as {…} [سورة …] outside quranpedia.net is dropped", kept([{ url: "https://shamela.ws/book/9990/1", title: "كتاب", cited_text: "فـ {لَا إِكْرَاهَ فِي الدِّينِ} [سورة البقرة: ٢٥٦] ، وإنما" }], daee).length === 0);
 check("verse text from quranpedia.net is kept", kept([verseQuranpedia]).length === 1);
 
 const dorarOther = { url: "https://dorar.net/article/5", title: "مقال", cited_text: "نص." };
