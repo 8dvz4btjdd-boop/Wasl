@@ -14,7 +14,7 @@ export type AIResult<O> = { ok: true; data: O; meta: AIMeta } | { ok: false; fal
 
 const TIMEOUT_MS = 12_000;
 // Tests force a timeout on a local server; never set in production.
-const timeoutMs = () => Number(process.env.AI_TEST_TIMEOUT_MS) || TIMEOUT_MS;
+const timeoutMs = (task?: { timeoutMs?: number }) => Number(process.env.AI_TEST_TIMEOUT_MS) || task?.timeoutMs || TIMEOUT_MS;
 
 const MODEL_ENV: Record<Tier, string> = { fast: "ANTHROPIC_MODEL_FAST", card: "ANTHROPIC_MODEL_CARD" };
 
@@ -137,14 +137,16 @@ export async function runAI<I, O>(
 
   // 3. Prompt: system text from lib/ai/prompts (via the task), user content as data blocks.
   const { system, userText } = buildMessages(task, input);
-  const signal = AbortSignal.timeout(timeoutMs());
+  const signal = AbortSignal.timeout(timeoutMs(task));
   const call = { model: anthropic(model), system, prompt: userText, abortSignal: signal, maxRetries: 0 };
 
   // 4. The call: streamed when asked, one retry on a schema failure.
   let output: O | undefined;
   for (let attempt = 0; attempt < 2 && output === undefined; attempt++) {
     try {
-      if (options.onPartial && attempt === 0) {
+      if (task.execute) {
+        output = (await task.execute({ model, system, userText, signal, input })) as O;
+      } else if (options.onPartial && attempt === 0) {
         const result = streamText({ ...call, output: Output.object({ schema: task.schema }) });
         for await (const partial of result.partialOutputStream) options.onPartial(partial);
         output = (await result.output) as O;
@@ -166,7 +168,12 @@ export async function runAI<I, O>(
   // 5. Task checks, then the policy check for model-written text.
   const checked = task.postValidate(parsed.data, input);
   if (!checked.ok) return fallback(checked.reason);
-  if (task.outputPolicy === "model_authored" && violatesPolicy(checked.output)) return fallback("policy");
+  if (task.outputPolicy === "model_authored") {
+    const checkedFields = Object.fromEntries(
+      Object.entries(checked.output as Record<string, unknown>).filter(([key]) => !task.policyExempt?.includes(key)),
+    );
+    if (violatesPolicy(checkedFields)) return fallback("policy");
+  }
 
   // 6. Log and return.
   const done = await finish({ ok: true, data: checked.output, meta: { model, tier: task.tier, latencyMs: 0 } });

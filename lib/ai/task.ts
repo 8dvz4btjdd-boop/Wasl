@@ -26,4 +26,13 @@ export type AITask<I, O> = {
   rateLimit: { max: number; windowMinutes: number } | null;
   /** Reuse a validated output for the same input (sha256) within this many minutes. */
   cacheMinutes?: number;
+  /** Total time for the call (default 12 s). */
+  timeoutMs?: number;
+  /**
+   * A task that can't go through the SDK (e.g. web search citations) makes its own call;
+   * runAI still owns the switch, rate limit, timeout, validation, policy and logging.
+   */
+  execute?: (call: { model: string; system: string; userText: string; signal: AbortSignal; input: I }) => Promise<unknown>;
+  /** Top-level output fields the policy check skips (verbatim source text, never model prose). */
+  policyExempt?: string[];
 };

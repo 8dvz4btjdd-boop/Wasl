@@ -88,6 +88,7 @@ Logged today:
 | `followup_started` | a returning asker starts a follow-up | `{ mode: "none" \| "manual" }` |
 | `master_card_generated` | a master card draft is created (AI merge, or the first manual version) | `{ origin: "ai" | "manual" }` |
 | `master_card_approved` | the asker approves a master card | `{ origin, edited_major }` |
+| `sources_found` | readings are served for a question (cache or live search of the approved sources) | `{ count, live }` |
 | `classified` | a question is classified at start | `{ topic, confidence, source: "ai" | "chip", ai_topic }` |
 | `followup_rated` | the daee ends a follow-up and answers at least one of the two questions | `{ mode, sufficient, card_accurate }` (either may be null; `card_accurate` is null without a card) |
 
