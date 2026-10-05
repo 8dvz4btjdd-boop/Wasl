@@ -308,14 +308,18 @@ export type Database = {
           asker_id: string
           assigned_at: string | null
           card_id: string | null
+          classified_by: string | null
           created_at: string
           daee_id: string | null
+          depth: Database["public"]["Enums"]["depth_level"] | null
           ended_at: string | null
           followup_card_accurate: boolean | null
           followup_mode: string | null
           followup_sufficient: boolean | null
           id: string
           intake_id: string | null
+          match_quality: string | null
+          match_reasons: Json | null
           org_id: string
           preferred_daee_id: string | null
           previous_conversation_id: string | null
@@ -327,14 +331,18 @@ export type Database = {
           asker_id: string
           assigned_at?: string | null
           card_id?: string | null
+          classified_by?: string | null
           created_at?: string
           daee_id?: string | null
+          depth?: Database["public"]["Enums"]["depth_level"] | null
           ended_at?: string | null
           followup_card_accurate?: boolean | null
           followup_mode?: string | null
           followup_sufficient?: boolean | null
           id?: string
           intake_id?: string | null
+          match_quality?: string | null
+          match_reasons?: Json | null
           org_id: string
           preferred_daee_id?: string | null
           previous_conversation_id?: string | null
@@ -346,14 +354,18 @@ export type Database = {
           asker_id?: string
           assigned_at?: string | null
           card_id?: string | null
+          classified_by?: string | null
           created_at?: string
           daee_id?: string | null
+          depth?: Database["public"]["Enums"]["depth_level"] | null
           ended_at?: string | null
           followup_card_accurate?: boolean | null
           followup_mode?: string | null
           followup_sufficient?: boolean | null
           id?: string
           intake_id?: string | null
+          match_quality?: string | null
+          match_reasons?: Json | null
           org_id?: string
           preferred_daee_id?: string | null
           previous_conversation_id?: string | null
@@ -811,6 +823,7 @@ export type Database = {
         }[]
       }
       complete_transfer: { Args: { t: string }; Returns: boolean }
+      correct_topic: { Args: { conv: string; p_topic: string }; Returns: Json }
       delete_card: { Args: { conv: string }; Returns: number }
       do_transfer: { Args: { t: string }; Returns: undefined }
       end_conversation: { Args: { conv: string }; Returns: undefined }
@@ -848,7 +861,14 @@ export type Database = {
         Returns: undefined
       }
       requeue_transfer: { Args: { t: string }; Returns: string }
-      route_conversation: { Args: { conv: string }; Returns: string }
+      route_conversation: {
+        Args: {
+          conv: string
+          p_depth?: Database["public"]["Enums"]["depth_level"]
+          p_topic?: string
+        }
+        Returns: Json
+      }
       sample_rate: { Args: { n: number; part: number }; Returns: number }
       set_presence: {
         Args: { p_status: Database["public"]["Enums"]["presence"] }
