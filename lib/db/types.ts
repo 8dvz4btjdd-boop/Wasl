@@ -322,8 +322,10 @@ export type Database = {
           followup_card_accurate: boolean | null
           followup_mode: string | null
           followup_sufficient: boolean | null
+          guide_summary: string | null
           id: string
           intake_id: string | null
+          level: string | null
           match_quality: string | null
           match_reasons: Json | null
           org_id: string
@@ -345,8 +347,10 @@ export type Database = {
           followup_card_accurate?: boolean | null
           followup_mode?: string | null
           followup_sufficient?: boolean | null
+          guide_summary?: string | null
           id?: string
           intake_id?: string | null
+          level?: string | null
           match_quality?: string | null
           match_reasons?: Json | null
           org_id: string
@@ -368,8 +372,10 @@ export type Database = {
           followup_card_accurate?: boolean | null
           followup_mode?: string | null
           followup_sufficient?: boolean | null
+          guide_summary?: string | null
           id?: string
           intake_id?: string | null
+          level?: string | null
           match_quality?: string | null
           match_reasons?: Json | null
           org_id?: string
