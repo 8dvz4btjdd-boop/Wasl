@@ -226,11 +226,11 @@ try {
   await d1.goto(`${BASE}/en/daee/${conv2}`);
   await d1.getByRole("button", { name: /End conversation/ }).click();
   const endPanel = d1.getByRole("dialog");
-  await endPanel.getByText("Did the card summarize the previous conversation accurately?").first().waitFor({ timeout: 15_000 });
+  await endPanel.getByText(/Did the card summarize the previous conversation accurately/).first().waitFor({ timeout: 15_000 });
   check("end of a card follow-up asks both questions", true);
   await shots(d1, "inbox-rating-en");
   await endPanel.getByRole("radiogroup", { name: /Did the context help/ }).getByRole("radio", { name: "Yes" }).click();
-  await endPanel.getByRole("radiogroup", { name: "Did the card summarize the previous conversation accurately?" }).getByRole("radio", { name: "Yes" }).click();
+  await endPanel.getByRole("radiogroup", { name: /Did the card summarize the previous conversation accurately/ }).getByRole("radio", { name: "Yes" }).click();
   await endPanel.getByRole("button", { name: "Save and end" }).click();
   // The asker resumed from the Arabic page.
   await back.getByText("انتهت هذه المحادثة").first().waitFor({ timeout: 15_000 });
@@ -302,7 +302,7 @@ try {
   await owner4.getByRole("button", { name: /End conversation/ }).click();
   const endPanel4 = owner4.getByRole("dialog");
   await endPanel4.getByText(/Did the context help/).first().waitFor({ timeout: 15_000 });
-  check("no card question without a card", (await endPanel4.getByText("Did the card summarize the previous conversation accurately?").count()) === 0);
+  check("no card question without a card", (await endPanel4.getByText(/Did the card summarize the previous conversation accurately/).count()) === 0);
   await endPanel4.getByRole("radio", { name: "No" }).click();
   await endPanel4.getByRole("button", { name: "Save and end" }).click();
   await other.getByText("This conversation has ended").first().waitFor({ timeout: 15_000 });
