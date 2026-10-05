@@ -399,6 +399,15 @@
       "aiOff": "Naka-off",
       "aiExplain": "Kapag naka-off, tatakbo ang lahat sa buong manual na paraan: ang mga nagtatanong mismo ang magsusulat ng kanilang tanong, simpleng mga patakaran ang gagamitin sa routing, at mano-manong isusulat ng mga dāʿī ang mga card. Walang titigil sa paggana.",
       "invalid": "Suriin ang mga field: isang pangalan, kahit isang wika, 1 hanggang 240 minuto."
+    },
+    "sources": {
+      "general": "Pangkalahatan",
+      "title": "Mga sanggunian",
+      "hint": "Mga babasahing awtomatikong na-verify ng bakod ng aprubadong sanggunian. Markahan bilang na-verify, o alisin.",
+      "empty": "Wala pang awtomatikong na-verify na babasahin.",
+      "promote": "Markahan bilang na-verify",
+      "remove": "Alisin",
+      "daeeOnly": "Para sa dāʿī lang"
     }
   },
   "Card": {
@@ -551,5 +560,11 @@
     "depth_explain": "paliwanag",
     "depth_detailed": "malalim",
     "stripChip": "Pinili ng nagtatanong: {topic}"
+  },
+  "Readings": {
+    "title": "Mga babasahin mula sa aprubadong sanggunian",
+    "loading": "Naghahanap sa mga aprubadong sanggunian…",
+    "empty": "Wala pang aprubadong babasahin para sa tanong na ito.",
+    "verbatim": "Sinipi nang eksakto mula sa sanggunian"
   }
 }

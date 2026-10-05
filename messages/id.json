@@ -399,6 +399,15 @@
       "aiOff": "Nonaktif",
       "aiExplain": "Saat nonaktif, semuanya berjalan pada jalur manual penuh: penanya menulis pertanyaannya sendiri, penyaluran memakai aturan sederhana, dan dai menulis kartu secara manual. Tidak ada yang berhenti berfungsi.",
       "invalid": "Periksa isian: sebuah nama, minimal satu bahasa, 1 sampai 240 menit."
+    },
+    "sources": {
+      "general": "Umum",
+      "title": "Sumber",
+      "hint": "Bacaan yang diverifikasi otomatis oleh pagar sumber yang disetujui. Tandai sebagai terverifikasi, atau hapus.",
+      "empty": "Belum ada bacaan yang diverifikasi otomatis.",
+      "promote": "Tandai terverifikasi",
+      "remove": "Hapus",
+      "daeeOnly": "Khusus dai"
     }
   },
   "Card": {
@@ -551,5 +560,11 @@
     "depth_explain": "penjelasan",
     "depth_detailed": "mendalam",
     "stripChip": "Dipilih penanya: {topic}"
+  },
+  "Readings": {
+    "title": "Bacaan dari sumber yang disetujui",
+    "loading": "Mencari di sumber yang disetujui…",
+    "empty": "Belum ada bacaan yang disetujui untuk pertanyaan ini.",
+    "verbatim": "Dikutip kata demi kata dari sumbernya"
   }
 }

@@ -9,6 +9,7 @@ import { Elapsed } from "@/components/chat/elapsed";
 import { MessageList, type SystemLine } from "@/components/chat/message-list";
 import { useMessages } from "@/components/chat/use-messages";
 import { NewReturnCode } from "@/components/asker/new-code";
+import { Readings } from "@/components/ai/readings";
 import { ClassificationConfirm, MatchLine, type MatchReasons } from "@/components/ai/routing";
 import { Logo } from "@/components/logo";
 import { SignOutButton } from "@/components/sign-out-button";
@@ -236,7 +237,7 @@ export function AskerChat({
         me={me}
         system={system}
         onRetry={retry}
-        footer={waiting ? <WaitingState position={position} /> : null}
+        footer={waiting ? <WaitingState position={position} conversationId={conversation.id} /> : null}
       />
 
       <footer className="mx-auto flex w-full max-w-2xl flex-col gap-3 px-4 pt-2 pb-4 sm:px-6">
@@ -320,7 +321,7 @@ export function AskerChat({
   );
 }
 
-function WaitingState({ position }: { position: number | null }) {
+function WaitingState({ position, conversationId }: { position: number | null; conversationId: string }) {
   const t = useTranslations("Chat");
   return (
     <div className="flex flex-col items-center gap-4 py-10 text-center">
@@ -337,6 +338,7 @@ function WaitingState({ position }: { position: number | null }) {
       </motion.div>
       {position !== null && <p className="font-medium">{t("position", { position })}</p>}
       <p className="max-w-sm text-sm text-muted-foreground">{t("keepWriting")}</p>
+      <Readings conversationId={conversationId} className="mt-4 w-full max-w-xl text-start" />
     </div>
   );
 }

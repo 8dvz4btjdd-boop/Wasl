@@ -399,6 +399,15 @@
       "aiOff": "Desactivada",
       "aiExplain": "Desactivada, todo funciona con el flujo manual completo: la persona escribe su pregunta, el enrutamiento usa las reglas simples y el dāʿī redacta las tarjetas a mano. Nada deja de funcionar.",
       "invalid": "Revisa los campos: un nombre, al menos un idioma, de 1 a 240 minutos."
+    },
+    "sources": {
+      "general": "General",
+      "title": "Fuentes",
+      "hint": "Lecturas verificadas automáticamente por el filtro de fuentes aprobadas. Márcala como verificada o elimínala.",
+      "empty": "Aún no hay lecturas verificadas automáticamente.",
+      "promote": "Marcar como verificada",
+      "remove": "Eliminar",
+      "daeeOnly": "Solo dāʿīs"
     }
   },
   "Card": {
@@ -551,5 +560,11 @@
     "depth_explain": "explicación",
     "depth_detailed": "a fondo",
     "stripChip": "Elegido por la persona: {topic}"
+  },
+  "Readings": {
+    "title": "Lecturas de fuentes aprobadas",
+    "loading": "Buscando en las fuentes aprobadas…",
+    "empty": "Aún no hay lecturas aprobadas para esta pregunta.",
+    "verbatim": "Citado textualmente de la fuente"
   }
 }

@@ -9,6 +9,7 @@ import type { ConversationSummary } from "@/lib/chat/types";
 import type { VisibleCard } from "@/lib/db/queries/conversations";
 import { cn } from "@/lib/utils";
 import { CardSection, FollowupSection } from "./card-section";
+import { Readings } from "@/components/ai/readings";
 
 type ContextPanelProps = {
   conversation: ConversationSummary;
@@ -47,6 +48,10 @@ export function ContextPanel({ conversation: c, pastCount, cards, onClose, class
         </section>
 
         <FollowupSection conversation={c} />
+
+        <section className="border-t px-4 py-4">
+          <Readings key={c.id} conversationId={c.id} tone="workspace" />
+        </section>
 
         <section className="border-t px-4 py-4">
           <h3 className="mb-3 text-xs font-medium text-muted-foreground">{t("askerSection")}</h3>

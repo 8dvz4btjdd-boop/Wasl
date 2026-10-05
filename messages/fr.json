@@ -399,6 +399,15 @@
       "aiOff": "Désactivée",
       "aiExplain": "Désactivée, tout fonctionne sur le parcours manuel complet : la personne écrit sa question elle-même, le routage suit les règles simples et le dāʿī rédige les cartes à la main. Rien ne cesse de fonctionner.",
       "invalid": "Vérifiez les champs : un nom, au moins une langue, 1 à 240 minutes."
+    },
+    "sources": {
+      "general": "Général",
+      "title": "Sources",
+      "hint": "Lectures vérifiées automatiquement par la barrière des sources approuvées. Marquez-en une comme vérifiée, ou supprimez-la.",
+      "empty": "Aucune lecture vérifiée automatiquement pour le moment.",
+      "promote": "Marquer comme vérifiée",
+      "remove": "Supprimer",
+      "daeeOnly": "Dāʿīs uniquement"
     }
   },
   "Card": {
@@ -551,5 +560,11 @@
     "depth_explain": "explication",
     "depth_detailed": "approfondi",
     "stripChip": "Choisi par la personne : {topic}"
+  },
+  "Readings": {
+    "title": "Lectures de sources approuvées",
+    "loading": "Recherche dans les sources approuvées…",
+    "empty": "Pas encore de lecture approuvée pour cette question.",
+    "verbatim": "Cité mot pour mot de la source"
   }
 }

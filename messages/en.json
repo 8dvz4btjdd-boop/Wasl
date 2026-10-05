@@ -399,6 +399,15 @@
       "aiOff": "Off",
       "aiExplain": "When off, everything runs on the full manual path: askers write their question themselves, routing uses the simple rules, and dāʿīs write cards by hand. Nothing stops working.",
       "invalid": "Check the fields: a name, at least one language, 1 to 240 minutes."
+    },
+    "sources": {
+      "general": "General",
+      "title": "Sources",
+      "hint": "Readings verified automatically by the approved-sources fence. Promote one to make it human-verified, or remove it.",
+      "empty": "No automatically verified readings yet.",
+      "promote": "Mark as verified",
+      "remove": "Remove",
+      "daeeOnly": "Dāʿīs only"
     }
   },
   "Card": {
@@ -551,5 +560,11 @@
     "depth_explain": "explanation",
     "depth_detailed": "in depth",
     "stripChip": "Asker chose: {topic}"
+  },
+  "Readings": {
+    "title": "Readings from approved sources",
+    "loading": "Searching the approved sources…",
+    "empty": "No approved readings for this question yet.",
+    "verbatim": "Quoted verbatim from the source"
   }
 }
