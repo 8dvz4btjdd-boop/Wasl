@@ -24,4 +24,6 @@ export type AITask<I, O> = {
   /** Dot paths redacted before the output is stored in ai_runs. */
   ephemeralFields: string[];
   rateLimit: { max: number; windowMinutes: number } | null;
+  /** Reuse a validated output for the same input (sha256) within this many minutes. */
+  cacheMinutes?: number;
 };

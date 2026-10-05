@@ -10,6 +10,8 @@ import { getOpenConversationId } from "@/lib/db/queries/conversations";
 import { createClient } from "@/lib/db/server";
 import { createServiceClient } from "@/lib/db/service";
 import { logServerError } from "@/lib/log";
+import { runAI } from "@/lib/ai/runAI";
+import { classifyTask } from "@/lib/ai/tasks/classify";
 
 const Input = z.object({
   locale: LocaleField,
@@ -20,14 +22,15 @@ const Input = z.object({
 });
 
 /**
- * Manual path: the question becomes an intake, a waiting conversation and the first
- * message, then routing tries to find a free daee. Nobody free is not an error.
+ * The question becomes an intake, a waiting conversation and the first message, then
+ * routing tries to find a free daee. Nobody free is not an error. The AI guide classifies
+ * the question first (question text and locale only); on any fallback the asker's chip,
+ * or "general", is used instead.
  */
 export async function startConversation(_prev: FormState, formData: FormData): Promise<FormState> {
   const parsed = Input.safeParse(Object.fromEntries(formData));
   if (!parsed.success) return { error: "questionInvalid" };
   const { locale, question } = parsed.data;
-  const topic = parsed.data.topic ?? "general";
 
   const asker = await requireAsker(locale);
   const existing = await getOpenConversationId(asker.user_id);
@@ -42,7 +45,14 @@ export async function startConversation(_prev: FormState, formData: FormData): P
   }
 
   const supabase = await createClient();
-  const followup = await getFollowupLink(asker.user_id, parsed.data.resume);
+  const [followup, classified] = await Promise.all([
+    getFollowupLink(asker.user_id, parsed.data.resume),
+    runAI(classifyTask, { question, locale }, { orgId: org.id, actorId: asker.user_id }),
+  ]);
+  const source = classified.ok ? ("ai" as const) : ("chip" as const);
+  const topic = classified.ok ? classified.data.topic : (parsed.data.topic ?? "general");
+  const depth = classified.ok ? classified.data.depth : null;
+  const confidence = classified.ok ? classified.data.confidence : null;
 
   const { data: intake, error: intakeError } = await supabase
     .from("intakes")
@@ -51,7 +61,8 @@ export async function startConversation(_prev: FormState, formData: FormData): P
       raw_text: question,
       language: asker.language,
       topic,
-      generated_by: "manual",
+      depth,
+      generated_by: source === "ai" ? "ai" : "manual",
       status: "routed",
     })
     .select("id")
@@ -68,6 +79,8 @@ export async function startConversation(_prev: FormState, formData: FormData): P
       asker_id: asker.user_id,
       intake_id: intake.id,
       topic,
+      depth,
+      classified_by: source,
       status: "waiting",
       previous_conversation_id: followup?.previousId ?? null,
       card_id: followup?.cardId ?? null,
@@ -95,9 +108,17 @@ export async function startConversation(_prev: FormState, formData: FormData): P
     type: "intake_created",
     conversation_id: conversation.id,
     actor_role: "asker",
-    meta: { topic, language: asker.language, generated_by: "manual" },
+    meta: { topic, language: asker.language, generated_by: source === "ai" ? "ai" : "manual" },
   });
   if (eventError) logServerError("startConversation.logIntakeCreated", eventError);
+  const { error: classifiedError } = await createServiceClient().from("events").insert({
+    org_id: org.id,
+    type: "classified",
+    conversation_id: conversation.id,
+    actor_role: "system",
+    meta: { topic, confidence, source },
+  });
+  if (classifiedError) logServerError("startConversation.logClassified", classifiedError);
   if (followup) {
     const { error } = await createServiceClient().from("events").insert({
       org_id: org.id,
@@ -110,7 +131,7 @@ export async function startConversation(_prev: FormState, formData: FormData): P
   }
 
   // Logs `routed` itself when it assigns someone.
-  const { error: routeError } = await supabase.rpc("route_conversation", { conv: conversation.id });
+  const { error: routeError } = await supabase.rpc("route_conversation", { conv: conversation.id, p_topic: topic, ...(depth ? { p_depth: depth } : {}) });
   if (routeError) logServerError("startConversation.route", routeError, { conversationId: conversation.id });
 
   return redirect({ href: `/chat/${conversation.id}`, locale });
@@ -152,4 +173,17 @@ async function getFollowupLink(askerId: string, resume: "same" | "substitute" | 
     mode: "manual" as const,
     preferredDaeeId: holdForPreferred ? card.preferred_daee : null,
   };
+}
+
+/** The asker corrects the AI's topic: stored, logged (classification_corrected) and re-routed. */
+export async function correctTopic(conversationId: string, topic: string): Promise<{ ok: boolean }> {
+  const ok = z.uuid().safeParse(conversationId).success && (TOPICS as readonly string[]).includes(topic);
+  if (!ok) return { ok: false };
+  const supabase = await createClient();
+  const { error } = await supabase.rpc("correct_topic", { conv: conversationId, p_topic: topic });
+  if (error) {
+    logServerError("correctTopic", error, { conversationId });
+    return { ok: false };
+  }
+  return { ok: true };
 }

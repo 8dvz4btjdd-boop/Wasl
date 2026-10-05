@@ -18,6 +18,9 @@ const timeoutMs = () => Number(process.env.AI_TEST_TIMEOUT_MS) || TIMEOUT_MS;
 
 const MODEL_ENV: Record<Tier, string> = { fast: "ANTHROPIC_MODEL_FAST", card: "ANTHROPIC_MODEL_CARD" };
 
+// Per-process cache of validated outputs, keyed by task and input hash (task.cacheMinutes).
+const cache = new Map<string, { at: number; data: unknown; meta: AIMeta }>();
+
 const verified = new Set<string>();
 /** First call per process: check the model id with a one-token request and log the result. */
 function verifyModel(model: string) {
@@ -108,6 +111,13 @@ export async function runAI<I, O>(
   const { data: org } = await db.from("organizations").select("ai_enabled").eq("id", ctx.orgId).maybeSingle();
   if (!org?.ai_enabled) return fallback("disabled");
 
+  // Same input within the cache window: reuse the validated output (no call, no row).
+  const cacheKey = `${task.name}:${inputHash}`;
+  const hit = task.cacheMinutes ? cache.get(cacheKey) : undefined;
+  if (hit && Date.now() - hit.at < task.cacheMinutes! * 60_000) {
+    return { ok: true, data: hit.data as O, meta: { ...hit.meta, latencyMs: Date.now() - started } };
+  }
+
   // Rate limit per task and actor.
   if (task.rateLimit && ctx.actorId) {
     const since = new Date(Date.now() - task.rateLimit.windowMinutes * 60_000).toISOString();
@@ -159,5 +169,7 @@ export async function runAI<I, O>(
   if (task.outputPolicy === "model_authored" && violatesPolicy(checked.output)) return fallback("policy");
 
   // 6. Log and return.
-  return finish({ ok: true, data: checked.output, meta: { model, tier: task.tier, latencyMs: 0 } });
+  const done = await finish({ ok: true, data: checked.output, meta: { model, tier: task.tier, latencyMs: 0 } });
+  if (task.cacheMinutes && done.ok) cache.set(cacheKey, { at: Date.now(), data: done.data, meta: done.meta });
+  return done;
 }
