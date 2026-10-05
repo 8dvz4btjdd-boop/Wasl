@@ -30,7 +30,7 @@ app/[locale]/(workspace)/daee/..., /admin/...
 lib/ai/runAI.ts, lib/ai/prompts/*.ts, lib/ai/schemas.ts
 lib/db/{client,server,service}.ts, lib/db/queries/*.ts
 lib/routing/match.ts
-messages/{ar,en,fr,es}.json
+messages/{ar,en,fr,es,ur,id,tl}.json
 supabase/migrations/*.sql, supabase/seed.sql
 docs/{sources.md,evals/,runbook.md}
 
@@ -41,9 +41,9 @@ docs/{sources.md,evals/,runbook.md}
 - Prompts live in lib/ai/prompts and are the only place system text is written.
 
 ## i18n
-- Locales: ar (rtl), en, fr, es. `dir` is derived from locale in the root layout.
-- No hard-coded user-facing strings. Every string in messages/*.json. Write en first, then ar; fr and es are generated from en and reviewed.
-- Fonts: IBM Plex Sans Arabic for ar, Inter otherwise.
+- Locales: ar (rtl), en, fr, es, ur (rtl), id, tl. `dir` is derived from locale in the root layout.
+- No hard-coded user-facing strings. Every string in messages/*.json. Write en first, then ar; fr, es, ur, id and tl are generated from en and reviewed (ur, id, tl need native review, see docs/i18n.md).
+- Fonts: IBM Plex Sans Arabic for ar and ur, Inter otherwise.
 
 ## Design
 - Asker surfaces: conversation-first, one surface, bottom composer, dark by default, large type, minimal text. Guide = animated orb + one question at a time. Card = bottom sheet whose fields animate in one by one.
@@ -58,7 +58,7 @@ docs/{sources.md,evals/,runbook.md}
 - Log a row in `events` for every KPI-relevant action: intake_created, routed, conversation_started, card_generated, card_edited_major, card_approved, transfer_completed, resumed_from_card, first_substantive_reply.
 - No secrets, no real conversations, no real personal data anywhere in the repo. Seed is synthetic.
 - Commit after each working feature with conventional commit messages.
-- Definition of done for a feature: works on the live Vercel link, works with AI disabled, strings in all four locale files, no TypeScript errors.
+- Definition of done for a feature: works on the live Vercel link, works with AI disabled, strings in all seven locale files, no TypeScript errors.
 - Mobile layout works for the asker surfaces. Workspace is desktop-first.
 
 ## Out of scope for the build window

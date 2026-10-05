@@ -3,12 +3,10 @@ import { ConnectingBubbles } from "@/components/brand/connecting-bubbles";
 import { LocaleSwitcher } from "@/components/locale-switcher";
 import { Logo } from "@/components/logo";
 import { BackControl } from "@/components/site/back-control";
-import { SiteFooter } from "@/components/site/site-footer";
 import { Surface } from "@/components/surface";
 import { redirect } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
 import { getStaff, STAFF_HOME } from "@/lib/auth/dal";
-import { getOrgName } from "@/lib/db/queries/org";
 import { LoginForm } from "./login-form";
 
 export default async function LoginPage({ params }: PageProps<"/[locale]/login">) {
@@ -18,7 +16,7 @@ export default async function LoginPage({ params }: PageProps<"/[locale]/login">
   const staff = await getStaff();
   if (staff) return redirect({ href: STAFF_HOME[staff.role], locale });
 
-  const [t, orgName] = await Promise.all([getTranslations("Login"), getOrgName()]);
+  const t = await getTranslations("Login");
 
   return (
     <div className="grid min-h-dvh lg:grid-cols-2">
@@ -38,7 +36,6 @@ export default async function LoginPage({ params }: PageProps<"/[locale]/login">
             <LoginForm />
           </div>
         </main>
-        <SiteFooter orgName={orgName} />
       </Surface>
 
       <Surface kind="asker" className="relative hidden flex-col items-center justify-center gap-10 overflow-hidden p-12 lg:flex">
