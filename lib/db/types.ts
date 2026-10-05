@@ -521,8 +521,12 @@ export type Database = {
       }
       library_items: {
         Row: {
+          asker_ok: boolean
           body: string
+          cited_text: string | null
+          created_at: string
           id: string
+          item_key: string | null
           language: string
           level: string
           org_id: string
@@ -530,10 +534,15 @@ export type Database = {
           source_url: string
           title: string
           topic: string
+          verified_by: string
         }
         Insert: {
+          asker_ok?: boolean
           body: string
+          cited_text?: string | null
+          created_at?: string
           id?: string
+          item_key?: string | null
           language: string
           level: string
           org_id: string
@@ -541,10 +550,15 @@ export type Database = {
           source_url: string
           title: string
           topic: string
+          verified_by?: string
         }
         Update: {
+          asker_ok?: boolean
           body?: string
+          cited_text?: string | null
+          created_at?: string
           id?: string
+          item_key?: string | null
           language?: string
           level?: string
           org_id?: string
@@ -552,6 +566,7 @@ export type Database = {
           source_url?: string
           title?: string
           topic?: string
+          verified_by?: string
         }
         Relationships: [
           {
@@ -736,6 +751,27 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      source_pages: {
+        Row: {
+          domain: string
+          fetched_at: string
+          title: string | null
+          url: string
+        }
+        Insert: {
+          domain: string
+          fetched_at?: string
+          title?: string | null
+          url: string
+        }
+        Update: {
+          domain?: string
+          fetched_at?: string
+          title?: string | null
+          url?: string
+        }
+        Relationships: []
       }
       transfers: {
         Row: {
