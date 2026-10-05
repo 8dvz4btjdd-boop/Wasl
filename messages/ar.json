@@ -522,5 +522,20 @@
     "tierCard": "نموذج البطاقة",
     "tierFast": "النموذج السريع",
     "sourceLabel": "المصدر: الرسالة {n}"
+  },
+  "Routing": {
+    "understood": "فهم المرشد الآلي سؤالك: {topic} · {language}",
+    "correct": "صحيح",
+    "change": "عدّل",
+    "pickTopic": "اختر الموضوع الأقرب",
+    "matchNone": "لا يوجد داعية متاح الآن ب{language}، وستتصل بأول داعية يتاح.",
+    "partial": "تطابق جزئي",
+    "availableNow": "متاح الآن",
+    "stripAI": "صنّف المرشد الآلي: {topic}",
+    "stripDepth": "عمق: {depth}",
+    "depth_intro": "تمهيد",
+    "depth_explain": "توضيح",
+    "depth_detailed": "تفصيل",
+    "stripChip": "اختار السائل: {topic}"
   }
 }

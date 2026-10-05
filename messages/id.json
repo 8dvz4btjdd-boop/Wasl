@@ -522,5 +522,20 @@
     "tierCard": "Model kartu",
     "tierFast": "Model cepat",
     "sourceLabel": "Sumber: pesan {n}"
+  },
+  "Routing": {
+    "understood": "Pemandu AI memahami pertanyaan Anda sebagai: {topic} · {language}",
+    "correct": "Benar",
+    "change": "Ubah",
+    "pickTopic": "Pilih topik yang paling dekat",
+    "matchNone": "Belum ada dai berbahasa {language} yang tersedia. Anda akan terhubung begitu ada yang tersedia.",
+    "partial": "Kecocokan sebagian",
+    "availableNow": "tersedia sekarang",
+    "stripAI": "Diklasifikasikan pemandu AI: {topic}",
+    "stripDepth": "kedalaman: {depth}",
+    "depth_intro": "pengantar",
+    "depth_explain": "penjelasan",
+    "depth_detailed": "mendalam",
+    "stripChip": "Dipilih penanya: {topic}"
   }
 }

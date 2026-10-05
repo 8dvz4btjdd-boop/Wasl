@@ -15,6 +15,7 @@ import { cn } from "@/lib/utils";
 import { isolate } from "@/lib/bidi";
 import { Avatar } from "./avatar";
 import { EndFollowupPanel } from "./end-panel";
+import { IntakeStrip } from "@/components/ai/routing";
 import { TransferMenu } from "./transfer-menu";
 
 type ConversationPaneProps = {
@@ -121,6 +122,7 @@ export function ConversationPane({
             {!ended && <StatusPill conversation={c} />}
           </div>
           {c.asker?.background && <p dir="auto" className="truncate text-xs text-muted-foreground">{c.asker.background}</p>}
+          {!ended && !c.started_at && <IntakeStrip topic={c.topic} depth={c.depth ?? null} by={c.classified_by ?? null} />}
         </div>
 
         <div className="flex shrink-0 items-center gap-2">

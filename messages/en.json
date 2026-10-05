@@ -522,5 +522,20 @@
     "tierCard": "Card model",
     "tierFast": "Fast model",
     "sourceLabel": "Source: message {n}"
+  },
+  "Routing": {
+    "understood": "The AI guide understood your question as: {topic} · {language}",
+    "correct": "Correct",
+    "change": "Change",
+    "pickTopic": "Pick the closest topic",
+    "matchNone": "No dāʿī who speaks {language} is free right now. You'll be connected as soon as one is.",
+    "partial": "Partial match",
+    "availableNow": "available now",
+    "stripAI": "AI guide classified: {topic}",
+    "stripDepth": "depth: {depth}",
+    "depth_intro": "intro",
+    "depth_explain": "explanation",
+    "depth_detailed": "in depth",
+    "stripChip": "Asker chose: {topic}"
   }
 }

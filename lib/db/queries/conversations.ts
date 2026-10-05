@@ -27,7 +27,7 @@ export async function getConversation(id: string) {
   const supabase = await createClient();
   const { data, error } = await supabase
     .from("conversations")
-    .select("id, asker_id, daee_id, status, created_at, assigned_at, started_at, ended_at")
+    .select("id, asker_id, daee_id, status, created_at, assigned_at, started_at, ended_at, topic, depth, classified_by, match_quality, match_reasons")
     .eq("id", id)
     .maybeSingle();
   if (error) logServerError("getConversation", error, { id });

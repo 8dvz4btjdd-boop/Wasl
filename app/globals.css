@@ -302,3 +302,9 @@
     scroll-behavior: auto !important;
   }
 }
+
+/* The classification card's auto-confirm countdown (8 s). */
+@keyframes wasl-countdown {
+  from { transform: scaleX(1); }
+  to { transform: scaleX(0); }
+}

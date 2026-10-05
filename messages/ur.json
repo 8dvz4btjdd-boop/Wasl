@@ -522,5 +522,20 @@
     "tierCard": "کارڈ ماڈل",
     "tierFast": "تیز ماڈل",
     "sourceLabel": "ماخذ: پیغام {n}"
+  },
+  "Routing": {
+    "understood": "AI رہنما نے آپ کا سوال یوں سمجھا: {topic} · {language}",
+    "correct": "درست",
+    "change": "تبدیل کریں",
+    "pickTopic": "قریب ترین موضوع منتخب کریں",
+    "matchNone": "اس وقت {language} بولنے والا کوئی داعی فارغ نہیں۔ جیسے ہی کوئی دستیاب ہوگا، آپ سے رابطہ ہو جائے گا۔",
+    "partial": "جزوی مطابقت",
+    "availableNow": "ابھی دستیاب",
+    "stripAI": "AI رہنما کی درجہ بندی: {topic}",
+    "stripDepth": "گہرائی: {depth}",
+    "depth_intro": "تعارف",
+    "depth_explain": "وضاحت",
+    "depth_detailed": "تفصیل",
+    "stripChip": "سائل کا انتخاب: {topic}"
   }
 }

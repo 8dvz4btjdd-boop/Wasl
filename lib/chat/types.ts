@@ -28,6 +28,8 @@ export type ConversationSummary = {
   card_id: string | null;
   followup_mode: "none" | "manual" | "ai" | null;
   followup_sufficient: boolean | null;
+  depth?: string | null;
+  classified_by?: "ai" | "chip" | null;
   asker: { pseudonym: string; language: string; background: string | null } | null;
   /** Filled in by fetchInbox; null when the conversation has no messages yet. */
   last_message?: LastMessage | null;
@@ -41,7 +43,7 @@ export const MESSAGE_MAX = 4000;
 
 export const MESSAGE_COLUMNS = "id, conversation_id, sender_id, sender_role, body, created_at";
 export const SUMMARY_COLUMNS =
-  "id, asker_id, status, topic, created_at, started_at, assigned_at, ended_at, previous_conversation_id, card_id, followup_mode, followup_sufficient, asker:askers(pseudonym, language, background)";
+  "id, asker_id, status, topic, created_at, started_at, assigned_at, ended_at, previous_conversation_id, card_id, followup_mode, followup_sufficient, depth, classified_by, asker:askers(pseudonym, language, background)";
 
 /** The organization's day boundary for "ended today" (seeded hours are Riyadh time). */
 export const ORG_TIME_ZONE = "Asia/Riyadh";

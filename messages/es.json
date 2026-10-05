@@ -522,5 +522,20 @@
     "tierCard": "Modelo de tarjeta",
     "tierFast": "Modelo rápido",
     "sourceLabel": "Fuente: mensaje {n}"
+  },
+  "Routing": {
+    "understood": "La guía de IA entendió tu pregunta así: {topic} · {language}",
+    "correct": "Correcto",
+    "change": "Cambiar",
+    "pickTopic": "Elige el tema más cercano",
+    "matchNone": "Ahora no hay ningún dāʿī libre que hable {language}. Te conectaremos en cuanto haya uno.",
+    "partial": "Coincidencia parcial",
+    "availableNow": "disponible ahora",
+    "stripAI": "Clasificado por la guía de IA: {topic}",
+    "stripDepth": "nivel: {depth}",
+    "depth_intro": "introducción",
+    "depth_explain": "explicación",
+    "depth_detailed": "a fondo",
+    "stripChip": "Elegido por la persona: {topic}"
   }
 }

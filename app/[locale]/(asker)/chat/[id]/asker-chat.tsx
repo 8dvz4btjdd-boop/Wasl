@@ -9,6 +9,7 @@ import { Elapsed } from "@/components/chat/elapsed";
 import { MessageList, type SystemLine } from "@/components/chat/message-list";
 import { useMessages } from "@/components/chat/use-messages";
 import { NewReturnCode } from "@/components/asker/new-code";
+import { ClassificationConfirm, MatchLine, type MatchReasons } from "@/components/ai/routing";
 import { Logo } from "@/components/logo";
 import { SignOutButton } from "@/components/sign-out-button";
 import { Surface } from "@/components/surface";
@@ -28,6 +29,10 @@ type Conversation = {
   created_at: string;
   assigned_at: string | null;
   ended_at: string | null;
+  topic?: string | null;
+  classified_by?: string | null;
+  match_quality?: string | null;
+  match_reasons?: unknown;
 };
 
 export type TransferLine = { id: string; status: "pending" | "accepted" | "declined"; created_at: string; to_name: string | null; requeued_at: string | null };
@@ -39,6 +44,10 @@ type AskerChatProps = {
   initialMessages: MessageRow[];
   initialTransfers: TransferLine[];
   initialCardApproved: boolean;
+  /** The asker's language, for "understood as … · Arabic". */
+  language: string;
+  /** Off: no classification card (the chip decided). */
+  aiEnabled: boolean;
 };
 
 /** Transfers of this conversation with the receiving daee's name (the asker can read both). */
@@ -67,6 +76,8 @@ export function AskerChat({
   initialMessages,
   initialTransfers,
   initialCardApproved,
+  language,
+  aiEnabled,
 }: AskerChatProps) {
   const t = useTranslations("Chat");
   const [conversation, setConversation] = useState(initialConversation);
@@ -112,7 +123,7 @@ export function AskerChat({
         onResync: async () => {
           const { data } = await createClient()
             .from("conversations")
-            .select("id, daee_id, status, created_at, assigned_at, ended_at")
+            .select("id, daee_id, status, created_at, assigned_at, ended_at, topic, classified_by, match_quality, match_reasons")
             .eq("id", conversation.id)
             .maybeSingle();
           if (data) setConversation((prev) => ({ ...prev, ...data }));
@@ -229,6 +240,12 @@ export function AskerChat({
       />
 
       <footer className="mx-auto flex w-full max-w-2xl flex-col gap-3 px-4 pt-2 pb-4 sm:px-6">
+        {aiEnabled && conversation.classified_by === "ai" && conversation.topic && conversation.status === "waiting" && (
+          <ClassificationConfirm conversationId={conversation.id} topic={conversation.topic} language={language} />
+        )}
+        {conversation.status === "waiting" && conversation.match_quality && conversation.match_reasons ? (
+          <MatchLine quality={conversation.match_quality as "full" | "partial" | "none"} reasons={conversation.match_reasons as MatchReasons} />
+        ) : null}
         {pendingTransfer && !ended && (
           <motion.div
             variants={fadeUp}

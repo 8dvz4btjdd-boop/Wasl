@@ -522,5 +522,20 @@
     "tierCard": "Model para sa card",
     "tierFast": "Mabilis na model",
     "sourceLabel": "Pinagmulan: mensahe {n}"
+  },
+  "Routing": {
+    "understood": "Ganito naunawaan ng AI guide ang tanong mo: {topic} · {language}",
+    "correct": "Tama",
+    "change": "Baguhin",
+    "pickTopic": "Piliin ang pinakamalapit na paksa",
+    "matchNone": "Wala pang bakanteng dāʿī na nagsasalita ng {language}. Ikokonekta ka agad kapag mayroon na.",
+    "partial": "Bahagyang tugma",
+    "availableNow": "available ngayon",
+    "stripAI": "Inuri ng AI guide: {topic}",
+    "stripDepth": "lalim: {depth}",
+    "depth_intro": "panimula",
+    "depth_explain": "paliwanag",
+    "depth_detailed": "malalim",
+    "stripChip": "Pinili ng nagtatanong: {topic}"
   }
 }
