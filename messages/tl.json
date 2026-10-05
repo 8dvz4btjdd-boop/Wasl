@@ -172,7 +172,13 @@
     "createCard": "Gumawa ng Wasl card",
     "transferUnavailable": "Hindi available si {to} sa ngayon.",
     "requeue": "Ibalik sa pila",
-    "requeued": "Naibalik sa pila ang pag-uusap mo"
+    "requeued": "Naibalik sa pila ang pag-uusap mo",
+    "newCode": "Magpakita ng bagong return code",
+    "newCodeWarning": "Papalitan ng bagong code ang kasalukuyan mong code, na agad nang hindi gagana.",
+    "newCodeConfirm": "Gumawa ng bagong code",
+    "newCodeTitle": "Ang bago mong return code",
+    "newCodeBody": "Kopyahin o isulat ito. Isang beses lang itong ipapakita, at hindi na gumagana ang luma mong code.",
+    "newCodeFailed": "Hindi makagawa ng bagong code. Subukan ulit."
   },
   "Inbox": {
     "title": "Inbox",
@@ -224,7 +230,6 @@
     "mode_manual": "Manual na card",
     "mode_none": "Walang card",
     "mode_ai": "AI card",
-    "rateQuestion": "Sapat ba ang konteksto para makapagpatuloy?",
     "yes": "Oo",
     "no": "Hindi",
     "rated": "Naitala",
@@ -233,7 +238,13 @@
     "cardSameOnly": "Parehong dāʿī lang",
     "cardUntil": "Makikita hanggang {date}",
     "cardSources": "Mga pinagmulan ({count})",
-    "cardPrevious": "Mula sa nakaraang pag-uusap"
+    "cardPrevious": "Mula sa nakaraang pag-uusap",
+    "cardUntilDeleted": "Makikita hanggang burahin ito ng nagtatanong",
+    "endFollowupTitle": "Bago mo tapusin ang pagpapatuloy na ito",
+    "rateContext": "Nakatulong ba ang konteksto para makapagpatuloy ka nang hindi nagsisimula ulit?",
+    "rateCard": "Tumpak ba ang card?",
+    "saveAndEnd": "I-save at tapusin",
+    "skipAndEnd": "Laktawan at tapusin"
   },
   "Presence": {
     "label": "Ang status mo",
@@ -424,7 +435,12 @@
     "version": "Bersyon {version}",
     "backToChat": "Bumalik sa pag-uusap",
     "error": "Hindi ma-save ang card. Subukan ulit.",
-    "noMessages": "Wala pang mensaheng mapagpipilian."
+    "noMessages": "Wala pang mensaheng mapagpipilian.",
+    "forever": "Hanggang burahin ko ito",
+    "approvedForever": "Naaprubahan. Makikita hanggang burahin mo ito.",
+    "delete": "Burahin ang card",
+    "deleteHint": "Mabubura ang bawat bersyon, at wala nang dāʿī na makakakita nito mula ngayon.",
+    "confirmDelete": "Burahin nang permanente"
   },
   "Site": {
     "how": "Paano ito gumagana",
@@ -433,8 +449,8 @@
     "skip": "Lumaktaw sa nilalaman",
     "poweredBy": "Pinapagana ng Wasl",
     "aiLink": "Paano namin ginagamit ang AI",
-    "privacyTitle": "Privacy",
-    "privacyText": "Palayaw lang ang hinihingi namin: walang email, walang numero ng telepono. Ang return code mo ay naka-imbak lang bilang protektadong hash. Ibinabahagi lang ang Wasl card pagkatapos mo itong aprubahan, sa mga pinili mo, at mag-e-expire ito pagkalipas ng 7, 14 o 30 araw na pinili mo. Hindi kailanman binabasa ng mga administrator ang mga pag-uusap."
+    "back": "Bumalik",
+    "footerNav": "Mga link ng site"
   },
   "Demo": {
     "daee1": "Khalid",
@@ -446,5 +462,39 @@
     "next": "Mga halimbawa mula sa isang karaniwang araw",
     "continues": "Nagpapatuloy si {name}",
     "reply2": "Nabasa ko na ang card mo. Tingnan ba natin ang isang karaniwang araw?"
+  },
+  "Profile": {
+    "title": "Profile",
+    "close": "Isara",
+    "error": "Hindi ma-load ang profile mo. Subukan ulit.",
+    "today": "Ngayong araw",
+    "handledToday": "Mga pag-uusap ngayong araw",
+    "medianFirstReply": "Median ng unang sagot",
+    "status": "Status",
+    "languages": "Mga wika",
+    "topics": "Mga paksa",
+    "capacity": "Kapasidad",
+    "capacityValue": "{count, plural, one {# pag-uusap nang sabay} other {# na pag-uusap nang sabay}}",
+    "adminEdits": "Isang administrator ang nagtatakda ng mga wika, paksa, at kapasidad mo."
+  },
+  "Privacy": {
+    "title": "Privacy",
+    "intro": "Ano ang itinatago namin, sino ang makakakita nito, at gaano katagal.",
+    "askTitle": "Ano ang hinihingi namin",
+    "askBody": "Palayaw lang. Puwede kang magdagdag ng maikling tala tungkol sa iyo; opsyonal ito, at ang mga dāʿī lang na kausap mo ang makakakita nito. Walang email, walang numero ng telepono.",
+    "codeTitle": "Ang return code mo",
+    "codeBody": "Ibinabalik ka ng return code mo sa mga pag-uusap mo mula sa kahit anong device. Isang protektadong fingerprint lang nito (salted hash) ang itinatago namin, hindi kailanman ang mismong code, kaya hindi na ito maipapakita ulit. Sa pagtatapos ng pag-uusap, puwede kang humingi ng bagong code; agad nang hindi gagana ang luma.",
+    "cardsTitle": "Mga Wasl card",
+    "cardsBody": "Ang Wasl card ay maikling buod na isinusulat mo para maipagpatuloy ng sinumang magpapatuloy sa iyo kung saan kayo huminto.",
+    "cardsSelect": "Binubuo lang ito mula sa mga mensaheng pipiliin mo. Ang anumang iiwan mong blangko ay ise-save bilang “Hindi tinukoy”, hindi kailanman huhulaan.",
+    "cardsWho": "Walang ibabahagi hangga't hindi mo inaaprubahan. Ikaw ang pipili kung sino ang makakakita nito: ang dāʿī na kausap mo, ang team, o ang susunod na dāʿī lang.",
+    "cardsHowLong": "Mananatili ito hanggang burahin mo, o nang 7, 14, o 30 araw kung iyon ang pipiliin mo.",
+    "cardsDelete": "Puwede mo itong burahin anumang oras mula sa page ng card. Mabubura ang bawat bersyon, at wala nang dāʿī na makakakita nito mula sa sandaling iyon.",
+    "cardsInactive": "Awtomatikong binubura ang mga card na walang aktibidad sa loob ng 12 buwan.",
+    "conversationsTitle": "Ang mga pag-uusap mo",
+    "conversationsBody": "Ikaw at ang dāʿī na kausap mo ang nakakakita ng mga mensahe mo, pati ang isang kasamahan kung ililipat ang pag-uusap mo. Hindi kailanman nagbabasa ng mga pag-uusap ang mga administrator; mga bilang at average lang ang nakikita nila.",
+    "aiTitle": "Ang AI guide",
+    "aiBody": "Kapag binuksan ito ng organisasyon, puwedeng ayusin ng AI guide ang kahilingan mo, magmungkahi ng babasahin mula sa mga aprubadong sanggunian kasama ang mga sipi nito, at gumawa ng draft ng card na ikaw ang mag-e-edit at mag-aapruba. Hindi ito kailanman nagbibigay ng fatwa (relihiyosong pasya) o sumasagot sa mga tanong tungkol sa relihiyon, hindi kailanman nanghuhula ng paniniwala mo, at walang ibinabahagi nang walang pag-apruba mo. Gumagana nang buo ang Wasl kahit wala ito.",
+    "aiMore": "Paano namin ginagamit ang AI"
   }
 }

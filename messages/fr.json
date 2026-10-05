@@ -172,7 +172,13 @@
     "createCard": "Créer une carte Wasl",
     "transferUnavailable": "{to} n'est pas disponible pour le moment.",
     "requeue": "Revenir dans la file",
-    "requeued": "Votre conversation est revenue dans la file d'attente"
+    "requeued": "Votre conversation est revenue dans la file d'attente",
+    "newCode": "Afficher un nouveau code de retour",
+    "newCodeWarning": "Un nouveau code remplace votre code actuel, qui cesse aussitôt de fonctionner.",
+    "newCodeConfirm": "Créer un nouveau code",
+    "newCodeTitle": "Votre nouveau code de retour",
+    "newCodeBody": "Copiez-le ou notez-le. Il n'est affiché qu'une seule fois, et votre ancien code ne fonctionne plus.",
+    "newCodeFailed": "Impossible de créer un nouveau code. Réessayez."
   },
   "Inbox": {
     "title": "Boîte de réception",
@@ -224,7 +230,6 @@
     "mode_manual": "Carte manuelle",
     "mode_none": "Sans carte",
     "mode_ai": "Carte IA",
-    "rateQuestion": "Le contexte suffisait-il pour reprendre ?",
     "yes": "Oui",
     "no": "Non",
     "rated": "Enregistré",
@@ -233,7 +238,13 @@
     "cardSameOnly": "Le même dāʿī uniquement",
     "cardUntil": "Visible jusqu'au {date}",
     "cardSources": "Sources ({count})",
-    "cardPrevious": "De la conversation précédente"
+    "cardPrevious": "De la conversation précédente",
+    "cardUntilDeleted": "Visible jusqu'à ce que la personne la supprime",
+    "endFollowupTitle": "Avant de terminer ce suivi",
+    "rateContext": "Le contexte vous a-t-il aidé à continuer sans repartir de zéro ?",
+    "rateCard": "La carte était-elle exacte ?",
+    "saveAndEnd": "Enregistrer et terminer",
+    "skipAndEnd": "Passer et terminer"
   },
   "Presence": {
     "label": "Votre statut",
@@ -424,7 +435,12 @@
     "version": "Version {version}",
     "backToChat": "Retour à la conversation",
     "error": "Impossible d'enregistrer la carte. Réessayez.",
-    "noMessages": "Il n'y a pas encore de messages à choisir."
+    "noMessages": "Il n'y a pas encore de messages à choisir.",
+    "forever": "Jusqu'à ce que je la supprime",
+    "approvedForever": "Approuvée. Visible jusqu'à ce que vous la supprimiez.",
+    "delete": "Supprimer la carte",
+    "deleteHint": "Toutes les versions sont supprimées, et aucun dāʿī ne peut plus la voir.",
+    "confirmDelete": "Supprimer définitivement"
   },
   "Site": {
     "how": "Comment ça marche",
@@ -433,8 +449,8 @@
     "skip": "Aller au contenu",
     "poweredBy": "Propulsé par Wasl",
     "aiLink": "Notre usage de l'IA",
-    "privacyTitle": "Confidentialité",
-    "privacyText": "Nous ne demandons qu'un pseudonyme : ni e-mail, ni numéro de téléphone. Votre code de retour n'est conservé que sous forme protégée (hachée). Une carte Wasl n'est partagée qu'après votre accord, avec qui vous choisissez, et expire après les 7, 14 ou 30 jours que vous choisissez. Les administrateurs ne lisent jamais les conversations."
+    "back": "Retour",
+    "footerNav": "Liens du site"
   },
   "Demo": {
     "daee1": "Khalid",
@@ -446,5 +462,39 @@
     "next": "Des exemples d'une journée ordinaire",
     "continues": "{name} prend le relais",
     "reply2": "J'ai lu votre carte. On regarde une journée ordinaire ?"
+  },
+  "Profile": {
+    "title": "Profil",
+    "close": "Fermer",
+    "error": "Impossible de charger votre profil. Réessayez.",
+    "today": "Aujourd'hui",
+    "handledToday": "Conversations aujourd'hui",
+    "medianFirstReply": "Première réponse (médiane)",
+    "status": "Statut",
+    "languages": "Langues",
+    "topics": "Sujets",
+    "capacity": "Capacité",
+    "capacityValue": "{count, plural, one {# conversation à la fois} other {# conversations à la fois}}",
+    "adminEdits": "Vos langues, sujets et capacité sont définis par un administrateur."
+  },
+  "Privacy": {
+    "title": "Confidentialité",
+    "intro": "Ce que nous conservons, qui peut le voir, et pendant combien de temps.",
+    "askTitle": "Ce que nous demandons",
+    "askBody": "Seulement un pseudonyme. Vous pouvez ajouter une courte note sur vous ; elle est facultative, et seuls les dāʿīs qui échangent avec vous la voient. Ni e-mail, ni numéro de téléphone.",
+    "codeTitle": "Votre code de retour",
+    "codeBody": "Votre code de retour vous ramène à vos conversations depuis n'importe quel appareil. Nous n'en conservons qu'une empreinte protégée (un hachage salé), jamais le code lui-même : il ne peut donc pas être affiché à nouveau. À la fin d'une conversation, vous pouvez demander un nouveau code ; l'ancien cesse aussitôt de fonctionner.",
+    "cardsTitle": "Cartes Wasl",
+    "cardsBody": "Une carte Wasl est un court résumé que vous rédigez pour que celui qui continue avec vous reprenne là où vous vous étiez arrêtés.",
+    "cardsSelect": "Elle est construite uniquement à partir des messages que vous choisissez. Ce que vous laissez vide est enregistré comme « Non précisé », jamais deviné.",
+    "cardsWho": "Rien n'est partagé avant votre accord. Vous choisissez qui la voit : le dāʿī avec qui vous parlez, l'équipe, ou uniquement le prochain dāʿī.",
+    "cardsHowLong": "Elle reste jusqu'à ce que vous la supprimiez, ou pendant 7, 14 ou 30 jours si vous le choisissez.",
+    "cardsDelete": "Vous pouvez la supprimer à tout moment depuis la page de la carte. Toutes les versions sont effacées, et aucun dāʿī ne peut plus la voir dès cet instant.",
+    "cardsInactive": "Les cartes sans activité depuis 12 mois sont supprimées automatiquement.",
+    "conversationsTitle": "Vos conversations",
+    "conversationsBody": "Vos messages sont vus par vous et le dāʿī avec qui vous parlez, ainsi que par un collègue si votre conversation lui est transmise. Les administrateurs ne lisent jamais les conversations ; ils ne voient que des totaux et des moyennes.",
+    "aiTitle": "Le guide IA",
+    "aiBody": "Lorsque l'organisation l'active, un guide IA peut organiser votre demande, suggérer des lectures issues de sources approuvées avec leurs références, et rédiger une carte que vous modifiez et approuvez. Il ne donne jamais de fatwa (un avis juridique religieux) et ne répond pas aux questions religieuses, ne devine jamais vos convictions et ne partage rien sans votre accord. Wasl fonctionne pleinement sans lui.",
+    "aiMore": "Notre usage de l'IA"
   }
 }

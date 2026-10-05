@@ -172,7 +172,13 @@
     "createCard": "Buat kartu Wasl",
     "transferUnavailable": "{to} sedang tidak tersedia.",
     "requeue": "Kembali ke antrean",
-    "requeued": "Percakapan Anda kembali ke antrean"
+    "requeued": "Percakapan Anda kembali ke antrean",
+    "newCode": "Tampilkan kode kembali baru",
+    "newCodeWarning": "Kode baru menggantikan kode Anda saat ini, yang langsung tidak berlaku lagi.",
+    "newCodeConfirm": "Buat kode baru",
+    "newCodeTitle": "Kode kembali baru Anda",
+    "newCodeBody": "Salin atau catat kode ini. Kode hanya ditampilkan sekali, dan kode lama Anda tidak berlaku lagi.",
+    "newCodeFailed": "Kode baru tidak dapat dibuat. Coba lagi."
   },
   "Inbox": {
     "title": "Kotak masuk",
@@ -224,7 +230,6 @@
     "mode_manual": "Kartu manual",
     "mode_none": "Tanpa kartu",
     "mode_ai": "Kartu AI",
-    "rateQuestion": "Apakah konteksnya cukup untuk melanjutkan?",
     "yes": "Ya",
     "no": "Tidak",
     "rated": "Tercatat",
@@ -233,7 +238,13 @@
     "cardSameOnly": "Hanya dai yang sama",
     "cardUntil": "Terlihat hingga {date}",
     "cardSources": "Sumber ({count})",
-    "cardPrevious": "Dari percakapan sebelumnya"
+    "cardPrevious": "Dari percakapan sebelumnya",
+    "cardUntilDeleted": "Terlihat hingga penanya menghapusnya",
+    "endFollowupTitle": "Sebelum Anda mengakhiri tindak lanjut ini",
+    "rateContext": "Apakah konteksnya membantu Anda melanjutkan tanpa mulai dari awal?",
+    "rateCard": "Apakah kartunya akurat?",
+    "saveAndEnd": "Simpan dan akhiri",
+    "skipAndEnd": "Lewati dan akhiri"
   },
   "Presence": {
     "label": "Status Anda",
@@ -424,7 +435,12 @@
     "version": "Versi {version}",
     "backToChat": "Kembali ke percakapan",
     "error": "Kartu tidak dapat disimpan. Coba lagi.",
-    "noMessages": "Belum ada pesan untuk dipilih."
+    "noMessages": "Belum ada pesan untuk dipilih.",
+    "forever": "Sampai saya menghapusnya",
+    "approvedForever": "Disetujui. Terlihat sampai Anda menghapusnya.",
+    "delete": "Hapus kartu",
+    "deleteHint": "Semua versi dihapus, dan mulai sekarang tidak ada dai yang dapat melihatnya.",
+    "confirmDelete": "Hapus permanen"
   },
   "Site": {
     "how": "Cara kerjanya",
@@ -433,8 +449,8 @@
     "skip": "Langsung ke konten",
     "poweredBy": "Didukung oleh Wasl",
     "aiLink": "Cara kami menggunakan AI",
-    "privacyTitle": "Privasi",
-    "privacyText": "Kami hanya meminta nama samaran: tanpa email, tanpa nomor telepon. Kode kembali Anda hanya disimpan sebagai hash yang terlindungi. Kartu Wasl hanya dibagikan setelah Anda menyetujuinya, kepada siapa yang Anda pilih, dan kedaluwarsa setelah 7, 14, atau 30 hari sesuai pilihan Anda. Administrator tidak pernah membaca percakapan."
+    "back": "Kembali",
+    "footerNav": "Tautan situs"
   },
   "Demo": {
     "daee1": "Khalid",
@@ -446,5 +462,39 @@
     "next": "Contoh dari hari biasa",
     "continues": "{name} melanjutkan",
     "reply2": "Saya sudah membaca kartu Anda. Bagaimana kalau kita lihat hari biasa?"
+  },
+  "Profile": {
+    "title": "Profil",
+    "close": "Tutup",
+    "error": "Profil Anda tidak dapat dimuat. Coba lagi.",
+    "today": "Hari ini",
+    "handledToday": "Percakapan hari ini",
+    "medianFirstReply": "Median balasan pertama",
+    "status": "Status",
+    "languages": "Bahasa",
+    "topics": "Topik",
+    "capacity": "Kapasitas",
+    "capacityValue": "{count, plural, one {# percakapan sekaligus} other {# percakapan sekaligus}}",
+    "adminEdits": "Bahasa, topik, dan kapasitas Anda diatur oleh administrator."
+  },
+  "Privacy": {
+    "title": "Privasi",
+    "intro": "Apa yang kami simpan, siapa yang dapat melihatnya, dan berapa lama.",
+    "askTitle": "Apa yang kami minta",
+    "askBody": "Hanya nama samaran. Anda dapat menambahkan catatan singkat tentang diri Anda; ini opsional, dan hanya dai yang berbicara dengan Anda yang melihatnya. Tanpa email, tanpa nomor telepon.",
+    "codeTitle": "Kode kembali Anda",
+    "codeBody": "Kode kembali membawa Anda kembali ke percakapan Anda dari perangkat apa pun. Kami hanya menyimpan sidik jari terlindungi dari kode itu (hash dengan salt), tidak pernah kodenya sendiri, sehingga kode tidak dapat ditampilkan lagi. Di akhir percakapan Anda dapat meminta kode baru; kode lama langsung tidak berlaku lagi.",
+    "cardsTitle": "Kartu Wasl",
+    "cardsBody": "Kartu Wasl adalah ringkasan singkat yang Anda tulis agar siapa pun yang melanjutkan bersama Anda dapat meneruskan dari bagian terakhir.",
+    "cardsSelect": "Kartu hanya dibuat dari pesan yang Anda pilih. Apa pun yang Anda biarkan kosong disimpan sebagai “Tidak ditentukan”, tidak pernah ditebak.",
+    "cardsWho": "Tidak ada yang dibagikan sampai Anda menyetujuinya. Anda memilih siapa yang melihatnya: dai yang sedang berbicara dengan Anda, tim, atau hanya dai berikutnya.",
+    "cardsHowLong": "Kartu tetap ada sampai Anda menghapusnya, atau selama 7, 14, atau 30 hari jika Anda memilihnya.",
+    "cardsDelete": "Anda dapat menghapusnya kapan saja dari halaman kartu. Semua versi dihapus, dan sejak saat itu tidak ada dai yang dapat melihatnya.",
+    "cardsInactive": "Kartu yang tidak aktif selama 12 bulan dihapus secara otomatis.",
+    "conversationsTitle": "Percakapan Anda",
+    "conversationsBody": "Pesan Anda dilihat oleh Anda dan dai yang berbicara dengan Anda, serta oleh rekannya jika percakapan Anda dipindahkan. Administrator tidak pernah membaca percakapan; mereka hanya melihat jumlah dan rata-rata.",
+    "aiTitle": "Pemandu AI",
+    "aiBody": "Jika organisasi mengaktifkannya, pemandu AI dapat merapikan permintaan Anda, menyarankan bacaan dari sumber yang disetujui beserta rujukannya, dan menyusun draf kartu yang Anda sunting dan setujui. Pemandu AI tidak pernah memberikan fatwa (ketetapan hukum agama) atau menjawab pertanyaan agama, tidak pernah menebak keyakinan Anda, dan tidak membagikan apa pun tanpa persetujuan Anda. Wasl berfungsi sepenuhnya tanpanya.",
+    "aiMore": "Cara kami menggunakan AI"
   }
 }

@@ -8,12 +8,14 @@ import { Composer } from "@/components/chat/composer";
 import { Elapsed } from "@/components/chat/elapsed";
 import { MessageList, type SystemLine } from "@/components/chat/message-list";
 import { useMessages } from "@/components/chat/use-messages";
+import { NewReturnCode } from "@/components/asker/new-code";
 import { Logo } from "@/components/logo";
 import { SignOutButton } from "@/components/sign-out-button";
 import { Surface } from "@/components/surface";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Link } from "@/i18n/navigation";
 import { checkTransferTarget, requeueTransfer, transferNow } from "@/lib/cards/actions";
+import { isolate } from "@/lib/bidi";
 import { MESSAGE_MAX, type ConversationStatus, type MessageRow } from "@/lib/chat/types";
 import { createClient, subscribeResilient } from "@/lib/db/client";
 import { fadeUp, pulse } from "@/lib/motion";
@@ -171,15 +173,15 @@ export function AskerChat({
     const lines: SystemLine[] = [];
     // After a transfer, assigned_at is the hand-over time; the transfer lines tell the story.
     if (daeeName && conversation.assigned_at && accepted.length === 0) {
-      lines.push({ id: "joined", at: conversation.assigned_at, text: t("joined", { name: daeeName }) });
+      lines.push({ id: "joined", at: conversation.assigned_at, text: t("joined", { name: isolate(daeeName) }) });
     }
     for (const tr of accepted) {
-      lines.push({ id: `transfer-${tr.id}`, at: tr.created_at, text: t("transferred", { name: tr.to_name ?? "" }) });
+      lines.push({ id: `transfer-${tr.id}`, at: tr.created_at, text: t("transferred", { name: isolate(tr.to_name ?? "") }) });
     }
     for (const tr of transfers) {
       if (tr.requeued_at) lines.push({ id: `requeued-${tr.id}`, at: tr.requeued_at, text: t("requeued") });
     }
-    if (daeeName && conversation.ended_at) lines.push({ id: "ended", at: conversation.ended_at, text: t("endedBy", { name: daeeName }) });
+    if (daeeName && conversation.ended_at) lines.push({ id: "ended", at: conversation.ended_at, text: t("endedBy", { name: isolate(daeeName) }) });
     return lines;
   }, [conversation.assigned_at, conversation.ended_at, daeeName, accepted, transfers, t]);
 
@@ -192,7 +194,7 @@ export function AskerChat({
           <Logo size={26} />
           <div className="flex min-w-0 flex-col">
             <motion.p key={daeeName ?? "waiting"} variants={fadeUp} initial="hidden" animate="visible" className="truncate font-semibold">
-              {daeeName ? t("with", { name: daeeName }) : t("waitingTitle")}
+              {daeeName ? t("with", { name: isolate(daeeName) }) : t("waitingTitle")}
             </motion.p>
             <p className="text-sm text-muted-foreground">
               {waiting && (
@@ -200,7 +202,7 @@ export function AskerChat({
                   {t("waitingLabel")} <Elapsed since={conversation.created_at} />
                 </>
               )}
-              {assignedNotStarted && daeeName && t("replySoon", { name: daeeName })}
+              {assignedNotStarted && daeeName && t("replySoon", { name: isolate(daeeName) })}
             </p>
           </div>
           {messages.length > 0 && (
@@ -235,11 +237,11 @@ export function AskerChat({
             className="flex flex-col gap-3 rounded-2xl border border-brand-teal/40 bg-teal-bg p-4"
           >
             <div className="flex flex-col gap-1">
-              <p className="font-medium">{t("transferAsk", { from: daeeName ?? "", to: pendingTransfer.to_name ?? "" })}</p>
+              <p className="font-medium">{t("transferAsk", { from: isolate(daeeName ?? ""), to: isolate(pendingTransfer.to_name ?? "") })}</p>
               <p id="transfer-reason" className="text-sm text-muted-foreground">
                 {targetGone
-                  ? t("transferUnavailable", { to: pendingTransfer.to_name ?? "" })
-                  : t("transferAskHint", { to: pendingTransfer.to_name ?? "" })}
+                  ? t("transferUnavailable", { to: isolate(pendingTransfer.to_name ?? "") })
+                  : t("transferAskHint", { to: isolate(pendingTransfer.to_name ?? "") })}
               </p>
             </div>
             <div className="flex flex-wrap gap-2">
@@ -291,6 +293,7 @@ export function AskerChat({
               )}
               <SignOutButton label={t("comeBack")} to="/" />
             </div>
+            <NewReturnCode />
           </motion.div>
         ) : (
           <Composer onSend={send} placeholder={t("placeholder")} sendLabel={t("send")} maxLength={MESSAGE_MAX} autoFocus />

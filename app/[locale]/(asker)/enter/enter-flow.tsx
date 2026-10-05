@@ -3,12 +3,14 @@
 import { ArrowUp } from "lucide-react";
 import { motion } from "motion/react";
 import { useLocale, useTranslations } from "next-intl";
-import { useActionState, useState, useSyncExternalStore } from "react";
+import { useActionState, useCallback, useState, useSyncExternalStore } from "react";
 import { ReturnCodeReveal } from "@/components/asker/return-code-reveal";
+import { useBackHandler } from "@/components/site/back-control";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Link } from "@/i18n/navigation";
+import { isolate } from "@/lib/bidi";
 import { BACKGROUND_MAX, type FormError, PSEUDONYM_MAX, Pseudonym } from "@/lib/auth/forms";
 import { fadeUp } from "@/lib/motion";
 import { cn } from "@/lib/utils";
@@ -31,6 +33,15 @@ export function EnterFlow({ existingPseudonym }: { existingPseudonym: string | n
   // The first step is client-only; before hydration a native submit would reload and lose input.
   const hydrated = useSyncExternalStore(noopSubscribe, () => true, () => false);
 
+  // The header's back control steps back through the questions before leaving.
+  useBackHandler(
+    useCallback(() => {
+      if (state.code || step === "pseudonym") return false;
+      setStep("pseudonym");
+      return true;
+    }, [state.code, step]),
+  );
+
   // A pseudonym problem found by the server sends the person back to that question.
   const [seenState, setSeenState] = useState(state);
   if (state !== seenState) {
@@ -46,7 +57,7 @@ export function EnterFlow({ existingPseudonym }: { existingPseudonym: string | n
     return (
       <div className="flex flex-1 flex-col gap-6 pt-[12vh]">
         <h1 className="text-4xl leading-tight font-semibold sm:text-5xl">
-          {t("alreadyIn", { pseudonym: existingPseudonym })}
+          {t("alreadyIn", { pseudonym: isolate(existingPseudonym) })}
         </h1>
         <Link href="/wait" className={cn(buttonVariants({ size: "lg" }), "h-12 self-start px-5 text-base")}>
           {t("continue")}

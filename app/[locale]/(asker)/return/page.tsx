@@ -12,7 +12,7 @@ export default async function ReturnPage({ params }: PageProps<"/[locale]/return
   if (await getAsker()) return redirect({ href: "/wait", locale });
 
   return (
-    <AskerShell footer>
+    <AskerShell back>
       <ReturnForm />
     </AskerShell>
   );

@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { LocaleSwitcher } from "@/components/locale-switcher";
 import { Logo } from "@/components/logo";
+import { BackControl } from "./back-control";
 import { buttonVariants } from "@/components/ui/button";
 import { Link } from "@/i18n/navigation";
 import { DURATION, EASE_OUT } from "@/lib/motion";
@@ -16,9 +17,11 @@ type SiteHeaderProps = {
   variant?: "full" | "compact";
   /** id of the hero's start button; the header's appears once it leaves the viewport. */
   ctaTargetId?: string;
+  /** A back control at the start, to the landing page (or a step back, see useBackHandler). */
+  back?: boolean;
 };
 
-export function SiteHeader({ orgName, variant = "full", ctaTargetId }: SiteHeaderProps) {
+export function SiteHeader({ orgName, variant = "full", ctaTargetId, back = false }: SiteHeaderProps) {
   const t = useTranslations("Site");
   const tHome = useTranslations("Home");
   const [scrolled, setScrolled] = useState(false);
@@ -55,6 +58,7 @@ export function SiteHeader({ orgName, variant = "full", ctaTargetId }: SiteHeade
         {t("skip")}
       </a>
       <div className={cn("mx-auto flex h-16 w-full items-center gap-3 px-4 sm:px-6", full ? "max-w-6xl" : "max-w-xl")}>
+        {back && <BackControl />}
         <Link
           href="/"
           className="flex min-w-0 items-center gap-2.5 rounded-lg focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none"
@@ -65,12 +69,12 @@ export function SiteHeader({ orgName, variant = "full", ctaTargetId }: SiteHeade
 
         {full && (
           <nav aria-label={t("how")} className="ms-6 hidden items-center gap-1 md:flex">
-            <a href="#how" className="rounded-lg px-3 py-2 text-sm text-muted-foreground transition-colors hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none">
+            <Link href={{ pathname: "/", hash: "how" }} className="rounded-lg px-3 py-2 text-sm text-muted-foreground transition-colors hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none">
               {t("how")}
-            </a>
-            <a href="#privacy" className="rounded-lg px-3 py-2 text-sm text-muted-foreground transition-colors hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none">
+            </Link>
+            <Link href="/privacy" className="rounded-lg px-3 py-2 text-sm text-muted-foreground transition-colors hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none">
               {t("privacy")}
-            </a>
+            </Link>
           </nav>
         )}
 

@@ -172,7 +172,13 @@
     "createCard": "Create a Wasl card",
     "transferUnavailable": "{to} isn't available right now.",
     "requeue": "Return to the queue",
-    "requeued": "Your conversation went back to the queue"
+    "requeued": "Your conversation went back to the queue",
+    "newCode": "Show a new return code",
+    "newCodeWarning": "A new code replaces your current one, which stops working right away.",
+    "newCodeConfirm": "Create a new code",
+    "newCodeTitle": "Your new return code",
+    "newCodeBody": "Copy it or write it down. It's shown only once, and your old code no longer works.",
+    "newCodeFailed": "Couldn't create a new code. Try again."
   },
   "Inbox": {
     "title": "Inbox",
@@ -224,7 +230,6 @@
     "mode_manual": "Manual card",
     "mode_none": "No card",
     "mode_ai": "AI card",
-    "rateQuestion": "Was the context enough to resume?",
     "yes": "Yes",
     "no": "No",
     "rated": "Recorded",
@@ -233,7 +238,13 @@
     "cardSameOnly": "Same dāʿī only",
     "cardUntil": "Visible until {date}",
     "cardSources": "Sources ({count})",
-    "cardPrevious": "From the previous conversation"
+    "cardPrevious": "From the previous conversation",
+    "cardUntilDeleted": "Visible until the asker deletes it",
+    "endFollowupTitle": "Before you end this follow-up",
+    "rateContext": "Did the context help you continue without starting from scratch?",
+    "rateCard": "Was the card accurate?",
+    "saveAndEnd": "Save and end",
+    "skipAndEnd": "Skip and end"
   },
   "Presence": {
     "label": "Your status",
@@ -424,7 +435,12 @@
     "version": "Version {version}",
     "backToChat": "Back to the conversation",
     "error": "Couldn't save the card. Try again.",
-    "noMessages": "There are no messages to choose from yet."
+    "noMessages": "There are no messages to choose from yet.",
+    "forever": "Until I delete it",
+    "approvedForever": "Approved. Visible until you delete it.",
+    "delete": "Delete card",
+    "deleteHint": "Every version is deleted, and no dāʿī can see it from now on.",
+    "confirmDelete": "Delete permanently"
   },
   "Site": {
     "how": "How it works",
@@ -433,8 +449,8 @@
     "skip": "Skip to content",
     "poweredBy": "Powered by Wasl",
     "aiLink": "How we use AI",
-    "privacyTitle": "Privacy",
-    "privacyText": "We only ask for a pseudonym: no email, no phone number. Your return code is stored only as a protected hash. A Wasl card is shared only after you approve it, with whom you choose, and expires after the 7, 14 or 30 days you pick. Administrators never read conversations."
+    "back": "Back",
+    "footerNav": "Site links"
   },
   "Demo": {
     "daee1": "Khalid",
@@ -446,5 +462,39 @@
     "next": "Examples from a typical day",
     "continues": "{name} continues",
     "reply2": "I've read your card. Shall we look at a typical day?"
+  },
+  "Profile": {
+    "title": "Profile",
+    "close": "Close",
+    "error": "Couldn't load your profile. Try again.",
+    "today": "Today",
+    "handledToday": "Conversations today",
+    "medianFirstReply": "Median first reply",
+    "status": "Status",
+    "languages": "Languages",
+    "topics": "Topics",
+    "capacity": "Capacity",
+    "capacityValue": "{count, plural, one {# conversation at a time} other {# conversations at a time}}",
+    "adminEdits": "Your languages, topics and capacity are set by an administrator."
+  },
+  "Privacy": {
+    "title": "Privacy",
+    "intro": "What we keep, who can see it, and for how long.",
+    "askTitle": "What we ask for",
+    "askBody": "Only a pseudonym. You can add a short note about yourself; it's optional, and only the dāʿīs who talk with you see it. No email, no phone number.",
+    "codeTitle": "Your return code",
+    "codeBody": "Your return code brings you back to your conversations from any device. We store only a protected fingerprint of it (a salted hash), never the code itself, so it can't be shown again. At the end of a conversation you can ask for a new code; the old one stops working at once.",
+    "cardsTitle": "Wasl cards",
+    "cardsBody": "A Wasl card is a short summary you write so whoever continues with you can pick up where you left off.",
+    "cardsSelect": "It's built only from the messages you choose. Anything you leave empty is saved as “not specified”, never guessed.",
+    "cardsWho": "Nothing is shared until you approve it. You choose who sees it: the dāʿī you're talking to, the team, or only the next dāʿī.",
+    "cardsHowLong": "It stays until you delete it, or for 7, 14 or 30 days if you choose.",
+    "cardsDelete": "You can delete it at any time from the card page. Every version is removed, and no dāʿī can see it from that moment.",
+    "cardsInactive": "Cards with no activity for 12 months are removed automatically.",
+    "conversationsTitle": "Your conversations",
+    "conversationsBody": "Your messages are seen by you and the dāʿī you talk with, and by a colleague if your conversation is handed over. Administrators never read conversations; they see only counts and averages.",
+    "aiTitle": "The AI guide",
+    "aiBody": "When the organization turns it on, an AI guide can organize your request, suggest reading from approved sources with their citations, and draft a card that you edit and approve. It never gives a fatwa (a religious ruling) or answers religious questions, never guesses your beliefs, and shares nothing without your approval. Wasl works fully without it.",
+    "aiMore": "How we use AI"
   }
 }

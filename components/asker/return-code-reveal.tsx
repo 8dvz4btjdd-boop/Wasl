@@ -7,6 +7,7 @@ import { useState } from "react";
 import { CodeBubble } from "@/components/asker/code-bubble";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Link } from "@/i18n/navigation";
+import { isolate } from "@/lib/bidi";
 import { cn } from "@/lib/utils";
 import { fadeUp, pulse } from "@/lib/motion";
 
@@ -29,7 +30,7 @@ export function ReturnCodeReveal({ code, pseudonym }: ReturnCodeRevealProps) {
     <div className="flex flex-1 flex-col justify-center gap-10 py-10">
       <motion.div variants={fadeUp} initial="hidden" animate="visible" className="flex flex-col gap-2">
         <h1 className="text-3xl font-semibold sm:text-4xl">{t("codeTitle")}</h1>
-        <p className="text-lg text-muted-foreground">{t("codeFor", { pseudonym })}</p>
+        <p className="text-lg text-muted-foreground">{t("codeFor", { pseudonym: isolate(pseudonym) })}</p>
       </motion.div>
 
       <motion.div variants={pulse} initial="idle" animate="pulse">

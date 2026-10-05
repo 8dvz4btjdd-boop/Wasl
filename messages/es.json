@@ -172,7 +172,13 @@
     "createCard": "Crear una tarjeta Wasl",
     "transferUnavailable": "{to} no está disponible ahora.",
     "requeue": "Volver a la fila",
-    "requeued": "Tu conversación volvió a la fila de espera"
+    "requeued": "Tu conversación volvió a la fila de espera",
+    "newCode": "Mostrar un nuevo código de regreso",
+    "newCodeWarning": "Un código nuevo sustituye al actual, que deja de funcionar al instante.",
+    "newCodeConfirm": "Crear un código nuevo",
+    "newCodeTitle": "Tu nuevo código de regreso",
+    "newCodeBody": "Cópialo o anótalo. Solo se muestra una vez, y tu código anterior ya no funciona.",
+    "newCodeFailed": "No se pudo crear un código nuevo. Inténtalo de nuevo."
   },
   "Inbox": {
     "title": "Bandeja",
@@ -224,7 +230,6 @@
     "mode_manual": "Tarjeta manual",
     "mode_none": "Sin tarjeta",
     "mode_ai": "Tarjeta con IA",
-    "rateQuestion": "¿Bastó el contexto para retomar?",
     "yes": "Sí",
     "no": "No",
     "rated": "Registrado",
@@ -233,7 +238,13 @@
     "cardSameOnly": "Solo el mismo dāʿī",
     "cardUntil": "Visible hasta el {date}",
     "cardSources": "Fuentes ({count})",
-    "cardPrevious": "De la conversación anterior"
+    "cardPrevious": "De la conversación anterior",
+    "cardUntilDeleted": "Visible hasta que la persona la elimine",
+    "endFollowupTitle": "Antes de terminar este seguimiento",
+    "rateContext": "¿Te ayudó el contexto a continuar sin empezar de cero?",
+    "rateCard": "¿Era precisa la tarjeta?",
+    "saveAndEnd": "Guardar y terminar",
+    "skipAndEnd": "Omitir y terminar"
   },
   "Presence": {
     "label": "Tu estado",
@@ -424,7 +435,12 @@
     "version": "Versión {version}",
     "backToChat": "Volver a la conversación",
     "error": "No se pudo guardar la tarjeta. Inténtalo de nuevo.",
-    "noMessages": "Aún no hay mensajes para elegir."
+    "noMessages": "Aún no hay mensajes para elegir.",
+    "forever": "Hasta que la elimine",
+    "approvedForever": "Aprobada. Visible hasta que la elimines.",
+    "delete": "Eliminar tarjeta",
+    "deleteHint": "Se eliminan todas las versiones y ningún dāʿī podrá verla desde ahora.",
+    "confirmDelete": "Eliminar definitivamente"
   },
   "Site": {
     "how": "Cómo funciona",
@@ -433,8 +449,8 @@
     "skip": "Ir al contenido",
     "poweredBy": "Con la tecnología de Wasl",
     "aiLink": "Cómo usamos la IA",
-    "privacyTitle": "Privacidad",
-    "privacyText": "Solo pedimos un seudónimo: sin correo ni número de teléfono. Tu código de regreso se guarda solo de forma protegida (cifrada). Una tarjeta Wasl se comparte solo cuando la apruebas, con quien eliges, y caduca tras los 7, 14 o 30 días que elijas. Los administradores nunca leen las conversaciones."
+    "back": "Atrás",
+    "footerNav": "Enlaces del sitio"
   },
   "Demo": {
     "daee1": "Khalid",
@@ -446,5 +462,39 @@
     "next": "Ejemplos de un día normal",
     "continues": "{name} continúa",
     "reply2": "He leído tu tarjeta. ¿Vemos un día normal?"
+  },
+  "Profile": {
+    "title": "Perfil",
+    "close": "Cerrar",
+    "error": "No se pudo cargar tu perfil. Inténtalo de nuevo.",
+    "today": "Hoy",
+    "handledToday": "Conversaciones de hoy",
+    "medianFirstReply": "Mediana de primera respuesta",
+    "status": "Estado",
+    "languages": "Idiomas",
+    "topics": "Temas",
+    "capacity": "Capacidad",
+    "capacityValue": "{count, plural, one {# conversación a la vez} other {# conversaciones a la vez}}",
+    "adminEdits": "Tus idiomas, temas y capacidad los define un administrador."
+  },
+  "Privacy": {
+    "title": "Privacidad",
+    "intro": "Qué guardamos, quién puede verlo y durante cuánto tiempo.",
+    "askTitle": "Qué te pedimos",
+    "askBody": "Solo un seudónimo. Puedes añadir una breve nota sobre ti; es opcional y solo la ven los dāʿīs que hablan contigo. Sin correo ni número de teléfono.",
+    "codeTitle": "Tu código de regreso",
+    "codeBody": "Tu código de regreso te devuelve a tus conversaciones desde cualquier dispositivo. Solo guardamos una huella protegida de él (un hash con sal), nunca el código en sí, por lo que no se puede volver a mostrar. Al final de una conversación puedes pedir un código nuevo; el anterior deja de funcionar al instante.",
+    "cardsTitle": "Tarjetas Wasl",
+    "cardsBody": "Una tarjeta Wasl es un breve resumen que escribes para que quien siga contigo retome donde lo dejasteis.",
+    "cardsSelect": "Se crea solo a partir de los mensajes que eliges. Lo que dejas vacío se guarda como «Sin especificar», nunca se adivina.",
+    "cardsWho": "Nada se comparte hasta que lo apruebas. Tú eliges quién la ve: el dāʿī con quien hablas, el equipo o solo el próximo dāʿī.",
+    "cardsHowLong": "Se conserva hasta que la eliminas, o durante 7, 14 o 30 días si así lo eliges.",
+    "cardsDelete": "Puedes eliminarla en cualquier momento desde la página de la tarjeta. Se borran todas las versiones y ningún dāʿī puede verla desde ese momento.",
+    "cardsInactive": "Las tarjetas sin actividad durante 12 meses se eliminan automáticamente.",
+    "conversationsTitle": "Tus conversaciones",
+    "conversationsBody": "Tus mensajes los ves tú y el dāʿī con quien hablas, y un compañero si tu conversación se transfiere. Los administradores nunca leen las conversaciones; solo ven totales y promedios.",
+    "aiTitle": "La guía de IA",
+    "aiBody": "Cuando la organización la activa, una guía de IA puede ordenar tu solicitud, sugerir lecturas de fuentes aprobadas con sus citas y redactar una tarjeta que tú editas y apruebas. Nunca da una fatwa (un dictamen religioso) ni responde preguntas religiosas, nunca adivina tus creencias y no comparte nada sin tu aprobación. Wasl funciona por completo sin ella.",
+    "aiMore": "Cómo usamos la IA"
   }
 }
