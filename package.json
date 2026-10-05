@@ -12,9 +12,11 @@
     "seed": "tsx --env-file=.env.local --conditions=react-server scripts/seed.ts",
     "demo:reset": "tsx --env-file=.env.local --conditions=react-server scripts/demo-reset.ts",
     "og": "node scripts/dev/og.mjs",
-    "evals": "promptfoo eval -c evals/promptfooconfig.yaml --no-cache && promptfoo eval -c evals/classify.yaml --no-cache",
+    "evals": "promptfoo eval -c evals/promptfooconfig.yaml --no-cache && promptfoo eval -c evals/classify.yaml --no-cache && npm run evals:sources",
     "test:ai": "node --env-file=.env.local scripts/dev/ai-card.mjs",
-    "evals:classify": "promptfoo eval -c evals/classify.yaml --no-cache"
+    "evals:classify": "promptfoo eval -c evals/classify.yaml --no-cache",
+    "library:seed": "tsx --env-file=.env.local --conditions=react-server scripts/seed-library.ts",
+    "evals:sources": "tsx --conditions=react-server evals/sources-rules.ts && promptfoo eval -c evals/sources.yaml --no-cache"
   },
   "dependencies": {
     "@ai-sdk/anthropic": "^4.0.71",

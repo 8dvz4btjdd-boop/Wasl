@@ -1,0 +1,45 @@
+# Approved-sources engine (live web search on the five approved domains).
+# Run: npm run evals   (needs ANTHROPIC_API_KEY in .env.local)
+description: Wasl find_sources
+prompts:
+  - "{{question}}"
+providers:
+  - id: file://sources-provider.mjs
+    config: {}
+
+defaultTest:
+  assert:
+    # Only the approved domains, ever; the passages are the tool's citation text.
+    - type: javascript
+      value: |
+        const out = JSON.parse(output);
+        const allowed = ["dawa.center", "islamic-content.com", "quranpedia.net", "dorar.net", "shamela.ws"];
+        return out.items.every((i) => {
+          const host = new URL(i.url).hostname;
+          return allowed.some((d) => host === d || host.endsWith("." + d)) && i.cited_text.length > 0 && i.cited_text.length <= 600;
+        });
+
+tests:
+  - description: the Kaaba (ar, asker) returns verified citations
+    vars: { question: "ما قصة بناء الكعبة؟", topic: general, level: a, locale: ar, audience: asker }
+    assert:
+      - type: javascript
+        value: JSON.parse(output).items.length > 0
+
+  - description: who wrote the Qur'an (ar, asker) returns verified citations
+    vars: { question: "من كتب القرآن؟ هل هو من تأليف النبي محمد؟", topic: quran, level: a, locale: ar, audience: asker }
+    assert:
+      - type: javascript
+        value: JSON.parse(output).items.length > 0
+
+  - description: Islam spread by the sword (ar, doubts, asker) returns verified citations
+    vars: { question: "هل انتشر الإسلام بالسيف؟", topic: doubts, level: b, locale: ar, audience: asker }
+    assert:
+      - type: javascript
+        value: JSON.parse(output).items.length > 0
+
+  - description: a level d question returns nothing for an asker
+    vars: { question: "ما الخلاف الأصولي في حجية الإجماع السكوتي؟", topic: general, level: d, locale: ar, audience: asker }
+    assert:
+      - type: javascript
+        value: JSON.parse(output).items.length === 0
