@@ -18,7 +18,11 @@ const check = (name, ok, detail = "") => results.push(`${ok ? "PASS" : "FAIL"}  
 const { data: before } = await db.from("profiles").select("user_id, display_name, status").eq("role", "daee");
 const yusuf = before.find((p) => p.display_name === "يوسف");
 const khalid = before.find((p) => p.display_name === "خالد");
-await db.from("profiles").update({ status: "available" }).in("user_id", [yusuf.user_id, khalid.user_id]);
+// No workspace is open for them, so this run keeps their heartbeat fresh itself.
+const keepFresh = () =>
+  db.from("profiles").update({ status: "available", last_seen: new Date().toISOString() }).in("user_id", [yusuf.user_id, khalid.user_id]);
+await keepFresh();
+const freshTimer = setInterval(keepFresh, 20_000);
 
 const browser = await chromium.launch();
 try {
@@ -114,6 +118,50 @@ try {
   await page.waitForTimeout(1500);
   check("tl: hidden when zero available", !((await page.locator("p[aria-live]").first().textContent())?.trim()));
 
+  // Footer: one row with three links and the year, no language menu.
+  await page.goto(`${BASE}/en`);
+  const footer = page.locator("footer");
+  check("footer has the three links", (await footer.getByRole("link").count()) === 3);
+  check("footer has no language menu", (await footer.locator("[data-slot=dropdown-menu-trigger]").count()) === 0);
+
+  // Privacy page, login (footer + back), enter (back steps through the questions).
+  for (const locale of ["ar", "en"]) {
+    for (const [w, viewport] of Object.entries(SIZES)) {
+      const ctx2 = await browser.newContext({ viewport });
+      const pg = await ctx2.newPage();
+      await pg.goto(`${BASE}/${locale}/privacy`);
+      await pg.evaluate(() => document.fonts.ready);
+      await pg.screenshot({ path: `${OUT}/privacy-${locale}-${w}.png`, fullPage: true });
+      await pg.goto(`${BASE}/${locale}/login`);
+      await pg.waitForTimeout(400);
+      await pg.screenshot({ path: `${OUT}/login-${locale}-${w}.png`, fullPage: true });
+      await pg.goto(`${BASE}/${locale}/enter`);
+      await pg.waitForTimeout(400);
+      await pg.screenshot({ path: `${OUT}/enter-${locale}-${w}.png` });
+      await ctx2.close();
+    }
+  }
+  const privacyText = await (await fetch(`${BASE}/en/privacy`)).text();
+  check("privacy page states the 12-month card removal", privacyText.includes("12 months"));
+  for (const path of ["enter", "return", "wait"]) {
+    const html = await (await fetch(`${BASE}/en/${path}`)).text();
+    check(`no footer on /${path}`, !html.includes("<footer"));
+  }
+  check("footer on login", (await (await fetch(`${BASE}/en/login`)).text()).includes("<footer"));
+
+  const flow = await (await browser.newContext({ viewport: SIZES[390] })).newPage();
+  await flow.goto(`${BASE}/en/enter`);
+  await flow.locator('main form button[type="submit"]:not([disabled])').waitFor();
+  await flow.locator("main input:not([type=hidden])").fill("back-test");
+  await flow.locator("main input:not([type=hidden])").press("Enter");
+  await flow.getByText("Anything you'd like the dāʿī to know about you?").waitFor();
+  await flow.getByRole("link", { name: "Back" }).click();
+  await flow.getByText("What should we call you?").waitFor({ timeout: 5_000 });
+  check("enter: back steps to the previous question", (await flow.locator("main input:not([type=hidden])").inputValue()) === "back-test");
+  await flow.getByRole("link", { name: "Back" }).click();
+  await flow.waitForURL(/\/en$/, { timeout: 10_000 });
+  check("enter: back from the first question leaves for the landing page", true);
+
   // Share metadata.
   const html = await (await fetch(`${BASE}/ur`)).text();
   check("ur: og:image per locale", /og:image" content="[^"]*\/og\/ur\.png/.test(html));
@@ -121,6 +169,7 @@ try {
 } catch (error) {
   results.push(`ERROR  ${error.message.split("\n")[0]}`);
 } finally {
+  clearInterval(freshTimer);
   await browser.close();
   for (const p of before) await db.from("profiles").update({ status: p.status }).eq("user_id", p.user_id);
   console.log(results.join("\n"));

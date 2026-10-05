@@ -66,7 +66,8 @@ const events = async (conversationId) =>
 const { data: staff } = await db.from("profiles").select("user_id, display_name").eq("role", "daee");
 const id = (name) => staff.find((s) => s.display_name === name).user_id;
 const DAEE1 = id("خالد"), DAEE2 = id("سارة");
-const setStatus = (user, status) => db.from("profiles").update({ status }).eq("user_id", user);
+// A status set from here counts as a fresh heartbeat (open workspaces keep it fresh after that).
+const setStatus = (user, status) => db.from("profiles").update({ status, last_seen: new Date().toISOString() }).eq("user_id", user);
 
 const browser = await chromium.launch();
 try {
@@ -82,6 +83,8 @@ try {
   const code = await enter(asker, pseudonym);
   const conv1 = await ask(asker, "I read about prayer and want to understand it better.");
   const row = d1.locator("aside a", { hasText: pseudonym });
+  // Other open conversations can put the list on Active; new ones arrive under Waiting.
+  await d1.getByRole("tab", { name: /^Waiting/ }).click();
   await row.waitFor({ timeout: 15_000 });
   await row.click();
   await d1.waitForURL(`**/daee/${conv1}`);
@@ -90,6 +93,16 @@ try {
   await say(asker, "footer textarea", "I read that there are five daily prayers.");
   await d1.getByText("five daily prayers").first().waitFor({ timeout: 15_000 });
   check("chat with daee1 both ways", true);
+  const { data: seen } = await db.from("profiles").select("last_seen").eq("user_id", DAEE1).single();
+  check("workspace heartbeat keeps last_seen fresh", Date.now() - Date.parse(seen.last_seen) < 45_000);
+
+  // Account menu: profile sheet with today's numbers.
+  await d1.locator("nav").getByRole("button", { name: "Account" }).click();
+  await d1.getByRole("menuitem", { name: "Profile" }).click();
+  await d1.getByText("Conversations today").first().waitFor({ timeout: 15_000 });
+  check("profile sheet shows today's numbers", await d1.getByText("Median first reply").first().isVisible());
+  await shots(d1, "profile-sheet-en");
+  await d1.keyboard.press("Escape");
 
   // ---- 2. Manual card ---------------------------------------------------------------------
   await asker.locator(`a[href$="/card/${conv1}"]`).first().click();
@@ -104,6 +117,7 @@ try {
   await shots(asker, "card-fields-en");
   await asker.getByRole("button", { name: "Continue" }).click();
   await asker.locator("label", { hasText: "The team" }).click();
+  check("card duration defaults to until deleted", (await asker.getByRole("radio", { name: "Until I delete it" }).getAttribute("aria-checked")) === "true");
   await asker.getByRole("radio", { name: "7 days" }).click();
   await shots(asker, "card-sharing-en");
   await asker.getByRole("button", { name: "Continue" }).click();
@@ -152,7 +166,7 @@ try {
   await d2.getByText("How the five prayers fit into a working day.").first().waitFor({ timeout: 15_000 });
   check("daee2 sees the card before replying", true);
   await asker.goto(`${BASE}/en/chat/${conv1}`);
-  await asker.getByText("Your conversation moved to سارة").first().waitFor({ timeout: 15_000 });
+  await asker.getByText(/Your conversation moved to .?سارة/).first().waitFor({ timeout: 15_000 });
   check("asker sees the transfer line", true);
   await shots(asker, "chat-transfer-en");
   check("daee1 lost access", (await d1.goto(`${BASE}/en/daee/${conv1}`), /\/daee$/.test(d1.url())));
@@ -174,36 +188,83 @@ try {
   await back.locator("#return-code").fill(code);
   await back.locator('main form button[type="submit"]').click();
   await back.waitForURL("**/wait", { timeout: 20_000 });
-  await back.getByRole("button", { name: /Continue with خالد/ }).waitFor({ timeout: 15_000 });
+  await back.getByRole("button", { name: /Continue with .?خالد/ }).waitFor({ timeout: 15_000 });
   check("resume offers the same daee", true);
   await shots(back, "resume-en");
   await back.goto(`${BASE}/ar/wait`);
-  await back.getByRole("button", { name: /تابع مع خالد/ }).waitFor();
+  await back.getByRole("button", { name: /تابع مع .?خالد/ }).waitFor();
   await shots(back, "resume-ar");
-  await back.getByRole("button", { name: /تابع مع خالد/ }).click();
+  await back.getByRole("button", { name: /تابع مع .?خالد/ }).click();
   const conv2 = await ask(back, "I'd like to continue about fitting prayer into my day.");
   const { data: fu } = await db.from("conversations").select("previous_conversation_id, card_id, followup_mode, preferred_daee_id, daee_id").eq("id", conv2).single();
   check("follow-up linked to previous conversation and card", fu.previous_conversation_id === conv1 && fu.card_id === card.id);
   check("follow-up with the same daee", fu.followup_mode === "manual" && fu.preferred_daee_id === DAEE1 && fu.daee_id === DAEE1);
   check("followup_started (manual) logged", (await events(conv2)).some((e) => e.type === "followup_started" && e.meta.mode === "manual"));
 
-  // ---- 6. daee1 resumes and rates ----------------------------------------------------------
+  // ---- 6. daee1 resumes; rating when the follow-up ends -----------------------------------
   await d1.goto(`${BASE}/en/daee/${conv2}`);
   await d1.getByText("How the five prayers fit into a working day.").first().waitFor({ timeout: 15_000 });
   await say(d1, "main textarea", "Welcome back. From your card, let's walk through a typical working day together.");
-  await d1.getByText("Was the context enough to resume?").first().waitFor({ timeout: 15_000 });
+  check("no rating before the end", (await d1.getByText("Did the context help you continue").count()) === 0);
+  await d1.goto(`${BASE}/ar/daee/${conv2}`);
+  await d1.getByRole("button", { name: /إنهاء المحادثة/ }).click();
+  await d1.getByText("هل ساعدك السياق على المتابعة دون البدء من الصفر؟").first().waitFor({ timeout: 15_000 });
+  await shots(d1, "inbox-rating-ar");
+  await d1.getByRole("button", { name: "إلغاء" }).first().click();
+  await d1.goto(`${BASE}/en/daee/${conv2}`);
+  await d1.getByRole("button", { name: /End conversation/ }).click();
+  const endPanel = d1.getByRole("dialog");
+  await endPanel.getByText("Was the card accurate?").first().waitFor({ timeout: 15_000 });
+  check("end of a card follow-up asks both questions", true);
   await shots(d1, "inbox-rating-en");
-  await d1.locator("aside").getByRole("button", { name: "Yes" }).click();
-  await d1.locator("aside").getByText("Recorded").first().waitFor({ timeout: 10_000 });
-  check("followup_rated (manual, sufficient) logged", (await events(conv2)).some((e) => e.type === "followup_rated" && e.meta.mode === "manual" && e.meta.sufficient === true));
-  for (const locale of ["ar"]) {
-    await d1.goto(`${BASE}/${locale}/daee/${conv2}`);
-    await d1.locator("aside").getByText("تم التسجيل").first().waitFor();
-    await shots(d1, `inbox-rating-${locale}`);
-  }
+  await endPanel.getByRole("radiogroup", { name: /Did the context help/ }).getByRole("radio", { name: "Yes" }).click();
+  await endPanel.getByRole("radiogroup", { name: "Was the card accurate?" }).getByRole("radio", { name: "Yes" }).click();
+  await endPanel.getByRole("button", { name: "Save and end" }).click();
+  // The asker resumed from the Arabic page.
+  await back.getByText("انتهت هذه المحادثة").first().waitFor({ timeout: 15_000 });
+  const rated2 = (await events(conv2)).find((e) => e.type === "followup_rated");
+  check("followup_rated { manual, sufficient, card_accurate } logged", rated2?.meta.mode === "manual" && rated2.meta.sufficient === true && rated2.meta.card_accurate === true);
   await back.goto(`${BASE}/ar/chat/${conv2}`);
-  await back.locator("footer textarea").waitFor();
+  await back.getByText("انتهت هذه المحادثة").first().waitFor();
   await shots(back, "chat-followup-ar");
+
+  // The asker deletes the card: every version goes and daee access ends at once.
+  await back.goto(`${BASE}/en/card/${conv1}`);
+  await back.getByRole("button", { name: "Delete card" }).click();
+  await back.getByRole("button", { name: "Delete permanently" }).click();
+  await back.waitForURL(`**/chat/${conv1}`, { timeout: 15_000 });
+  const { data: left } = await db.from("cards").select("id").eq("conversation_id", conv1);
+  const { data: link } = await db.from("conversations").select("card_id").eq("id", conv2).single();
+  check("asker deleted the card (all versions, follow-up unlinked)", left.length === 0 && link.card_id === null);
+  await d1.goto(`${BASE}/en/daee/${conv2}`);
+  await d1.getByText("No card yet").first().waitFor({ timeout: 15_000 });
+  check("daee loses the deleted card immediately", (await d1.getByText("How the five prayers fit into a working day.").count()) === 0);
+
+  // Returning with a code links the asker to that new session, so this comes last.
+  // New return code at the end: the old code stops working, the new one works.
+  await back.goto(`${BASE}/en/chat/${conv2}`);
+  await back.getByRole("button", { name: "Show a new return code" }).click();
+  await back.getByRole("button", { name: "Create a new code" }).click();
+  const newCodeBox = back.locator("p[dir=ltr]").last();
+  await newCodeBox.waitFor({ timeout: 15_000 });
+  const newCode = (await newCodeBox.textContent())?.trim();
+  check("new return code shown once", /^[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{2}$/.test(newCode ?? "") && newCode !== code);
+  await shots(back, "chat-new-code-en");
+  const tryCode = async (value) => {
+    const ctx = await browser.newContext({ viewport: SIZES[1440] });
+    const pg = await ctx.newPage();
+    await pg.goto(`${BASE}/en/return`);
+    await pg.locator('main form button[type="submit"]').waitFor();
+    await pg.waitForTimeout(800);
+    await pg.locator("#return-pseudonym").fill(pseudonym);
+    await pg.locator("#return-code").fill(value);
+    await pg.locator('main form button[type="submit"]').click();
+    const ok = await pg.waitForURL("**/wait", { timeout: 10_000 }).then(() => true, () => false);
+    await ctx.close();
+    return ok;
+  };
+  check("old return code no longer works", !(await tryCode(code)));
+  check("new return code works", await tryCode(newCode));
 
   // ---- 7. A follow-up without a card (mode none) ------------------------------------------
   const ctx3 = await browser.newContext({ viewport: SIZES[1440] });
@@ -225,11 +286,15 @@ try {
   const owner4 = c4.daee_id === DAEE1 ? d1 : d2;
   await owner4.goto(`${BASE}/en/daee/${conv4}`);
   await say(owner4, "main textarea", "Welcome back. I don't have a card, so could you remind me where we stopped?");
-  await owner4.locator("aside").getByRole("button", { name: "No" }).click();
-  await owner4.locator("aside").getByText("Recorded").first().waitFor({ timeout: 10_000 });
-  check("followup_rated (none, insufficient) logged", (await events(conv4)).some((e) => e.type === "followup_rated" && e.meta.mode === "none" && e.meta.sufficient === false));
   await owner4.getByRole("button", { name: /End conversation/ }).click();
-  await owner4.getByRole("button", { name: "Confirm end" }).click();
+  const endPanel4 = owner4.getByRole("dialog");
+  await endPanel4.getByText(/Did the context help/).first().waitFor({ timeout: 15_000 });
+  check("no card question without a card", (await endPanel4.getByText("Was the card accurate?").count()) === 0);
+  await endPanel4.getByRole("radio", { name: "No" }).click();
+  await endPanel4.getByRole("button", { name: "Save and end" }).click();
+  await other.getByText("This conversation has ended").first().waitFor({ timeout: 15_000 });
+  const rated4 = (await events(conv4)).find((e) => e.type === "followup_rated");
+  check("followup_rated { none, insufficient, card_accurate null } logged", rated4?.meta.mode === "none" && rated4.meta.sufficient === false && rated4.meta.card_accurate === null);
   await other.goto(`${BASE}/en/chat/${conv4}`);
   await other.getByText("This conversation has ended").first().waitFor({ timeout: 15_000 });
 
@@ -280,6 +345,26 @@ try {
   const { data: c5c } = await db.from("conversations").select("daee_id, status").eq("id", conv5).single();
   check("transfer dropped and conversation back in the queue", tr5.status === "declined" && tr5.requeued_at && c5c.status === "waiting" && c5c.daee_id === null, `daee=${c5c.daee_id} status=${c5c.status}`);
 
+  // ---- 8c. Presence truth: a stale heartbeat is offline; signing out is offline -----------
+  const YUSUF = id("يوسف");
+  await db.from("profiles").update({ status: "available", last_seen: new Date(Date.now() - 3 * 60_000).toISOString() }).eq("user_id", YUSUF);
+  const anonDb = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY, { auth: { persistSession: false } });
+  const { data: urCount } = await anonDb.rpc("public_availability", { p_language: "ur" });
+  check("stale daee not counted as available", urCount === 0, `ur=${urCount}`);
+  let yusufStatus = "available";
+  for (let i = 0; i < 16 && yusufStatus !== "offline"; i++) {
+    await new Promise((r) => setTimeout(r, 5_000));
+    yusufStatus = (await db.from("profiles").select("status").eq("user_id", YUSUF).single()).data.status;
+  }
+  check("scheduled expiry marks the stale daee offline", yusufStatus === "offline");
+  await setStatus(DAEE1, "available");
+  await d1.goto(`${BASE}/en/daee`);
+  await d1.locator("nav").getByRole("button", { name: "Account" }).click();
+  await d1.getByRole("menuitem", { name: "Sign out" }).click();
+  await d1.waitForURL("**/login", { timeout: 15_000 });
+  const { data: afterOut } = await db.from("profiles").select("status").eq("user_id", DAEE1).single();
+  check("signing out sets the daee offline", afterOut.status === "offline");
+
   // ---- 9. Admin KPIs show real n ----------------------------------------------------------
   for (const locale of ["en", "ar"]) {
     await admin.setViewportSize({ width: 1440, height: 1500 });
@@ -299,7 +384,7 @@ try {
   const byMode = Object.fromEntries(kpis.cmp.map((r) => [r.mode, r]));
   check("comparison has manual and none sessions", byMode.manual.sessions >= 1 && byMode.none.sessions >= 1, `manual=${byMode.manual.sessions} none=${byMode.none.sessions}`);
 } catch (error) {
-  results.push(`ERROR  ${error.message.split("\n")[0]}`);
+  results.push(`ERROR  ${error.message.split("\n")[0]}  at ${(error.stack.match(/journey\.mjs:\d+/) ?? [""])[0]}`);
 } finally {
   await browser.close();
   await db.auth.admin.updateUserById(DAEE2, { ban_duration: "none" });

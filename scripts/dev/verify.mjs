@@ -44,7 +44,7 @@ const browser = await chromium.launch();
 try {
   // Seeded presence: daee1 available.
   const { data: profile } = await db.from("profiles").select("user_id").eq("display_name", "خالد").single();
-  await db.from("profiles").update({ status: "available" }).eq("user_id", profile.user_id);
+  await db.from("profiles").update({ status: "available", last_seen: new Date().toISOString() }).eq("user_id", profile.user_id);
 
   // ---- Public screens --------------------------------------------------------------------
   // The organization name is editable in Settings, so read the current one.
@@ -91,6 +91,7 @@ try {
   const conversationId = asker.url().split("/chat/")[1];
 
   const row = daee.locator("aside a", { hasText: PSEUDONYM });
+  await daee.getByRole("tab", { name: /^بانتظار الرد/ }).click();
   await row.waitFor({ timeout: 15_000 });
   check("routed live into daee list", await row.isVisible());
   const toast = daee.locator("[data-sonner-toast]");
