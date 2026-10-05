@@ -16,6 +16,7 @@ export type Database = {
     Tables: {
       ai_runs: {
         Row: {
+          actor_id: string | null
           created_at: string
           fallback: boolean
           id: number
@@ -28,6 +29,7 @@ export type Database = {
           task: string
         }
         Insert: {
+          actor_id?: string | null
           created_at?: string
           fallback?: boolean
           id?: never
@@ -40,6 +42,7 @@ export type Database = {
           task: string
         }
         Update: {
+          actor_id?: string | null
           created_at?: string
           fallback?: boolean
           id?: never
@@ -206,17 +209,21 @@ export type Database = {
       cards: {
         Row: {
           accept_substitute: boolean
+          ai_draft: Json | null
           approved_at: string | null
           asker_id: string
           conversation_id: string
           covered: string | null
           created_at: string
+          deleted_at: string | null
           edited_major: boolean
           expires_at: string | null
+          field_sources: Json
           follow_up: string | null
           generated_by: Database["public"]["Enums"]["card_origin"]
           id: string
           next_step: string | null
+          origin: string
           preferred_daee: string | null
           remaining: string | null
           source_message_ids: string[]
@@ -226,17 +233,21 @@ export type Database = {
         }
         Insert: {
           accept_substitute?: boolean
+          ai_draft?: Json | null
           approved_at?: string | null
           asker_id: string
           conversation_id: string
           covered?: string | null
           created_at?: string
+          deleted_at?: string | null
           edited_major?: boolean
           expires_at?: string | null
+          field_sources?: Json
           follow_up?: string | null
           generated_by: Database["public"]["Enums"]["card_origin"]
           id?: string
           next_step?: string | null
+          origin?: string
           preferred_daee?: string | null
           remaining?: string | null
           source_message_ids?: string[]
@@ -246,17 +257,21 @@ export type Database = {
         }
         Update: {
           accept_substitute?: boolean
+          ai_draft?: Json | null
           approved_at?: string | null
           asker_id?: string
           conversation_id?: string
           covered?: string | null
           created_at?: string
+          deleted_at?: string | null
           edited_major?: boolean
           expires_at?: string | null
+          field_sources?: Json
           follow_up?: string | null
           generated_by?: Database["public"]["Enums"]["card_origin"]
           id?: string
           next_step?: string | null
+          origin?: string
           preferred_daee?: string | null
           remaining?: string | null
           source_message_ids?: string[]
