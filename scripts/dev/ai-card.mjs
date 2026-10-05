@@ -160,18 +160,23 @@ try {
     check("en #3: unselected message not used", !allText(rc.last.data).toLowerCase().includes("green"));
   }
 
-  // ---- 4. The UI: choice, consent line, streaming fields with chips, approval -------------
+  // ---- 4. The UI: opt-out selection, the draft by default, consent line, chips, approval ---
   await d1.getByRole("button").first().waitFor();
   const asker = a.page;
   await asker.goto(`${BASE}/ar/card/${a.conversationId}`);
+  await asker.locator("ul li label").first().waitFor();
+  const boxes = asker.locator("ul li input[type=checkbox]");
+  const all = await boxes.count();
+  let checkedCount = 0;
+  for (let i = 0; i < all; i++) if (await boxes.nth(i).isChecked()) checkedCount++;
+  check("every message is selected by default", all > 0 && checkedCount === all, `${checkedCount}/${all}`);
+  await shots(asker, "card-ai-select-ar");
+  await asker.getByRole("button", { name: "إلغاء الكل" }).click();
   await asker.locator("ul li label").nth(0).click();
   await asker.locator("ul li label").nth(2).click();
   await asker.getByRole("button", { name: "متابعة" }).click();
-  await asker.getByText("صياغة مسودة بالذكاء الاصطناعي").waitFor();
-  check("choice: write myself and AI draft side by side", await asker.getByText("اكتبها بنفسي").isVisible());
   check("consent line names what is read and what isn't", await asker.getByText("ما سيقرؤه المرشد الآلي:").first().isVisible());
-  await shots(asker, "card-ai-choose-ar");
-  await asker.getByText("صياغة مسودة بالذكاء الاصطناعي").click();
+  check("writing from scratch is a secondary link", await asker.getByRole("button", { name: "اكتبها من الصفر" }).isVisible());
   await asker.getByText("يقرأ الرسائل المختارة").or(asker.getByText("يكتب الحقول")).first().waitFor({ timeout: 10_000 });
   await asker.screenshot({ path: `${OUT}/card-ai-streaming-ar-1440.png` });
   await asker.getByText("المسودة جاهزة").waitFor({ timeout: 30_000 });
@@ -212,7 +217,7 @@ try {
   await c.page.locator("ul li label").nth(0).click();
   await c.page.getByRole("button", { name: "Continue" }).click();
   await c.page.locator("#card-follow_up").waitFor({ timeout: 10_000 });
-  check("AI off: straight to the manual form", (await c.page.getByText("Draft it with AI").count()) === 0);
+  check("AI off: straight to the manual form", (await c.page.getByRole("button", { name: "Write it from scratch" }).count()) === 0);
   const off = await draft(c.page, BASE, c.conversationId, selC, "en");
   check("AI off: the route falls back without a call", off.last?.type === "fallback" && off.last.reason === "disabled");
   await db.from("organizations").update({ ai_enabled: true }).neq("id", "00000000-0000-0000-0000-000000000000");
@@ -225,7 +230,6 @@ try {
   await tp.goto(`${TIMEOUT_BASE}/en/card/${c.conversationId}`);
   await tp.locator("ul li label").nth(0).click();
   await tp.getByRole("button", { name: "Continue" }).click();
-  await tp.getByText("Draft it with AI").click();
   await tp.getByText("The AI guide isn't available right now. Write it yourself.").waitFor({ timeout: 15_000 });
   check("forced timeout: manual form with the note", await tp.locator("#card-follow_up").isVisible());
   await shots(tp, "card-ai-fallback-en");

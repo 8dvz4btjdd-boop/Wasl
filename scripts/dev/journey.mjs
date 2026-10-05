@@ -104,14 +104,24 @@ try {
   await shots(d1, "profile-sheet-en");
   await d1.keyboard.press("Escape");
 
+  // Shared device: "Not X? Start as someone new" ends the session and restarts the questions.
+  const shared = await (await browser.newContext({ viewport: SIZES[390] })).newPage();
+  await enter(shared, `jr3-${TAG}`);
+  await shared.goto(`${BASE}/en/enter`);
+  await shared.getByRole("button", { name: /Start as someone new/ }).click();
+  await shared.getByText("What should we call you?").waitFor({ timeout: 15_000 });
+  check("not you? starts the enter flow again", true);
+
   // ---- 2. Manual card ---------------------------------------------------------------------
   await asker.locator(`a[href$="/card/${conv1}"]`).first().click();
   await asker.waitForURL(`**/card/${conv1}`);
+  await asker.getByRole("button", { name: "Clear all" }).click();
   await asker.locator("ul li label").nth(0).click();
   await asker.locator("ul li label").nth(2).click();
   await shots(asker, "card-select-en");
   await asker.getByRole("button", { name: "Continue" }).click();
-  await asker.getByRole("button", { name: /Write it myself/ }).click();
+  // The AI draft starts by default; this journey writes the card by hand.
+  await asker.getByRole("button", { name: "Write it from scratch" }).click();
   await asker.locator("#card-follow_up").fill("How the five prayers fit into a working day.");
   await asker.locator("#card-covered").fill("What the five daily prayers are.");
   await asker.locator("#card-next_step").fill("Talk through a typical day.");
@@ -139,7 +149,7 @@ try {
   await asker.getByRole("button", { name: "نسخة جديدة" }).click();
   await shots(asker, "card-select-ar");
   await asker.getByRole("button", { name: "متابعة" }).click();
-  await asker.getByRole("button", { name: /اكتبها بنفسي/ }).click();
+  await asker.getByRole("button", { name: "اكتبها من الصفر" }).click();
   await shots(asker, "card-fields-ar");
   await asker.getByRole("button", { name: "متابعة" }).click();
   await shots(asker, "card-sharing-ar");
@@ -216,11 +226,11 @@ try {
   await d1.goto(`${BASE}/en/daee/${conv2}`);
   await d1.getByRole("button", { name: /End conversation/ }).click();
   const endPanel = d1.getByRole("dialog");
-  await endPanel.getByText("Was the card accurate?").first().waitFor({ timeout: 15_000 });
+  await endPanel.getByText("Did the card summarize the previous conversation accurately?").first().waitFor({ timeout: 15_000 });
   check("end of a card follow-up asks both questions", true);
   await shots(d1, "inbox-rating-en");
   await endPanel.getByRole("radiogroup", { name: /Did the context help/ }).getByRole("radio", { name: "Yes" }).click();
-  await endPanel.getByRole("radiogroup", { name: "Was the card accurate?" }).getByRole("radio", { name: "Yes" }).click();
+  await endPanel.getByRole("radiogroup", { name: "Did the card summarize the previous conversation accurately?" }).getByRole("radio", { name: "Yes" }).click();
   await endPanel.getByRole("button", { name: "Save and end" }).click();
   // The asker resumed from the Arabic page.
   await back.getByText("انتهت هذه المحادثة").first().waitFor({ timeout: 15_000 });
@@ -245,7 +255,8 @@ try {
   // Returning with a code links the asker to that new session, so this comes last.
   // New return code at the end: the old code stops working, the new one works.
   await back.goto(`${BASE}/en/chat/${conv2}`);
-  await back.getByRole("button", { name: "Show a new return code" }).click();
+  check("new-code hint says the old code stops", await back.getByText("Your previous code will stop working.").isVisible());
+  await back.getByRole("button", { name: "Get a new return code" }).click();
   await back.getByRole("button", { name: "Create a new code" }).click();
   const newCodeBox = back.locator("p[dir=ltr]").last();
   await newCodeBox.waitFor({ timeout: 15_000 });
@@ -291,7 +302,7 @@ try {
   await owner4.getByRole("button", { name: /End conversation/ }).click();
   const endPanel4 = owner4.getByRole("dialog");
   await endPanel4.getByText(/Did the context help/).first().waitFor({ timeout: 15_000 });
-  check("no card question without a card", (await endPanel4.getByText("Was the card accurate?").count()) === 0);
+  check("no card question without a card", (await endPanel4.getByText("Did the card summarize the previous conversation accurately?").count()) === 0);
   await endPanel4.getByRole("radio", { name: "No" }).click();
   await endPanel4.getByRole("button", { name: "Save and end" }).click();
   await other.getByText("This conversation has ended").first().waitFor({ timeout: 15_000 });
