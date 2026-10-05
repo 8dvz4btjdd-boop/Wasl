@@ -296,6 +296,7 @@ export type Database = {
           created_at: string
           daee_id: string | null
           ended_at: string | null
+          followup_card_accurate: boolean | null
           followup_mode: string | null
           followup_sufficient: boolean | null
           id: string
@@ -314,6 +315,7 @@ export type Database = {
           created_at?: string
           daee_id?: string | null
           ended_at?: string | null
+          followup_card_accurate?: boolean | null
           followup_mode?: string | null
           followup_sufficient?: boolean | null
           id?: string
@@ -332,6 +334,7 @@ export type Database = {
           created_at?: string
           daee_id?: string | null
           ended_at?: string | null
+          followup_card_accurate?: boolean | null
           followup_mode?: string | null
           followup_sufficient?: boolean | null
           id?: string
@@ -628,6 +631,7 @@ export type Database = {
           created_at: string
           display_name: string
           languages: string[]
+          last_seen: string
           org_id: string
           role: Database["public"]["Enums"]["user_role"]
           status: Database["public"]["Enums"]["presence"]
@@ -639,6 +643,7 @@ export type Database = {
           created_at?: string
           display_name: string
           languages?: string[]
+          last_seen?: string
           org_id: string
           role: Database["public"]["Enums"]["user_role"]
           status?: Database["public"]["Enums"]["presence"]
@@ -650,6 +655,7 @@ export type Database = {
           created_at?: string
           display_name?: string
           languages?: string[]
+          last_seen?: string
           org_id?: string
           role?: Database["public"]["Enums"]["user_role"]
           status?: Database["public"]["Enums"]["presence"]
@@ -790,8 +796,10 @@ export type Database = {
         }[]
       }
       complete_transfer: { Args: { t: string }; Returns: boolean }
+      delete_card: { Args: { conv: string }; Returns: number }
       do_transfer: { Args: { t: string }; Returns: undefined }
       end_conversation: { Args: { conv: string }; Returns: undefined }
+      expire_stale_presence: { Args: never; Returns: number }
       grant_next_daee_cards: {
         Args: { conv: string; d: string }
         Returns: undefined
@@ -803,10 +811,16 @@ export type Database = {
       me_active: { Args: never; Returns: boolean }
       my_role: { Args: never; Returns: string }
       open_conversation_count: { Args: { d: string }; Returns: number }
+      presence_fresh: { Args: { ts: string }; Returns: boolean }
+      presence_heartbeat: {
+        Args: never
+        Returns: Database["public"]["Enums"]["presence"]
+      }
       public_availability: { Args: { p_language: string }; Returns: number }
+      purge_inactive_cards: { Args: never; Returns: number }
       queue_position: { Args: { conv: string }; Returns: number }
       rate_followup: {
-        Args: { conv: string; sufficient: boolean }
+        Args: { card_accurate: boolean; conv: string; sufficient: boolean }
         Returns: undefined
       }
       record_return_failure: {
