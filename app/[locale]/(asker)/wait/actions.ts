@@ -139,7 +139,7 @@ async function getFollowupLink(askerId: string, resume: "same" | "substitute" | 
     .select("id, preferred_daee, accept_substitute")
     .eq("asker_id", askerId)
     .eq("status", "approved")
-    .gt("expires_at", new Date().toISOString())
+    .or(`expires_at.is.null,expires_at.gt.${new Date().toISOString()}`)
     .order("approved_at", { ascending: false })
     .limit(1)
     .maybeSingle();

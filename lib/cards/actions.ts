@@ -16,7 +16,7 @@ const SubmitInput = z.object({
   fields: z.object({ follow_up: Field, covered: Field, remaining: Field, next_step: Field }),
   acceptSubstitute: z.boolean(),
   visibility: z.enum(VISIBILITIES),
-  days: z.union(DURATIONS.map((d) => z.literal(d)) as [z.ZodLiteral<7>, z.ZodLiteral<14>, z.ZodLiteral<30>]),
+  days: z.union([z.literal(DURATIONS[0]), z.literal(7), z.literal(14), z.literal(30)]),
   approve: z.boolean(),
 });
 
@@ -97,7 +97,7 @@ export async function submitCard(input: z.input<typeof SubmitInput>): Promise<Su
   if (!approve) return { ok: true, cardId: card.id, approved: false, transferred: false };
 
   const approvedAt = new Date();
-  const expiresAt = new Date(approvedAt.getTime() + days * 24 * 3600 * 1000).toISOString();
+  const expiresAt = days === "forever" ? null : new Date(approvedAt.getTime() + days * 24 * 3600 * 1000).toISOString();
   const { error: approveError } = await supabase
     .from("cards")
     .update({ status: "approved", approved_at: approvedAt.toISOString(), expires_at: expiresAt })
@@ -109,7 +109,7 @@ export async function submitCard(input: z.input<typeof SubmitInput>): Promise<Su
   if (visibility === "this_daee" && conversation.daee_id) {
     const { error } = await supabase
       .from("card_access")
-      .upsert({ card_id: card.id, viewer_id: conversation.daee_id, until: expiresAt });
+      .upsert({ card_id: card.id, viewer_id: conversation.daee_id, until: expiresAt ?? "infinity" });
     if (error) logServerError("submitCard.access", error, { cardId: card.id });
   }
   const { error: eventError } = await service.from("events").insert({
@@ -180,6 +180,21 @@ export async function requeueTransfer(conversationId: string): Promise<{ ok: boo
     return { ok: false };
   }
   revalidatePath("/[locale]/chat/[id]", "page");
+  return { ok: true };
+}
+
+/** The asker deletes the card (every version). Daee access ends with the rows. */
+export async function deleteCard(conversationId: string): Promise<{ ok: boolean }> {
+  const asker = await getAsker();
+  if (!asker || !z.uuid().safeParse(conversationId).success) return { ok: false };
+  const supabase = await createClient();
+  const { error } = await supabase.rpc("delete_card", { conv: conversationId });
+  if (error) {
+    logServerError("deleteCard", error, { conversationId });
+    return { ok: false };
+  }
+  revalidatePath("/[locale]/chat/[id]", "page");
+  revalidatePath("/[locale]/card/[id]", "page");
   return { ok: true };
 }
 

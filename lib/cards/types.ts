@@ -9,7 +9,8 @@ export const UNDEFINED_FIELD = "غير محدد";
 export const VISIBILITIES = ["this_daee", "team", "next_daee"] as const;
 export type Visibility = (typeof VISIBILITIES)[number];
 
-export const DURATIONS = [7, 14, 30] as const;
+/** "forever": until the asker deletes it (the default). Otherwise days. */
+export const DURATIONS = ["forever", 7, 14, 30] as const;
 export type Duration = (typeof DURATIONS)[number];
 
 export const CARD_FIELD_MAX = 300;

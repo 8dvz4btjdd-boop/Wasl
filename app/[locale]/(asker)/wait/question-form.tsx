@@ -1,5 +1,6 @@
 "use client";
 
+import { isolate } from "@/lib/bidi";
 import { ArrowUp, UserRound, Users } from "lucide-react";
 import { motion } from "motion/react";
 import { useLocale, useTranslations } from "next-intl";
@@ -52,7 +53,7 @@ export function QuestionForm({ resume }: { resume: ResumeInfo | null }) {
         <p className="text-lg text-muted-foreground">{resume ? t("followupNote") : t("hint")}</p>
         {choice && (
           <p className="flex items-center gap-2 text-sm text-teal-fg">
-            {choice === "same" && resume?.preferred ? t("chosenSame", { name: resume.preferred.name }) : t("chosenSubstitute")}
+            {choice === "same" && resume?.preferred ? t("chosenSame", { name: isolate(resume.preferred.name) }) : t("chosenSubstitute")}
             <button type="button" onClick={() => setChoice(null)} className="rounded text-muted-foreground underline-offset-4 hover:text-foreground hover:underline">
               {t("change")}
             </button>
@@ -176,7 +177,7 @@ function ResumeChoice({ resume, onChoose }: { resume: ResumeInfo; onChoose: (cho
               <UserRound className="size-5" aria-hidden />
             </span>
             <span className="flex flex-col gap-0.5">
-              <span className="text-lg font-semibold">{t("resumeSame", { name: preferred.name })}</span>
+              <span className="text-lg font-semibold">{t("resumeSame", { name: isolate(preferred.name) })}</span>
               <span className="flex items-center gap-1.5 text-sm text-muted-foreground">
                 <PresenceDot value={preferred.status} />
                 {availability}

@@ -1,6 +1,6 @@
 "use client";
 
-import { Check, X } from "lucide-react";
+import { Check, Trash2, X } from "lucide-react";
 import { motion } from "motion/react";
 import { useLocale, useTranslations } from "next-intl";
 import { useMemo, useState, useTransition } from "react";
@@ -8,8 +8,9 @@ import { CardView } from "@/components/cards/card-view";
 import { useHydrated } from "@/components/chat/use-clock";
 import { Surface } from "@/components/surface";
 import { Button, buttonVariants } from "@/components/ui/button";
-import { Link } from "@/i18n/navigation";
-import { submitCard } from "@/lib/cards/actions";
+import { Link, useRouter } from "@/i18n/navigation";
+import { deleteCard, submitCard } from "@/lib/cards/actions";
+import { isolate } from "@/lib/bidi";
 import {
   CARD_FIELD_MAX,
   CARD_FIELDS,
@@ -58,7 +59,7 @@ export function CardBuilder({ conversationId, messages, me, daeeName, latest, la
   const [acceptSubstitute, setAcceptSubstitute] = useState(latest?.accept_substitute ?? true);
   // A daee asked for a card before handing over: the next daee is the natural audience.
   const [visibility, setVisibility] = useState<Visibility>(latest?.visibility ?? (transferPending ? "next_daee" : "this_daee"));
-  const [days, setDays] = useState<Duration>(14);
+  const [days, setDays] = useState<Duration>("forever");
   const [result, setResult] = useState<"approved" | "draft" | "error" | null>(null);
   const [approvedUntil, setApprovedUntil] = useState<string | null>(null);
   const [pending, startTransition] = useTransition();
@@ -80,7 +81,7 @@ export function CardBuilder({ conversationId, messages, me, daeeName, latest, la
       });
       if (!res.ok) return setResult("error");
       setResult(approve ? "approved" : "draft");
-      if (approve) setApprovedUntil(new Date(Date.now() + days * 864e5).toISOString());
+      if (approve) setApprovedUntil(days === "forever" ? null : new Date(Date.now() + days * 864e5).toISOString());
     });
 
   const header = (
@@ -106,7 +107,7 @@ export function CardBuilder({ conversationId, messages, me, daeeName, latest, la
         <motion.main variants={sheetIn} initial="hidden" animate="visible" className="mx-auto mt-6 flex w-full max-w-2xl flex-1 flex-col gap-6 rounded-t-3xl border-x border-t bg-card px-5 py-6 sm:px-8">
           <p className="flex items-center gap-2 text-sm font-medium text-teal-fg">
             <Check className="size-4" aria-hidden />
-            {until && hydrated ? t("approved", { date: date(until) }) : null}
+            {until ? (hydrated ? t("approved", { date: date(until) }) : null) : t("approvedForever")}
           </p>
           <CardView fields={card ?? fields} />
           <SharingSummary daeeName={daeeName} acceptSubstitute={card?.accept_substitute ?? acceptSubstitute} visibility={card?.visibility ?? visibility} />
@@ -126,6 +127,7 @@ export function CardBuilder({ conversationId, messages, me, daeeName, latest, la
             >
               {t("newVersion")}
             </Button>
+            <DeleteCard conversationId={conversationId} />
           </div>
         </motion.main>
       </Surface>
@@ -241,9 +243,9 @@ export function CardBuilder({ conversationId, messages, me, daeeName, latest, la
                 <StepTitle title={t("stepSharing")} />
                 <OptionGroup legend={t("preferredTitle")}>
                   <Option checked={!acceptSubstitute} onSelect={() => setAcceptSubstitute(false)} name="preferred"
-                    title={daeeName ? t("preferSame", { name: daeeName }) : t("preferSameAnyone")} />
+                    title={daeeName ? t("preferSame", { name: isolate(daeeName) }) : t("preferSameAnyone")} />
                   <Option checked={acceptSubstitute} onSelect={() => setAcceptSubstitute(true)} name="preferred"
-                    title={daeeName ? t("preferSubstitute", { name: daeeName }) : t("preferSubstituteAnyone")} />
+                    title={daeeName ? t("preferSubstitute", { name: isolate(daeeName) }) : t("preferSubstituteAnyone")} />
                 </OptionGroup>
                 <OptionGroup legend={t("visibilityTitle")}>
                   {VISIBILITIES.map((v) => (
@@ -265,7 +267,7 @@ export function CardBuilder({ conversationId, messages, me, daeeName, latest, la
                           days === d ? "bg-card text-foreground shadow-xs" : "text-muted-foreground hover:text-foreground",
                         )}
                       >
-                        {t("days", { days: d })}
+                        {d === "forever" ? t("forever") : t("days", { days: d })}
                       </button>
                     ))}
                   </div>
@@ -368,9 +370,9 @@ function Option({ checked, onSelect, name, title, hint }: { checked: boolean; on
 function SharingSummary({ daeeName, acceptSubstitute, visibility, days }: { daeeName: string | null; acceptSubstitute: boolean; visibility: Visibility; days?: Duration }) {
   const t = useTranslations("Card");
   const rows = [
-    { label: t("preferredTitle"), value: acceptSubstitute ? (daeeName ? t("preferSubstitute", { name: daeeName }) : t("preferSubstituteAnyone")) : daeeName ? t("preferSame", { name: daeeName }) : t("preferSameAnyone") },
+    { label: t("preferredTitle"), value: acceptSubstitute ? (daeeName ? t("preferSubstitute", { name: isolate(daeeName) }) : t("preferSubstituteAnyone")) : daeeName ? t("preferSame", { name: isolate(daeeName) }) : t("preferSameAnyone") },
     { label: t("visibilityTitle"), value: t(visibility) },
-    ...(days ? [{ label: t("durationTitle"), value: t("days", { days }) }] : []),
+    ...(days ? [{ label: t("durationTitle"), value: days === "forever" ? t("forever") : t("days", { days }) }] : []),
   ];
   return (
     <dl className="flex flex-col gap-3 text-sm">
@@ -381,5 +383,48 @@ function SharingSummary({ daeeName, acceptSubstitute, visibility, days }: { daee
         </div>
       ))}
     </dl>
+  );
+}
+
+/** Two taps: delete, then confirm. Every version goes, and with it every daee's access. */
+function DeleteCard({ conversationId }: { conversationId: string }) {
+  const t = useTranslations("Card");
+  const router = useRouter();
+  const [confirming, setConfirming] = useState(false);
+  const [failed, setFailed] = useState(false);
+  const [pending, startTransition] = useTransition();
+  if (!confirming) {
+    return (
+      <Button variant="ghost" size="lg" className="h-12 px-4 text-base text-muted-foreground sm:ms-auto" onClick={() => setConfirming(true)}>
+        <Trash2 aria-hidden />
+        {t("delete")}
+      </Button>
+    );
+  }
+  return (
+    <div className="flex flex-col gap-2 sm:ms-auto sm:items-end">
+      <p className="text-sm text-muted-foreground">{failed ? t("error") : t("deleteHint")}</p>
+      <div className="flex gap-2">
+        <Button variant="outline" size="lg" className="h-12 px-4" onClick={() => setConfirming(false)}>
+          {t("back")}
+        </Button>
+        <Button
+          variant="destructive"
+          size="lg"
+          className="h-12 px-4"
+          disabled={pending}
+          onClick={() =>
+            startTransition(async () => {
+              const res = await deleteCard(conversationId);
+              if (!res.ok) return setFailed(true);
+              router.replace(`/chat/${conversationId}`);
+              router.refresh();
+            })
+          }
+        >
+          {t("confirmDelete")}
+        </Button>
+      </div>
+    </div>
   );
 }
