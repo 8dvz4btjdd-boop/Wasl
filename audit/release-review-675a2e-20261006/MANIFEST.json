@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-10-06T17:17:19.850959+00:00",
+  "generated_at_utc": "2026-10-06T17:18:08.085274+00:00",
   "base_sha": "675a2e0089ee1e4324a7b438c17d570989793bc1",
   "mode": "audit only; no product patch applied",
   "files": [
@@ -10,13 +10,13 @@
     },
     {
       "path": "AI_USAGE_ATTEMPTS.csv",
-      "bytes": 618,
-      "sha256": "ad3cab8755580142bdd0df7efa7f0e05559e31973fab7b518a204aaa1a25ca42"
+      "bytes": 615,
+      "sha256": "abcb72e0995e5863dbfba60b236934dfefc9679cc71a752ab500d49d97628f89"
     },
     {
       "path": "AI_USAGE_SCENARIOS.csv",
-      "bytes": 1614,
-      "sha256": "423ff3f61fd9dca7fc2dcc4094c0a3c0c223a02eecaf35bca4a62f372a1a24a1"
+      "bytes": 1610,
+      "sha256": "8e02f8e16327a73981dd11dcd61b33ef28c9da8b8e7732561940960228ceb7ef"
     },
     {
       "path": "EVIDENCE.md",
@@ -195,8 +195,8 @@
     },
     {
       "path": "evidence/commands/build-webpack.log",
-      "bytes": 1689,
-      "sha256": "2fe01eb33c2c61271736028e03c33f885b8f5bb3a57bd5d70205d94b8184abc7"
+      "bytes": 1686,
+      "sha256": "d21ac044ffb0c68569d9500d2cc258d7306fa7df3b1d5ed0aff65580fc7251e6"
     },
     {
       "path": "evidence/commands/dependency-cache-verification.json",
