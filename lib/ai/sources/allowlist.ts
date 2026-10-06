@@ -21,7 +21,7 @@ export function allowedDomain(url: string): (typeof ALLOWED_DOMAINS)[number] | n
 
 // A Qur'anic verse in the passage: the ornate brackets around verse text, or a verse-quoting formula.
 // Also the citation formats around a quoted verse: "[سورة البقرة: ٢٥٦]", "(البقرة: 256)", "{…}".
-const VERSE = /[﴿﴾]|قال (الله )?تعالى|قوله تعالى|\[\s*سورة\s|\{[^}]*[؀-ۿ][^}]*\}|\((سورة\s)?[؀-ۿ ]+:\s*[0-9٠-٩]+\)/;
+const VERSE = /[﴿﴾]|(قال|يقول|وقال|ويقول|قوله|وقوله|لقوله) (الله )?(سبحانه و)?تعالى|\[\s*سورة\s|\{[^}]*[؀-ۿ][^}]*\}|\((سورة\s)?[؀-ۿ ]+:\s*[0-9٠-٩]+\)/;
 // A hadith in the passage, and a grading next to it.
 // Narration formulas only: a biography that names the Prophet ﷺ is not a hadith.
 const HADITH = /قال رسول الله|قال النبي|سمعت رسول الله|عن النبي ﷺ (قال|أنه قال)|أن (النبي|رسول الله) ﷺ قال|صلى الله عليه وسلم:? قال|صلى الله عليه وسلم يقول/;
@@ -34,6 +34,11 @@ function dorarSection(url: string) {
   const path = new URL(url).pathname.toLowerCase().replace(/^\/(ar|en|fr|es|ur|id|tl|tr|ru|de)(?=\/)/, "");
   const section = DORAR_SECTIONS.find((s) => path === `/${s}` || path.startsWith(`/${s}/`));
   return section === "ahadith" ? "hadith" : section;
+}
+
+/** dorar.net's fiqh encyclopedia: never for askers; for a daee, labeled as fiqh that is not a fatwa. */
+export function isFeqhia(url: string): boolean {
+  return allowedDomain(url) === "dorar.net" && dorarSection(url) === "feqhia";
 }
 
 /** Whether the asker may see an item from this URL (dorar feqhia never). */
@@ -51,6 +56,8 @@ export function rejectReason(c: Citation, audience: Audience): string | null {
   const domain = allowedDomain(c.url);
   if (!domain) return "domain";
   if (!c.cited_text.trim()) return "empty";
+  // Page chrome (headings, the page title, "...") is not a passage.
+  if (substance(c).length < 40 && substance(c) !== c.cited_text.replace(/\s+/g, " ").trim()) return "navigation";
 
   // Verse text only from quranpedia.net.
   if (domain !== "quranpedia.net" && VERSE.test(c.cited_text)) return "verse_outside_quranpedia";
@@ -64,6 +71,17 @@ export function rejectReason(c: Citation, audience: Audience): string | null {
   // A hadith anywhere needs its grading alongside it.
   if (HADITH.test(c.cited_text) && !GRADING.test(c.cited_text)) return "hadith_ungraded";
   return null;
+}
+
+/** The cited text without markdown headings, the page's own title, or bare ellipses. */
+function substance(c: Citation): string {
+  const title = c.title.replace(/\s+/g, " ").trim();
+  return c.cited_text
+    .split("\n")
+    .map((line) => line.replace(/\s+/g, " ").trim())
+    .filter((line) => line && !line.startsWith("#") && line !== title && !/^(\.\.\.|…)+$/.test(line))
+    .join(" ")
+    .replace(/^(\.\.\.|…)\s*|\s*(\.\.\.|…)$/g, "");
 }
 
 /** dawa.center's بينات file (7937) comes first for doubts. */

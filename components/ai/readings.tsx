@@ -15,7 +15,18 @@ type Reading = { id: string | null; title: string; text: string; url: string; ve
  * the source's own words, verbatim, with its title and link. The search can take several
  * seconds, so the section shows a quiet loading state and fills in when ready.
  */
-export function Readings({ conversationId, tone = "asker", className }: { conversationId: string; tone?: "asker" | "workspace"; className?: string }) {
+export function Readings({
+  conversationId,
+  tone = "asker",
+  variant = "default",
+  className,
+}: {
+  conversationId: string;
+  tone?: "asker" | "workspace";
+  /** suggested: the asker's waiting screen ("suggested for you"). */
+  variant?: "default" | "suggested";
+  className?: string;
+}) {
   const t = useTranslations("Readings");
   const [state, setState] = useState<"loading" | "done" | "error">("loading");
   const [items, setItems] = useState<Reading[]>([]);
@@ -42,7 +53,7 @@ export function Readings({ conversationId, tone = "asker", className }: { conver
       <div className="flex flex-wrap items-center gap-2">
         <BookOpen className={cn("text-teal-fg", compact ? "size-3.5" : "size-4")} aria-hidden />
         <h2 id={`readings-${conversationId}`} className={cn("font-semibold", compact ? "text-xs text-muted-foreground" : "text-sm")}>
-          {t("title")}
+          {variant === "suggested" ? t("suggested") : t("title")}
         </h2>
         <AIBadge />
       </div>

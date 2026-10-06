@@ -20,6 +20,8 @@ export type SourcesInput = {
   level: "a" | "b" | "c" | "d";
   locale: string;
   audience: Audience;
+  /** The plan: 2 or 3 short concept queries (plan_queries). */
+  queries?: string[];
 };
 
 type ContentBlock = { type: string; text?: string; citations?: { type: string; url: string; title: string; cited_text: string }[] };
@@ -75,8 +77,11 @@ export const findSourcesTask: AITask<SourcesInput, SourcesOutput> = {
   buildPrompt(input) {
     return {
       system: SOURCES_SYSTEM.replace("{locale}", input.locale),
-      blocks: [{ tag: "question", content: input.question }],
-      instruction: `Find approved passages for this question. Topic: ${input.topic}. Level: ${input.level}.`,
+      blocks: [
+        { tag: "question", content: input.question },
+        { tag: "search_plan", content: (input.queries ?? []).join("\n") || input.question },
+      ],
+      instruction: `Search with the queries in <search_plan>, then cite the passages that fit the question. Topic hint: ${input.topic}. Level: ${input.level}.`,
     };
   },
   execute: ({ model, system, userText, signal }) => searchApproved({ model, system, userText, signal }),
