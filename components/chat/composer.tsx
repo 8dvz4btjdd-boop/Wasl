@@ -19,7 +19,7 @@ type ComposerProps = {
   extra?: React.ReactNode;
 };
 
-export type ComposerHandle = { focus: () => void; setText: (text: string) => void };
+export type ComposerHandle = { focus: () => void; setText: (text: string) => void; append: (text: string) => void };
 
 /** Enter sends, Shift+Enter adds a line, IME composition (e.g. Arabic input) never sends. */
 export const Composer = forwardRef<ComposerHandle, ComposerProps>(function Composer(
@@ -28,7 +28,17 @@ export const Composer = forwardRef<ComposerHandle, ComposerProps>(function Compo
 ) {
   const [text, setText] = useState("");
   const textarea = useRef<HTMLTextAreaElement>(null);
-  useImperativeHandle(ref, () => ({ focus: () => textarea.current?.focus(), setText: (value: string) => setText(value.slice(0, maxLength)) }));
+  useImperativeHandle(ref, () => ({
+    focus: () => textarea.current?.focus(),
+    setText: (value: string) => setText(value.slice(0, maxLength)),
+    // Adds to what's there (a quote inserted by the daee assistant); never sends.
+    append: (value: string) => {
+      setText((current) => (current.trim() ? `${current.trimEnd()}
+
+${value}` : value).slice(0, maxLength));
+      textarea.current?.focus();
+    },
+  }));
 
   const canSend = !disabled && text.trim().length > 0;
 

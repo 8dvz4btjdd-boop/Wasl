@@ -14,6 +14,7 @@ import type { VisibleCard } from "@/lib/db/queries/conversations";
 import { endConversation, markConversationRead, setPresence } from "@/lib/inbox/actions";
 import { isolate } from "@/lib/bidi";
 import { cn } from "@/lib/utils";
+import type { AssistRequest } from "./assistant";
 import { ContextPanel } from "./context-panel";
 import { ConversationList, segmentOf, type Segment } from "./conversation-list";
 import { ConversationPane } from "./conversation-pane";
@@ -32,6 +33,7 @@ type InboxProps = {
   pastCount: number | null;
   cards: VisibleCard[];
   transferPending: boolean;
+  aiEnabled: boolean;
 };
 
 const CONTEXT_KEY = "wasl.inbox.context";
@@ -58,6 +60,7 @@ export function Inbox({
   pastCount,
   cards,
   transferPending: initialTransferPending,
+  aiEnabled,
 }: InboxProps) {
   const tToast = useTranslations("Toasts");
   const locale = useLocale() as Locale;
@@ -74,6 +77,19 @@ export function Inbox({
   const [storedContext, setStoredContext] = useStoredFlag(CONTEXT_KEY, true);
   const [overlayContext, setOverlayContext] = useState(false);
   const contextOpen = wide ? storedContext : overlayContext;
+  const [contextTab, setContextTab] = useState<"details" | "assistant">("details");
+  const [assistRequest, setAssistRequest] = useState<AssistRequest>(null);
+  const [insertRequest, setInsertRequest] = useState<{ text: string; nonce: number } | null>(null);
+  // A sparkle opens the panel on the assistant tab and runs the search there.
+  const assist = useCallback(
+    (messageIds: string[]) => {
+      if (wide) setStoredContext(true);
+      else setOverlayContext(true);
+      setContextTab("assistant");
+      setAssistRequest({ messageIds, nonce: Date.now() });
+    },
+    [wide, setStoredContext],
+  );
   const [endRequest, setEndRequest] = useState(0);
   const [transferPending, setTransferPending] = useState(initialTransferPending);
   const [seenPending, setSeenPending] = useState(initialTransferPending);
@@ -82,6 +98,7 @@ export function Inbox({
     setTransferPending(initialTransferPending);
   }
   const [focusRequest, setFocusRequest] = useState(0);
+
 
   // Server data wins whenever the page re-renders (navigation, refresh).
   const [seenInitial, setSeenInitial] = useState(initial);
@@ -292,6 +309,8 @@ export function Inbox({
               transferPending={transferPending}
               onTransferred={transferred}
               onRated={rated}
+              onAssist={assist}
+              insertRequest={insertRequest}
               resumeFrom={(() => {
                 const source = cards.find((k) => k.scope === "master") ?? cards.find((k) => k.id === current.card_id);
                 if (!source) return null;
@@ -300,6 +319,11 @@ export function Inbox({
             />
             {contextOpen && (
               <ContextPanel
+                tab={contextTab}
+                onTab={setContextTab}
+                aiEnabled={aiEnabled}
+                assistRequest={assistRequest}
+                onInsert={(text) => setInsertRequest({ text, nonce: Date.now() })}
                 conversation={current}
                 pastCount={pastCount}
                 cards={cards}

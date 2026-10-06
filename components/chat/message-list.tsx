@@ -20,6 +20,8 @@ type MessageListProps = {
   size?: "asker" | "compact";
   /** Rendered after the last message (e.g. the waiting state). */
   footer?: ReactNode;
+  /** A small action beside each message from the other side (the daee assistant's sparkle). */
+  messageAction?: (message: ChatMessage) => ReactNode;
 };
 
 type Item =
@@ -75,7 +77,7 @@ function buildItems(
   return items;
 }
 
-export function MessageList({ messages, me, system = [], onRetry, size = "asker", footer }: MessageListProps) {
+export function MessageList({ messages, me, system = [], onRetry, size = "asker", footer, messageAction }: MessageListProps) {
   const t = useTranslations("Chat");
   const locale = useLocale();
   const hydrated = useHydrated();
@@ -154,7 +156,8 @@ export function MessageList({ messages, me, system = [], onRetry, size = "asker"
               {item.messages.map((m, i) => {
                 const isLast = i === item.messages.length - 1;
                 const isNew = !initialIds.has(m.id);
-                return (
+                const action = !item.mine && messageAction ? messageAction(m) : null;
+                const bubble = (
                   <motion.div
                     key={m.id}
                     dir="auto"
@@ -173,6 +176,14 @@ export function MessageList({ messages, me, system = [], onRetry, size = "asker"
                   >
                     {m.body}
                   </motion.div>
+                );
+                return action ? (
+                  <div key={m.id} className="group/message flex max-w-full items-end gap-1">
+                    {bubble}
+                    {action}
+                  </div>
+                ) : (
+                  bubble
                 );
               })}
               <GroupMeta

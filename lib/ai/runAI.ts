@@ -86,7 +86,7 @@ export async function runAI<I, O>(
       task: task.name,
       model: model || null,
       input_hash: inputHash,
-      output: (result.ok ? redact(stored ?? result.data, task.ephemeralFields) : null) as Json,
+      output: (result.ok && task.persistOutput !== false ? redact(stored ?? result.data, task.ephemeralFields) : null) as Json,
       latency_ms: latency,
       fallback: !result.ok,
       reason: result.ok ? null : result.reason,

@@ -3,6 +3,7 @@
 import { X } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import type { ReactNode } from "react";
+import { AssistantPanel, type AssistRequest } from "./assistant";
 import { formatDateTime, languageName } from "@/components/chat/format";
 import { useHydrated } from "@/components/chat/use-clock";
 import type { ConversationSummary } from "@/lib/chat/types";
@@ -17,10 +18,16 @@ type ContextPanelProps = {
   cards: VisibleCard[];
   onClose: () => void;
   className?: string;
+  tab: "details" | "assistant";
+  onTab: (tab: "details" | "assistant") => void;
+  aiEnabled: boolean;
+  assistRequest: AssistRequest;
+  onInsert: (text: string) => void;
 };
 
 /** The card first (what the daee needs before replying), then follow-up context, then the asker. */
-export function ContextPanel({ conversation: c, pastCount, cards, onClose, className }: ContextPanelProps) {
+export function ContextPanel({ conversation: c, pastCount, cards, onClose, className, tab, onTab, aiEnabled, assistRequest, onInsert }: ContextPanelProps) {
+  const tAssist = useTranslations("Assist");
   const t = useTranslations("Inbox");
   const tTopic = useTranslations("Topics");
   const locale = useLocale();
@@ -30,7 +37,23 @@ export function ContextPanel({ conversation: c, pastCount, cards, onClose, class
   return (
     <aside aria-label={t("details")} className={cn("flex min-h-0 w-[360px] shrink-0 flex-col border-s bg-card", className)}>
       <header className="flex items-center justify-between border-b px-4 py-3">
-        <h2 className="text-sm font-semibold">{t("details")}</h2>
+        <div role="tablist" aria-label={t("details")} className="flex rounded-lg border bg-muted p-0.5">
+          {(["details", "assistant"] as const).map((key) => (
+            <button
+              key={key}
+              type="button"
+              role="tab"
+              aria-selected={tab === key}
+              onClick={() => onTab(key)}
+              className={cn(
+                "rounded-md px-3 py-1 text-xs font-medium transition-colors duration-150 focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none",
+                tab === key ? "bg-card text-foreground shadow-xs" : "text-muted-foreground hover:text-foreground",
+              )}
+            >
+              {key === "details" ? t("details") : tAssist("tab")}
+            </button>
+          ))}
+        </div>
         <button
           type="button"
           onClick={onClose}
@@ -41,6 +64,11 @@ export function ContextPanel({ conversation: c, pastCount, cards, onClose, class
         </button>
       </header>
 
+      {tab === "assistant" ? (
+        <div className="min-h-0 flex-1 overflow-y-auto">
+          <AssistantPanel key={c.id} conversationId={c.id} aiEnabled={aiEnabled} request={assistRequest} onInsert={onInsert} />
+        </div>
+      ) : (
       <div className="min-h-0 flex-1 overflow-y-auto">
         <section className="px-4 py-4">
           <h3 className="mb-3 text-xs font-medium text-muted-foreground">{t("cardTitle")}</h3>
@@ -75,6 +103,7 @@ export function ContextPanel({ conversation: c, pastCount, cards, onClose, class
           </dl>
         </section>
       </div>
+      )}
     </aside>
   );
 }

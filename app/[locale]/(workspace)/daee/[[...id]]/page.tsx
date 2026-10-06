@@ -4,6 +4,7 @@ import { Inbox } from "@/components/inbox/inbox";
 import { redirect } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
 import { requireStaff } from "@/lib/auth/dal";
+import { getAIEnabled } from "@/lib/db/queries/org";
 import { getInbox, getMessages, getPastConversationCount, getPendingTransfer, getVisibleCards } from "@/lib/db/queries/conversations";
 import { createClient } from "@/lib/db/server";
 
@@ -38,6 +39,7 @@ export default async function DaeePage({ params }: PageProps<"/[locale]/daee/[[.
 
   return (
     <Inbox
+      aiEnabled={await getAIEnabled()}
       me={{ id: staff.user_id, name: staff.display_name }}
       initialPresence={profile.data?.status ?? "offline"}
       conversations={conversations}

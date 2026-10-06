@@ -33,6 +33,8 @@ export type AITask<I, O> = {
    * runAI still owns the switch, rate limit, timeout, validation, policy and logging.
    */
   execute?: (call: { model: string; system: string; userText: string; signal: AbortSignal; input: I }) => Promise<unknown>;
+  /** false: the output is never stored, not even redacted (ai_runs keeps output null). */
+  persistOutput?: boolean;
   /** Top-level output fields the policy check skips (verbatim source text, never model prose). */
   policyExempt?: string[];
 };

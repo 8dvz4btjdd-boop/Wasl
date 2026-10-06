@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronLeft, PanelRight } from "lucide-react";
+import { ChevronLeft, PanelRight, Sparkles } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Composer, type ComposerHandle } from "@/components/chat/composer";
@@ -36,6 +36,10 @@ type ConversationPaneProps = {
   onTransferred: (status: "completed" | "pending") => void;
   /** A follow-up was rated while ending (null: that question skipped). */
   onRated: (sufficient: boolean | null) => void;
+  /** Search the approved sources for these asker messages (the assistant tab). */
+  onAssist?: (messageIds: string[]) => void;
+  /** A quote to add to the composer (never sent). */
+  insertRequest?: { text: string; nonce: number } | null;
   /** A follow-up's starting point: the master card's next step (or what to follow up on). */
   resumeFrom?: string | null;
 };
@@ -54,6 +58,8 @@ export function ConversationPane({
   transferPending,
   onTransferred,
   onRated,
+  onAssist,
+  insertRequest,
   resumeFrom,
 }: ConversationPaneProps) {
   const t = useTranslations("Inbox");
@@ -64,6 +70,12 @@ export function ConversationPane({
   const { messages, send, retry } = useMessages(c.id, initialMessages, me.id, "daee");
   const composer = useRef<ComposerHandle>(null);
   const confirmButton = useRef<HTMLButtonElement>(null);
+  const tAssist = useTranslations("Assist");
+  const [selected, setSelected] = useState<string[]>([]);
+  const toggleSelected = (id: string) => setSelected((list) => (list.includes(id) ? list.filter((x) => x !== id) : [...list, id]));
+  useEffect(() => {
+    if (insertRequest) composer.current?.append(insertRequest.text);
+  }, [insertRequest]);
   const [confirming, setConfirming] = useState(false);
   const [ending, setEnding] = useState(false);
   const ended = c.status === "ended";
@@ -172,7 +184,65 @@ export function ConversationPane({
         <EndFollowupPanel conversation={c} ending={ending} onEnd={confirmEnd} onCancel={() => setConfirming(false)} onRated={onRated} />
       )}
 
-      <MessageList messages={messages} me={me.id} system={system} onRetry={retry} size="compact" />
+      <MessageList
+        messages={messages}
+        me={me.id}
+        system={system}
+        onRetry={retry}
+        size="compact"
+        messageAction={
+          onAssist
+            ? (m) =>
+                m.sender_role === "asker" && !m.state ? (
+                  <span className="flex shrink-0 items-center gap-1">
+                    {selected.length > 0 && (
+                      <input
+                        type="checkbox"
+                        aria-label={tAssist("select")}
+                        checked={selected.includes(m.id)}
+                        onChange={() => toggleSelected(m.id)}
+                        className="size-3.5 accent-[var(--color-brand-violet)]"
+                      />
+                    )}
+                    <button
+                      type="button"
+                      data-testid="assist-sparkle"
+                      aria-label={tAssist("searchMessage")}
+                      title={tAssist("sparkleHint")}
+                      aria-pressed={selected.includes(m.id)}
+                      onClick={(e) => {
+                        if (e.shiftKey || selected.length > 0) toggleSelected(m.id);
+                        else onAssist([m.id]);
+                      }}
+                      className={cn(
+                        "grid size-6 place-items-center rounded-full text-muted-foreground opacity-60 transition-opacity duration-150 group-hover/message:opacity-100 hover:bg-muted hover:text-violet-fg focus-visible:opacity-100 focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none",
+                        selected.includes(m.id) && "bg-brand-violet/15 text-violet-fg opacity-100",
+                      )}
+                    >
+                      <Sparkles className="size-3.5" aria-hidden />
+                    </button>
+                  </span>
+                ) : null
+            : undefined
+        }
+      />
+      {selected.length > 0 && onAssist && (
+        <div data-testid="assist-selection" className="flex items-center justify-center gap-2 border-t bg-muted/40 px-4 py-2 text-xs">
+          <Button
+            size="sm"
+            onClick={() => {
+              onAssist(selected);
+              setSelected([]);
+            }}
+          >
+            <Sparkles aria-hidden />
+            {tAssist("searchSelected", { count: selected.length })}
+          </Button>
+          <Button size="sm" variant="ghost" onClick={() => setSelected([])}>
+            {t("cancel")}
+          </Button>
+        </div>
+      )}
 
       <div className="border-t px-4 py-3 md:px-6">
         {ended ? (
