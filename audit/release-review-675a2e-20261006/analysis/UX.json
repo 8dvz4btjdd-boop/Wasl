@@ -1,0 +1,830 @@
+{
+  "sha": "675a2e0089ee1e4324a7b438c17d570989793bc1",
+  "repository": "8dvz4btjdd-boop/Wasl",
+  "checkout": "/workspace/Wasl-audit-current-20261006",
+  "auditOnly": true,
+  "runtime": {
+    "app": "http://127.0.0.1:3062",
+    "api": "http://127.0.0.1:55641",
+    "kind": "real local Auth/REST/Realtime, PostgreSQL17, current migrations0001–0018"
+  },
+  "paidCalls": false,
+  "providerMocks": false,
+  "viewports": {
+    "interactionDesktop": {
+      "width": 1440,
+      "height": 900
+    },
+    "currentMobileSnapshots": {
+      "width": 390,
+      "height": 844
+    },
+    "fullMobileTouchJourneyTested": false
+  },
+  "privacy": {
+    "syntheticLocalDataOnly": true,
+    "credentialsAndReturnCodesMasked": true,
+    "dialogueCardAndSourceBodiesMasked": true,
+    "externalBrowserHttpBlocked": true
+  },
+  "visualVerdict": "هوية متماسكة وعرض عربي RTL متجاوب؛ حدود الموافقة والتحويل وحفظ المسودة أضعف من الصقل البصري",
+  "horizontalOverflowObserved": false,
+  "mainResults": [
+    {
+      "name": "public landing Arabic current render",
+      "status": "PASS"
+    },
+    {
+      "name": "entry → manual question → routing/wait (AI off)",
+      "status": "PASS"
+    },
+    {
+      "name": "two-way local human chat and realtime",
+      "status": "PASS"
+    },
+    {
+      "name": "refresh keeps own current conversation/messages",
+      "status": "PASS"
+    },
+    {
+      "name": "return code header first reveal (value not recorded)",
+      "status": "PASS"
+    },
+    {
+      "name": "card initial selection",
+      "status": "OBSERVED",
+      "checked": 4,
+      "total": 4,
+      "note": "all messages selected before an explicit checkbox action"
+    },
+    {
+      "name": "selected manual card → direct asker approval without human review",
+      "status": "approved",
+      "selectedCount": 2,
+      "humanReviewPerformed": false
+    },
+    {
+      "name": "current human receives approved card",
+      "status": "PASS"
+    },
+    {
+      "name": "transfer to second human",
+      "status": "PASS",
+      "sameConversationId": true,
+      "previousUnselectedMessageVisibleToNext": true
+    },
+    {
+      "name": "human end → return code revealed",
+      "status": "PASS",
+      "rotatedFromHeaderCode": true
+    },
+    {
+      "name": "new-browser return → preferred human choice → linked new session",
+      "status": "PASS",
+      "cardLinked": true,
+      "previousLinked": true,
+      "mode": "manual",
+      "sameHumanAsCard": true
+    },
+    {
+      "name": "bounded browser journey stopped",
+      "status": "FAIL",
+      "error": "locator.click: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('button', { name: 'رجوع', exact: true })\u001b[22m\n"
+    },
+    {
+      "name": "cleanup of owned synthetic fixtures",
+      "status": "FAIL",
+      "error": "cleanup UX auth user failed(user_not_found)"
+    }
+  ],
+  "supplementResults": [
+    {
+      "name": "actual microphone permission denial retains text entry",
+      "status": "OBSERVED",
+      "before": 1,
+      "after": 0,
+      "textareaEnabled": true
+    },
+    {
+      "name": "listen uses local TTS endpoint with keys unset",
+      "status": "OBSERVED",
+      "ttsCalls": [
+        {
+          "path": "/api/tts",
+          "status": 204,
+          "ttsPath": "fallback",
+          "ttsReason": "no_key"
+        }
+      ]
+    },
+    {
+      "name": "guide missing-key fallback preserves submitted text",
+      "status": "PASS"
+    },
+    {
+      "name": "no available human creates real local waiting conversation",
+      "status": "PASS"
+    },
+    {
+      "name": "card missing-key fallback reaches manual editor",
+      "status": "PASS",
+      "cardCalls": [
+        {
+          "path": "/api/ai/card",
+          "status": 200,
+          "ttsPath": null,
+          "ttsReason": null
+        }
+      ]
+    },
+    {
+      "name": "offline save unmounts editor and reload drops unsaved text",
+      "status": "OBSERVED",
+      "errorBoundaryVisible": true,
+      "recoveredAfterReload": false,
+      "persistedCards": 0
+    },
+    {
+      "name": "localized entry initial render",
+      "status": "PASS",
+      "locale": "ar",
+      "direction": "rtl"
+    },
+    {
+      "name": "localized entry initial render",
+      "status": "PASS",
+      "locale": "en",
+      "direction": "ltr"
+    },
+    {
+      "name": "localized entry initial render",
+      "status": "PASS",
+      "locale": "fr",
+      "direction": "ltr"
+    },
+    {
+      "name": "localized entry initial render",
+      "status": "PASS",
+      "locale": "es",
+      "direction": "ltr"
+    },
+    {
+      "name": "localized entry initial render",
+      "status": "PASS",
+      "locale": "ur",
+      "direction": "rtl"
+    },
+    {
+      "name": "localized entry initial render",
+      "status": "PASS",
+      "locale": "id",
+      "direction": "ltr"
+    },
+    {
+      "name": "localized entry initial render",
+      "status": "PASS",
+      "locale": "tl",
+      "direction": "ltr"
+    },
+    {
+      "name": "guide skip preserves unsent input in manual composer",
+      "status": "PASS"
+    },
+    {
+      "name": "cleanup of UX-only synthetic org and identities",
+      "status": "PASS"
+    }
+  ],
+  "findings": [
+    {
+      "id": "UX-01",
+      "priority": "P0",
+      "kind": "confirmed_local_browser_and_code",
+      "title": "المحاور التالي يرى الأرشيف غير المختار عند التحويل داخل المحادثة نفسها",
+      "test": "transfer to second human",
+      "observed": {
+        "sameConversationId": true,
+        "previousUnselectedMessageVisibleToNext": true
+      },
+      "evidence": [
+        "evidence/ui/results.json",
+        "evidence/ui/transferred-daee-mobile.png",
+        "evidence/ui/transferred-daee-desktop.png"
+      ],
+      "code": [
+        {
+          "file": "supabase/migrations/0005_journeys.sql",
+          "line": 249
+        },
+        {
+          "file": "lib/db/queries/conversations.ts",
+          "line": 37
+        }
+      ],
+      "minimumChange": "جلسة جديدة للمحاور التالي مع البطاقة المصرح بها فقط ورسائل جلسته؛ عزل الأرشيف خادميًا",
+      "acceptance": "UI/REST/RPC/Realtime تمنع التالي من كل رسالة قديمة غير مصرح بها",
+      "effortConditional": "1–3 أيام هندسية بتقسيم جلسات محدود"
+    },
+    {
+      "id": "UX-02",
+      "priority": "P1",
+      "kind": "confirmed_local_browser_and_code",
+      "title": "اعتماد مباشر بلا مراجعة الداعية المطلوبة",
+      "observed": {
+        "humanReviewPerformed": false,
+        "storedCardStatus": "approved"
+      },
+      "evidence": [
+        "evidence/ui/results.json",
+        "evidence/ui/card-review-mobile.png"
+      ],
+      "code": [
+        {
+          "file": "app/[locale]/(asker)/card/[id]/card-builder.tsx",
+          "line": 132
+        },
+        {
+          "file": "lib/cards/actions.ts",
+          "line": 128
+        }
+      ],
+      "minimumChange": "حالة مراجعة خادمية وإرسال/استلام ملاحظات ثم اعتماد السائل النهائي",
+      "acceptance": "approve المباشر دون مراجعة حالية مرفوض؛ المراجعة لا تنشر والمقاطع الجديدة تعيدها",
+      "effortConditional": "1–2 أيام هندسية مع المنع"
+    },
+    {
+      "id": "UX-03",
+      "priority": "P1",
+      "kind": "confirmed_local_browser_and_code",
+      "title": "كل الرسائل محددة افتراضيًا رغم صياغة اختر",
+      "observed": {
+        "defaultChecked": 4,
+        "totalMessages": 4
+      },
+      "evidence": [
+        "evidence/ui/results.json",
+        "evidence/ui/card-default-selection-mobile.png"
+      ],
+      "code": [
+        {
+          "file": "app/[locale]/(asker)/card/[id]/card-builder.tsx",
+          "line": 62
+        },
+        {
+          "file": "app/[locale]/(asker)/card/[id]/card-builder.tsx",
+          "line": 110
+        }
+      ],
+      "minimumChange": "أول بطاقة تبدأ بلا تحديد ومراجعة المدخلات قبل إطلاق النموذج",
+      "acceptance": "لا طلب AI قبل اختيار صريح؛ payload لا يحوي غير المختار",
+      "effortConditional": "نصف يوم إلى يوم مع فحص payload"
+    },
+    {
+      "id": "UX-04",
+      "priority": "P1",
+      "kind": "confirmed_twice_local_browser",
+      "title": "حفظ المسودة بلا شبكة يفقد النص ويعرض خطأ إنجليزيًا",
+      "observed": {
+        "errorBoundaryVisible": true,
+        "recoveredAfterReload": false,
+        "persistedCards": 0
+      },
+      "evidence": [
+        "evidence/ui/supplement-results.json",
+        "evidence/ui/card-save-offline-boundary-desktop.png"
+      ],
+      "code": [
+        {
+          "file": "app/[locale]/(asker)/card/[id]/card-builder.tsx",
+          "line": 132
+        }
+      ],
+      "minimumChange": "catch رفض Server Action داخل المحرر ثم retry دون فقد؛ حسم سياسة استرداد مسودة خاصة",
+      "acceptance": "offline/retry/reload تحفظ اختيار ونص المستخدم وفق السياسة ولا تنشئ نسخًا مكررة",
+      "effortConditional": "نصف يوم إلى يوم؛ يوم إضافي للاسترداد"
+    },
+    {
+      "id": "UX-05",
+      "priority": "P1",
+      "kind": "product_decision_with_observed_ui_and_code",
+      "title": "نطاق الفريق والمدة حتى الحذف يتطلبان اتساق الوعد والصلاحيات",
+      "observed": {
+        "scopeSelectedForTest": "team",
+        "scopeDefaultWithoutPendingTransfer": "this_daee",
+        "durationDefault": "forever"
+      },
+      "evidence": [
+        "evidence/ui/card-sharing-mobile.png"
+      ],
+      "code": [
+        {
+          "file": "app/[locale]/(asker)/card/[id]/card-builder.tsx",
+          "line": 70
+        },
+        {
+          "file": "supabase/migrations/0009_card_hardening_ai.sql",
+          "line": 21
+        }
+      ],
+      "minimumChange": "قرار نطاق/مدة صريح ثم نص وسياسة واختبارات تطابقه",
+      "acceptance": "صلاحيات داعية غير مشارك تطابق نص النطاق؛ لا اعتماد قابل للتعطيل",
+      "effortConditional": "قرار ساعات؛ نصف يوم إلى يوم للضوابط"
+    }
+  ],
+  "strengths": [
+    "manual path and live local human messaging",
+    "guide failure/skip retains typed input",
+    "microphone denial retains text path",
+    "four-field preview plus scope/duration",
+    "actual new-session return links"
+  ],
+  "returnNuance": {
+    "cardMadeWithFirstHuman": true,
+    "lastHumanBeforeEndWasSecond": true,
+    "returnPreferredFirstHumanFromCard": true,
+    "sameLastHumanWasNotProven": true
+  },
+  "notTested": [
+    "live model quality or provider payload",
+    "ElevenLabs voice or audible speech quality",
+    "semantic resumption after a human response",
+    "full seven-language journeys",
+    "real mobile keyboard/Safari",
+    "admin browser UX",
+    "concurrent reception/two-tab/card replacement/privacy of new drafts",
+    "queue assignment after availability changes",
+    "deployed RLS"
+  ],
+  "replayCommands": [
+    "ANTHROPIC_API_KEY= ELEVENLABS_API_KEY= node /workspace/wasl-release-audit-20261006/evidence/ui/browser-audit.mjs",
+    "ANTHROPIC_API_KEY= ELEVENLABS_API_KEY= node /workspace/wasl-release-audit-20261006/evidence/ui/browser-supplement.mjs"
+  ],
+  "filesCreatedByAudit": [
+    "evidence/ui/browser-audit.mjs",
+    "evidence/ui/browser-supplement.mjs",
+    "evidence/ui/results.json",
+    "evidence/ui/results-attempt1.json",
+    "evidence/ui/supplement-results.json",
+    "evidence/ui/*.png",
+    "analysis/UX.md",
+    "analysis/UX.json"
+  ],
+  "images": [
+    {
+      "name": "landing",
+      "label": "desktop",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/landing-desktop.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, return codes and dialogue/card bodies masked by Playwright"
+    },
+    {
+      "name": "landing",
+      "label": "mobile",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/landing-mobile.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, return codes and dialogue/card bodies masked by Playwright"
+    },
+    {
+      "name": "entry-background",
+      "label": "desktop",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/entry-background-desktop.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, return codes and dialogue/card bodies masked by Playwright"
+    },
+    {
+      "name": "entry-background",
+      "label": "mobile",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/entry-background-mobile.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, return codes and dialogue/card bodies masked by Playwright"
+    },
+    {
+      "name": "manual-question-ai-off",
+      "label": "desktop",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/manual-question-ai-off-desktop.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, return codes and dialogue/card bodies masked by Playwright"
+    },
+    {
+      "name": "manual-question-ai-off",
+      "label": "mobile",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/manual-question-ai-off-mobile.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, return codes and dialogue/card bodies masked by Playwright"
+    },
+    {
+      "name": "human-chat",
+      "label": "desktop",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/human-chat-desktop.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, return codes and dialogue/card bodies masked by Playwright"
+    },
+    {
+      "name": "human-chat",
+      "label": "mobile",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/human-chat-mobile.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, return codes and dialogue/card bodies masked by Playwright"
+    },
+    {
+      "name": "daee-chat",
+      "label": "desktop",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/daee-chat-desktop.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, return codes and dialogue/card bodies masked by Playwright"
+    },
+    {
+      "name": "daee-chat",
+      "label": "mobile",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/daee-chat-mobile.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, return codes and dialogue/card bodies masked by Playwright"
+    },
+    {
+      "name": "card-default-selection",
+      "label": "desktop",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/card-default-selection-desktop.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, return codes and dialogue/card bodies masked by Playwright"
+    },
+    {
+      "name": "card-default-selection",
+      "label": "mobile",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/card-default-selection-mobile.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, return codes and dialogue/card bodies masked by Playwright"
+    },
+    {
+      "name": "card-manual-editor",
+      "label": "desktop",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/card-manual-editor-desktop.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, return codes and dialogue/card bodies masked by Playwright"
+    },
+    {
+      "name": "card-manual-editor",
+      "label": "mobile",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/card-manual-editor-mobile.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, return codes and dialogue/card bodies masked by Playwright"
+    },
+    {
+      "name": "card-sharing",
+      "label": "desktop",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/card-sharing-desktop.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, return codes and dialogue/card bodies masked by Playwright"
+    },
+    {
+      "name": "card-sharing",
+      "label": "mobile",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/card-sharing-mobile.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, return codes and dialogue/card bodies masked by Playwright"
+    },
+    {
+      "name": "card-review",
+      "label": "desktop",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/card-review-desktop.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, return codes and dialogue/card bodies masked by Playwright"
+    },
+    {
+      "name": "card-review",
+      "label": "mobile",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/card-review-mobile.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, return codes and dialogue/card bodies masked by Playwright"
+    },
+    {
+      "name": "card-approved",
+      "label": "desktop",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/card-approved-desktop.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, return codes and dialogue/card bodies masked by Playwright"
+    },
+    {
+      "name": "card-approved",
+      "label": "mobile",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/card-approved-mobile.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, return codes and dialogue/card bodies masked by Playwright"
+    },
+    {
+      "name": "transfer-menu",
+      "label": "desktop",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/transfer-menu-desktop.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, return codes and dialogue/card bodies masked by Playwright"
+    },
+    {
+      "name": "transfer-menu",
+      "label": "mobile",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/transfer-menu-mobile.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, return codes and dialogue/card bodies masked by Playwright"
+    },
+    {
+      "name": "transferred-daee",
+      "label": "desktop",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/transferred-daee-desktop.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, return codes and dialogue/card bodies masked by Playwright"
+    },
+    {
+      "name": "transferred-daee",
+      "label": "mobile",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/transferred-daee-mobile.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, return codes and dialogue/card bodies masked by Playwright"
+    },
+    {
+      "name": "ended-return-code-masked",
+      "label": "desktop",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/ended-return-code-masked-desktop.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, return codes and dialogue/card bodies masked by Playwright"
+    },
+    {
+      "name": "ended-return-code-masked",
+      "label": "mobile",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/ended-return-code-masked-mobile.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, return codes and dialogue/card bodies masked by Playwright"
+    },
+    {
+      "name": "return-resume-choice",
+      "label": "desktop",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/return-resume-choice-desktop.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, return codes and dialogue/card bodies masked by Playwright"
+    },
+    {
+      "name": "return-resume-choice",
+      "label": "mobile",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/return-resume-choice-mobile.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, return codes and dialogue/card bodies masked by Playwright"
+    },
+    {
+      "name": "resumed-chat",
+      "label": "desktop",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/resumed-chat-desktop.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, return codes and dialogue/card bodies masked by Playwright"
+    },
+    {
+      "name": "resumed-chat",
+      "label": "mobile",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/resumed-chat-mobile.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, return codes and dialogue/card bodies masked by Playwright"
+    },
+    {
+      "name": "failure-0-0",
+      "label": "desktop",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/failure-0-0-desktop.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, return codes and dialogue/card bodies masked by Playwright"
+    },
+    {
+      "name": "failure-0-0",
+      "label": "mobile",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/failure-0-0-mobile.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, return codes and dialogue/card bodies masked by Playwright"
+    },
+    {
+      "name": "failure-1-0",
+      "label": "desktop",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/failure-1-0-desktop.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, return codes and dialogue/card bodies masked by Playwright"
+    },
+    {
+      "name": "failure-1-0",
+      "label": "mobile",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/failure-1-0-mobile.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, return codes and dialogue/card bodies masked by Playwright"
+    },
+    {
+      "name": "failure-2-0",
+      "label": "desktop",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/failure-2-0-desktop.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, return codes and dialogue/card bodies masked by Playwright"
+    },
+    {
+      "name": "failure-2-0",
+      "label": "mobile",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/failure-2-0-mobile.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, return codes and dialogue/card bodies masked by Playwright"
+    },
+    {
+      "name": "failure-3-0",
+      "label": "desktop",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/failure-3-0-desktop.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, return codes and dialogue/card bodies masked by Playwright"
+    },
+    {
+      "name": "failure-3-0",
+      "label": "mobile",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/failure-3-0-mobile.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, return codes and dialogue/card bodies masked by Playwright"
+    },
+    {
+      "name": "failure-4-0",
+      "label": "desktop",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/failure-4-0-desktop.png",
+      "direction": "",
+      "overflow": false,
+      "redaction": "inputs, return codes and dialogue/card bodies masked by Playwright"
+    },
+    {
+      "name": "failure-4-0",
+      "label": "mobile",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/failure-4-0-mobile.png",
+      "direction": "",
+      "overflow": false,
+      "redaction": "inputs, return codes and dialogue/card bodies masked by Playwright"
+    },
+    {
+      "name": "guide-initial",
+      "label": "desktop",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/guide-initial-desktop.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, dialogue/card bodies and return codes masked"
+    },
+    {
+      "name": "guide-initial",
+      "label": "mobile",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/guide-initial-mobile.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, dialogue/card bodies and return codes masked"
+    },
+    {
+      "name": "guide-microphone-denied",
+      "label": "desktop",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/guide-microphone-denied-desktop.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, dialogue/card bodies and return codes masked"
+    },
+    {
+      "name": "guide-microphone-denied",
+      "label": "mobile",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/guide-microphone-denied-mobile.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, dialogue/card bodies and return codes masked"
+    },
+    {
+      "name": "guide-missing-key-manual-fallback",
+      "label": "desktop",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/guide-missing-key-manual-fallback-desktop.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, dialogue/card bodies and return codes masked"
+    },
+    {
+      "name": "guide-missing-key-manual-fallback",
+      "label": "mobile",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/guide-missing-key-manual-fallback-mobile.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, dialogue/card bodies and return codes masked"
+    },
+    {
+      "name": "waiting-no-human",
+      "label": "desktop",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/waiting-no-human-desktop.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, dialogue/card bodies and return codes masked"
+    },
+    {
+      "name": "waiting-no-human",
+      "label": "mobile",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/waiting-no-human-mobile.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, dialogue/card bodies and return codes masked"
+    },
+    {
+      "name": "card-missing-key-manual-fallback",
+      "label": "desktop",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/card-missing-key-manual-fallback-desktop.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, dialogue/card bodies and return codes masked"
+    },
+    {
+      "name": "card-missing-key-manual-fallback",
+      "label": "mobile",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/card-missing-key-manual-fallback-mobile.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, dialogue/card bodies and return codes masked"
+    },
+    {
+      "name": "card-save-offline-boundary",
+      "label": "desktop",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/card-save-offline-boundary-desktop.png",
+      "direction": "",
+      "overflow": false,
+      "redaction": "inputs, dialogue/card bodies and return codes masked"
+    },
+    {
+      "name": "card-save-offline-boundary",
+      "label": "mobile",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/card-save-offline-boundary-mobile.png",
+      "direction": "",
+      "overflow": false,
+      "redaction": "inputs, dialogue/card bodies and return codes masked"
+    },
+    {
+      "name": "guide-skip-preserves-unsent-text",
+      "label": "desktop",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/guide-skip-preserves-unsent-text-desktop.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, dialogue/card bodies and return codes masked"
+    },
+    {
+      "name": "guide-skip-preserves-unsent-text",
+      "label": "mobile",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/guide-skip-preserves-unsent-text-mobile.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, dialogue/card bodies and return codes masked"
+    }
+  ],
+  "localCleanup": {
+    "completed": true,
+    "organizations": 0,
+    "profiles": 0,
+    "askers": 0,
+    "conversations": 0,
+    "cards": 0,
+    "messages": 0,
+    "events": 0,
+    "ai_runs": 0,
+    "authUsers": 0
+  },
+  "finalGit": {
+    "sha": "675a2e0089ee1e4324a7b438c17d570989793bc1",
+    "workingTree": "clean",
+    "productFilesChangedByThisAgent": false
+  },
+  "toolLimitations": [
+    "first main attempt selector typo was fixed externally and not a product fault",
+    "main run deliberately stopped after offline save removed Back button; bounded functional success recorded before it",
+    "initial cleanup user_not_found after identity relink corrected by independent scoped cleanup",
+    "first supplemental CDP name invalid, corrected to microphone before successful actual denial test",
+    "landing HeroAnimation is an illustrative demo, not an executed model/human session"
+  ]
+}

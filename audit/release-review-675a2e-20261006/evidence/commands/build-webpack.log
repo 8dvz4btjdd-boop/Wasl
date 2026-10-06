@@ -1,0 +1,63 @@
+▲ Next.js 16.3.8 (webpack)
+✓ Running next.config.ts took 39ms
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 17.4s
+  Running TypeScript ...
+  Finished TypeScript in 7.0s ...
+  Collecting page data using 4 workers ...
+  Generating static pages using 4 workers (0/98) ...
+  Generating static pages using 4 workers (24/98) 
+  Generating static pages using 4 workers (48/98) 
+  Generating static pages using 4 workers (73/98) 
+✓ Generating static pages using 4 workers (98/98) in 857ms
+  Finalizing page optimization ...
+  Collecting build traces ...
+
+Route (app)
+┌ ○ /_not-found
+├   /[locale]
+│ ├ ● /ar
+│ ├ ● /en
+│ ├ ● /fr
+│ └ ● [+4 more paths]
+├ ƒ /[locale]/admin
+├ ƒ /[locale]/admin/log
+├ ƒ /[locale]/admin/settings
+├ ƒ /[locale]/admin/team
+├ ƒ /[locale]/card/[id]
+├ ƒ /[locale]/card/master
+├ ƒ /[locale]/chat/[id]
+├ ƒ /[locale]/daee/[[...id]]
+├   /[locale]/dev/design
+│ ├ ● /ar/dev/design
+│ ├ ● /en/dev/design
+│ ├ ● /fr/dev/design
+│ └ ● [+4 more paths]
+├   /[locale]/dev/og
+│ ├ ● /ar/dev/og
+│ ├ ● /en/dev/og
+│ ├ ● /fr/dev/og
+│ └ ● [+4 more paths]
+├ ƒ /[locale]/enter
+├ ƒ /[locale]/login
+├   /[locale]/privacy
+│ ├ ● /ar/privacy
+│ ├ ● /en/privacy
+│ ├ ● /fr/privacy
+│ └ ● [+4 more paths]
+├ ƒ /[locale]/return
+├ ƒ /[locale]/wait
+├ ƒ /api/ai/card
+├ ƒ /api/ai/master
+├ ƒ /api/ai/sources
+├ ƒ /api/tts
+└ ○ /icon.svg
+
+
+ƒ Proxy (Middleware)
+
+○  (Static)   prerendered as static content
+●  (SSG)      prerendered as static HTML (uses generateStaticParams)
+ƒ  (Dynamic)  server-rendered on demand
+

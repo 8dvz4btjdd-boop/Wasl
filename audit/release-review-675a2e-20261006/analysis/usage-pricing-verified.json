@@ -1,0 +1,26 @@
+{
+  "source_url": "https://platform.claude.com/docs/en/about-claude/pricing",
+  "checked_at_utc": "2026-10-06T17:01:31.250193+00:00",
+  "http_status": 200,
+  "artifact_sha256": "2fd55be5ac6e6062020663559130f674299de96b1a88f21b3389ec4c8b077586",
+  "model": "claude-haiku-4-5-20251001",
+  "context_window_tokens": 200000,
+  "max_output_tokens": 64000,
+  "context_evidence": "official-haiku.html snapshot checked 2026-10-05T20:35:46Z",
+  "pricing_model_row": [
+    "Claude Haiku 4.5 The fastest model with near-frontier intelligence",
+    "$1 / MTok",
+    "$5 / MTok",
+    "$1.25 / MTok",
+    "$2 / MTok",
+    "$0.10 / MTok"
+  ],
+  "input_usd_per_million": 1,
+  "output_usd_per_million": 5,
+  "cache_write_5m_usd_per_million": 1.25,
+  "cache_write_1h_usd_per_million": 2,
+  "cache_read_usd_per_million": 0.1,
+  "authorization_max_usd": 1,
+  "reservation_input_max_rate": 2,
+  "service_tier": "standard only; external audit transport guard"
+}

@@ -1,0 +1,30 @@
+{
+  "recordedUtc": "2026-10-06T16:54:08.035470+00:00",
+  "recordedRiyadh": "2026-10-06T19:54:08.035523+03:00",
+  "repository": "8dvz4btjdd-boop/Wasl",
+  "authoritativeReference": "Joud73/Wasl",
+  "bothMainAtStart": "675a2e0089ee1e4324a7b438c17d570989793bc1",
+  "localPath": "/workspace/Wasl-audit-current-20261006",
+  "localBranch": "detached HEAD",
+  "commit": "675a2e0089ee1e4324a7b438c17d570989793bc1",
+  "initialWorkingTree": "",
+  "auditRoot": "/workspace/wasl-release-audit-20261006",
+  "providerKeyPresenceOnly": {
+    "ANTHROPIC_API_KEY": true,
+    "ELEVENLABS_API_KEY": false
+  },
+  "envFilesLoaded": false,
+  "trackedFileHashes": {
+    "package.json": "f912601699a81bffedfbba4fb36a8e2c8b32d361c5a03de3664bf28dd7e50dd9",
+    "package-lock.json": "7a3b4a0325512eec65fc059876ecada150c3279774a6a3c576b6e9554a18081f",
+    "AGENTS.md": "11e62e255cd850d00ea87c016a0ef5733a5dbd1bcf54be4af2787081da59c7ea",
+    "CLAUDE.md": "d3803f7d2ffb0b3dd2ea6d6f8e32641cbcda8c7aefd5adca970f17b6cdba6575",
+    "README.md": "60b55ff7df79af72590f9524208e46642bc32bdc175cdad41349681c0e2f958f"
+  },
+  "paidCallsInAudit": 0,
+  "historicalEvidenceNotCurrent": [
+    "8d0fd58",
+    "e169d0f",
+    "1be78cc"
+  ]
+}

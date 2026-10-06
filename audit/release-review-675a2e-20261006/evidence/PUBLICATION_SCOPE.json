@@ -1,0 +1,13 @@
+{
+  "authorized_action": "audit-only local commit and GitHub branch push",
+  "authorization": "Explicit user reply: نعم، ارفع فرع الأدلة العام المحدد",
+  "target_repository": "8dvz4btjdd-boop/Wasl",
+  "target_branch": "audit/release-review-675a2e-20261006",
+  "public_repository_and_security_findings_disclosed_before_approval": true,
+  "base_product_sha": "675a2e0089ee1e4324a7b438c17d570989793bc1",
+  "product_edits": false,
+  "main_edits": false,
+  "pr_merge_deploy": false,
+  "working_clone": "/workspace/Wasl-audit-delivery-675a2e-20261006",
+  "timestamp_utc": "2026-10-06T17:17:19.842899+00:00"
+}

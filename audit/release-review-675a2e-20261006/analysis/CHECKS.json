@@ -1,0 +1,151 @@
+{
+  "auditDate": "2026-10-06T16:57:15.662425+00:00",
+  "repository": "/workspace/Wasl-audit-current-20261006",
+  "baseSha": "675a2e0089ee1e4324a7b438c17d570989793bc1",
+  "checkout": "detached",
+  "workingTreeInitial": "clean",
+  "workingTreeAtChecksReport": [],
+  "manifestSha256": "f912601699a81bffedfbba4fb36a8e2c8b32d361c5a03de3664bf28dd7e50dd9",
+  "lockSha256": "7a3b4a0325512eec65fc059876ecada150c3279774a6a3c576b6e9554a18081f",
+  "toolchain": {
+    "node": "v24.19.0",
+    "npm": "11.9.0",
+    "next": "16.3.8"
+  },
+  "checks": [
+    {
+      "command": "npm ci --cache <isolated-audit-cache> --no-audit --no-fund",
+      "exitCode": 1,
+      "status": "failed",
+      "reason": "EUSAGE: missing dependency/peer entries in lockfile; not a network failure",
+      "log": "evidence/commands/npm-ci.log",
+      "dependencies": "fresh install attempted, failed"
+    },
+    {
+      "command": "npm ci --legacy-peer-deps --cache <isolated-audit-cache> --no-audit --no-fund",
+      "exitCode": 1,
+      "status": "failed",
+      "reason": "EUSAGE persists; no lockfile or product change",
+      "log": "evidence/commands/npm-ci-legacy-peer-deps.log",
+      "dependencies": "fresh install attempted, failed"
+    },
+    {
+      "command": "node node_modules/next/dist/bin/next typegen",
+      "exitCode": 0,
+      "status": "passed",
+      "log": "evidence/commands/typegen.log",
+      "dependencies": "matching cached dependency tree"
+    },
+    {
+      "command": "node node_modules/typescript/bin/tsc --noEmit",
+      "exitCode": 0,
+      "status": "passed",
+      "log": "evidence/commands/typecheck.log",
+      "dependencies": "matching cached dependency tree"
+    },
+    {
+      "command": "npm run lint",
+      "exitCode": 0,
+      "status": "passed",
+      "reason": "ESLint zero warnings + logical RTL check",
+      "log": "evidence/commands/lint.log",
+      "dependencies": "matching cached dependency tree"
+    },
+    {
+      "command": "node node_modules/tsx/dist/cli.mjs --conditions=react-server evals/sources-rules.ts",
+      "exitCode": 0,
+      "status": "passed",
+      "actualAssertions": 16,
+      "skipped": 0,
+      "log": "evidence/commands/sources-rules.log",
+      "dependencies": "matching cached dependency tree"
+    },
+    {
+      "command": "node node_modules/tsx/dist/cli.mjs --conditions=react-server evals/assist-rules.ts",
+      "exitCode": 0,
+      "status": "passed_with_skips",
+      "actualAssertions": 24,
+      "skipped": 1,
+      "reason": "Runner reports 25/25 but treats no-key model planning skip as PASS; model planning was NOT validated",
+      "log": "evidence/commands/assist-rules.log",
+      "dependencies": "matching cached dependency tree"
+    },
+    {
+      "command": "node /workspace/wasl-release-audit-20261006/audit-local-runtime.mjs setup",
+      "exitCode": 0,
+      "status": "passed",
+      "reason": "Fresh five-container isolated stack; all current 0001–0018 unchanged migrations applied; no app seed/reset or external DB",
+      "log": "evidence/commands/local-runtime-setup.log",
+      "dependencies": "Node core + cached Docker images + SHA-verified PUBLIC Debian extensions"
+    },
+    {
+      "command": "node /workspace/wasl-release-audit-20261006/audit-local-runtime.mjs build",
+      "underlyingCommand": "next build --webpack",
+      "exitCode": 0,
+      "status": "passed_with_environment_overrides",
+      "compiledSeconds": 17.4,
+      "typescriptSeconds": 7.0,
+      "staticPages": 98,
+      "reason": "Matching cached dependencies; LOCAL DB env; webpack; PUBLIC Fontsource test responses instead of Google Fonts",
+      "log": "evidence/commands/build-webpack.log"
+    },
+    {
+      "command": "node /workspace/wasl-release-audit-20261006/audit-local-runtime.mjs start-production",
+      "status": "stopped_after_current_browser_audit",
+      "reason": "HTTP GET /ar, /en and /ar/enter all 200; Arabic RTL and English LTR observed",
+      "log": "evidence/commands/next-start.log",
+      "httpEvidence": "evidence/commands/local-http-smoke.json"
+    }
+  ],
+  "noPaidCalls": true,
+  "providerKeysExplicitlyCleared": true,
+  "externalDatabasesUsed": false,
+  "existingPriorStacksModified": false,
+  "runtime": {
+    "prefix": "wasl-contextual-audit-20261006",
+    "appOrigin": "http://127.0.0.1:3062",
+    "gatewayOrigin": "http://127.0.0.1:55641",
+    "databasePort": 55642,
+    "stateDirectory": "/workspace/wasl-release-audit-20261006/local-state",
+    "bootstrapExtraTable": "public.contextual_local_migrations: audit-only migration fingerprint ledger",
+    "appliedMigrationsEvidence": "evidence/commands/applied-migrations.json",
+    "all18CurrentMigrationHashesMatch": true,
+    "helperSourceSha256": "e87d3e783a25cb6e67014c358147879a752c0b3b973ed525617fd34ff2c8623f",
+    "auditHelperSha256": "2828de97676284637b27e23adfb079b13e44c2d50beb27d568e87e4c63553e6e",
+    "ownedNextStopped": true,
+    "appPort3062Listening": false,
+    "ownedAuditDockerStackRetained": true,
+    "finalCleanupCounts": {
+      "organizations": 0,
+      "profiles": 0,
+      "askers": 0,
+      "conversations": 0,
+      "cards": 0,
+      "messages": 0,
+      "events": 0,
+      "ai_runs": 0,
+      "authUsers": 0
+    },
+    "finalMetadataEvidence": "evidence/commands/final-preservation.json"
+  },
+  "generatedIgnoredFiles": [
+    "node_modules symlink to matching preinstalled /workspace/Wasl/node_modules",
+    ".next",
+    "next-env.d.ts",
+    "tsconfig.tsbuildinfo"
+  ],
+  "limitations": [
+    "Fresh npm ci failed; cached checks do not prove installation readiness",
+    "Default Turbopack build and Google Fonts network were not tested; explicit webpack/local PUBLIC fonts were used",
+    "No Anthropic/ElevenLabs live call, no religious scientific approval, no production migrations or live sessions",
+    "16+24 assertions are deterministic synthetic/rule checks, not live source acquisition or model-quality evidence",
+    "Current browser and actual security SQL evidence are owned by separate agents; prior release evidence is not reused as current success"
+  ],
+  "securitySqlEvidence": {
+    "path": "analysis/security-repro.log",
+    "owner": "contextual_server",
+    "observedExitCode": 0,
+    "rollback": true
+  },
+  "workingTreeFinal": []
+}

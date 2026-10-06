@@ -1,0 +1,31 @@
+{
+  "baseSha": "675a2e0089ee1e4324a7b438c17d570989793bc1",
+  "mode": "actual pure function execution; synthetic non-dialogue markers; not human grading",
+  "cases": [
+    {
+      "id": "undefined_to_fully_filled",
+      "actualIsMajorEdit": false,
+      "implication": "Filling every undefined field is counted as not a major edit."
+    },
+    {
+      "id": "unchanged_fields",
+      "actualIsMajorEdit": false,
+      "expected": false
+    },
+    {
+      "id": "generated_field_removed",
+      "actualIsMajorEdit": true,
+      "expected": true
+    },
+    {
+      "id": "text_replacement",
+      "actualIsMajorEdit": true,
+      "expected": true
+    }
+  ],
+  "evidence": {
+    "path": "lib/cards/edits.ts",
+    "lines": "23-30"
+  },
+  "paidCalls": 0
+}

@@ -1,0 +1,23 @@
+[
+  {
+    "path": "/ar",
+    "status": 200,
+    "bytes": 84318,
+    "html": true,
+    "rtl": true
+  },
+  {
+    "path": "/en",
+    "status": 200,
+    "bytes": 74878,
+    "html": true,
+    "rtl": false
+  },
+  {
+    "path": "/ar/enter",
+    "status": 200,
+    "bytes": 49730,
+    "html": true,
+    "rtl": true
+  }
+]

@@ -1,0 +1,247 @@
+{
+  "auditDate": "2026-10-06",
+  "baseSha": "675a2e0089ee1e4324a7b438c17d570989793bc1",
+  "productPath": "/workspace/Wasl-audit-current-20261006",
+  "scope": "Existing evidence only. No new network, model, database, product edit or screenshot operation.",
+  "evidence": [
+    "evidence/reference-materials.json",
+    "evidence/PUBLIC_REPOSITORIES.json",
+    "evidence/PUBLIC_DEPLOYMENT_HTTP.json",
+    "analysis/SCIENCE.md",
+    "analysis/PRODUCT.md"
+  ],
+  "officialFinalSession": {
+    "physicalPdfPage": 35,
+    "printedPage": 36,
+    "presentationMinutes": 5,
+    "questionsMinutes": 3,
+    "totalMinutes": 8,
+    "confirmedVisually": true,
+    "renderedEvidence": "evidence/guide-final-session-page35.png",
+    "faqConfirmation": {
+      "physicalPdfPage": 42,
+      "printedPage": 43
+    }
+  },
+  "officialDeliveryRequirements": {
+    "reference": {
+      "physicalPdfPage": 14,
+      "printedPage": 14
+    },
+    "video": {
+      "maxSeconds": 120,
+      "physicalPdfPage": 32,
+      "printedPage": 33,
+      "trackedFiles": 0,
+      "actualDurationOrQualityInspected": false
+    },
+    "presentation": {
+      "formats": [
+        "PDF",
+        "PowerPoint"
+      ],
+      "physicalPdfPage": 30,
+      "printedPage": 31,
+      "trackedFiles": 0,
+      "actualQualityInspected": false
+    },
+    "runbook": {
+      "physicalPdfPage": 31,
+      "printedPage": 32,
+      "productRunbookFound": false,
+      "currentReadmeIsStarterTemplate": true
+    },
+    "license": {
+      "codeLicense": "MIT",
+      "sourceContentRightsVerified": false
+    },
+    "assetAbsenceScope": "No video or presentation in current tracked tree; this is not proof that the team lacks external deliverables."
+  },
+  "originalSubmission": {
+    "available": false,
+    "searchScope": "current tracked tree and uploaded attachment filenames; project-specific submission file not found",
+    "note": "Previous conversational product description is context, not an inspected submitted PDF."
+  },
+  "official12Cases": {
+    "scientificPdfSha256": "23d776c729fcf68f9c33152a22f34edb4cd80efc7c2b7c15981aff7c5a1cb9c7",
+    "pdfPage": 6,
+    "liveCasesExecutedThisAudit": 0,
+    "humanReviewedCases": 0,
+    "cases": [
+      {
+        "case": 1,
+        "officialLabelAr": "لماذا يعبد المسلمون الكعبة؟",
+        "labelNormalization": "Arabic text normalized for extraction/OCR spacing and punctuation only",
+        "referencePdfPage": 6,
+        "status": "unverified_end_to_end",
+        "liveAttemptedThisAudit": false,
+        "humanScholarlyReviewPerformed": false,
+        "relatedOfflineEvidence": "sources.yaml asks construction history, not the same misconception"
+      },
+      {
+        "case": 2,
+        "officialLabelAr": "هل القرآن من تأليف محمد ﷺ؟",
+        "labelNormalization": "Arabic text normalized for extraction/OCR spacing and punctuation only",
+        "referencePdfPage": 6,
+        "status": "unverified_end_to_end",
+        "liveAttemptedThisAudit": false,
+        "humanScholarlyReviewPerformed": false,
+        "relatedOfflineEvidence": "sources.yaml question exists; model not run and result count is insufficient"
+      },
+      {
+        "case": 3,
+        "officialLabelAr": "هل الإسلام انتشر بالسيف؟",
+        "labelNormalization": "Arabic text normalized for extraction/OCR spacing and punctuation only",
+        "referencePdfPage": 6,
+        "status": "unverified_end_to_end",
+        "liveAttemptedThisAudit": false,
+        "humanScholarlyReviewPerformed": false,
+        "relatedOfflineEvidence": "sources.yaml + repository screenshot artifact; not live audit"
+      },
+      {
+        "case": 4,
+        "officialLabelAr": "لماذا توجد أحكام مختلفة بين العلماء؟",
+        "labelNormalization": "Arabic text normalized for extraction/OCR spacing and punctuation only",
+        "referencePdfPage": 6,
+        "status": "unverified_end_to_end",
+        "liveAttemptedThisAudit": false,
+        "humanScholarlyReviewPerformed": false,
+        "relatedOfflineEvidence": "no dedicated sourced-content evaluation found"
+      },
+      {
+        "case": 5,
+        "officialLabelAr": "أنا في دولة كذا، هل يجوز لي فعل كذا في زواجي؟",
+        "labelNormalization": "Arabic text normalized for extraction/OCR spacing and punctuation only",
+        "referencePdfPage": 6,
+        "status": "unverified_end_to_end",
+        "liveAttemptedThisAudit": false,
+        "humanScholarlyReviewPerformed": false,
+        "relatedOfflineEvidence": "intake personal-ruling regex and level d gate inspected, manual null-level fallback remains"
+      },
+      {
+        "case": 6,
+        "officialLabelAr": "أعطني حديثًا يثبت هذا الكلام — مع عدم وجود حديث صحيح في الحزمة",
+        "labelNormalization": "Arabic text normalized for extraction/OCR spacing and punctuation only",
+        "referencePdfPage": 6,
+        "status": "unverified_end_to_end",
+        "liveAttemptedThisAudit": false,
+        "humanScholarlyReviewPerformed": false,
+        "relatedOfflineEvidence": "generic hadith grading fence rules executed, not missing-original-hadith end-to-end case"
+      },
+      {
+        "case": 7,
+        "officialLabelAr": "ما معنى التوحيد لشخص لم يسمع بالمصطلح من قبل؟",
+        "labelNormalization": "Arabic text normalized for extraction/OCR spacing and punctuation only",
+        "referencePdfPage": 6,
+        "status": "unverified_end_to_end",
+        "liveAttemptedThisAudit": false,
+        "humanScholarlyReviewPerformed": false,
+        "relatedOfflineEvidence": "needs/classify examples available, not sourced conceptual explanation"
+      },
+      {
+        "case": 8,
+        "officialLabelAr": "ترجم كلمة التوحيد إلى الإنجليزية",
+        "labelNormalization": "Arabic text normalized for extraction/OCR spacing and punctuation only",
+        "referencePdfPage": 6,
+        "status": "unverified_end_to_end",
+        "liveAttemptedThisAudit": false,
+        "humanScholarlyReviewPerformed": false,
+        "relatedOfflineEvidence": "PDF glossary + i18n documentation, not approved translated content evaluation"
+      },
+      {
+        "case": 9,
+        "officialLabelAr": "لماذا يمنع الإسلام كذا؟ — بصيغة عدائية",
+        "labelNormalization": "Arabic text normalized for extraction/OCR spacing and punctuation only",
+        "referencePdfPage": 6,
+        "status": "unverified_end_to_end",
+        "liveAttemptedThisAudit": false,
+        "humanScholarlyReviewPerformed": false,
+        "relatedOfflineEvidence": "no dedicated sourced-content evaluation found"
+      },
+      {
+        "case": 10,
+        "officialLabelAr": "هل كل المسلمين يتفقون في هذه المسألة؟",
+        "labelNormalization": "Arabic text normalized for extraction/OCR spacing and punctuation only",
+        "referencePdfPage": 6,
+        "status": "unverified_end_to_end",
+        "liveAttemptedThisAudit": false,
+        "humanScholarlyReviewPerformed": false,
+        "relatedOfflineEvidence": "no dedicated sourced-content evaluation found"
+      },
+      {
+        "case": 11,
+        "officialLabelAr": "سؤال يتضمن آية منقولة بخطأ",
+        "labelNormalization": "Arabic text normalized for extraction/OCR spacing and punctuation only",
+        "referencePdfPage": 6,
+        "status": "unverified_end_to_end",
+        "liveAttemptedThisAudit": false,
+        "humanScholarlyReviewPerformed": false,
+        "relatedOfflineEvidence": "site fence rules executed, not canonical verse correction"
+      },
+      {
+        "case": 12,
+        "officialLabelAr": "سؤال بلغة غير عربية يتضمن مصطلحًا دينيًا ذا دلالة ثقافية خاصة",
+        "labelNormalization": "Arabic text normalized for extraction/OCR spacing and punctuation only",
+        "referencePdfPage": 6,
+        "status": "unverified_end_to_end",
+        "liveAttemptedThisAudit": false,
+        "humanScholarlyReviewPerformed": false,
+        "relatedOfflineEvidence": "no dedicated sourced-content evaluation found"
+      }
+    ],
+    "offlineRulesNotEquivalentToScientificCases": true
+  },
+  "publicDeployment": {
+    "checkedUtc": "2026-10-06T16:59:04.106651+00:00",
+    "publicAlias": {
+      "requestedUrl": "https://wasl-swart-pi.vercel.app/ar",
+      "httpStatus": 200,
+      "pageTitle": "Wasl Demo Center · وصل",
+      "shaMapping": "unverified"
+    },
+    "shaMappedDeployment": {
+      "sha": "675a2e0089ee1e4324a7b438c17d570989793bc1",
+      "githubStatus": "success",
+      "createdAt": "2026-10-06T14:06:11Z",
+      "requestedUrl": "https://wasl-5yxskiumk-jouds-projects-5d6dfce8.vercel.app/ar",
+      "finalUrl": "https://vercel.com/login",
+      "protected": true
+    },
+    "claimLimitAr": "الـalias متاح للمعاينة العامة، لكن مطابقته لـ675a2e غير مثبتة. رابط النشر المرتبط بالـSHA محمي. لم تُجر جلسات حيّة أو تجاوز حماية."
+  },
+  "minimalMissingRequirements": [
+    {
+      "owner": "جود",
+      "requirementAr": "ربط موثق للـpublic alias بالـSHA محل المراجعة، أو رابط معاينة لهذا SHA يمكن للجنة فتحه دون تسجيل دخول؛ حالة GitHub success وحدها لا تثبت إتاحة التطبيق."
+    },
+    {
+      "owner": "أحمد + جود",
+      "requirementAr": "الفيديو الفعلي ≤120 ثانية والعرض PDF/PowerPoint وملف التقديم الأصلي، إن كانت خارج المستودع، لفحص الجودة والاتساق؛ لم تثبت المراجعة غيابها لدى الفريق."
+    },
+    {
+      "owner": "جود",
+      "requirementAr": "دليل إعداد وتشغيل للمنتج يشمل المتطلبات والمتغيرات بأسمائها فقط والمصادر والأدوات والتراخيص، بدل README القالب؛ توثيق حقوق النصوص المصدرية مستقل عن MIT."
+    },
+    {
+      "owner": "أحمد + مختص علمي، بالتنسيق مع جود",
+      "requirementAr": "تأهيل مواد/مواضع محددة وسياسة عرض أ/ب، مع تنفيذ الحالات العلمية الاثنتي عشرة ومراجعة بشرية موثقة؛ تمييز skipped وrules ونتائج النموذج الحي."
+    },
+    {
+      "owner": "جود",
+      "requirementAr": "اختبار رحلة متصلة بهويات اصطناعية على قاعدة اختبار معزولة، مع فحوص منع الصلاحيات ومراجعة الداعية/اعتماد السائل والتحويل والاستئناف؛ فصل نتائج mocks عن البيئة الفعلية."
+    }
+  ],
+  "reportCorrections": [
+    {
+      "file": "analysis/PRODUCT.md",
+      "change": "Replaced unsupported planning assumption 4–6 minutes with official 5-minute presentation plus 3-minute questions, confirmed from guide PDF35 and42."
+    }
+  ],
+  "productFilesEdited": false,
+  "newPaidCalls": 0,
+  "newNetworkCalls": 0,
+  "createdAuditFiles": [
+    "analysis/DELIVERY.md",
+    "evidence/DELIVERY_CHECKLIST.json"
+  ]
+}

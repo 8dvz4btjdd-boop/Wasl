@@ -1,0 +1,436 @@
+{
+  "sha": "675a2e0089ee1e4324a7b438c17d570989793bc1",
+  "runtime": {
+    "app": "http://127.0.0.1:3062",
+    "api": "http://127.0.0.1:55641",
+    "kind": "real local Auth/REST/Realtime, PostgreSQL17, current migrations0001–0018"
+  },
+  "providerKeys": "unset; no paid calls",
+  "fixtureNamespace": "UX audit synthetic identities only",
+  "results": [
+    {
+      "name": "public landing Arabic current render",
+      "status": "PASS"
+    },
+    {
+      "name": "entry → manual question → routing/wait (AI off)",
+      "status": "PASS"
+    },
+    {
+      "name": "two-way local human chat and realtime",
+      "status": "PASS"
+    },
+    {
+      "name": "refresh keeps own current conversation/messages",
+      "status": "PASS"
+    },
+    {
+      "name": "return code header first reveal (value not recorded)",
+      "status": "PASS"
+    },
+    {
+      "name": "card initial selection",
+      "status": "OBSERVED",
+      "checked": 4,
+      "total": 4,
+      "note": "all messages selected before an explicit checkbox action"
+    },
+    {
+      "name": "selected manual card → direct asker approval without human review",
+      "status": "approved",
+      "selectedCount": 2,
+      "humanReviewPerformed": false
+    },
+    {
+      "name": "current human receives approved card",
+      "status": "PASS"
+    },
+    {
+      "name": "transfer to second human",
+      "status": "PASS",
+      "sameConversationId": true,
+      "previousUnselectedMessageVisibleToNext": true
+    },
+    {
+      "name": "human end → return code revealed",
+      "status": "PASS",
+      "rotatedFromHeaderCode": true
+    },
+    {
+      "name": "new-browser return → preferred human choice → linked new session",
+      "status": "PASS",
+      "cardLinked": true,
+      "previousLinked": true,
+      "mode": "manual",
+      "sameHumanAsCard": true
+    },
+    {
+      "name": "bounded browser journey stopped",
+      "status": "FAIL",
+      "error": "locator.click: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('button', { name: 'رجوع', exact: true })\u001b[22m\n"
+    },
+    {
+      "name": "cleanup of owned synthetic fixtures",
+      "status": "FAIL",
+      "error": "cleanup UX auth user failed(user_not_found)"
+    }
+  ],
+  "images": [
+    {
+      "name": "landing",
+      "label": "desktop",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/landing-desktop.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, return codes and dialogue/card bodies masked by Playwright"
+    },
+    {
+      "name": "landing",
+      "label": "mobile",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/landing-mobile.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, return codes and dialogue/card bodies masked by Playwright"
+    },
+    {
+      "name": "entry-background",
+      "label": "desktop",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/entry-background-desktop.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, return codes and dialogue/card bodies masked by Playwright"
+    },
+    {
+      "name": "entry-background",
+      "label": "mobile",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/entry-background-mobile.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, return codes and dialogue/card bodies masked by Playwright"
+    },
+    {
+      "name": "manual-question-ai-off",
+      "label": "desktop",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/manual-question-ai-off-desktop.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, return codes and dialogue/card bodies masked by Playwright"
+    },
+    {
+      "name": "manual-question-ai-off",
+      "label": "mobile",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/manual-question-ai-off-mobile.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, return codes and dialogue/card bodies masked by Playwright"
+    },
+    {
+      "name": "human-chat",
+      "label": "desktop",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/human-chat-desktop.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, return codes and dialogue/card bodies masked by Playwright"
+    },
+    {
+      "name": "human-chat",
+      "label": "mobile",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/human-chat-mobile.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, return codes and dialogue/card bodies masked by Playwright"
+    },
+    {
+      "name": "daee-chat",
+      "label": "desktop",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/daee-chat-desktop.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, return codes and dialogue/card bodies masked by Playwright"
+    },
+    {
+      "name": "daee-chat",
+      "label": "mobile",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/daee-chat-mobile.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, return codes and dialogue/card bodies masked by Playwright"
+    },
+    {
+      "name": "card-default-selection",
+      "label": "desktop",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/card-default-selection-desktop.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, return codes and dialogue/card bodies masked by Playwright"
+    },
+    {
+      "name": "card-default-selection",
+      "label": "mobile",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/card-default-selection-mobile.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, return codes and dialogue/card bodies masked by Playwright"
+    },
+    {
+      "name": "card-manual-editor",
+      "label": "desktop",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/card-manual-editor-desktop.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, return codes and dialogue/card bodies masked by Playwright"
+    },
+    {
+      "name": "card-manual-editor",
+      "label": "mobile",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/card-manual-editor-mobile.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, return codes and dialogue/card bodies masked by Playwright"
+    },
+    {
+      "name": "card-sharing",
+      "label": "desktop",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/card-sharing-desktop.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, return codes and dialogue/card bodies masked by Playwright"
+    },
+    {
+      "name": "card-sharing",
+      "label": "mobile",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/card-sharing-mobile.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, return codes and dialogue/card bodies masked by Playwright"
+    },
+    {
+      "name": "card-review",
+      "label": "desktop",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/card-review-desktop.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, return codes and dialogue/card bodies masked by Playwright"
+    },
+    {
+      "name": "card-review",
+      "label": "mobile",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/card-review-mobile.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, return codes and dialogue/card bodies masked by Playwright"
+    },
+    {
+      "name": "card-approved",
+      "label": "desktop",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/card-approved-desktop.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, return codes and dialogue/card bodies masked by Playwright"
+    },
+    {
+      "name": "card-approved",
+      "label": "mobile",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/card-approved-mobile.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, return codes and dialogue/card bodies masked by Playwright"
+    },
+    {
+      "name": "transfer-menu",
+      "label": "desktop",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/transfer-menu-desktop.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, return codes and dialogue/card bodies masked by Playwright"
+    },
+    {
+      "name": "transfer-menu",
+      "label": "mobile",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/transfer-menu-mobile.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, return codes and dialogue/card bodies masked by Playwright"
+    },
+    {
+      "name": "transferred-daee",
+      "label": "desktop",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/transferred-daee-desktop.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, return codes and dialogue/card bodies masked by Playwright"
+    },
+    {
+      "name": "transferred-daee",
+      "label": "mobile",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/transferred-daee-mobile.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, return codes and dialogue/card bodies masked by Playwright"
+    },
+    {
+      "name": "ended-return-code-masked",
+      "label": "desktop",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/ended-return-code-masked-desktop.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, return codes and dialogue/card bodies masked by Playwright"
+    },
+    {
+      "name": "ended-return-code-masked",
+      "label": "mobile",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/ended-return-code-masked-mobile.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, return codes and dialogue/card bodies masked by Playwright"
+    },
+    {
+      "name": "return-resume-choice",
+      "label": "desktop",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/return-resume-choice-desktop.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, return codes and dialogue/card bodies masked by Playwright"
+    },
+    {
+      "name": "return-resume-choice",
+      "label": "mobile",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/return-resume-choice-mobile.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, return codes and dialogue/card bodies masked by Playwright"
+    },
+    {
+      "name": "resumed-chat",
+      "label": "desktop",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/resumed-chat-desktop.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, return codes and dialogue/card bodies masked by Playwright"
+    },
+    {
+      "name": "resumed-chat",
+      "label": "mobile",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/resumed-chat-mobile.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, return codes and dialogue/card bodies masked by Playwright"
+    },
+    {
+      "name": "failure-0-0",
+      "label": "desktop",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/failure-0-0-desktop.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, return codes and dialogue/card bodies masked by Playwright"
+    },
+    {
+      "name": "failure-0-0",
+      "label": "mobile",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/failure-0-0-mobile.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, return codes and dialogue/card bodies masked by Playwright"
+    },
+    {
+      "name": "failure-1-0",
+      "label": "desktop",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/failure-1-0-desktop.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, return codes and dialogue/card bodies masked by Playwright"
+    },
+    {
+      "name": "failure-1-0",
+      "label": "mobile",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/failure-1-0-mobile.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, return codes and dialogue/card bodies masked by Playwright"
+    },
+    {
+      "name": "failure-2-0",
+      "label": "desktop",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/failure-2-0-desktop.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, return codes and dialogue/card bodies masked by Playwright"
+    },
+    {
+      "name": "failure-2-0",
+      "label": "mobile",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/failure-2-0-mobile.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, return codes and dialogue/card bodies masked by Playwright"
+    },
+    {
+      "name": "failure-3-0",
+      "label": "desktop",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/failure-3-0-desktop.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, return codes and dialogue/card bodies masked by Playwright"
+    },
+    {
+      "name": "failure-3-0",
+      "label": "mobile",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/failure-3-0-mobile.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, return codes and dialogue/card bodies masked by Playwright"
+    },
+    {
+      "name": "failure-4-0",
+      "label": "desktop",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/failure-4-0-desktop.png",
+      "direction": "",
+      "overflow": false,
+      "redaction": "inputs, return codes and dialogue/card bodies masked by Playwright"
+    },
+    {
+      "name": "failure-4-0",
+      "label": "mobile",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/failure-4-0-mobile.png",
+      "direction": "",
+      "overflow": false,
+      "redaction": "inputs, return codes and dialogue/card bodies masked by Playwright"
+    }
+  ],
+  "requests": [
+    {
+      "path": "/api/ai/sources",
+      "method": "POST"
+    },
+    {
+      "path": "/api/ai/sources",
+      "method": "POST"
+    },
+    {
+      "path": "/api/ai/sources",
+      "method": "POST"
+    },
+    {
+      "path": "/api/ai/sources",
+      "method": "POST"
+    },
+    {
+      "path": "/api/ai/sources",
+      "method": "POST"
+    },
+    {
+      "path": "/api/ai/sources",
+      "method": "POST"
+    },
+    {
+      "path": "/api/ai/sources",
+      "method": "POST"
+    }
+  ],
+  "clientErrors": [
+    {
+      "type": "TypeError",
+      "summary": "Failed to fetch"
+    }
+  ]
+}

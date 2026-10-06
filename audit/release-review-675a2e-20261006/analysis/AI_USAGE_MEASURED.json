@@ -1,0 +1,206 @@
+{
+  "audit_base_sha": "675a2e0089ee1e4324a7b438c17d570989793bc1",
+  "dataset_version": "synthetic-usage-v1-2026-10-06",
+  "authorization": "User explicitly approved up to USD1 from earlier USD5 for this synthetic audit run",
+  "authorization_limit_usd": 1,
+  "model": "claude-haiku-4-5-20251001",
+  "actual_provider_model": null,
+  "service_tier": "standard",
+  "scope": "current runAI and task implementations, no product edits",
+  "transport_deviations": [
+    "Audit serializes provider HTTP requests including verification ping",
+    "Audit adds service_tier=standard to prevent unknown priority billing",
+    "Audit transport adds 30-second deadline and caps ordinary max_tokens1024; original64K/prompt/schema recorded unchanged in product",
+    "Native tools/other models rejected before provider network"
+  ],
+  "max_logical_tasks": 6,
+  "max_provider_http": 10,
+  "local_database_origin": "http://127.0.0.1:55641",
+  "started_utc": "2026-10-06T17:05:50.409Z",
+  "pricing_source": "https://platform.claude.com/docs/en/about-claude/pricing",
+  "pricing_checked_at": "2026-10-06T17:01:31.250193+00:00",
+  "pricing_artifact_sha256": "2fd55be5ac6e6062020663559130f674299de96b1a88f21b3389ec4c8b077586",
+  "steps": [
+    {
+      "case_id": "classify_initial",
+      "task": "classify",
+      "input_chars": 66,
+      "input_utf8_bytes": 96,
+      "input_hash": "7b97c6650398bac14100ac7d760efea44cac5b6681f1952c71e93651623f330b",
+      "ok": false,
+      "fallback_reason": "error",
+      "duration_ms": 77,
+      "new_provider_http_attempts": 1,
+      "new_guard_blocked_attempts": 1,
+      "task_returned_latency_ms": null,
+      "requested_model": null,
+      "output_saved_in_audit_artifact": false,
+      "semantic_or_human_validation_done": false
+    },
+    {
+      "case_id": "classify_initial",
+      "task": "classify",
+      "measurement_variant": "audit_transport_1024_cap",
+      "input_chars": 66,
+      "input_utf8_bytes": 96,
+      "input_hash": "7b97c6650398bac14100ac7d760efea44cac5b6681f1952c71e93651623f330b",
+      "ok": false,
+      "fallback_reason": "error",
+      "duration_ms": 651,
+      "new_provider_http_attempts": 1,
+      "new_guard_blocked_attempts": 1,
+      "task_returned_latency_ms": null,
+      "requested_model": null,
+      "output_saved_in_audit_artifact": false,
+      "semantic_or_human_validation_done": false
+    }
+  ],
+  "guard": {
+    "authorization_max_usd": 1,
+    "hard_max_http": 10,
+    "committed_cost_upper_usd": 0.80001,
+    "completed_usage_estimated_usd": null,
+    "unknown_usage_attempts": 2,
+    "attempts": [
+      {
+        "attempt_id": "audit-attempt-1",
+        "feature_run_id": "audit-feature-51ac8a1e-5268-4af6-80da-791819394db6",
+        "logical_step_id": "classify_initial",
+        "task": "classify",
+        "kind": "model_verification",
+        "requested_model": "claude-haiku-4-5-20251001",
+        "actual_provider_model": null,
+        "service_tier": "standard",
+        "transport_guard_changed_tier": true,
+        "output_tokens_requested": 1,
+        "reservation_usd": 0.400005,
+        "request_body_chars": 123,
+        "request_body_utf8_bytes": 123,
+        "request_hash": "e7c7d0cca4f755bcc3d85a6fdf0b69fcea19c79794ab6eb6ba0a04370e88610c",
+        "stream": false,
+        "started_utc": "2026-10-06T17:03:23.851Z",
+        "http_status": null,
+        "provider_request_id": null,
+        "duration_ms": null,
+        "usage_complete": false,
+        "usage": {
+          "input_tokens": null,
+          "output_tokens": null,
+          "cache_creation_input_tokens": null,
+          "cache_read_input_tokens": null,
+          "web_search_requests": null,
+          "web_fetch_requests": null
+        },
+        "estimated_cost_usd": null,
+        "cost_upper_from_complete_usage_usd": null,
+        "no_web_tools_in_request": true,
+        "error_class": "TypeError",
+        "original_requested_max_tokens": 1,
+        "effective_max_tokens": 1,
+        "output_cap_audit_variant": false,
+        "provider_stop_reason": null,
+        "truncated": null
+      },
+      {
+        "attempt_id": "audit-attempt-2",
+        "feature_run_id": "audit-feature-914aac6e-c20d-48c8-b32f-154d359a4242",
+        "logical_step_id": "classify_initial",
+        "task": "classify",
+        "kind": "model_verification",
+        "requested_model": "claude-haiku-4-5-20251001",
+        "actual_provider_model": null,
+        "service_tier": "standard",
+        "transport_guard_changed_tier": true,
+        "original_requested_max_tokens": 1,
+        "effective_max_tokens": 1,
+        "output_cap_audit_variant": true,
+        "output_tokens_requested": 1,
+        "provider_stop_reason": null,
+        "truncated": null,
+        "reservation_usd": 0.400005,
+        "request_body_chars": 123,
+        "request_body_utf8_bytes": 123,
+        "request_hash": "e7c7d0cca4f755bcc3d85a6fdf0b69fcea19c79794ab6eb6ba0a04370e88610c",
+        "stream": false,
+        "started_utc": "2026-10-06T17:05:50.707Z",
+        "http_status": 401,
+        "provider_request_id": "req_011CfmM9uBsNhBapoqXn1BQU",
+        "duration_ms": 589,
+        "usage_complete": false,
+        "usage": {
+          "input_tokens": null,
+          "output_tokens": null,
+          "cache_creation_input_tokens": null,
+          "cache_read_input_tokens": null,
+          "web_search_requests": null,
+          "web_fetch_requests": null
+        },
+        "estimated_cost_usd": null,
+        "cost_upper_from_complete_usage_usd": null,
+        "no_web_tools_in_request": true,
+        "error_class": "authentication_error",
+        "returned_service_tier": null
+      }
+    ],
+    "blocked": [
+      {
+        "reason": "stopped_after_error_or_unknown_usage",
+        "feature_run_id": "audit-feature-51ac8a1e-5268-4af6-80da-791819394db6",
+        "logical_step_id": "classify_initial",
+        "task": "classify"
+      },
+      {
+        "reason": "stopped_after_error_or_unknown_usage",
+        "feature_run_id": "audit-feature-914aac6e-c20d-48c8-b32f-154d359a4242",
+        "logical_step_id": "classify_initial",
+        "task": "classify"
+      }
+    ],
+    "stopped": true
+  },
+  "cleanup": "deleted_only_owned_synthetic_org_and_rows",
+  "error_class": null,
+  "previous_session": {
+    "started_utc": "2026-10-06T17:03:23.246Z",
+    "completed_utc": "2026-10-06T17:03:23.912Z",
+    "unknown_reservation_held_usd": 0.400005,
+    "network_diagnosis": {
+      "original_attempt_error_class": "TypeError",
+      "original_attempt_cause_code": null,
+      "readonly_public_docs_default_fetch": {
+        "error_class": "TypeError",
+        "cause_code": "EAI_AGAIN"
+      },
+      "readonly_public_docs_fetch_with_NODE_USE_ENV_PROXY_1": {
+        "http_status": 200
+      },
+      "diagnosis": "Node global fetch did not use HTTPS_PROXY by default; enabling environment proxy made the public docs request succeed. Original model attempt cause code was not captured; no provider retry performed.",
+      "provider_cost_unknown": true,
+      "retry_requires_preserving_previous_reservation": true
+    }
+  },
+  "bounded_probe_retry_executed": true,
+  "measurement_variant": "Audit-only cap1024 in transport; product SDK original64K unmodified, not production performance or E2E quality",
+  "completed_utc": "2026-10-06T17:05:51.355Z",
+  "status": "blocked_provider_authentication_401_after_proxy_fix",
+  "successful_provider_http_responses": 0,
+  "provider_http_responses_received": 1,
+  "unknown_actual_cost_usd": null,
+  "remaining_conservative_budget_usd": 0.19999,
+  "network_diagnosis": {
+    "default_fetch_public_doc_cause_code": "EAI_AGAIN",
+    "env_proxy_public_doc_http_status": 200,
+    "alternative_provider_response_http_status": 401,
+    "alternative_provider_error_class": "authentication_error",
+    "conclusion": "Proxy-aware Node transport reached provider; active credential not authenticated in this run. No next provider retry performed.",
+    "secret_or_error_body_logged": false,
+    "usage_unknown_reservations_retained": true
+  },
+  "fixture_context": {
+    "actor_id": null,
+    "route_authentication_exercised": false,
+    "actor_rate_limit_exercised": false,
+    "organization_switch_exercised": true,
+    "ordinary_task_prompt_schema_result_obtained": false
+  }
+}

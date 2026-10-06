@@ -1,0 +1,27 @@
+PASS  not a need: "شكرا"
+PASS  not a need: "السلام عليكم"
+PASS  not a need: "ok"
+PASS  not a need: "thanks!"
+PASS  not a need: "مرحبا"
+PASS  not a need: "👍"
+PASS  not a need: "نعم"
+PASS  a need: "لماذا يصلي المسلمون خمس مرات؟"
+PASS  a need: "What does Ramadan mean for a working day?"
+PASS  a need: "ما معنى التوحيد"
+PASS  chooseNeed skips the thanks for the last real question  (ما الحكمة من الصيام؟)
+PASS  extension returns the paragraph
+PASS  extension keeps the snippet inside the passage
+PASS  extension never crosses into other paragraphs
+PASS  extension is verbatim (a substring of the page)
+PASS  a snippet not on the page is not extended
+PASS  a long paragraph is trimmed to ≤ 1,500 characters around the snippet  (1498)
+PASS  tone output is never persisted
+PASS  tone with too little text is undefined
+PASS  tone with too little text is always undefined
+PASS  tone labels are a closed set
+PASS  page chrome (headings, title) is not a passage
+PASS  a real passage is not navigation
+PASS  the allowlist still rejects lookalikes
+PASS  plan checks skipped (no model key)
+
+25/25 passed

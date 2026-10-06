@@ -1,0 +1,14 @@
+✔ current citation fence accepts HTTP, userinfo/non443 and user-comment paths on allowed domains (1.703679ms)
+✔ logger directly emits synthetic private-looking details without redaction (0.16956ms)
+✔ fetch rejects outside host, HTTP and private DNS before transport (4.302667ms)
+✔ fetch URL guard reaches mocked transport with a non443 port and comment section (21.288043ms)
+✔ allowed-host redirect can extend text without preserving its final source URL (1.360304ms)
+✔ outside redirect is rejected before a second mocked transport request (0.521799ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 224.665016

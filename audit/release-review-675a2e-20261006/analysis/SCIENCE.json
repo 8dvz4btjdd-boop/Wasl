@@ -1,0 +1,258 @@
+{
+  "baseSha": "675a2e0089ee1e4324a7b438c17d570989793bc1",
+  "findings": [
+    {
+      "id": "SCI-01",
+      "priority": "P0",
+      "type": "implementation defect against narrower authorized release policy",
+      "evidenceStatus": "code inference; human-review state not inspected in external DB",
+      "titleAr": "المادة الآلية تُعرض للسائل قبل اعتماد علمي محدد",
+      "refs": [
+        "lib/sources/readings.ts:90",
+        "lib/sources/readings.ts:101",
+        "lib/sources/readings.ts:109",
+        "components/ai/readings.tsx:81",
+        "lib/admin/library.ts:16",
+        "scripts/seed-library.ts:98"
+      ],
+      "pdf": [
+        {
+          "document": "scientific_bundle",
+          "page": 2
+        },
+        {
+          "document": "scientific_bundle",
+          "page": 5
+        }
+      ],
+      "impactAr": "فحص النطاق والكلمات يتحول عمليًا إلى إذن عرض، وverified_by لا يغير طريقة العرض. حقل human أو زر promote وحده لا يثبت أن مختصًا راجع النص والطبعة والتصنيف.",
+      "minimalTreatmentAr": "منع نص جديد للسائل حتى اعتماد المختص لنص/موضع/نسخة أ/ب، وعرضه للداعية بصفته مرجعًا يحتاج تقييمًا؛ السماح بإظهار رابط محدد إلى حين ذلك.",
+      "acceptanceAr": "مادة auto غير معتمدة لا تظهر نصًا للسائل، ولا يسمح طلب/تعديل/ترقية بلا سجل مراجعة بإلغاء ذلك؛ تعديل النص أو المصدر يطلب اعتمادًا جديدًا.",
+      "effortConditional": "2–5h if reviewed metadata/roles already available; scholarly review time additional"
+    },
+    {
+      "id": "SCI-02",
+      "priority": "P0",
+      "type": "privacy/design defect",
+      "evidenceStatus": "code-proven payload construction; actual external tool queries untested",
+      "titleAr": "النص الخاص غير مفصول عن مهمة أدوات الويب",
+      "refs": [
+        "lib/sources/readings.ts:76",
+        "lib/sources/readings.ts:78",
+        "lib/ai/tasks/find-sources.ts:81",
+        "lib/ai/tasks/find-sources.ts:82",
+        "lib/ai/tasks/plan-queries.ts:43"
+      ],
+      "pdf": [
+        {
+          "document": "scientific_bundle",
+          "page": 5
+        },
+        {
+          "document": "participant_guide",
+          "physicalPage": 10
+        }
+      ],
+      "impactAr": "النص الخام موجود في سياق النموذج المزود بأداة البحث حتى عند نجاح الخطة؛ وعند فشلها يصبح أول120حرفًا منها خطة البحث. الخطة تقيد عدد الكلمات دون منع أسماء أو بريد شخصي.",
+      "minimalTreatmentAr": "إرسال مقصد معرفي عام منقح فقط للمهمة العامة، وحذف question الخام منها؛ فشل التنقية يحيل للاستفسار/المسار اليدوي بدل إرسال النص الخام.",
+      "acceptanceAr": "مراقبة payload النموذج العام وأداة الويب في اختبار اصطناعي تثبت غياب الاسم والبريد ومقطع غير مصرح؛ لا يكفي غيابهما من الإجابة.",
+      "effortConditional": "1–3h for bounded controlled query mapping and payload tests"
+    },
+    {
+      "id": "SCI-03",
+      "priority": "P1",
+      "type": "provenance/completeness defect",
+      "evidenceStatus": "code-proven fallback; audit-created synthetic cap probe confirmed",
+      "titleAr": "مقتطف البحث يبقى عند تعذر الأصل، وحد1500قد يسقط قيدًا",
+      "refs": [
+        "lib/ai/sources/fetch.ts:312",
+        "lib/ai/sources/fetch.ts:317",
+        "lib/ai/sources/fetch.ts:350",
+        "lib/sources/readings.ts:84",
+        "components/ai/readings.tsx:87"
+      ],
+      "pdf": [
+        {
+          "document": "scientific_bundle",
+          "page": 5
+        }
+      ],
+      "impactAr": "غياب الأصل أو عدم العثور على الاقتباس لا يمنع عرضه بنفس صيغة النقل الحرفي. نافذة1500حرف قد تحذف استثناء لاحقًا في الفقرة مع بقاء الصياغة الأولى.",
+      "minimalTreatmentAr": "إذا لم يتحقق الأصل والموضع، إظهار مرجع غير مكتمل بدل جواب موثق؛ الاحتفاظ بالفقرة ذات القيد كاملة أو الإحالة للتوسع، مع بيان الجزئية.",
+      "acceptanceAr": "مصدر معطل/اقتباس غير موجود لا يعرض نصًا كإجابة مؤهلة، وfixture بقيد بعدالحرف1500 لا يعرض عبارة ناقصة بصيغة كافية.",
+      "effortConditional": "2–4h if section metadata exists; extraction changes may require more"
+    },
+    {
+      "id": "SCI-04",
+      "priority": "P1",
+      "type": "scientific qualification gap",
+      "evidenceStatus": "code review + synthetic validator probes; no observed fabricated live response",
+      "titleAr": "اسم الموقع أو وجود كلمة درجة لا يثبتان أهلية النص",
+      "refs": [
+        "lib/ai/sources/allowlist.ts:7",
+        "lib/ai/sources/allowlist.ts:27",
+        "lib/ai/sources/allowlist.ts:70",
+        "lib/ai/sources/allowlist.ts:74",
+        "lib/ai/sources/allowlist.ts:78"
+      ],
+      "pdf": [
+        {
+          "document": "scientific_bundle",
+          "page": 3
+        },
+        {
+          "document": "scientific_bundle",
+          "page": 4
+        },
+        {
+          "document": "scientific_bundle",
+          "page": 5
+        }
+      ],
+      "impactAr": "Shamela بلا تحديد طبعة/عمل، والحديث الإنجليزي خارج قسمhadith لا يكتشفهHADITH، وكلمةصحيحفي تعليق تقبل كدرجة. quranpediaيحقق هويةالموقع فقط، لا صحة آية أو ترجمة. لا يوجد سجلحقوق مادة/موضع/طبعة موثق.",
+      "minimalTreatmentAr": "تأهيل أعمال ومقاطع محددة، والآية برقمها ونص/طبعة صحيحين، والحديث بدرجة مرتبطة بمرجعه؛ ما لم يتحقق يبقى للمختص كمرجع غير معتمد.",
+      "acceptanceAr": "أمثلةغيابgrade/عدم ارتباطها، ترجمةبلا مرجع، وعملShamelaغيرمؤهل لا تصل للسائل كمواد معتمدة؛ حظرالمواقعالأخرى يراجع منفصلًا معsecurityaudit.",
+      "effortConditional": "2–4h for gate/metadata; actual scholarly qualification depends on reviewer"
+    },
+    {
+      "id": "SCI-05",
+      "priority": "P1",
+      "type": "product/scientific definition mismatch",
+      "evidenceStatus": "code versus supplied PDF",
+      "titleAr": "مستوى أ/ب/ج استُعمل للصعوبة بدل نوع الحساسية العلمية",
+      "refs": [
+        "lib/ai/prompts/intake.ts:19",
+        "lib/ai/prompts/intake.ts:20",
+        "lib/ai/tasks/intake.ts:31",
+        "lib/sources/readings.ts:52",
+        "app/[locale]/(asker)/wait/actions.ts:97",
+        "app/api/ai/sources/route.ts:48"
+      ],
+      "pdf": [
+        {
+          "document": "scientific_bundle",
+          "page": 2
+        }
+      ],
+      "impactAr": "الدرجة العلمية ليست درجة صعوبة السؤال: a=basic وb=background وc=advanced تختلف عن مستقرة/شرح/خلافية أو حساسة. المسار اليدوي يخزن level=null، ثم route يحوله حسب depth أو b؛ لذا لا تثبت قاعدة c.level=d اكتشاف الحالة الشخصية عند تجاوز المرشد. Regex الشخصي محليًا عربي/إنجليزي فقط، دون اختبار حي لبقية اللغات.",
+      "minimalTreatmentAr": "إبقاءdepthللتدرج، وتحديدlevelلنوعالمادة/الفتوى/الخلاف وفقالحزمة، معحمايةالغاتالفعالة دون استنتاجسماتالسائل.",
+      "acceptanceAr": "نفسالمفهوم المستقر يظلa/b ولوصياغتهتفصيلية، والخلاف/الحالةالشخصيةتحالرغمبساطةالسؤال؛ سؤالاعتقادشخصي بالفرنسية لا يُسأل منالمرشد.",
+      "effortConditional": "0.5–1.5h code/prompt alignment plus multilingual review"
+    },
+    {
+      "id": "SCI-06",
+      "priority": "P1",
+      "type": "multilingual content metadata gap",
+      "evidenceStatus": "code inference; actual content languages in external DB unverified",
+      "titleAr": "لغات الواجهة سبع؛ لغة المقطع لا تُثبت ولا تُخزن مستقلًا",
+      "refs": [
+        "lib/ai/prompts/sources.ts:13",
+        "lib/sources/readings.ts:100",
+        "docs/i18n.md:7",
+        "docs/i18n.md:11",
+        "components/admin/sources-list.tsx:36"
+      ],
+      "pdf": [
+        {
+          "document": "scientific_bundle",
+          "page": 5
+        },
+        {
+          "document": "scientific_bundle",
+          "page": 8
+        }
+      ],
+      "impactAr": "promptيسمح بالعربية عندغيابمصدر بلغةالسائل، ثم يحفظهاlanguage=q.locale؛ قد يُوسم نصعربيEnglish/Urdu ويُعرض لمستخدم لا يفهمه. مراجعاتur/id/tl معلنةغيرمكتملة؛ لا يثبتوجودtranslationapproved لكللغة.",
+      "minimalTreatmentAr": "فصلsource_languageعنui_locale، وإظهارلغةالمادة/التعذر بوضوح، وترشيحترجمةمعتمدةأوالإحالةبدلتوليدترجمةدينية.",
+      "acceptanceAr": "مقطععربي فيواجهةإنجليزية لا يُخزّنكنصEnglish؛ أمثلةTawhid/Sharia/Fatwa لهامرجعباللغةالمعلنة أوبياننقص واضح.",
+      "effortConditional": "1–3h metadata/display changes; native/scholarly review additional"
+    },
+    {
+      "id": "SCI-07",
+      "priority": "P1",
+      "type": "verification gap",
+      "evidenceStatus": "tests inspected and offline checks executed",
+      "titleAr": "اختبارات السياج الناجحة ليست اجتياز الحالات العلمية الاثنتي عشرة",
+      "refs": [
+        "evals/sources-rules.ts:12",
+        "evals/sources.yaml:22",
+        "evals/assist-rules.ts:63",
+        "evals/assist-rules.ts:80"
+      ],
+      "pdf": [
+        {
+          "document": "scientific_bundle",
+          "page": 6
+        },
+        {
+          "document": "participant_guide",
+          "physicalPage": 37,
+          "printedPage": 38
+        }
+      ],
+      "impactAr": "16قواعدنجحت و24فحصًاdeterministic؛ واحدةPASSهيskipللحي. مصادرYAMLتختبرثلاثةأسئلةواحدةleveldمععددمخرجات/نطاقفقط؛ لا مراجعةصلة/استثناء/تحريف/ترجمةعلىمجموعة12.",
+      "minimalTreatmentAr": "تقييم12حالةمنPDFعلىالمسارالمعلن، معrefsوالنقص/الإحالةوتقييممختص، ومقارنةبعينةبديلمتساويالمادة؛ نتائجsynthetic/mocksمنفصلة.",
+      "acceptanceAr": "سجل12/12 فيهعينةالنصومرجعهاوالمقيّم وسببقبولأورفضأوتعذر؛ لا تستبعدالنتائجالفارغةوالمرفوضة ولا تسمّيسكربتskipنجاحالموديل.",
+      "effortConditional": "2–4h harness/case preparation plus reviewer and separately approved live budget"
+    },
+    {
+      "id": "SCI-08",
+      "priority": "P1",
+      "type": "delivery readiness gap",
+      "evidenceStatus": "tracked-file inventory + two supplied screenshot artifacts visually inspected",
+      "titleAr": "ملفات التسليم المتاحة لا تثبت جاهزية العرض النهائي",
+      "refs": [
+        "README.md:1",
+        "LICENSE:1",
+        "docs/plans/sources.md:45",
+        "docs/screenshots/readings-asker-ar-1440.png",
+        "docs/screenshots/readings-daee-ar-1440.png"
+      ],
+      "pdf": [
+        {
+          "document": "participant_guide",
+          "physicalPage": 14
+        },
+        {
+          "document": "participant_guide",
+          "physicalPage": 30,
+          "printedPage": 31
+        },
+        {
+          "document": "participant_guide",
+          "physicalPage": 31,
+          "printedPage": 32
+        },
+        {
+          "document": "participant_guide",
+          "physicalPage": 32,
+          "printedPage": 33
+        }
+      ],
+      "impactAr": "142لقطةلكنلقطتاالقراءاتتعرضانفصولالكتاب/مسارالصفحةكاقتباس. لافيديو/PDF/PPT/runbookفيالمستودع؛ ربماخارجالنسخةلكنغيرمتاح. READMEقالبNext، وMITلايوثقحقوقالاقتباسات.",
+      "minimalTreatmentAr": "تحديثشاهدعرضيُظهرمادةنافعةحقيقيةمعحدودها، ودليلتشغيلقصيروجداولالمصادر/الحقوق؛ توفيرالفيديو<=2min والعرضالفعليلفحصهما.",
+      "acceptanceAr": "مراجعخارجييشغّلالنسخةبالدليل دونأسرار، والفيديومدته<=120sويُظهركاملجوهرالرحلة، والعرضيحتويالمشكلةوالحل/آليةالعمل/القيمةوالنتائج/الاستمرار ولايحولmockإلىحقيقة.",
+      "effortConditional": "2–4h if verified flow and assets available; inaccessible assets remain unverified"
+    }
+  ],
+  "scientificAcceptance": {
+    "grade3NotProven": true,
+    "reason": "Guide requires all critical cases + sourced behavior; no live/human scholarly case review executed",
+    "notACompetitionRank": true
+  },
+  "strengths": [
+    "Religious model prose discarded; citation blocks only retained",
+    "Intake/classification schemas describe question without belief fields",
+    "Card selected-message references and undefined fields exist, but refs alone do not prove meaning",
+    "Seven UI locales and explicit native-review gaps documented",
+    "Offline fence checks and excerpt fixtures reproducible"
+  ],
+  "limitations": [
+    "No paid calls",
+    "No public-source harvest this audit",
+    "No external DB library inspection",
+    "No live model quality or human scholarly review",
+    "Static screenshots are repository artifacts, not current deployed behavior",
+    "Original project submission file, final video and presentation unavailable"
+  ]
+}

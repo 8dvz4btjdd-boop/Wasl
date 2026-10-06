@@ -1,0 +1,489 @@
+{
+  "scope": "product_journey_and_metrics_static_audit",
+  "repository_path": "/workspace/Wasl-audit-current-20261006",
+  "sha": "675a2e0089ee1e4324a7b438c17d570989793bc1",
+  "branch": "detached HEAD",
+  "working_tree_observed": "clean",
+  "product_edits": false,
+  "paid_calls": 0,
+  "live_site_interactions": 0,
+  "summary": "Connected broad journey exists; contextual recommendations remain manual/initial-question-only, daee card review remains unconnected, operational metrics are insufficient evidence of effect.",
+  "features": [
+    {
+      "feature": "دخول باسم مستعار وخلفية اختيارية",
+      "evidence_chain": "`enter-flow.tsx:79–86,138–175` → `enter/actions.ts:21–74` → Supabase anonymous Auth و`askers`",
+      "implementation": "متصل، ليس شاشة تجريبية",
+      "limits": "تنفيذ جديد بهويات اصطناعية لم يتم هنا؛ الرمز لا يظهر في الدخول في النسخة الحالية"
+    },
+    {
+      "feature": "رمز العودة",
+      "evidence_chain": "`enter/actions.ts:81–84`؛ `return/actions.ts:47–80,83–139`؛ migrations `0017/0018`",
+      "implementation": "إنشاء hash عند الدخول، ثم إظهار/إصدار رمز من المحادثة أو نهايتها؛ عودة تعيد ربط الهوية",
+      "limits": "يختلف عن وصف اليوم الأول «يعرض مرة واحدة عند الدخول»؛ راجع صياغة المنتج والسيناريو وفق التنفيذ الحالي"
+    },
+    {
+      "feature": "الاستيضاح",
+      "evidence_chain": "`question-form.tsx:43–76` → `GuideEntry:34–71` → `use-guide.ts:39–67` → `guideStep:43–71` → intake/classify",
+      "implementation": "متصل قبل إنشاء الجلسة؛ حد ثلاثة أسئلة؛ fallback يحفظ ما كتبه السائل",
+      "limits": "الجودة الحية للنموذج غير مختبرة هنا؛ ملخص السائل غير قابل لتحرير نصه ويؤكد تلقائيًا بعد 8 ثوانٍ"
+    },
+    {
+      "feature": "الصوت",
+      "evidence_chain": "`voice.ts:45–91,102–166`؛ `GuideEntry:40–41,66–71,168–185`؛ `/api/tts`",
+      "implementation": "Web Speech يملأ حقلًا يعدل ويرسل؛ TTS خادمي مع browser fallback؛ لا إرسال تلقائي للتفريغ",
+      "limits": "لا اختبار ميكروفون/ترخيص متصفح/ElevenLabs في هذا الجزء؛ Web Speech ليس ضمان معالجة صوت محلية"
+    },
+    {
+      "feature": "التصنيف والتوجيه",
+      "evidence_chain": "`wait/actions.ts:53–68,88–118,155–159` → `0011_master_card.sql:65–121`؛ `routing.tsx:146–174`",
+      "implementation": "لغة وتوفر وسعة، مع تفضيل التخصص؛ chip/اختيار السائل يغلب التصنيف",
+      "limits": "التطابق الجزئي يعيّن تلقائيًا، لا خيارات «انتظار الأنسب/حجز/قبول البديل» كاملة؛ لا تقييم مستقل للمناسبة"
+    },
+    {
+      "feature": "قائمة الانتظار وحضور الداعية",
+      "evidence_chain": "`asker-chat.tsx:94,101–134`؛ queue polling؛ `subscribeResilient:47–106`؛ SQL heartbeat",
+      "implementation": "متصل؛ إشعارات، تعافٍ وresync/polling عند انقطاع Realtime",
+      "limits": "التنافس/انقطاع الشبكة يحتاجان اختبارًا جديدًا؛ تشغيل local غير كافٍ لإثبات قاعدة محلية"
+    },
+    {
+      "feature": "قراءات السائل",
+      "evidence_chain": "`WaitingState:324–342` → `Readings:34–47` → `/api/ai/sources:16–52` → `getReadings:50–130` → `library_items/conversation_readings`",
+      "implementation": "طلب تلقائي عند mount؛ مقاطع نصية ومصدر؛ cache/live/topic fallback",
+      "limits": "مربوط بملخص البداية/أول سؤال، لا آخر حاجة؛ لا يظهر بعد التعيين حتى قبل الرد الأول؛ الخطأ والفراغ يظهران بالشكل نفسه"
+    },
+    {
+      "feature": "محادثة بشرية",
+      "evidence_chain": "`Composer` → `sendMessage:19–39` → messages وtrigger؛ `useMessages:23–85` → Realtime",
+      "implementation": "متصل؛ optimistic states وإعادة إرسال وresync",
+      "limits": "idempotency عند نجاح الإدخال وفقد الرد ليست مثبتة: إعادة insert بنفس UUID تعود بفشل بدل قراءة الرسالة الموجودة؛ لا أعد ذلك اختبارًا منفذًا"
+    },
+    {
+      "feature": "مساعد الداعية",
+      "evidence_chain": "`ConversationPane:193–226,229–243` → `Inbox:312–326` → `AssistantPanel:39–54` → `assistSearch:70–95`",
+      "implementation": "بحث بحسب رسالة/رسائل مختارة، بحث حر، مقاطع ومصدر؛ إدراج في composer فقط",
+      "limits": "يدوي، بلا تحديث تلقائي للأسئلة الجديدة/التصحيحات؛ لا stale-result guard أو catch واضح في العميل"
+    },
+    {
+      "feature": "بطاقة الجلسة اليدوية والآلية",
+      "evidence_chain": "`CardBuilder:61–153,233–323,326–381,421–469` → `/api/ai/card:20–48` و`submitCard:43–158`",
+      "implementation": "اختيار ومعاينة، أربعة حقول ومراجع، تحرير، sharing، approve؛ خادم يقرأ selected IDs فقط؛ سقف آخر60 معلن",
+      "limits": "كل الرسائل محددة افتراضيًا؛ سقف الحفظ200 لا تشرح الواجهة قيده؛ لا مراجعة الداعية قبل اعتماد السائل"
+    },
+    {
+      "feature": "النسخة الثابتة ومدة العرض",
+      "evidence_chain": "`0011_master_card.sql:39–59`؛ `0012_master_card_visibility.sql:8–17`؛ `submitCard:128–144`",
+      "implementation": "guard يمنع تغيير الحقول في approved؛ نسخة جديدة تبدأ draft؛ صلاحية وحذف وexpiry",
+      "limits": "تطبيق السياسات في قاعدة منشورة غير متحقق هنا؛ تدقيق حقول immutability الكامل للجزء الأمني"
+    },
+    {
+      "feature": "البطاقة الرئيسية والاستئناف",
+      "evidence_chain": "`submitMasterCard:35–114`؛ `getVisibleCards:84–111`؛ `card-section.tsx:49–115`؛ `wait/actions.ts:168–199`؛ `Inbox:314–318`",
+      "implementation": "دمج بطاقات جلسات معتمدة، عرض master أولًا ثم جلسات مطوية؛ العودة تربط card_id وmode وتفضيل داعية",
+      "limits": "قيمة semantic merge، صلاحيات جميع الحدود، وجود البطاقة قبل أول رد تحتاج تحققًا متصلًا جديدًا"
+    },
+    {
+      "feature": "التحويل",
+      "evidence_chain": "`transferConversation:74–89` → RPC؛ `submitCard:155–172`؛ `asker-chat:249–299`؛ SQL `do_transfer:249–269`",
+      "implementation": "طلب بطاقة/إكمال بعد اعتماد، وخيار انتقال بلا بطاقة؛ يتغير assigned daee وتصل notification/card_access",
+      "limits": "لا يتضمن تسلسل مراجعة الداعية ثم اعتماد السائل؛ مسار التحويل المباشر وحدود consent/الأرشيف مسؤولية الفحص الأمني أيضًا"
+    },
+    {
+      "feature": "الموعد",
+      "evidence_chain": "`wait/page.tsx:52–65` يقرأ availability.slot_at؛ `bookings` في schema",
+      "implementation": "عرض أقرب وقت متاح فقط؛ بنية جدول موجودة",
+      "limits": "لا مسار حجز متصل في app/components/lib؛ البحث عن bookings لا يجد كتابة منتج؛ عمل متبقٍ وليس نجاحًا"
+    },
+    {
+      "feature": "المدير والمؤشرات",
+      "evidence_chain": "`admin/queries.ts:11–30,67–90` → admin RPCs؛ `ComparisonChart` و`kpi-tiles`",
+      "implementation": "واجهة تشغيل وتجميع، أعداد وعينات وhealth، ومنع عرض output في query المدير",
+      "limits": "صحة تعريف الأثر وcoverage ناقصة؛ لا نتائج تجريبية مثبتة في هذا الفحص"
+    }
+  ],
+  "findings": [
+    {
+      "id": "P1-REC",
+      "priority": "P1",
+      "title": "التوصية لا تتبع المقصد الجديد تلقائيًا",
+      "execution_proof": "static_read_only",
+      "classification": "مثبت بالفحص لمسارات الأحداث؛ عمل غير مكتمل بالنسبة للتكليف السياقي، لا ادعاء أن البحث اليدوي معطل.",
+      "evidence": "`AssistantPanel:45–54` يشغّل البحث عند تغير request الناتج عن نقرة؛ `ConversationPane:193–226` يربطه بزر sparkle. لا رابط وصول رسالة/تصحيح إلى onAssist. للسائل `Readings:34–47` يعتمد conversationId فقط، وAPI `sources:33–45` يستخدم guide_summary/أول سؤال، ولا رسالة جديدة. `asker-chat:94,242` يخفي القراءات بمجرد التعيين، قبل `status=active` الناتج عن أول رد (`0007_landing_and_fixes.sql:106–115`).",
+      "impact": "تتوفر المادة حول الموضوع القديم بعد تغير السؤال؛ الداعية مطالب باكتشاف الأداة والنقر؛ السائل المعين لداعية لكنه ينتظر الرد لا يرى مدخل القراءة. هذا يضعف الفرق الذي يمكن عرضه للجنة بين «محرك بحث» و«مساعدة سياقية».",
+      "minimum_fix": "بوابة deterministic للأسئلة المحفوظة ذات المعنى، تربط المحرك الواحد بالواجهتين، version للحاجة وطلب جارٍ واحد، الاحتفاظ بأحدث تصحيح أثناء cooldown، تجاهل نتيجة قديمة، والتوقف عند بدء الحوار البشري للسائل. أبقِ البحث اليدوي وإدراج الاقتباس بلا إرسال.",
+      "effort_conditional": "0.5–1.5 يوم عمل إذا اكتفي بإعادة استخدام المحرك والصلاحيات؛ أطول إذا تغير نموذج حدود الجلسة.",
+      "acceptance": "سؤال جديد ثم تصحيح محفوظ ينتجان تلقائيًا مقطعًا مناسبًا للمقصد الأخير؛ الشكر والتكرار لا يزيدان الاستدعاءات؛ مع وصول التصحيح أثناء طلب قديم لا تظهر مادته القديمة؛ إغلاق اللوحة/AI off يوقف التالي؛ السائل يرى المادة أثناء waiting بعد التعيين إلى أن يبدأ الرد البشري.",
+      "evidence_refs": [
+        {
+          "path": "components/inbox/assistant.tsx",
+          "start_line": 45,
+          "end_line": 54,
+          "type": "code_read"
+        },
+        {
+          "path": "components/inbox/conversation-pane.tsx",
+          "start_line": 193,
+          "end_line": 226,
+          "type": "code_read"
+        },
+        {
+          "path": "components/ai/readings.tsx",
+          "start_line": 34,
+          "end_line": 47,
+          "type": "code_read"
+        },
+        {
+          "path": "app/api/ai/sources/route.ts",
+          "start_line": 30,
+          "end_line": 50,
+          "type": "code_read"
+        },
+        {
+          "path": "app/[locale]/(asker)/chat/[id]/asker-chat.tsx",
+          "start_line": 94,
+          "end_line": 94,
+          "type": "code_read"
+        },
+        {
+          "path": "supabase/migrations/0007_landing_and_fixes.sql",
+          "start_line": 106,
+          "end_line": 115,
+          "type": "code_read"
+        }
+      ]
+    },
+    {
+      "id": "P1-SUM",
+      "priority": "P1",
+      "title": "التأكيد على ملخص السؤال لا يتيح تصحيح نصه ويحدث بمرور الوقت",
+      "execution_proof": "static_read_only",
+      "classification": "مثبت بالفحص؛ قرار منتج مطلوب وإصلاح UX مرتبط بدقة الذكاء.",
+      "evidence": "`SummaryCard:26–30` يستدعي onConfirm بعد 8 ثوانٍ؛ `:35–37` يعرض السؤال كنص ثابت؛ «تغيير» في `:43–59` يغير topic فقط. `question-form:62–74` يحول سؤال الملخص إلى first message/intake. `GuideEntry:66–71` يجعل التفريغ الصوتي نصًا يرسل بالنقر، وهذا الجانب جيد.",
+      "impact": "يستطيع النموذج تغيير نفي أو قيد في صياغة السؤال، والسائل يغير موضوعه فقط؛ يبدأ التوجيه والبحث على نص لم يقره صراحة. عند بطء القراءة أو المساعدة الصوتية لا يكفي عداد8ثوانٍ لإثبات المراجعة.",
+      "minimum_fix": "تحرير question نفسه داخل نفس شاشة الملخص، وconfirm صريح؛ يمكن بقاء countdown كمعلومة غير منشئة للجلسة. أظهر خطأ startConversation في شاشة الملخص: حاليًا errorText يظهر في مسار النموذج اليدوي فقط (`question-form:52–77` مقابل `129–133`).",
+      "effort_conditional": "2–5 ساعات إذا لم يتغير عقد intake.",
+      "acceptance": "تعديل ملخص يعكس نفيًا يحفظ النص المعدل ويصنفه، وترك الملخص30ثانية لا يبدأ جلسة أو بحثًا؛ فشل إنشاء الجلسة يظهر خطأ قابلًا لإعادة المحاولة دون فقد النص.",
+      "evidence_refs": [
+        {
+          "path": "components/guide/summary-card.tsx",
+          "start_line": 26,
+          "end_line": 59,
+          "type": "code_read"
+        },
+        {
+          "path": "app/[locale]/(asker)/wait/question-form.tsx",
+          "start_line": 52,
+          "end_line": 77,
+          "type": "code_read"
+        },
+        {
+          "path": "app/[locale]/(asker)/wait/question-form.tsx",
+          "start_line": 129,
+          "end_line": 133,
+          "type": "code_read"
+        },
+        {
+          "path": "components/guide/guide-entry.tsx",
+          "start_line": 66,
+          "end_line": 71,
+          "type": "code_read"
+        }
+      ]
+    },
+    {
+      "id": "P1-REVIEW",
+      "priority": "P1",
+      "title": "اعتماد البطاقة والتحويل لا يمران بمراجعة الداعية الحالية",
+      "execution_proof": "static_read_only",
+      "classification": "مثبت بالفحص لمسار المنتج؛ عمل متبقٍ عن تسلسل اليوم الثاني/التطوير المعتمد، لا فشل تلقائي لليوم الأول.",
+      "evidence": "خطوات CardBuilder هي select/fields/sharing/review (`:32–33`)، ثم submit approve مباشرة (`:132–153`). `submitCard:128–156` يعتمد بقرار السائل ويكمل pending transfer. enum `daee_reviewed` موجود في `lib/cards/types.ts:26` لكنه ليس رحلة واجهة أو فعل مراجعة متصلًا في lib/cards/app/api/components/inbox. لا تستبدل مراجعة السائل المسماة review بمراجعة الداعية.",
+      "impact": "يوجد جوهر بطاقة صحيحة تقنيًا، لكن التسلسل المقدم «اختيار → مسودة → مراجعة الداعية الحالي → تعديل واعتماد السائل» غير قابل للعرض كما وعد. الحقول المصدرية أيضًا تظل سندًا لمسودة النموذج بعد تعديل السائل؛ `submitCard:85–88` يصفّي IDs فقط ولا يسجل أن السند لم يعد يثبت الحقل المعدل.",
+      "minimum_fix": "خطوة مراجعة محددة النسخة للمحاور المعيّن، ملاحظات واقتراحات دون صلاحية اعتماد نيابة عن السائل؛ أي تعديل بعدها يظل draft حتى اعتماد السائل. ميّز سند المسودة من إضافة السائل بعد التحرير بدل إبقاء «لماذا كتب» بمعنى آلي عام.",
+      "effort_conditional": "0.5–1 يوم مع reuse للنموذج القائم، بعد تثبيت الصلاحيات في الجزء الأمني.",
+      "acceptance": "لا transfer يحمل بطاقة قبل اكتمال المراجعة المطلوبة واعتماد السائل لنفس النسخة؛ غير المعيّن والمشرف ممنوعان؛ تعديل محتوى معتمد ينشئ draft لا يظهر؛ تغيير حقل يبيّن هل مصدره مسودة أم إضافة السائل، ولا يزعم أن IDs وحدها تحقق المعنى.",
+      "evidence_refs": [
+        {
+          "path": "app/[locale]/(asker)/card/[id]/card-builder.tsx",
+          "start_line": 32,
+          "end_line": 33,
+          "type": "code_read"
+        },
+        {
+          "path": "app/[locale]/(asker)/card/[id]/card-builder.tsx",
+          "start_line": 132,
+          "end_line": 153,
+          "type": "code_read"
+        },
+        {
+          "path": "lib/cards/actions.ts",
+          "start_line": 128,
+          "end_line": 158,
+          "type": "code_read"
+        },
+        {
+          "path": "lib/cards/actions.ts",
+          "start_line": 85,
+          "end_line": 88,
+          "type": "code_read"
+        },
+        {
+          "path": "lib/cards/types.ts",
+          "start_line": 26,
+          "end_line": 26,
+          "type": "code_read"
+        }
+      ]
+    },
+    {
+      "id": "P1-KPI",
+      "priority": "P1",
+      "title": "العرض الحالي يسمي proxies أثرًا مثبتًا ويحذف غير المقيم من النسب",
+      "execution_proof": "static_read_only",
+      "classification": "مثبت بالفحص لتعريفات SQL/UI؛ صلاحية الاستنتاج استنتاج منهجي من الكود.",
+      "evidence": "`0011_master_card.sql:135–161`: correct_first_routing هو غياب transfer_completed، لا حكم «المناسب»، حتى للمحادثة غير المنتهية. correct_resumption يحسب rated manual/AI فقط. `0008_presence_cards_rating.sql:352–381` يوفر sessions لكن يفلتر تقييمات rating بزمنها بصورة مستقلة عن cohort sessions. `ComparisonChart:38–54,67–68` لا يعرض sessions أو التغطية. `EndFollowupPanel:42–49` يسمح بالتخطي بلا حدث، وينهي الحوار حتى عند فشل تسجيل التقييم. `messages_log_daee_events:118–123` يعتبر أكثر40حرفًا ردًا جوهريًا. `submitCard:90,151` و`isMajorEdit:24–30` يعدان البطاقة اليدوية edited_major=false، ويعدان أي ملء لحقل كان «غير محدد» تغييرًا غير جوهري مهما بلغ.",
+      "impact": "عدم التحويل قد يعني أن الحالة لم تُقيَّم بعد أو أن داعية غير مناسب بقي معها؛ التغطية المفقودة تعطي نجاحًا مرتفعًا من الحالات المجيبة فقط؛ manual يرفع دقة البطاقة المجمعة بلا draft آلي؛ عدل معنى النفي أو أضف كل البيانات بعد draft فارغ ثم يبدو «بلا تصحيح جوهري». الرسم ليس مقارنة سببية عادلة، والأحداث لا تقيس جهد إعداد البطاقة أو الرفض/الفشل.",
+      "minimum_fix": "اعرض «معدل عدم التحويل» باسمه التشغيلي؛ أضف تقييم مطابقة مستقل rubric بسيط وتغطية. اجعل cohort واحدًا مرتبطًا بـconversation_id، وأظهر total/evaluated/unrated/pending/failed/rejected مع n. افصل origin وجودة draft عن النهائي وتصحيح الحقول/المعنى. أضف مدد إعداد وتصحيح metadata فقط، وتعريف «بدأ من نقطة التوقف» يعتمد تقييمًا بشريًا محددًا.",
+      "effort_conditional": "0.5–1 يوم لتصحيح العرض والأحداث البسيطة؛ تجربة علمية صغيرة مستقلة بعد ذلك.",
+      "acceptance": "مجموعة اصطناعية فيها5مقيمة و5غير مقيمة تظهر تغطية50% وغير المقيمة5 دون حذفها؛ جلسة بلا تحويل لكن evaluator يرفض مناسبتها لا تعد نجاحًا؛ بطاقة manual وAI rejected وAI fallback وكل حقول draft غير محددة تبقى في denominators المناسبة؛ لا يسمى أكثر40حرفًا تحققًا بشريًا لجوهر الرد.",
+      "evidence_refs": [
+        {
+          "path": "supabase/migrations/0011_master_card.sql",
+          "start_line": 135,
+          "end_line": 161,
+          "type": "code_read"
+        },
+        {
+          "path": "supabase/migrations/0008_presence_cards_rating.sql",
+          "start_line": 352,
+          "end_line": 381,
+          "type": "code_read"
+        },
+        {
+          "path": "components/admin/comparison-chart.tsx",
+          "start_line": 38,
+          "end_line": 68,
+          "type": "code_read"
+        },
+        {
+          "path": "components/inbox/end-panel.tsx",
+          "start_line": 42,
+          "end_line": 49,
+          "type": "code_read"
+        },
+        {
+          "path": "lib/cards/edits.ts",
+          "start_line": 24,
+          "end_line": 30,
+          "type": "code_read"
+        },
+        {
+          "path": "supabase/migrations/0007_landing_and_fixes.sql",
+          "start_line": 118,
+          "end_line": 123,
+          "type": "code_read"
+        }
+      ]
+    },
+    {
+      "id": "P1-CACHE",
+      "priority": "P1",
+      "title": "ذاكرة «نفس الحاجة» لا تتضمن السياق الذي يحل الإشارة أو التصحيح",
+      "execution_proof": "static_read_only",
+      "classification": "استنتاج من الكود؛ يحتاج اختبار runtime مع بيانات اصطناعية.",
+      "evidence": "`needHash:40` يعتمد normalizeNeed(need) فقط؛ cache-hit `getReadings:58–71` يسبق plan_queries ويغفل recent/topic/audience/إصدار سياسة المحتوى في المفتاح، فيما التخطيط عند miss يقرأ recent (`:75–79`).",
+      "impact": "نصان مثل «وماذا عن هذا؟» أو اختيار نفس الرسالة في سياقين مختلفين قد يعيدان cache سابقًا حول موضوع آخر؛ السياق لا يساهم في البحث حين توجد نتيجة. لا أدعي أن هذا وقع في جلسة حقيقية.",
+      "minimum_fix": "cache للمقصد المعرفي المحلول بعد التنقيح مع اللغة والجمهور/السياسة وإصدار المادة؛ لا cache شخصي مشترك ولا حفظ محادثة خام لتصنيع مفتاح. أعد التحقق من الأهلية والصلاحيات عند hit.",
+      "effort_conditional": "3–8 ساعات إذا كان planning contract ثابتًا، واختبار جودة المرجع يبقى للمختص.",
+      "acceptance": "نفس عبارة الإشارة بعد سياق عن الصلاة ثم عن الصيام لا يعيد مادة الموضوع القديم؛ التكرار الحقيقي للمقصد نفسه يعيد المادة المؤهلة دون مكالمة جديدة؛ لا تفاصيل خاصة في public index أو logs.",
+      "evidence_refs": [
+        {
+          "path": "lib/sources/readings.ts",
+          "start_line": 40,
+          "end_line": 40,
+          "type": "code_read"
+        },
+        {
+          "path": "lib/sources/readings.ts",
+          "start_line": 58,
+          "end_line": 79,
+          "type": "code_read"
+        }
+      ]
+    },
+    {
+      "id": "P2-STATE",
+      "priority": "P2",
+      "title": "الخطأ وإعادة المحاولة والنتائج المتأخرة غير محكمة في مساعدي القراءة",
+      "execution_proof": "static_read_only",
+      "classification": "مثبت بالفحص لحالات الواجهة؛ سباق العرض خطر محتمل حتى اختباره.",
+      "evidence": "Readings يضبط error (`:43`) ثم يعرض empty نفسه عند state!==loading (`:70–71`) بلا retry أو timeout/AbortController. AssistantPanel يستخدم transitions بلا catch في `:39–43,47–54`، ويستبدل results عند كل انتهاء دون version أو منع overlap. closure عند إغلاق اللوحة لا يلغي طلبًا خادميًا بدأ.",
+      "impact": "لا يعرف المستخدم الفرق بين مصدر غير كافٍ وخدمة فاشلة؛ بحث أقدم ينتهي بعد بحث التصحيح قد يستبدل المادة المناسبة؛ العودة للوحة قد تكرر طلبًا محفوظًا في nonce. إلغاء العرض وحده لا يلغي إنفاق ما نُفذ.",
+      "minimum_fix": "حالات empty/partial/unavailable/referral منفصلة، زر retry، lease/version واحد لكل سياق، تجاهل stale، timeout إجمالي وmanual fallback ثابت. ليس المطلوب منصة تقييم أو controller متعدد النماذج.",
+      "effort_conditional": "3–6 ساعات مع reutilisation لعقد المحرك نفسه.",
+      "acceptance": "delay ثم تحديث السؤال، fail ثم retry، رفض المصدر، وإغلاق/AI off تمر دون مادة قديمة أو فقد السؤال ودون requests لاحقة؛ expected empty لا يسمى source failure ولا العكس.",
+      "evidence_refs": [
+        {
+          "path": "components/ai/readings.tsx",
+          "start_line": 31,
+          "end_line": 47,
+          "type": "code_read"
+        },
+        {
+          "path": "components/ai/readings.tsx",
+          "start_line": 70,
+          "end_line": 71,
+          "type": "code_read"
+        },
+        {
+          "path": "components/inbox/assistant.tsx",
+          "start_line": 39,
+          "end_line": 54,
+          "type": "code_read"
+        }
+      ]
+    },
+    {
+      "id": "P2-QA",
+      "priority": "P2",
+      "title": "اختبارات المساعد تسمح بنجاح بلا مقطع نافع وبنجاح skipped",
+      "execution_proof": "static_read_only",
+      "classification": "مثبت بالفحص للاختبارات الموجودة؛ لا نتيجة تشغيل جديدة.",
+      "evidence": "`scripts/dev/assist.mjs:83,100,106` يعتبر n>=0 نجاحًا، و`:119` يعد تخطي quote عند غياب المادة PASS؛ `evals/assist-rules.ts:79–87` يحتسب غياب model key PASS ضمن total. النصوص عن واجهة live/tests في docs/plans إفادات تحتاج artifact/commit/بيئة. السكربتات تقرأ Supabase service keys وتغير DB/model؛ لا يجوز تشغيلها بمجرد أن BASE=http محلي (`assist.mjs:8–15,37–39,64,153–167`).",
+      "minimum_fix": "smoke lifecycle منفصل عن اختبار retrieval usefulness؛ success الحقيقي يشترط مقطعًا أصليًا نافعًا ومرجعًا، ومقارنة context correction على نفس وصول المادة. skipped يظهر skipped خارج نسبة pass، واختبارات متصلة لا تعمل إلا على disposable DB وميزانية معتمدة. لا تخفض أهمية المسار اليدوي حين لا يوجد مفتاح.",
+      "acceptance": "corpus فارغ ينتج partial/blocked واختبار النفع يفشل/يتعذر صراحة؛ no-key يظهر skipped وليس نجاح جودة؛ positive fixture متحقق يختبر quote insert وعدم الإرسال؛ الفحص لا يستدعي خدمات خارجية أو مدفوعة دون تصاريحها.",
+      "evidence_refs": [
+        {
+          "path": "scripts/dev/assist.mjs",
+          "start_line": 83,
+          "end_line": 119,
+          "type": "code_read"
+        },
+        {
+          "path": "evals/assist-rules.ts",
+          "start_line": 79,
+          "end_line": 87,
+          "type": "code_read"
+        },
+        {
+          "path": "scripts/dev/assist.mjs",
+          "start_line": 8,
+          "end_line": 15,
+          "type": "code_read"
+        },
+        {
+          "path": "scripts/dev/assist.mjs",
+          "start_line": 37,
+          "end_line": 39,
+          "type": "code_read"
+        },
+        {
+          "path": "scripts/dev/assist.mjs",
+          "start_line": 153,
+          "end_line": 167,
+          "type": "code_read"
+        }
+      ]
+    }
+  ],
+  "preserve": [
+    "Selected-ID-only server input to card model",
+    "Fixed approved card versions and drafts for edits",
+    "Field-source chips and explicit sharing choices",
+    "Master card plus folded session cards and resume-from header",
+    "Quote inserts into composer without automatic sending",
+    "Guide fallback preserves typed text; STT is editable before sending",
+    "Aggregate admin queries with minimum samples and n labels",
+    "Realtime token synchronization, resync, backoff and disconnected polling"
+  ],
+  "checks": [
+    {
+      "name": "git_snapshot",
+      "command": "git rev-parse HEAD && git status --short",
+      "result": "specified SHA; empty status",
+      "ran": true
+    },
+    {
+      "name": "locale_key_parity",
+      "method": "read-only Python recursive JSON leaf keys",
+      "result": {
+        "ar": {
+          "keys": 541,
+          "missing": [],
+          "extra": []
+        },
+        "en": {
+          "keys": 541,
+          "missing": [],
+          "extra": []
+        },
+        "fr": {
+          "keys": 541,
+          "missing": [],
+          "extra": []
+        },
+        "es": {
+          "keys": 541,
+          "missing": [],
+          "extra": []
+        },
+        "ur": {
+          "keys": 541,
+          "missing": [],
+          "extra": []
+        },
+        "id": {
+          "keys": 541,
+          "missing": [],
+          "extra": []
+        },
+        "tl": {
+          "keys": 541,
+          "missing": [],
+          "extra": []
+        }
+      },
+      "ran": true,
+      "limits": "Key parity is not ICU syntax, native review, or scientific translation approval."
+    },
+    {
+      "name": "placeholder_regex",
+      "ran": true,
+      "result": "False positives in ICU plural branch text; not classified as a defect. Complete ICU runtime parsing not performed."
+    },
+    {
+      "name": "booking_product_callers",
+      "method": "rg bookings/availability in app/components/lib/scripts",
+      "ran": true,
+      "result": "Product reads future availability slot only; bookings schema and reset mentions exist, no booking creation UI/action found."
+    },
+    {
+      "name": "undefined_draft_edited_major_case",
+      "command": "./node_modules/.bin/tsx -e (import isMajorEdit; synthetic case where all undefined draft fields are filled)",
+      "ran": false,
+      "exit_code": 127,
+      "result": "tsx binary not present when attempted. Finding is a static deduction, not executed result."
+    }
+  ],
+  "not_checked_here": [
+    "Visual rendering and real mobile behavior",
+    "New end-to-end connected journey",
+    "Live model output quality",
+    "Microphone/browser voice/ElevenLabs behavior",
+    "Production DB migration state or RLS enforcement",
+    "Human scientific evaluation and native language review",
+    "Build/typecheck/lint (assigned separate verifier)"
+  ],
+  "synthetic_experiment_proposal": {
+    "executed": false,
+    "cases": 6,
+    "arms": [
+      "none",
+      "manual",
+      "ai_approved_after_edit"
+    ],
+    "design": "Counterbalanced Latin-square with matched scenario variants and reviewer blind to card origin where practical; avoid a daee reusing prior knowledge of the same case. Preserve failed/rejected/unrated cases and score draft separately from final. Metadata-only preparation/edit/resumption times."
+  },
+  "artifacts_created": [
+    "analysis/PRODUCT.md",
+    "analysis/PRODUCT.json"
+  ]
+}

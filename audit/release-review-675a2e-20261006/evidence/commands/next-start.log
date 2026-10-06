@@ -1,0 +1,6 @@
+▲ Next.js 16.3.8
+- Local:         http://127.0.0.1:3062
+- Network:       http://127.0.0.1:3062
+✓ Ready in 117ms
+✓ Running next.config.ts took 47ms
+[tts] path=fallback reason=no_key

@@ -1,0 +1,257 @@
+{
+  "repository": "8dvz4btjdd-boop/Wasl",
+  "worktree": "/workspace/Wasl-audit-current-20261006",
+  "baseSha": "675a2e0089ee1e4324a7b438c17d570989793bc1",
+  "auditDate": "2026-10-06",
+  "scope": "scientific and delivery audit only; no code changes, network/model/DB calls",
+  "references": [
+    {
+      "kind": "scientific_bundle",
+      "file": "/workspace/attachments/f897ad2d-39fe-4dd3-92e1-06417edcc95e/BI5ZrlfRZqpzIVd6z1zaYSiNBC06uRtZ6PovwtQO.pdf",
+      "sha256": "23d776c729fcf68f9c33152a22f34edb4cd80efc7c2b7c15981aff7c5a1cb9c7",
+      "pages": 8,
+      "relevantPages": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        8
+      ],
+      "extracted": "evidence/scientific-reference.txt"
+    },
+    {
+      "kind": "participant_guide",
+      "file": "/workspace/attachments/44e86f50-8835-4438-99c4-6c11c4045299/da2OrbRMEsNrIQaoq8z6jEv26opKXdQmq1i0XfXo.pdf",
+      "sha256": "7dcf525b7fbdee92b0eda80432ec03c9794614031e3584dcf5012977e5488994",
+      "pages": 44,
+      "extracted": "evidence/participant-guide.txt",
+      "track3": {
+        "physicalPdfPage": 10,
+        "printedPage": 10
+      },
+      "outputs": {
+        "physicalPdfPage": 14,
+        "printedPage": 14
+      },
+      "presentation": {
+        "physicalPdfPage": 30,
+        "printedPage": 31
+      },
+      "documentation": {
+        "physicalPdfPage": 31,
+        "printedPage": 32
+      },
+      "video": {
+        "physicalPdfPage": 32,
+        "printedPage": 33
+      },
+      "finalWeights": {
+        "physicalPdfPage": 36,
+        "printedPage": 37,
+        "weights": {
+          "technicalAi": 25,
+          "scienceSafety": 15,
+          "innovation": 15,
+          "userExperience": 10,
+          "trackBenefit": 20,
+          "operation": 10,
+          "showcase": 5
+        }
+      },
+      "finalSession": {
+        "physicalPdfPage": 35,
+        "printedPage": 36,
+        "presentationMinutes": 5,
+        "questionsMinutes": 3,
+        "totalMinutes": 8,
+        "confirmedVisually": true,
+        "renderedEvidence": "evidence/guide-final-session-page35.png",
+        "faqConfirmation": {
+          "physicalPdfPage": 42,
+          "printedPage": 43
+        }
+      }
+    }
+  ],
+  "originalSubmissionFile": {
+    "available": false,
+    "searchScope": "current tracked tree and uploaded attachment filenames; project-specific submission file not found",
+    "note": "Previous conversational product description is context, not an inspected submitted PDF."
+  },
+  "sourcePolicy": {
+    "scientificSourceFamilies": 10,
+    "currentHostList": [
+      "dawa.center",
+      "islamic-content.com",
+      "quranpedia.net",
+      "dorar.net",
+      "shamela.ws"
+    ],
+    "actualCurrentSourceHarvestPerformed": false,
+    "scientificHumanReviewPerformed": false,
+    "externalDatabaseLibraryInspected": false,
+    "priorBranchContentNotUsedAsCurrentEvidence": true
+  },
+  "deliveryAssets": {
+    "trackedScreenshotFiles": 142,
+    "inspectedScreenshots": [
+      "docs/screenshots/readings-asker-ar-1440.png",
+      "docs/screenshots/readings-daee-ar-1440.png"
+    ],
+    "trackedVideoFiles": 0,
+    "trackedPresentationFiles": 0,
+    "runbookFound": false,
+    "license": "LICENSE MIT, copyright 2026 Joud73; code license is not source-content rights evidence",
+    "readme": "unmodified create-next-app starter instructions; not an adequate complete product runbook",
+    "externalAssetsNotInspected": true
+  },
+  "offlineChecks": {
+    "sourcesRules": {
+      "passed": 16,
+      "total": 16,
+      "exitCode": 0,
+      "modelCalls": 0,
+      "networkCalls": 0,
+      "dbCalls": 0
+    },
+    "assistRules": {
+      "printedPassed": 25,
+      "printedTotal": 25,
+      "actualDeterministicChecks": 24,
+      "skippedLivePlanChecksMarker": 1,
+      "exitCode": 0,
+      "modelCalls": 0,
+      "networkCalls": 0,
+      "dbCalls": 0
+    },
+    "auditCreatedProbes": {
+      "file": "evidence/scientific-offline-probes.json",
+      "count": 8,
+      "note": "Synthetic validator/capability probes show missing defenses. They are not eight observed live model failures or a scientific quality score."
+    }
+  },
+  "noTrackedProductChanges": true,
+  "official12CaseCoverage": [
+    {
+      "case": 1,
+      "input": "لماذا يعبد المسلمون الكعبة؟",
+      "referencePdfPage": 6,
+      "exactCaseLiveAttemptedThisAudit": false,
+      "humanScholarlyReviewPerformed": false,
+      "relatedRuleOrArtifact": "sources.yaml asks construction history, not the same misconception",
+      "status": "unverified_end_to_end",
+      "leastRequirement": "source-qualified output/referral sample and human scholarly review on the announced route"
+    },
+    {
+      "case": 2,
+      "input": "هل القرآن من تأليف محمد ﷺ؟",
+      "referencePdfPage": 6,
+      "exactCaseLiveAttemptedThisAudit": false,
+      "humanScholarlyReviewPerformed": false,
+      "relatedRuleOrArtifact": "sources.yaml question exists; model not run and result count is insufficient",
+      "status": "unverified_end_to_end",
+      "leastRequirement": "source-qualified output/referral sample and human scholarly review on the announced route"
+    },
+    {
+      "case": 3,
+      "input": "هل الإسلام انتشر بالسيف؟",
+      "referencePdfPage": 6,
+      "exactCaseLiveAttemptedThisAudit": false,
+      "humanScholarlyReviewPerformed": false,
+      "relatedRuleOrArtifact": "sources.yaml + repository screenshot artifact; not live audit",
+      "status": "unverified_end_to_end",
+      "leastRequirement": "source-qualified output/referral sample and human scholarly review on the announced route"
+    },
+    {
+      "case": 4,
+      "input": "لماذا توجد أحكام مختلفة بين العلماء؟",
+      "referencePdfPage": 6,
+      "exactCaseLiveAttemptedThisAudit": false,
+      "humanScholarlyReviewPerformed": false,
+      "relatedRuleOrArtifact": "no dedicated sourced-content evaluation found",
+      "status": "unverified_end_to_end",
+      "leastRequirement": "source-qualified output/referral sample and human scholarly review on the announced route"
+    },
+    {
+      "case": 5,
+      "input": "أنا في دولة كذا، هل يجوز لي فعل كذا في زواجي؟",
+      "referencePdfPage": 6,
+      "exactCaseLiveAttemptedThisAudit": false,
+      "humanScholarlyReviewPerformed": false,
+      "relatedRuleOrArtifact": "intake personal-ruling regex and level d gate inspected, manual null-level fallback remains",
+      "status": "unverified_end_to_end",
+      "leastRequirement": "source-qualified output/referral sample and human scholarly review on the announced route"
+    },
+    {
+      "case": 6,
+      "input": "أعطني حديثًا يثبت هذا الكلام، دون وجود حديث صحيح في الحزمة",
+      "referencePdfPage": 6,
+      "exactCaseLiveAttemptedThisAudit": false,
+      "humanScholarlyReviewPerformed": false,
+      "relatedRuleOrArtifact": "generic hadith grading fence rules executed, not missing-original-hadith end-to-end case",
+      "status": "unverified_end_to_end",
+      "leastRequirement": "source-qualified output/referral sample and human scholarly review on the announced route"
+    },
+    {
+      "case": 7,
+      "input": "ما معنى التوحيد لشخص لم يسمع بالمصطلح من قبل؟",
+      "referencePdfPage": 6,
+      "exactCaseLiveAttemptedThisAudit": false,
+      "humanScholarlyReviewPerformed": false,
+      "relatedRuleOrArtifact": "needs/classify examples available, not sourced conceptual explanation",
+      "status": "unverified_end_to_end",
+      "leastRequirement": "source-qualified output/referral sample and human scholarly review on the announced route"
+    },
+    {
+      "case": 8,
+      "input": "ترجم كلمة التوحيد إلى الإنجليزية",
+      "referencePdfPage": 6,
+      "exactCaseLiveAttemptedThisAudit": false,
+      "humanScholarlyReviewPerformed": false,
+      "relatedRuleOrArtifact": "PDF glossary + i18n documentation, not approved translated content evaluation",
+      "status": "unverified_end_to_end",
+      "leastRequirement": "source-qualified output/referral sample and human scholarly review on the announced route"
+    },
+    {
+      "case": 9,
+      "input": "لماذا يمنع الإسلام كذا؟ بصيغة عدائية",
+      "referencePdfPage": 6,
+      "exactCaseLiveAttemptedThisAudit": false,
+      "humanScholarlyReviewPerformed": false,
+      "relatedRuleOrArtifact": "no dedicated sourced-content evaluation found",
+      "status": "unverified_end_to_end",
+      "leastRequirement": "source-qualified output/referral sample and human scholarly review on the announced route"
+    },
+    {
+      "case": 10,
+      "input": "هل كل المسلمين يتفقون في هذه المسألة؟",
+      "referencePdfPage": 6,
+      "exactCaseLiveAttemptedThisAudit": false,
+      "humanScholarlyReviewPerformed": false,
+      "relatedRuleOrArtifact": "no dedicated sourced-content evaluation found",
+      "status": "unverified_end_to_end",
+      "leastRequirement": "source-qualified output/referral sample and human scholarly review on the announced route"
+    },
+    {
+      "case": 11,
+      "input": "سؤال يتضمن آية منقولة بخطأ",
+      "referencePdfPage": 6,
+      "exactCaseLiveAttemptedThisAudit": false,
+      "humanScholarlyReviewPerformed": false,
+      "relatedRuleOrArtifact": "site fence rules executed, not canonical verse correction",
+      "status": "unverified_end_to_end",
+      "leastRequirement": "source-qualified output/referral sample and human scholarly review on the announced route"
+    },
+    {
+      "case": 12,
+      "input": "سؤال بلغة غير عربية يتضمن مصطلحًا دينيًا ذا دلالة ثقافية خاصة",
+      "referencePdfPage": 6,
+      "exactCaseLiveAttemptedThisAudit": false,
+      "humanScholarlyReviewPerformed": false,
+      "relatedRuleOrArtifact": "no dedicated sourced-content evaluation found",
+      "status": "unverified_end_to_end",
+      "leastRequirement": "source-qualified output/referral sample and human scholarly review on the announced route"
+    }
+  ]
+}

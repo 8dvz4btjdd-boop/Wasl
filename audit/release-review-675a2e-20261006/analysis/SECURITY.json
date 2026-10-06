@@ -1,0 +1,389 @@
+{
+  "baseSha": "675a2e0089ee1e4324a7b438c17d570989793bc1",
+  "worktree": "/workspace/Wasl-audit-current-20261006",
+  "mode": "AUDIT_ONLY",
+  "migrationsReviewed": "0001–0018",
+  "allCurrentMigrationsAppliedLocally": true,
+  "localContainer": "wasl-contextual-audit-20261006-db",
+  "containerOwnershipLabel": "wasl.contextual.local=true",
+  "productionPolicyVerified": false,
+  "findings": [
+    {
+      "id": "SEC-01",
+      "priority": "P1",
+      "title": "المشرف يقرأ مضمون السؤال عبر guide_summary",
+      "classification": "proven_local_sql",
+      "references": [
+        {
+          "file": "supabase/migrations/0001_init.sql",
+          "line": 227,
+          "endLine": 227
+        },
+        {
+          "file": "supabase/migrations/0015_guide.sql",
+          "line": 3,
+          "endLine": 5
+        },
+        {
+          "file": "app/[locale]/(asker)/wait/actions.ts",
+          "line": 98,
+          "endLine": 98
+        },
+        {
+          "file": "components/admin/live-ops.tsx",
+          "line": 36,
+          "endLine": 41
+        }
+      ],
+      "preconditions": "حساب admin صالح؛ REST direct SELECT يكفي. Realtime payload inference فقط.",
+      "impact": "قراءة ملخص السؤال، بما في ذلك صفوف منظمات أخرى رغم حظر messages.",
+      "minimalFix": "إزالة وصول admin إلى صفوف تحمل المضمون؛ إبقاء RPC مؤشرات scoped وفصل metadata التشغيل أو المضمون.",
+      "acceptance": "admin لا يصل إلى مضمون عبر REST/RPC/Realtime وتبقى لوحة النشاط والمؤشرات عاملة.",
+      "effortHours": [
+        2,
+        4
+      ],
+      "implementationRisk": "medium"
+    },
+    {
+      "id": "SEC-02",
+      "priority": "P1",
+      "title": "داعية غير معيّن يقرأ intakes.raw_text عبر جميع المنظمات",
+      "classification": "proven_local_sql",
+      "references": [
+        {
+          "file": "supabase/migrations/0001_init.sql",
+          "line": 49,
+          "endLine": 50
+        },
+        {
+          "file": "supabase/migrations/0001_init.sql",
+          "line": 223,
+          "endLine": 223
+        },
+        {
+          "file": "app/[locale]/(asker)/wait/actions.ts",
+          "line": 70,
+          "endLine": 79
+        }
+      ],
+      "preconditions": "حساب daee، لا يلزم UUID معروف أو تعيين. مسار banned يحتاج claims ما زالت مقبولة لدى gateway؛ نافذة Auth غير مختبرة.",
+      "impact": "قراءة السؤال الخام/transcript خارج الجلسة المعيّنة؛ ban لا يغير السياسة العامة.",
+      "minimalFix": "إزالة intakes_daee العامة أو تقييدها بالسياق والتعيين الحالي والمنظمة وme_active مع فصل ما قبل التحويل.",
+      "acceptance": "unassigned/foreign-org/banned لا يقرأ intake؛ المعين لا يأخذ archive ضمنيًا.",
+      "effortHours": [
+        1,
+        3
+      ],
+      "implementationRisk": "medium"
+    },
+    {
+      "id": "SEC-03",
+      "priority": "P1",
+      "title": "المحاور التالي يأخذ الأرشيف الكامل بعد التحويل",
+      "classification": "proven_local_sql",
+      "references": [
+        {
+          "file": "supabase/migrations/0005_journeys.sql",
+          "line": 64,
+          "endLine": 70
+        },
+        {
+          "file": "supabase/migrations/0005_journeys.sql",
+          "line": 249,
+          "endLine": 269
+        },
+        {
+          "file": "lib/db/queries/conversations.ts",
+          "line": 37,
+          "endLine": 45
+        },
+        {
+          "file": "components/chat/use-messages.ts",
+          "line": 26,
+          "endLine": 31
+        },
+        {
+          "file": "lib/assist/actions.ts",
+          "line": 30,
+          "endLine": 42
+        }
+      ],
+      "preconditions": "تحويل ناجح؛ استخدم الاختبار authenticated transfer_conversation الحقيقي بلا بطاقة.",
+      "impact": "قراءة الرسائل القديمة غير المختارة. assistant filter كذلك يستخدم تاريخ طلب التحويل أو لا يضع cutoff في requeue.",
+      "minimalFix": "جزء حوار محدد مع RLS ووقت استلام موثوق أو جلسة متابعة محدودة؛ البطاقة المعتمدة ورسائل الجزء الجديد فقط.",
+      "acceptance": "old messages/forged timestamps/requeue ممنوعة عبر REST وRealtime وAI؛ السائل يحتفظ بالأرشيف.",
+      "effortHours": [
+        4,
+        8
+      ],
+      "effortCondition": "قد يتجاوز يومًا إن تطلب تصميم الجزء ربطًا أوسع؛ ليست مدة مضمونة.",
+      "implementationRisk": "high"
+    },
+    {
+      "id": "SEC-04",
+      "priority": "P1",
+      "title": "بطاقة يملكها السائل تتيح card_sources من حوار لسائل آخر",
+      "classification": "proven_local_sql",
+      "references": [
+        {
+          "file": "supabase/migrations/0001_init.sql",
+          "line": 238,
+          "endLine": 238
+        },
+        {
+          "file": "supabase/migrations/0011_master_card.sql",
+          "line": 28,
+          "endLine": 36
+        },
+        {
+          "file": "supabase/migrations/0011_master_card.sql",
+          "line": 44,
+          "endLine": 50
+        },
+        {
+          "file": "supabase/migrations/0005_journeys.sql",
+          "line": 333,
+          "endLine": 346
+        }
+      ],
+      "preconditions": "معرفة UUID حوار ورسالة أجنبية. لا ندعي تعداد الرسائل؛ UUID ليست صلاحية.",
+      "impact": "SECURITY DEFINER يكشف مضمون foreign message عبر own draft، حتى عبر org. بطاقة approved بلا selected IDs تسمح تغيير conversation_id.",
+      "minimalFix": "ربط conversation.asker_id = card.asker_id في trigger وRPC؛ تجميد المفاتيح والعلاقة والإصدار في النسخة المعتمدة.",
+      "acceptance": "foreign known IDs تفشل عند INSERT/UPDATE/card_sources؛ session/master الطبيعية تعمل.",
+      "effortHours": [
+        2,
+        4
+      ],
+      "implementationRisk": "low-medium"
+    },
+    {
+      "id": "SEC-05",
+      "priority": "P2",
+      "title": "مدير المنظمة يستطيع تعديل منظمة وموظفين آخرين",
+      "classification": "proven_local_sql_and_code_inference",
+      "references": [
+        {
+          "file": "supabase/migrations/0001_init.sql",
+          "line": 214,
+          "endLine": 214
+        },
+        {
+          "file": "lib/admin/actions.ts",
+          "line": 87,
+          "endLine": 91
+        },
+        {
+          "file": "lib/admin/actions.ts",
+          "line": 109,
+          "endLine": 121
+        },
+        {
+          "file": "lib/admin/queries.ts",
+          "line": 40,
+          "endLine": 47
+        }
+      ],
+      "preconditions": "أكثر من منظمة. SQL أثبت org update؛ Auth ban لم ينفذ وهو inference من service queries.",
+      "impact": "عزل إعدادات/الفريق/السجلات غير مكتمل مع تعدد المنظمات.",
+      "minimalFix": "org scope في RLS وكل service read/mutation قبل Auth admin operations.",
+      "acceptance": "admin A لا يرى أو يعدل B مع بقاء إدارة A.",
+      "effortHours": [
+        2,
+        4
+      ],
+      "implementationRisk": "low-medium"
+    },
+    {
+      "id": "SEC-06",
+      "priority": "P2",
+      "title": "حد المصدر أوسع من الأقسام المسموحة ويفقد هوية redirect النهائي",
+      "classification": "proven_function_with_mock_transport_and_potential_dns_risk",
+      "references": [
+        {
+          "file": "lib/ai/sources/allowlist.ts",
+          "line": 9,
+          "endLine": 19
+        },
+        {
+          "file": "lib/ai/sources/allowlist.ts",
+          "line": 55,
+          "endLine": 73
+        },
+        {
+          "file": "lib/ai/sources/fetch.ts",
+          "line": 40,
+          "endLine": 46
+        },
+        {
+          "file": "lib/ai/sources/fetch.ts",
+          "line": 229,
+          "endLine": 245
+        },
+        {
+          "file": "lib/ai/sources/fetch.ts",
+          "line": 272,
+          "endLine": 272
+        },
+        {
+          "file": "lib/ai/sources/fetch.ts",
+          "line": 312,
+          "endLine": 320
+        },
+        {
+          "file": "lib/sources/readings.ts",
+          "line": 90,
+          "endLine": 109
+        }
+      ],
+      "preconditions": "citation from unchecked section, non443 URL, or cross-allowlisted-host redirect. DNS rebinding additionally needs adversary control of allowed hostname; not exercised.",
+      "impact": "نسبة نص من final source إلى original URL؛ تعليقات/assistant ليست محظورة في fence. لا ندعي SSRF مستغلًا.",
+      "minimalFix": "source/section/work registry موحد مع HTTPS443/no-userinfo، حفظ finalURL/source identity وفحص cache/redirect؛ توثيق أو معالجة عدم DNS pinning.",
+      "acceptance": "restricted sections لا تصل عبر fetch/cache؛ redirect يعيد الهوية الصحيحة أو يرفض.",
+      "effortHours": [
+        3,
+        6
+      ],
+      "implementationRisk": "medium"
+    },
+    {
+      "id": "SEC-07",
+      "priority": "P2",
+      "title": "سجل الخطأ يطبع details/message/hint دون تنقيح",
+      "classification": "proven_synthetic_logger_behavior_real_leak_potential",
+      "references": [
+        {
+          "file": "lib/log.ts",
+          "line": 9,
+          "endLine": 17
+        },
+        {
+          "file": "lib/ai/runAI.ts",
+          "line": 160,
+          "endLine": 160
+        },
+        {
+          "file": "lib/cards/actions.ts",
+          "line": 115,
+          "endLine": 115
+        },
+        {
+          "file": "lib/cards/actions.ts",
+          "line": 137,
+          "endLine": 137
+        }
+      ],
+      "preconditions": "خطأ SDK/DB يحمل مضمونًا في هذه الحقول؛ لم نختبر مضمونًا حقيقيًا.",
+      "impact": "محتوى خاص قد يخرج إلى server logs.",
+      "minimalFix": "قائمة metadata مسموحة وتنقيح أخطاء provider/DB.",
+      "acceptance": "synthetic secrets في message/details/hint لا تظهر في logs مع تشخيص code/task/requestId.",
+      "effortHours": [
+        1,
+        2
+      ],
+      "implementationRisk": "low"
+    },
+    {
+      "id": "SEC-09",
+      "priority": "P2",
+      "title": "end_conversation لا يتحقق من إيقاف الداعية",
+      "classification": "proven_local_sql_with_conditional_auth_gateway_precondition",
+      "references": [
+        {
+          "file": "supabase/migrations/0003_conversations.sql",
+          "line": 184,
+          "endLine": 190
+        }
+      ],
+      "preconditions": "authenticated claims للداعية المعين تبقى مقبولة بعد ban؛ قبول JWT عبر Auth الحي غير مختبر.",
+      "impact": "RPC إنهاء الجلسة تعمل رغم me_active=false وحظر قراءة messages.",
+      "minimalFix": "is_active_staff/role guard في mutation RPC.",
+      "acceptance": "held pre-ban token لا يغير الجلسة بعد ban على بيئة اختبار.",
+      "effortHours": [
+        1,
+        2
+      ],
+      "implementationRisk": "low"
+    }
+  ],
+  "positiveControls": [
+    {
+      "name": "admin/unassigned/banned messages denied",
+      "evidence": "local SQL"
+    },
+    {
+      "name": "card draft and edited draft hidden; approved text/selection/sharing flags immutable; expiry enforced",
+      "evidence": "local SQL; relationship-key exception SEC-04"
+    },
+    {
+      "name": "selected card inputs filtered by conversation owner and IDs before model",
+      "evidence": "code trace only"
+    },
+    {
+      "name": "return-code hash/salt SELECT and relink/failure RPC denied to authenticated",
+      "evidence": "local DB privilege query"
+    },
+    {
+      "name": "outside redirect/private DNS/HTTP fetch blocked",
+      "evidence": "actual functions with transport mocks"
+    }
+  ],
+  "cacheAssessment": {
+    "priority": "P3",
+    "classification": "code_inference_optional_improvement",
+    "note": "runAI cache task+inputHash applies only classify/plan_queries; AI switch checked before hit. Exact full input prevents claiming a raw-content breach by cache alone. org/model/promptVersion absent gives stale-config/future isolation risk."
+  },
+  "tests": [
+    {
+      "name": "security-repro.sql",
+      "createdForAudit": true,
+      "kind": "actual isolated local Postgres/RLS/RPC",
+      "exitCode": 0,
+      "rollback": true,
+      "syntheticOnly": true,
+      "path": "/workspace/wasl-release-audit-20261006/analysis/security-repro.sql",
+      "log": "/workspace/wasl-release-audit-20261006/analysis/security-repro.log"
+    },
+    {
+      "name": "security-pure.test.ts",
+      "createdForAudit": true,
+      "kind": "actual functions; DNS/HTTP mocks and synthetic logger",
+      "pass": 6,
+      "fail": 0,
+      "paidCalls": 0,
+      "externalHttpCalls": 0,
+      "path": "/workspace/wasl-release-audit-20261006/analysis/security-pure.test.ts",
+      "log": "/workspace/wasl-release-audit-20261006/analysis/security-pure.log"
+    },
+    {
+      "name": "local private privilege query",
+      "exitCode": 0,
+      "log": "/workspace/wasl-release-audit-20261006/analysis/security-grants.log",
+      "results": {
+        "askerHashSelect": false,
+        "organizationSaltSelect": false,
+        "relinkExecute": false,
+        "recordFailureExecute": false
+      }
+    },
+    {
+      "name": "limited tracked secret-pattern scan",
+      "matches": 0,
+      "scope": "tracked text <=1MB, four patterns; values omitted",
+      "guarantee": false
+    }
+  ],
+  "notVerified": [
+    "deployed database policies",
+    "actual browser Realtime payload security",
+    "Auth gateway acceptance of pre-ban JWT",
+    "live model quality/cost",
+    "real DNS rebinding"
+  ],
+  "productEdits": false,
+  "commits": false,
+  "push": false,
+  "paidCalls": 0,
+  "productionDbWrites": 0,
+  "externalAuditFilesOnly": true
+}

@@ -1,0 +1,1085 @@
+{
+  "schema_version": "1.0",
+  "audit_kind": "read-only static provider/cost inventory",
+  "generated_utc": "2026-10-06T16:57:54.812490+00:00",
+  "repo": {
+    "path": "/workspace/Wasl-audit-current-20261006",
+    "sha": "675a2e0089ee1e4324a7b438c17d570989793bc1",
+    "branch": "detached HEAD",
+    "working_tree_before": "clean after parent checkout; initial all-D status was no-checkout clone creation state",
+    "working_tree_final": "clean",
+    "upstream_match": "parent verified Ahmed and Joud main at same SHA; not independently fetched by this subagent"
+  },
+  "audit_observations": {
+    "paid_provider_calls_executed": null,
+    "external_private_db_calls_executed": 0,
+    "product_files_edited": 0,
+    "live_model_quality_tested": false,
+    "invoice_or_deployed_usage_inspected": false,
+    "actual_runtime_usage": null,
+    "actual_runtime_cost_usd": null,
+    "authorized_provider_requests_attempted": 2,
+    "successful_provider_http_responses": 0,
+    "local_isolated_synthetic_org_created_and_removed": true,
+    "provider_http_responses_received": 1
+  },
+  "environment": {
+    "process_presence_only": {
+      "ANTHROPIC_API_KEY": true,
+      "ANTHROPIC_MODEL_FAST": true,
+      "ANTHROPIC_MODEL_CARD": false,
+      "AI_TEST_TIMEOUT_MS": false,
+      "ELEVENLABS_API_KEY": false,
+      "ELEVENLABS_MODEL_ID": false,
+      "WASL_PAID_API_APPROVED": false,
+      "WASL_AI_TEST_BUDGET_USD": false,
+      "WASL_AI_TEST_SCOPE": true
+    },
+    "dotenv_files": [
+      ".env.example"
+    ],
+    "env_example_models": {
+      "fast": "claude-haiku-4-5-20251001",
+      "card": "claude-sonnet-5-5"
+    },
+    "example_models_are_runtime_evidence": false,
+    "values_of_keys_or_runtime_model_env_not_read": true,
+    "test_scope_is_enforced_by_current_code": false
+  },
+  "framework": {
+    "requested_model_from": "env tier; actual response model not captured",
+    "normal_sdk_attempts_per_task_max": 2,
+    "sdk_max_retries": 0,
+    "schema_retry_shared_signal": true,
+    "model_verification": {
+      "trigger": "first model use per process, concurrent fire-and-forget",
+      "prompt": "ping",
+      "output_tokens_max": 1,
+      "retry_max": 0,
+      "deadline_ms": null,
+      "recorded_in_ai_runs": false,
+      "usage": null,
+      "failed_verification_still_marks_verified": true
+    },
+    "ratelimit_counter_unit": "finished non-cache logical run rows per task+actor; excludes reason disabled/rate_limited, not atomic",
+    "money_reservation": null,
+    "global_authorized_test_budget_enforced": false,
+    "regular_max_output_tokens": null,
+    "provider_input_token_cap": null,
+    "usage_capture": null,
+    "evidence": [
+      {
+        "path": "lib/ai/runAI.ts",
+        "lines": "19-31,110-155",
+        "base_sha": "675a2e0089ee1e4324a7b438c17d570989793bc1"
+      }
+    ],
+    "installed_versions": {
+      "ai": "7.0.127",
+      "@ai-sdk/anthropic": "4.0.71",
+      "tsx": "4.23.15"
+    },
+    "installed_haiku_default_output_max_tokens": 64000,
+    "default_output_source": "node_modules/@ai-sdk/anthropic/dist/index.js:5230; prepareRequest:3701"
+  },
+  "tasks": [
+    {
+      "task": "intake",
+      "file": "lib/ai/tasks/intake.ts",
+      "model_env": "ANTHROPIC_MODEL_FAST",
+      "requested_model_value": null,
+      "actual_provider_model": null,
+      "timeout_ms": 12000,
+      "timeout_override_env": "AI_TEST_TIMEOUT_MS",
+      "rate_per_actor_per_60_min": 40,
+      "rate_limit_atomic": false,
+      "cache_minutes": null,
+      "input_growth": {
+        "server_first_message_chars_max": 2000,
+        "server_turn_chars_max": 2000,
+        "server_turn_count_max": 10,
+        "server_user_text_chars_max_before_envelope": 22000,
+        "normal_guide_question_count_max": 3,
+        "normal_guide_task_steps_max": 4,
+        "task_input_token_limit": null
+      },
+      "output_shape": "done/nextQuestion/refusedReligiousQuestion/summary; summary.question has no schema maxLength",
+      "max_output_tokens_explicit": null,
+      "sdk_max_retries": 0,
+      "framework_schema_attempt_limit": 2,
+      "usage": {
+        "input_tokens": null,
+        "output_tokens": null,
+        "cache_creation_input_tokens": null,
+        "cache_read_input_tokens": null,
+        "web_search_requests": null,
+        "web_fetch_requests": null,
+        "cost_usd": null,
+        "actual_provider_model": null
+      },
+      "evidence": [
+        {
+          "path": "lib/guide/actions.ts",
+          "lines": "13-17,53,66",
+          "base_sha": "675a2e0089ee1e4324a7b438c17d570989793bc1"
+        },
+        {
+          "path": "lib/ai/tasks/intake.ts",
+          "lines": "6-21,37-74",
+          "base_sha": "675a2e0089ee1e4324a7b438c17d570989793bc1"
+        }
+      ]
+    },
+    {
+      "task": "classify",
+      "file": "lib/ai/tasks/classify.ts",
+      "model_env": "ANTHROPIC_MODEL_FAST",
+      "requested_model_value": null,
+      "actual_provider_model": null,
+      "timeout_ms": 12000,
+      "timeout_override_env": "AI_TEST_TIMEOUT_MS",
+      "rate_per_actor_per_60_min": 30,
+      "rate_limit_atomic": false,
+      "cache_minutes": 60,
+      "input_growth": {
+        "entry_question_chars_max": 2000,
+        "guide_summary_question_chars_max": null,
+        "background_sent": false,
+        "task_input_token_limit": null
+      },
+      "output_shape": "topic/language/depth/confidence",
+      "max_output_tokens_explicit": null,
+      "sdk_max_retries": 0,
+      "framework_schema_attempt_limit": 2,
+      "usage": {
+        "input_tokens": null,
+        "output_tokens": null,
+        "cache_creation_input_tokens": null,
+        "cache_read_input_tokens": null,
+        "web_search_requests": null,
+        "web_fetch_requests": null,
+        "cost_usd": null,
+        "actual_provider_model": null
+      },
+      "evidence": [
+        {
+          "path": "lib/ai/tasks/classify.ts",
+          "lines": "9-37",
+          "base_sha": "675a2e0089ee1e4324a7b438c17d570989793bc1"
+        },
+        {
+          "path": "app/[locale]/(asker)/wait/actions.ts",
+          "lines": "18,55-60",
+          "base_sha": "675a2e0089ee1e4324a7b438c17d570989793bc1"
+        },
+        {
+          "path": "lib/guide/actions.ts",
+          "lines": "66",
+          "base_sha": "675a2e0089ee1e4324a7b438c17d570989793bc1"
+        }
+      ]
+    },
+    {
+      "task": "card",
+      "file": "lib/ai/tasks/card.ts",
+      "model_env": "ANTHROPIC_MODEL_CARD",
+      "requested_model_value": null,
+      "actual_provider_model": null,
+      "timeout_ms": 12000,
+      "timeout_override_env": "AI_TEST_TIMEOUT_MS",
+      "rate_per_actor_per_60_min": 5,
+      "rate_limit_atomic": false,
+      "cache_minutes": null,
+      "input_growth": {
+        "api_selection_ids_max": 500,
+        "model_selected_messages_max": 60,
+        "app_message_body_chars_max": 4000,
+        "potential_app_validated_body_chars_before_envelope": 240000,
+        "potential_bound_conditions": "60 messages stored through application validator; DB direct/legacy bodies not independently verified",
+        "task_input_token_limit": null
+      },
+      "output_shape": "4 fields {text,source_ids}+undefined_fields; 300-char limit applied after model output",
+      "max_output_tokens_explicit": null,
+      "sdk_max_retries": 0,
+      "framework_schema_attempt_limit": 2,
+      "usage": {
+        "input_tokens": null,
+        "output_tokens": null,
+        "cache_creation_input_tokens": null,
+        "cache_read_input_tokens": null,
+        "web_search_requests": null,
+        "web_fetch_requests": null,
+        "cost_usd": null,
+        "actual_provider_model": null
+      },
+      "evidence": [
+        {
+          "path": "app/api/ai/card/route.ts",
+          "lines": "9-12,35-47,54-59",
+          "base_sha": "675a2e0089ee1e4324a7b438c17d570989793bc1"
+        },
+        {
+          "path": "lib/ai/tasks/card.ts",
+          "lines": "7-15,28-46,59-74",
+          "base_sha": "675a2e0089ee1e4324a7b438c17d570989793bc1"
+        },
+        {
+          "path": "lib/chat/types.ts",
+          "lines": "44",
+          "base_sha": "675a2e0089ee1e4324a7b438c17d570989793bc1"
+        }
+      ]
+    },
+    {
+      "task": "merge_master",
+      "file": "lib/ai/tasks/merge-master.ts",
+      "model_env": "ANTHROPIC_MODEL_CARD",
+      "requested_model_value": null,
+      "actual_provider_model": null,
+      "timeout_ms": 12000,
+      "timeout_override_env": "AI_TEST_TIMEOUT_MS",
+      "rate_per_actor_per_60_min": 5,
+      "rate_limit_atomic": false,
+      "cache_minutes": null,
+      "input_growth": {
+        "approved_session_cards_max": 20,
+        "fields_per_card": 4,
+        "app_field_chars_max": 300,
+        "potential_app_validated_field_chars_before_envelope": 24000,
+        "potential_bound_conditions": "cards stored through application field validators; DB/legacy field length not independently verified",
+        "task_input_token_limit": null
+      },
+      "output_shape": "same 4 sourced-card fields as card",
+      "max_output_tokens_explicit": null,
+      "sdk_max_retries": 0,
+      "framework_schema_attempt_limit": 2,
+      "usage": {
+        "input_tokens": null,
+        "output_tokens": null,
+        "cache_creation_input_tokens": null,
+        "cache_read_input_tokens": null,
+        "web_search_requests": null,
+        "web_fetch_requests": null,
+        "cost_usd": null,
+        "actual_provider_model": null
+      },
+      "evidence": [
+        {
+          "path": "app/api/ai/master/route.ts",
+          "lines": "22-44",
+          "base_sha": "675a2e0089ee1e4324a7b438c17d570989793bc1"
+        },
+        {
+          "path": "lib/cards/types.ts",
+          "lines": "16-19",
+          "base_sha": "675a2e0089ee1e4324a7b438c17d570989793bc1"
+        },
+        {
+          "path": "lib/cards/actions.ts",
+          "lines": "12",
+          "base_sha": "675a2e0089ee1e4324a7b438c17d570989793bc1"
+        },
+        {
+          "path": "lib/ai/tasks/merge-master.ts",
+          "lines": "19-40",
+          "base_sha": "675a2e0089ee1e4324a7b438c17d570989793bc1"
+        }
+      ]
+    },
+    {
+      "task": "assist_tone",
+      "file": "lib/ai/tasks/assist.ts",
+      "model_env": "ANTHROPIC_MODEL_FAST",
+      "requested_model_value": null,
+      "actual_provider_model": null,
+      "timeout_ms": 12000,
+      "timeout_override_env": "AI_TEST_TIMEOUT_MS",
+      "rate_per_actor_per_60_min": 60,
+      "rate_limit_atomic": false,
+      "cache_minutes": null,
+      "input_growth": {
+        "recent_asker_message_count_max": 6,
+        "potential_app_validated_body_chars_before_envelope": 24000,
+        "full_transcript_loaded_from_db_first": true,
+        "tiny_input_returns_undefined_after_model_call": true,
+        "task_input_token_limit": null
+      },
+      "output_shape": "enum hurried/confused/frustrated/neutral/undefined; persistOutput=false",
+      "max_output_tokens_explicit": null,
+      "sdk_max_retries": 0,
+      "framework_schema_attempt_limit": 2,
+      "usage": {
+        "input_tokens": null,
+        "output_tokens": null,
+        "cache_creation_input_tokens": null,
+        "cache_read_input_tokens": null,
+        "web_search_requests": null,
+        "web_fetch_requests": null,
+        "cost_usd": null,
+        "actual_provider_model": null
+      },
+      "evidence": [
+        {
+          "path": "lib/assist/actions.ts",
+          "lines": "20-42,103-109",
+          "base_sha": "675a2e0089ee1e4324a7b438c17d570989793bc1"
+        },
+        {
+          "path": "lib/ai/tasks/assist.ts",
+          "lines": "16-34",
+          "base_sha": "675a2e0089ee1e4324a7b438c17d570989793bc1"
+        }
+      ]
+    },
+    {
+      "task": "plan_queries",
+      "file": "lib/ai/tasks/plan-queries.ts",
+      "model_env": "ANTHROPIC_MODEL_FAST",
+      "requested_model_value": null,
+      "actual_provider_model": null,
+      "timeout_ms": 12000,
+      "timeout_override_env": "AI_TEST_TIMEOUT_MS",
+      "rate_per_actor_per_60_min": 60,
+      "rate_limit_atomic": false,
+      "cache_minutes": 60,
+      "input_growth": {
+        "need_normalized_chars_gate_max": 8000,
+        "selected_asker_messages_max": 10,
+        "typed_query_chars_max": 500,
+        "recent_message_count_max": 6,
+        "message_body_chars_from_app_max": 4000,
+        "need_is_full_selected_message_join": true,
+        "task_input_token_limit": null
+      },
+      "output_shape": "1-4 raw queries; postvalidate dedup and <=8 words then retain <=3",
+      "max_output_tokens_explicit": null,
+      "sdk_max_retries": 0,
+      "framework_schema_attempt_limit": 2,
+      "usage": {
+        "input_tokens": null,
+        "output_tokens": null,
+        "cache_creation_input_tokens": null,
+        "cache_read_input_tokens": null,
+        "web_search_requests": null,
+        "web_fetch_requests": null,
+        "cost_usd": null,
+        "actual_provider_model": null
+      },
+      "evidence": [
+        {
+          "path": "lib/assist/actions.ts",
+          "lines": "59-84",
+          "base_sha": "675a2e0089ee1e4324a7b438c17d570989793bc1"
+        },
+        {
+          "path": "lib/ai/tasks/plan-queries.ts",
+          "lines": "6-47",
+          "base_sha": "675a2e0089ee1e4324a7b438c17d570989793bc1"
+        },
+        {
+          "path": "lib/ai/sources/needs.ts",
+          "lines": "23-27",
+          "base_sha": "675a2e0089ee1e4324a7b438c17d570989793bc1"
+        }
+      ]
+    },
+    {
+      "task": "find_sources",
+      "file": "lib/ai/tasks/find-sources.ts",
+      "model_env": "ANTHROPIC_MODEL_FAST",
+      "requested_model_value": null,
+      "actual_provider_model": null,
+      "timeout_ms": 30000,
+      "timeout_override_env": "AI_TEST_TIMEOUT_MS",
+      "rate_per_actor_per_60_min": 20,
+      "rate_limit_atomic": false,
+      "cache_minutes": null,
+      "input_growth": {
+        "raw_question_in_provider_prompt": true,
+        "plan_in_provider_prompt": true,
+        "history_grows_on_pause_turn": true,
+        "continuation_keeps_full_previous_assistant_blocks": true,
+        "task_input_token_limit": null,
+        "cache_control_explicit": false
+      },
+      "output_shape": "native citation url/title/cited_text only; keep <=3 excerpts of <=600 chars",
+      "max_output_tokens_explicit": 1024,
+      "sdk_max_retries": null,
+      "framework_schema_attempt_limit": 2,
+      "usage": {
+        "input_tokens": null,
+        "output_tokens": null,
+        "cache_creation_input_tokens": null,
+        "cache_read_input_tokens": null,
+        "web_search_requests": null,
+        "web_fetch_requests": null,
+        "cost_usd": null,
+        "actual_provider_model": null
+      },
+      "evidence": [
+        {
+          "path": "lib/ai/tasks/find-sources.ts",
+          "lines": "7-13,34-63,67-108",
+          "base_sha": "675a2e0089ee1e4324a7b438c17d570989793bc1"
+        },
+        {
+          "path": "lib/sources/readings.ts",
+          "lines": "76-79",
+          "base_sha": "675a2e0089ee1e4324a7b438c17d570989793bc1"
+        }
+      ]
+    }
+  ],
+  "features": [
+    {
+      "feature": "entry_guide",
+      "trigger": "confirmed submitted initial text or each clarification answer",
+      "steps": [
+        "intake",
+        "classify when summary produced"
+      ],
+      "normal_logical_steps_max": 5,
+      "normal_provider_task_attempts_max": 10,
+      "verification_calls": "plus up to one unlogged ping per distinct model per process",
+      "web_tools": [],
+      "voice_optional": true,
+      "client_visible_step_budget_ms": 10000,
+      "client_timeout_aborts_server": false,
+      "client_exception_retry_max": 1,
+      "cache": "classify only; intake none",
+      "evidence": [
+        {
+          "path": "lib/guide/use-guide.ts",
+          "lines": "10-20,39-49,75-93",
+          "base_sha": "675a2e0089ee1e4324a7b438c17d570989793bc1"
+        },
+        {
+          "path": "lib/guide/actions.ts",
+          "lines": "53-67",
+          "base_sha": "675a2e0089ee1e4324a7b438c17d570989793bc1"
+        }
+      ]
+    },
+    {
+      "feature": "direct_intake_routing",
+      "trigger": "startConversation submission without preclassified guide payload; existing open conversation short-circuits",
+      "steps": [
+        "classify"
+      ],
+      "normal_logical_steps_max": 1,
+      "normal_provider_task_attempts_max": 2,
+      "routing_uses_model_directly": false,
+      "routing_method": "database RPC rules after classification; topic chip reassign does not invoke AI",
+      "evidence": [
+        {
+          "path": "app/[locale]/(asker)/wait/actions.ts",
+          "lines": "36-60,154-156,203-208",
+          "base_sha": "675a2e0089ee1e4324a7b438c17d570989793bc1"
+        }
+      ]
+    },
+    {
+      "feature": "asker_or_staff_initial_readings",
+      "trigger": "Readings component mount or remount; question from confirmed guide_summary/intake first message",
+      "steps": [
+        "need/library cache",
+        "plan_queries on miss",
+        "find_sources on miss unless plan disabled",
+        "up to 3 own-server original-source fetches",
+        "human-topic fallback"
+      ],
+      "provider_calls_on_cache_hit": 0,
+      "normal_model_requests_before_schema_retry_max": 4,
+      "normal_model_requests_with_plan_schema_retry_max": 5,
+      "additional_verification_ping_per_process_model_max": 1,
+      "notes": "4 = 1 plan + 3 source API continuations; 5 = up to 2 plan attempts + 3 source continuations. Theoretical framework-eligible schema reexecution of custom source execute may add calls; ordinary HTTP/JSON errors do not match schema retry names. No shared financial reservation.",
+      "updates_on_new_chat_question": false,
+      "web_tool": "web_search_20250305",
+      "native_tools_config": {
+        "max_uses_per_http_body": 3,
+        "api_continuation_requests_max": 3,
+        "client_shared_search_counter": false,
+        "conservative_3x3_structural_search_bound": 9,
+        "provider_scope_note": "not measured; assumes max_uses scoped per request. Do not report 9 as observed usage."
+      },
+      "own_server_fetch": {
+        "citation_extensions_max": 3,
+        "http_redirects_max": 3,
+        "http_hops_per_extension_max": 4,
+        "potential_http_hops_total_max": 12,
+        "timeout_ms_each": 10000,
+        "max_response_bytes_each": 800000,
+        "max_parsed_article_chars": 300000,
+        "max_display_passage_chars": 1500,
+        "native_provider_web_fetch": false
+      },
+      "cache": "org + normalized need hash + language, audience filter; excludes recent context/semantic intent, expiry, release version",
+      "evidence": [
+        {
+          "path": "components/ai/readings.tsx",
+          "lines": "34-47",
+          "base_sha": "675a2e0089ee1e4324a7b438c17d570989793bc1"
+        },
+        {
+          "path": "app/api/ai/sources/route.ts",
+          "lines": "26-51",
+          "base_sha": "675a2e0089ee1e4324a7b438c17d570989793bc1"
+        },
+        {
+          "path": "lib/sources/readings.ts",
+          "lines": "50-128",
+          "base_sha": "675a2e0089ee1e4324a7b438c17d570989793bc1"
+        },
+        {
+          "path": "lib/ai/sources/fetch.ts",
+          "lines": "12-15,223-277,307-320",
+          "base_sha": "675a2e0089ee1e4324a7b438c17d570989793bc1"
+        }
+      ]
+    },
+    {
+      "feature": "daee_manual_source_assistant",
+      "trigger": "single-message sparkle, explicit selected-message search or typed submitted query; not typing nor automatic new-question event",
+      "steps": [
+        "getReadings pipeline above"
+      ],
+      "query_input_sources": "selected authorized asker messages plus up to six allowed recent messages in plan; current native search still sees raw need",
+      "auto_chooseNeed_is_wired": false,
+      "cooldown_ms": null,
+      "inflight_server_dedup": false,
+      "context_change_cancels_old_server_request": false,
+      "evidence": [
+        {
+          "path": "components/inbox/conversation-pane.tsx",
+          "lines": "193-239",
+          "base_sha": "675a2e0089ee1e4324a7b438c17d570989793bc1"
+        },
+        {
+          "path": "components/inbox/inbox.tsx",
+          "lines": "84-89",
+          "base_sha": "675a2e0089ee1e4324a7b438c17d570989793bc1"
+        },
+        {
+          "path": "components/inbox/assistant.tsx",
+          "lines": "39-54,82-85",
+          "base_sha": "675a2e0089ee1e4324a7b438c17d570989793bc1"
+        },
+        {
+          "path": "lib/assist/actions.ts",
+          "lines": "70-94",
+          "base_sha": "675a2e0089ee1e4324a7b438c17d570989793bc1"
+        }
+      ]
+    },
+    {
+      "feature": "daee_tone",
+      "trigger": "explicit read-tone button",
+      "steps": [
+        "assist_tone"
+      ],
+      "normal_logical_steps_max": 1,
+      "normal_provider_task_attempts_max": 2,
+      "evidence": [
+        {
+          "path": "components/inbox/assistant.tsx",
+          "lines": "63-77",
+          "base_sha": "675a2e0089ee1e4324a7b438c17d570989793bc1"
+        },
+        {
+          "path": "lib/assist/actions.ts",
+          "lines": "103-109",
+          "base_sha": "675a2e0089ee1e4324a7b438c17d570989793bc1"
+        }
+      ]
+    },
+    {
+      "feature": "session_card_draft",
+      "trigger": "next from selection step automatically invokes AI when enabled; manual/retry actions may repeat",
+      "steps": [
+        "card"
+      ],
+      "normal_logical_steps_max": 1,
+      "normal_provider_task_attempts_max": 2,
+      "unselected_messages_sent": false,
+      "browser_request_abort_reaches_runAI": false,
+      "write_from_scratch_aborts_server": false,
+      "evidence": [
+        {
+          "path": "app/[locale]/(asker)/card/[id]/card-builder.tsx",
+          "lines": "82-130",
+          "base_sha": "675a2e0089ee1e4324a7b438c17d570989793bc1"
+        },
+        {
+          "path": "app/api/ai/card/route.ts",
+          "lines": "35-59",
+          "base_sha": "675a2e0089ee1e4324a7b438c17d570989793bc1"
+        },
+        {
+          "path": "lib/ai/useAITask.ts",
+          "lines": "20-39",
+          "base_sha": "675a2e0089ee1e4324a7b438c17d570989793bc1"
+        }
+      ]
+    },
+    {
+      "feature": "master_card_draft",
+      "trigger": "automatic first mount/arrival at master builder with AI enabled; refresh/remount can invoke again",
+      "steps": [
+        "merge_master"
+      ],
+      "normal_logical_steps_max": 1,
+      "normal_provider_task_attempts_max": 2,
+      "cache": null,
+      "browser_request_abort_reaches_runAI": false,
+      "evidence": [
+        {
+          "path": "app/[locale]/(asker)/card/master/master-builder.tsx",
+          "lines": "52-63",
+          "base_sha": "675a2e0089ee1e4324a7b438c17d570989793bc1"
+        },
+        {
+          "path": "app/api/ai/master/route.ts",
+          "lines": "22-45",
+          "base_sha": "675a2e0089ee1e4324a7b438c17d570989793bc1"
+        }
+      ]
+    },
+    {
+      "feature": "guide_TTS",
+      "trigger": "each new guide question after voice unlock/listen; route accepts any authenticated asker short text",
+      "provider": "ElevenLabs",
+      "model_env": "ELEVENLABS_MODEL_ID",
+      "default_model": "eleven_multilingual_v2",
+      "input_chars_max": 400,
+      "api_attempts_max": 2,
+      "retry_condition": "402 for configured non-default voice; fallback default voice",
+      "timeout_ms_each_attempt": 15000,
+      "org_ai_gate_in_route": false,
+      "financial_budget": null,
+      "rate_limit": null,
+      "dedup": null,
+      "cache": null,
+      "usage": {
+        "characters": null,
+        "audio_duration_s": null,
+        "cost_usd": null
+      },
+      "client_mute_or_unmount_cancels_fetch": false,
+      "client_rechecks_mute_before_playing_old_result": false,
+      "latency_measurement": "console at provider response headers, not complete audio/playback",
+      "evidence": [
+        {
+          "path": "app/api/tts/route.ts",
+          "lines": "5,24-59",
+          "base_sha": "675a2e0089ee1e4324a7b438c17d570989793bc1"
+        },
+        {
+          "path": "lib/guide/voice.ts",
+          "lines": "109-150",
+          "base_sha": "675a2e0089ee1e4324a7b438c17d570989793bc1"
+        }
+      ]
+    },
+    {
+      "feature": "guide_STT",
+      "trigger": "microphone gesture; transcript remains editable and must be submitted",
+      "provider": "browser Web Speech API, browser/service backend unknown",
+      "anthropic_api_calls": 0,
+      "elevenlabs_api_calls": 0,
+      "audio_duration_s": null,
+      "cost_usd": null,
+      "evidence": [
+        {
+          "path": "lib/guide/voice.ts",
+          "lines": "30-91",
+          "base_sha": "675a2e0089ee1e4324a7b438c17d570989793bc1"
+        },
+        {
+          "path": "components/guide/guide-entry.tsx",
+          "lines": "66,168",
+          "base_sha": "675a2e0089ee1e4324a7b438c17d570989793bc1"
+        }
+      ]
+    },
+    {
+      "feature": "browser_TTS_fallback",
+      "trigger": "ElevenLabs missing/unavailable or failure",
+      "provider": "browser speechSynthesis backend unknown",
+      "anthropic_api_calls": 0,
+      "elevenlabs_api_calls_for_browser_fallback_itself": 0,
+      "usage": null,
+      "cost_usd": null,
+      "evidence": [
+        {
+          "path": "lib/guide/voice.ts",
+          "lines": "137-145",
+          "base_sha": "675a2e0089ee1e4324a7b438c17d570989793bc1"
+        }
+      ]
+    }
+  ],
+  "static_system_measurements": {
+    "lib/ai/prompts/assist.ts": {
+      "literal_system_chars": 714,
+      "literal_system_utf8_bytes": 719,
+      "tokens": null,
+      "measurement_kind": "static_literal_before_locale_replacement",
+      "excludes": "user blocks, instruction, DATA_RULE, provider schema/tool overhead"
+    },
+    "lib/ai/prompts/card.ts": {
+      "literal_system_chars": 2161,
+      "literal_system_utf8_bytes": 2202,
+      "tokens": null,
+      "measurement_kind": "static_literal_before_locale_replacement",
+      "excludes": "user blocks, instruction, DATA_RULE, provider schema/tool overhead"
+    },
+    "lib/ai/prompts/classify.ts": {
+      "literal_system_chars": 1053,
+      "literal_system_utf8_bytes": 1058,
+      "tokens": null,
+      "measurement_kind": "static_literal_before_locale_replacement",
+      "excludes": "user blocks, instruction, DATA_RULE, provider schema/tool overhead"
+    },
+    "lib/ai/prompts/intake.ts": {
+      "literal_system_chars": 1817,
+      "literal_system_utf8_bytes": 1827,
+      "tokens": null,
+      "measurement_kind": "static_literal_before_locale_replacement",
+      "excludes": "user blocks, instruction, DATA_RULE, provider schema/tool overhead"
+    },
+    "lib/ai/prompts/master.ts": {
+      "literal_system_chars": 1685,
+      "literal_system_utf8_bytes": 1726,
+      "tokens": null,
+      "measurement_kind": "static_literal_before_locale_replacement",
+      "excludes": "user blocks, instruction, DATA_RULE, provider schema/tool overhead"
+    },
+    "lib/ai/prompts/plan-queries.ts": {
+      "literal_system_chars": 1046,
+      "literal_system_utf8_bytes": 1104,
+      "tokens": null,
+      "measurement_kind": "static_literal_before_locale_replacement",
+      "excludes": "user blocks, instruction, DATA_RULE, provider schema/tool overhead"
+    },
+    "lib/ai/prompts/sources.ts": {
+      "literal_system_chars": 969,
+      "literal_system_utf8_bytes": 979,
+      "tokens": null,
+      "measurement_kind": "static_literal_before_locale_replacement",
+      "excludes": "user blocks, instruction, DATA_RULE, provider schema/tool overhead"
+    }
+  },
+  "eval_inventory": {
+    "nominal_eligible_logical_task_executions": 33,
+    "components": {
+      "card": 3,
+      "classify": 23,
+      "sources": 3,
+      "plan_queries": 4
+    },
+    "source_cases_skipped_before_api": 1,
+    "actual_calls_run_in_this_audit": 0,
+    "sdk_retry_cap_explicit": false,
+    "runAI_bypassed": true,
+    "token_usage_returned_by_providers": false,
+    "financial_cap": null,
+    "cached_results_disabled_by_package_script": true,
+    "safe_independent_deterministic_suite": "evals/sources-rules.ts imports pure fences; inspect and explicitly unset provider keys before running any mixed suite",
+    "dangerous_scripts": [
+      {
+        "path": "scripts/dev/ai-live.mjs",
+        "reason": "default live app; DB write/create/delete; paid card"
+      },
+      {
+        "path": "scripts/dev/ai-card.mjs",
+        "reason": "enables AI across organizations and leaves true instead of restoring original"
+      },
+      {
+        "path": "scripts/dev/sources.mjs",
+        "reason": "updates org/daee state and deletes source cache"
+      },
+      {
+        "path": "scripts/dev/admin-synthetic.mjs",
+        "reason": "writes synthetic ai_runs/events without measurement exclusion"
+      }
+    ]
+  },
+  "findings": [
+    {
+      "id": "AI-COST-01",
+      "priority": "P0-before-any-paid-measurement",
+      "status": "proved_by_code",
+      "finding": "No durable shared money/input/output/tool budget; actor logical-task rate counters are not provider-call counters",
+      "acceptance": "atomic request reservation + feature/step/attempt ledger including native continuations, verify calls and TTS; reject next call before authorized cap; concurrency test cannot overspend",
+      "evidence": [
+        {
+          "path": "lib/ai/runAI.ts",
+          "lines": "24-31,84-94,121-155",
+          "base_sha": "675a2e0089ee1e4324a7b438c17d570989793bc1"
+        },
+        {
+          "path": "lib/ai/tasks/find-sources.ts",
+          "lines": "37-63",
+          "base_sha": "675a2e0089ee1e4324a7b438c17d570989793bc1"
+        },
+        {
+          "path": "app/api/tts/route.ts",
+          "lines": "24-49",
+          "base_sha": "675a2e0089ee1e4324a7b438c17d570989793bc1"
+        }
+      ]
+    },
+    {
+      "id": "AI-COST-02",
+      "priority": "P0-measurement",
+      "status": "proved_by_code",
+      "finding": "Actual tokens/cache/search/fetch usage and provider model are discarded; ai_runs records logical completion, including non-paid disabled/error fallbacks but omits cache hits and verification",
+      "acceptance": "capture usage per attempt without raw private content; distinguish requested/returned model; unknown=null and coverage explicit; aggregate no duplicated cached/merged usage",
+      "evidence": [
+        {
+          "path": "lib/ai/runAI.ts",
+          "lines": "12-13,82-118,149-155",
+          "base_sha": "675a2e0089ee1e4324a7b438c17d570989793bc1"
+        },
+        {
+          "path": "lib/ai/tasks/find-sources.ts",
+          "lines": "55",
+          "base_sha": "675a2e0089ee1e4324a7b438c17d570989793bc1"
+        },
+        {
+          "path": "supabase/migrations/0001_init.sql",
+          "lines": "171-182",
+          "base_sha": "675a2e0089ee1e4324a7b438c17d570989793bc1"
+        },
+        {
+          "path": "lib/admin/queries.ts",
+          "lines": "80-91",
+          "base_sha": "675a2e0089ee1e4324a7b438c17d570989793bc1"
+        }
+      ]
+    },
+    {
+      "id": "AI-COST-03",
+      "priority": "P1",
+      "status": "code_inference",
+      "finding": "Guide/client cancellation, tab unmount, manual card fallback and TTS mute do not stop or version all upstream work; hidden work and stale playback remain possible",
+      "acceptance": "one current request ID/context version; transport abort propagated or result ignored server-side; never promise refunded cost after abort; deterministic delay/race tests",
+      "evidence": [
+        {
+          "path": "lib/guide/use-guide.ts",
+          "lines": "13-20,46-49,89-93",
+          "base_sha": "675a2e0089ee1e4324a7b438c17d570989793bc1"
+        },
+        {
+          "path": "components/ai/readings.tsx",
+          "lines": "34-47",
+          "base_sha": "675a2e0089ee1e4324a7b438c17d570989793bc1"
+        },
+        {
+          "path": "lib/ai/useAITask.ts",
+          "lines": "20-39",
+          "base_sha": "675a2e0089ee1e4324a7b438c17d570989793bc1"
+        },
+        {
+          "path": "app/api/ai/card/route.ts",
+          "lines": "54-59",
+          "base_sha": "675a2e0089ee1e4324a7b438c17d570989793bc1"
+        },
+        {
+          "path": "lib/guide/voice.ts",
+          "lines": "117-142",
+          "base_sha": "675a2e0089ee1e4324a7b438c17d570989793bc1"
+        }
+      ]
+    },
+    {
+      "id": "AI-COST-04",
+      "priority": "P1",
+      "status": "proved_by_code",
+      "finding": "Cache key excludes important context and version; runAI cache is task+input only, no org/model/prompt version; library need cache omits recent context and has no expiry",
+      "acceptance": "cache material with source/release version separately from personalized result; include intent/context/version/access scope; reauthorize cache hits; same pronoun under changed context must not reuse earlier material",
+      "evidence": [
+        {
+          "path": "lib/ai/runAI.ts",
+          "lines": "114-118,179-180",
+          "base_sha": "675a2e0089ee1e4324a7b438c17d570989793bc1"
+        },
+        {
+          "path": "lib/sources/readings.ts",
+          "lines": "40,58-71",
+          "base_sha": "675a2e0089ee1e4324a7b438c17d570989793bc1"
+        }
+      ]
+    },
+    {
+      "id": "AI-COST-05",
+      "priority": "P1",
+      "status": "proved_by_code",
+      "finding": "live flag and synthetic ai_runs cannot be treated as usage/benefit proof",
+      "acceptance": "provider_called/source_fetch_succeeded/cache_hit/partial statuses separated; synthetic datasets excluded or labeled in denominator; historic fixture kept as fixture",
+      "evidence": [
+        {
+          "path": "lib/sources/readings.ts",
+          "lines": "128,142-147",
+          "base_sha": "675a2e0089ee1e4324a7b438c17d570989793bc1"
+        },
+        {
+          "path": "scripts/dev/admin-synthetic.mjs",
+          "lines": "51-62",
+          "base_sha": "675a2e0089ee1e4324a7b438c17d570989793bc1"
+        },
+        {
+          "path": "supabase/migrations/0004_admin.sql",
+          "lines": "258-273",
+          "base_sha": "675a2e0089ee1e4324a7b438c17d570989793bc1"
+        },
+        {
+          "path": "evals/samples/ai-run.json",
+          "lines": "2-35",
+          "base_sha": "675a2e0089ee1e4324a7b438c17d570989793bc1"
+        }
+      ]
+    },
+    {
+      "id": "AI-COST-06",
+      "priority": "P0-safe-test-operation",
+      "status": "proved_by_code",
+      "finding": "Live evals bypass runAI; current process has key+fast model. Existing WASL_AI_TEST_SCOPE is not consumed by current repo",
+      "acceptance": "offline tests explicitly unset keys; any live run has separate authorized budget and immutable dataset/run IDs; no scripts writing external DB until explicitly authorized",
+      "evidence": [
+        {
+          "path": "evals/assist-rules.ts",
+          "lines": "63-80",
+          "base_sha": "675a2e0089ee1e4324a7b438c17d570989793bc1"
+        },
+        {
+          "path": "evals/run-card.ts",
+          "lines": "13-19",
+          "base_sha": "675a2e0089ee1e4324a7b438c17d570989793bc1"
+        },
+        {
+          "path": "evals/run-classify.ts",
+          "lines": "14-20",
+          "base_sha": "675a2e0089ee1e4324a7b438c17d570989793bc1"
+        },
+        {
+          "path": "evals/run-sources.ts",
+          "lines": "10-15",
+          "base_sha": "675a2e0089ee1e4324a7b438c17d570989793bc1"
+        },
+        {
+          "path": "package.json",
+          "lines": "15-20",
+          "base_sha": "675a2e0089ee1e4324a7b438c17d570989793bc1"
+        }
+      ]
+    },
+    {
+      "id": "AI-COST-07",
+      "priority": "P1-product-trigger",
+      "status": "proved_by_code",
+      "finding": "Current contextual helper chooseNeed is tested but never called by product. Daee source assistance remains explicit search; initial Readings request uses intake rather than latest human conversation need",
+      "acceptance": "submitted stored material event triggers one contextual request for latest substantive question/correction; thanks/repeats no new provider request; retain latest during cooldown; closing panel/AI off prevents next requests",
+      "evidence": [
+        {
+          "path": "lib/ai/sources/needs.ts",
+          "lines": "35-43",
+          "base_sha": "675a2e0089ee1e4324a7b438c17d570989793bc1"
+        },
+        {
+          "path": "components/inbox/conversation-pane.tsx",
+          "lines": "207-239",
+          "base_sha": "675a2e0089ee1e4324a7b438c17d570989793bc1"
+        },
+        {
+          "path": "app/api/ai/sources/route.ts",
+          "lines": "33-45",
+          "base_sha": "675a2e0089ee1e4324a7b438c17d570989793bc1"
+        }
+      ]
+    }
+  ],
+  "measurement_contract_recommended": {
+    "new_ids": [
+      "feature_run_id",
+      "logical_step_id",
+      "provider_attempt_id",
+      "provider_request_id_if_present",
+      "context_version",
+      "dataset_version",
+      "synthetic_flag"
+    ],
+    "per_attempt": [
+      "requested_model",
+      "returned_model_or_null",
+      "status",
+      "usage_known",
+      "input_tokens",
+      "output_tokens",
+      "cache_creation_input_tokens",
+      "cache_read_input_tokens",
+      "server_tool_web_search_requests",
+      "server_tool_web_fetch_requests",
+      "duration_ms",
+      "estimated_cost_usd_or_null",
+      "price_version",
+      "error_class_without_raw_payload"
+    ],
+    "per_step": [
+      "trigger_kind",
+      "cache_hit",
+      "coalesced_request_count",
+      "cancel_requested",
+      "context_superseded",
+      "time_to_first_useful_material_ms",
+      "source_fetch_succeeded",
+      "source_result_status",
+      "source_reference_ids_only"
+    ],
+    "voice_separate": [
+      "provider",
+      "requested_model",
+      "input_character_count",
+      "usage_reported_or_null",
+      "audio_duration_s_or_null",
+      "attempt_id",
+      "duration_ms",
+      "estimated_cost_usd_or_null"
+    ],
+    "dedup_rules": [
+      "one physical provider response counted once by provider_request_id or attempt_id",
+      "model retry and pause continuation each separate attempt and charged if executed",
+      "verifyModel separate explicit step if retained",
+      "cache hit adds zero new provider calls, does not add old token totals again",
+      "cancel/timeout usage unknown if provider did not report it; not zero",
+      "source HTTP fetch distinct from native provider web_fetch",
+      "synthetic fixtures separated from operational denominator; no invented rank_library task",
+      "retain rejected/failed runs and unknown coverage"
+    ],
+    "privacy": "no chat text, user questions, raw prompts or private output in usage logs; org-scoped actor pseudonymization where needed"
+  },
+  "limitations": [
+    "Two explicitly authorized verification ping attempts: default Node fetch failed before HTTP response; one diagnosed proxy-aware alternative got401 authentication_error. No successful ordinary task/model/TTS response, private external DB query or deployment verification",
+    "No current-token/pricing benchmark requested; cost and usage remain null",
+    "Bound calculations are static potential maxima, not observed events or factual invoices",
+    "Historical samples and mock source passages are not fresh proof",
+    "Prior contextual budget/private intent/provider code not present on this SHA; only some helpers ported"
+  ],
+  "authorized_measurement": {
+    "authorization_max_usd": 1,
+    "artifact": "AI_USAGE_MEASURED.json",
+    "status": "blocked_provider_authentication_401_after_proxy_fix",
+    "conservative_reservation_held_usd": 0.80001,
+    "complete_usage_estimated_cost_usd": null,
+    "retries_performed": 0,
+    "transport_public_GET_proved_proxy_fix": true,
+    "changed_transport_retry_sequences": 1,
+    "repeated_401_attempts": 0,
+    "audit_probe_output_cap": 1024,
+    "probe_original_output_limit": 64000,
+    "production_output_limits_changed": false,
+    "ordinary_task_provider_calls_executed": 0,
+    "guard_tests": "PASS",
+    "credentials_authentication_proved": false
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "observedAt": "2026-10-06T17:05:20.599270+00:00",
+  "ownedNextStopped": true,
+  "appPort3062Listening": false,
+  "ownedAuditDockerStackRetained": true,
+  "localFixtureRowCounts": {
+    "organizations": 0,
+    "profiles": 0,
+    "askers": 0,
+    "conversations": 0,
+    "cards": 0,
+    "messages": 0,
+    "events": 0,
+    "ai_runs": 0,
+    "authUsers": 0
+  },
+  "repositories": [
+    {
+      "path": "/workspace/Wasl-audit-current-20261006",
+      "head": "675a2e0089ee1e4324a7b438c17d570989793bc1",
+      "branch": "",
+      "workingTreeChanges": []
+    },
+    {
+      "path": "/workspace/Wasl",
+      "head": "8d0fd58e90410f3c53f5a12c29c0ec9d1dc69291",
+      "branch": "work",
+      "workingTreeChanges": []
+    },
+    {
+      "path": "/workspace/Wasl-package1",
+      "head": "ee68d4ac973c746078b2fefc28b602f2ad3fdb76",
+      "branch": "feat/trusted-card-package1",
+      "workingTreeChanges": []
+    },
+    {
+      "path": "/workspace/Wasl-knowledge",
+      "head": "d5c2b2dc4c98839eca98a1ec7960c4f620f2cf3f",
+      "branch": "feat/knowledge-v1-1",
+      "workingTreeChanges": []
+    },
+    {
+      "path": "/workspace/Wasl-contextual",
+      "head": "36324276140678a627ce12546338bceaafb12943",
+      "branch": "feat/contextual-recommendations",
+      "workingTreeChanges": []
+    },
+    {
+      "path": "/workspace/Wasl-contextual-joud",
+      "head": "1be78ccf6741a4a138227ddff7cf36d42fa6d9f1",
+      "branch": "feat/contextual-recommendations-joud-e169",
+      "workingTreeChanges": []
+    }
+  ],
+  "manifestHashUnchanged": true,
+  "lockHashUnchanged": true
+}

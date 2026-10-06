@@ -1,0 +1,57 @@
+BEGIN
+INSERT 0 6
+INSERT 0 2
+INSERT 0 4
+INSERT 0 2
+INSERT 0 2
+INSERT 0 2
+INSERT 0 2
+SET
+SET
+NOTICE:  PASS control: admin message bodies blocked; PROVEN SEC-01: admin guide_summary readable across organizations
+DO
+SET
+NOTICE:  PROVEN SEC-05: organization A admin updates organization B directly
+NOTICE:  PASS control: unassigned daee messages blocked; PROVEN SEC-02: unassigned daee reads intake raw_text across organizations
+DO
+SET
+DO
+SET
+NOTICE:  PROVEN SEC-03: transferred receiver sees an old unselected message through RLS
+DO
+SET
+INSERT 0 1
+NOTICE:  PROVEN SEC-04: known foreign UUIDs in own draft bypass conversation ownership via card_sources
+DO
+INSERT 0 1
+SET
+NOTICE:  PASS control: daee cannot see draft before approval
+DO
+SET
+UPDATE 1
+NOTICE:  PASS control: approved text mutation blocked by DB trigger
+NOTICE:  PASS control: approved selected IDs and sharing flags immutable
+DO
+INSERT 0 1
+SET
+NOTICE:  PASS control: latest draft hidden while prior approved version remains
+DO
+SET
+UPDATE 1
+SET
+DO
+NOTICE:  PASS control: expired card not visible
+SET
+INSERT 0 1
+UPDATE 1
+UPDATE 1
+DO
+NOTICE:  PROVEN SEC-04 companion: approved empty-source card conversation_id remains client-mutable
+RESET
+UPDATE 1
+SET
+SET
+NOTICE:  PASS control: banned message read blocked; PROVEN SEC-02/09 with accepted DB claims: intake read and end_conversation still allowed
+DO
+RESET
+ROLLBACK

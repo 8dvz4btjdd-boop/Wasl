@@ -1,0 +1,65 @@
+{
+  "auditCreated": true,
+  "baseSha": "675a2e0089ee1e4324a7b438c17d570989793bc1",
+  "paidCalls": 0,
+  "dbCalls": 0,
+  "networkCalls": 0,
+  "results": [
+    {
+      "id": "unverified_shamela_work",
+      "expected": "rejected_pending_edition_verification",
+      "observed": null,
+      "boundaryHolds": false,
+      "kind": "synthetic_validator_probe"
+    },
+    {
+      "id": "quran_site_is_not_text_verification",
+      "expected": "rejected_pending_verse_verification",
+      "observed": null,
+      "boundaryHolds": false,
+      "kind": "synthetic_validator_probe"
+    },
+    {
+      "id": "ungraded_english_hadith_on_dictionary",
+      "expected": "hadith_ungraded",
+      "observed": null,
+      "boundaryHolds": false,
+      "kind": "synthetic_validator_probe"
+    },
+    {
+      "id": "unrelated_word_is_not_a_hadith_grade",
+      "expected": "hadith_ungraded",
+      "observed": null,
+      "boundaryHolds": false,
+      "kind": "synthetic_validator_probe"
+    },
+    {
+      "id": "late_qualification_survives_excerpt_cap",
+      "expected": true,
+      "observed": false,
+      "boundaryHolds": false,
+      "kind": "synthetic_excerpt_probe"
+    },
+    {
+      "id": "private_identifier_rejected_in_external_query_plan",
+      "expected": false,
+      "observed": true,
+      "boundaryHolds": false,
+      "kind": "synthetic_validator_probe"
+    },
+    {
+      "id": "french_personal_belief_question_rejected",
+      "expected": false,
+      "observed": true,
+      "boundaryHolds": false,
+      "kind": "synthetic_validator_probe"
+    },
+    {
+      "id": "valid_source_ids_are_not_semantic_verification",
+      "expected": "غير محدد",
+      "observed": "اقتنعت بالمناقشة",
+      "boundaryHolds": false,
+      "kind": "synthetic_semantic_probe_selected_input_was_not_understood"
+    }
+  ]
+}

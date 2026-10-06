@@ -1,0 +1,3 @@
+attempt_id,session,kind,parent_task,http_status,duration_ms,requested_model,returned_model,input_tokens,output_tokens,cache_creation_input_tokens,cache_read_input_tokens,web_search_requests,web_fetch_requests,usage_complete,invoice_cost_usd,estimated_cost_usd,reservation_usd,status
+audit-attempt-1,1,verify_model,classify,NULL,NULL,claude-haiku-4-5-20251001,NULL,NULL,NULL,NULL,NULL,NULL,NULL,False,NULL,NULL,0.400005,transport_failed_no_http_response
+audit-attempt-2,2,verify_model,classify,401,589,claude-haiku-4-5-20251001,NULL,NULL,NULL,NULL,NULL,NULL,NULL,False,NULL,NULL,0.400005,provider_authentication_401

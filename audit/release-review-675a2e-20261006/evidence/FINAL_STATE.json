@@ -1,0 +1,71 @@
+{
+  "recorded_at_utc": "2026-10-06T17:13:33.568674+00:00",
+  "main_sha_at_final_read": {
+    "8dvz4btjdd-boop/Wasl": "675a2e0089ee1e4324a7b438c17d570989793bc1",
+    "Joud73/Wasl": "675a2e0089ee1e4324a7b438c17d570989793bc1"
+  },
+  "repositories": [
+    {
+      "path": "/workspace/Wasl-audit-current-20261006",
+      "sha": "675a2e0089ee1e4324a7b438c17d570989793bc1",
+      "status": ""
+    },
+    {
+      "path": "/workspace/Wasl",
+      "sha": "8d0fd58e90410f3c53f5a12c29c0ec9d1dc69291",
+      "status": ""
+    },
+    {
+      "path": "/workspace/Wasl-package1",
+      "sha": "ee68d4ac973c746078b2fefc28b602f2ad3fdb76",
+      "status": ""
+    },
+    {
+      "path": "/workspace/Wasl-knowledge",
+      "sha": "d5c2b2dc4c98839eca98a1ec7960c4f620f2cf3f",
+      "status": ""
+    },
+    {
+      "path": "/workspace/Wasl-contextual",
+      "sha": "36324276140678a627ce12546338bceaafb12943",
+      "status": ""
+    },
+    {
+      "path": "/workspace/Wasl-contextual-joud",
+      "sha": "1be78ccf6741a4a138227ddff7cf36d42fa6d9f1",
+      "status": ""
+    }
+  ],
+  "tracked_file_hashes": {
+    "package.json": "f912601699a81bffedfbba4fb36a8e2c8b32d361c5a03de3664bf28dd7e50dd9",
+    "package-lock.json": "7a3b4a0325512eec65fc059876ecada150c3279774a6a3c576b6e9554a18081f",
+    "AGENTS.md": "11e62e255cd850d00ea87c016a0ef5733a5dbd1bcf54be4af2787081da59c7ea",
+    "CLAUDE.md": "d3803f7d2ffb0b3dd2ea6d6f8e32641cbcda8c7aefd5adca970f17b6cdba6575",
+    "README.md": "60b55ff7df79af72590f9524208e46642bc32bdc175cdad41349681c0e2f958f"
+  },
+  "same_as_start": true,
+  "local_fixture_counts": {
+    "organizations": 0,
+    "profiles": 0,
+    "askers": 0,
+    "conversations": 0,
+    "cards": 0,
+    "messages": 0,
+    "events": 0,
+    "ai_runs": 0,
+    "authUsers": 0
+  },
+  "product_modified": false,
+  "commits_push_pr_merge_deploy": false,
+  "checkout_mode": "detached",
+  "owned_next_stopped": true,
+  "owned_local_docker_stack_retained": true,
+  "generated_ignored": [
+    "node_modules (symlink)",
+    "next-env.d.ts",
+    ".next",
+    "tsconfig.tsbuildinfo"
+  ],
+  "local_secret_state_in_bundle": false,
+  "paid_probe": "two verification attempts; zero ordinary task calls; no successful response; usage/cost unknown"
+}

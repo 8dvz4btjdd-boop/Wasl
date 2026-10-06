@@ -1,0 +1,197 @@
+{
+  "currentBaseSha": "675a2e0089ee1e4324a7b438c17d570989793bc1",
+  "currentManifestSha256": "f912601699a81bffedfbba4fb36a8e2c8b32d361c5a03de3664bf28dd7e50dd9",
+  "currentLockSha256": "7a3b4a0325512eec65fc059876ecada150c3279774a6a3c576b6e9554a18081f",
+  "cachePath": "/workspace/Wasl/node_modules",
+  "dependencySectionsEqual": true,
+  "lockByteEqual": true,
+  "versions": [
+    {
+      "package": "@ai-sdk/anthropic",
+      "locked": "4.0.71",
+      "installed": "4.0.71",
+      "match": true
+    },
+    {
+      "package": "@base-ui/react",
+      "locked": "1.8.0",
+      "installed": "1.8.0",
+      "match": true
+    },
+    {
+      "package": "@supabase/ssr",
+      "locked": "0.12.7",
+      "installed": "0.12.7",
+      "match": true
+    },
+    {
+      "package": "@supabase/supabase-js",
+      "locked": "2.117.2",
+      "installed": "2.117.2",
+      "match": true
+    },
+    {
+      "package": "ai",
+      "locked": "7.0.127",
+      "installed": "7.0.127",
+      "match": true
+    },
+    {
+      "package": "class-variance-authority",
+      "locked": "0.7.1",
+      "installed": "0.7.1",
+      "match": true
+    },
+    {
+      "package": "cn",
+      "locked": "0.4.0",
+      "installed": "0.4.0",
+      "match": true
+    },
+    {
+      "package": "lucide-react",
+      "locked": "1.52.0",
+      "installed": "1.52.0",
+      "match": true
+    },
+    {
+      "package": "motion",
+      "locked": "14.0.0",
+      "installed": "14.0.0",
+      "match": true
+    },
+    {
+      "package": "next",
+      "locked": "16.3.8",
+      "installed": "16.3.8",
+      "match": true
+    },
+    {
+      "package": "next-intl",
+      "locked": "4.14.9",
+      "installed": "4.14.9",
+      "match": true
+    },
+    {
+      "package": "react",
+      "locked": "19.2.8",
+      "installed": "19.2.8",
+      "match": true
+    },
+    {
+      "package": "react-dom",
+      "locked": "19.2.8",
+      "installed": "19.2.8",
+      "match": true
+    },
+    {
+      "package": "recharts",
+      "locked": "3.10.1",
+      "installed": "3.10.1",
+      "match": true
+    },
+    {
+      "package": "server-only",
+      "locked": "0.0.1",
+      "installed": "0.0.1",
+      "match": true
+    },
+    {
+      "package": "shadcn",
+      "locked": "4.21.1",
+      "installed": "4.21.1",
+      "match": true
+    },
+    {
+      "package": "sonner",
+      "locked": "2.0.8",
+      "installed": "2.0.8",
+      "match": true
+    },
+    {
+      "package": "tw-animate-css",
+      "locked": "1.4.0",
+      "installed": "1.4.0",
+      "match": true
+    },
+    {
+      "package": "zod",
+      "locked": "4.6.5",
+      "installed": "4.6.5",
+      "match": true
+    },
+    {
+      "package": "@tailwindcss/postcss",
+      "locked": "4.3.3",
+      "installed": "4.3.3",
+      "match": true
+    },
+    {
+      "package": "@types/node",
+      "locked": "20.19.43",
+      "installed": "20.19.43",
+      "match": true
+    },
+    {
+      "package": "@types/react",
+      "locked": "19.3.0",
+      "installed": "19.3.0",
+      "match": true
+    },
+    {
+      "package": "@types/react-dom",
+      "locked": "19.3.0",
+      "installed": "19.3.0",
+      "match": true
+    },
+    {
+      "package": "eslint",
+      "locked": "9.39.5",
+      "installed": "9.39.5",
+      "match": true
+    },
+    {
+      "package": "eslint-config-next",
+      "locked": "16.3.8",
+      "installed": "16.3.8",
+      "match": true
+    },
+    {
+      "package": "playwright",
+      "locked": "1.63.0",
+      "installed": "1.63.0",
+      "match": true
+    },
+    {
+      "package": "promptfoo",
+      "locked": "0.123.1",
+      "installed": "0.123.1",
+      "match": true
+    },
+    {
+      "package": "supabase",
+      "locked": "2.119.0",
+      "installed": "2.119.0",
+      "match": true
+    },
+    {
+      "package": "tailwindcss",
+      "locked": "4.3.3",
+      "installed": "4.3.3",
+      "match": true
+    },
+    {
+      "package": "tsx",
+      "locked": "4.23.15",
+      "installed": "4.23.15",
+      "match": true
+    },
+    {
+      "package": "typescript",
+      "locked": "5.9.3",
+      "installed": "5.9.3",
+      "match": true
+    }
+  ],
+  "allDirectInstalledVersionsMatchLock": true
+}

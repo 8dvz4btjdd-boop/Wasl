@@ -1,0 +1,17 @@
+PASS  feqhia never reaches an asker
+PASS  feqhia may reach a daee
+PASS  a hadith without a grading is dropped
+PASS  a hadith with its grading is kept
+PASS  a citation from any other domain is dropped
+PASS  verse text from outside quranpedia.net is dropped
+PASS  a verse quoted as {…} [سورة …] outside quranpedia.net is dropped
+PASS  verse text from quranpedia.net is kept
+PASS  dorar.net outside aqeeda, tafseer, history, hadith, feqhia is dropped
+PASS  dorar.net with a language prefix: /en/tafseer is kept
+PASS  dorar.net /en/ahadith is the hadith section (grading required)
+PASS  dorar.net /en/feqhia never reaches an asker
+PASS  dorar.net aqeeda is kept
+PASS  level c or d returns nothing for askers
+PASS  at most 3 results
+PASS  بينات (dawa.center 7937) first for doubts
+16/16 fence rules pass

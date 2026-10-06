@@ -1,0 +1,248 @@
+{
+  "sha": "675a2e0089ee1e4324a7b438c17d570989793bc1",
+  "kind": "actual local browser, no provider mocks or paid keys",
+  "results": [
+    {
+      "name": "actual microphone permission denial retains text entry",
+      "status": "OBSERVED",
+      "before": 1,
+      "after": 0,
+      "textareaEnabled": true
+    },
+    {
+      "name": "listen uses local TTS endpoint with keys unset",
+      "status": "OBSERVED",
+      "ttsCalls": [
+        {
+          "path": "/api/tts",
+          "status": 204,
+          "ttsPath": "fallback",
+          "ttsReason": "no_key"
+        }
+      ]
+    },
+    {
+      "name": "guide missing-key fallback preserves submitted text",
+      "status": "PASS"
+    },
+    {
+      "name": "no available human creates real local waiting conversation",
+      "status": "PASS"
+    },
+    {
+      "name": "card missing-key fallback reaches manual editor",
+      "status": "PASS",
+      "cardCalls": [
+        {
+          "path": "/api/ai/card",
+          "status": 200,
+          "ttsPath": null,
+          "ttsReason": null
+        }
+      ]
+    },
+    {
+      "name": "offline save unmounts editor and reload drops unsaved text",
+      "status": "OBSERVED",
+      "errorBoundaryVisible": true,
+      "recoveredAfterReload": false,
+      "persistedCards": 0
+    },
+    {
+      "name": "localized entry initial render",
+      "status": "PASS",
+      "locale": "ar",
+      "direction": "rtl"
+    },
+    {
+      "name": "localized entry initial render",
+      "status": "PASS",
+      "locale": "en",
+      "direction": "ltr"
+    },
+    {
+      "name": "localized entry initial render",
+      "status": "PASS",
+      "locale": "fr",
+      "direction": "ltr"
+    },
+    {
+      "name": "localized entry initial render",
+      "status": "PASS",
+      "locale": "es",
+      "direction": "ltr"
+    },
+    {
+      "name": "localized entry initial render",
+      "status": "PASS",
+      "locale": "ur",
+      "direction": "rtl"
+    },
+    {
+      "name": "localized entry initial render",
+      "status": "PASS",
+      "locale": "id",
+      "direction": "ltr"
+    },
+    {
+      "name": "localized entry initial render",
+      "status": "PASS",
+      "locale": "tl",
+      "direction": "ltr"
+    },
+    {
+      "name": "guide skip preserves unsent input in manual composer",
+      "status": "PASS"
+    },
+    {
+      "name": "cleanup of UX-only synthetic org and identities",
+      "status": "PASS"
+    }
+  ],
+  "images": [
+    {
+      "name": "guide-initial",
+      "label": "desktop",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/guide-initial-desktop.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, dialogue/card bodies and return codes masked"
+    },
+    {
+      "name": "guide-initial",
+      "label": "mobile",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/guide-initial-mobile.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, dialogue/card bodies and return codes masked"
+    },
+    {
+      "name": "guide-microphone-denied",
+      "label": "desktop",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/guide-microphone-denied-desktop.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, dialogue/card bodies and return codes masked"
+    },
+    {
+      "name": "guide-microphone-denied",
+      "label": "mobile",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/guide-microphone-denied-mobile.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, dialogue/card bodies and return codes masked"
+    },
+    {
+      "name": "guide-missing-key-manual-fallback",
+      "label": "desktop",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/guide-missing-key-manual-fallback-desktop.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, dialogue/card bodies and return codes masked"
+    },
+    {
+      "name": "guide-missing-key-manual-fallback",
+      "label": "mobile",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/guide-missing-key-manual-fallback-mobile.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, dialogue/card bodies and return codes masked"
+    },
+    {
+      "name": "waiting-no-human",
+      "label": "desktop",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/waiting-no-human-desktop.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, dialogue/card bodies and return codes masked"
+    },
+    {
+      "name": "waiting-no-human",
+      "label": "mobile",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/waiting-no-human-mobile.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, dialogue/card bodies and return codes masked"
+    },
+    {
+      "name": "card-missing-key-manual-fallback",
+      "label": "desktop",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/card-missing-key-manual-fallback-desktop.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, dialogue/card bodies and return codes masked"
+    },
+    {
+      "name": "card-missing-key-manual-fallback",
+      "label": "mobile",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/card-missing-key-manual-fallback-mobile.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, dialogue/card bodies and return codes masked"
+    },
+    {
+      "name": "card-save-offline-boundary",
+      "label": "desktop",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/card-save-offline-boundary-desktop.png",
+      "direction": "",
+      "overflow": false,
+      "redaction": "inputs, dialogue/card bodies and return codes masked"
+    },
+    {
+      "name": "card-save-offline-boundary",
+      "label": "mobile",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/card-save-offline-boundary-mobile.png",
+      "direction": "",
+      "overflow": false,
+      "redaction": "inputs, dialogue/card bodies and return codes masked"
+    },
+    {
+      "name": "guide-skip-preserves-unsent-text",
+      "label": "desktop",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/guide-skip-preserves-unsent-text-desktop.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, dialogue/card bodies and return codes masked"
+    },
+    {
+      "name": "guide-skip-preserves-unsent-text",
+      "label": "mobile",
+      "path": "/workspace/wasl-release-audit-20261006/evidence/ui/guide-skip-preserves-unsent-text-mobile.png",
+      "direction": "rtl",
+      "overflow": false,
+      "redaction": "inputs, dialogue/card bodies and return codes masked"
+    }
+  ],
+  "requests": [
+    {
+      "path": "/api/tts",
+      "status": 204,
+      "ttsPath": "fallback",
+      "ttsReason": "no_key"
+    },
+    {
+      "path": "/api/ai/sources",
+      "status": 200,
+      "ttsPath": null,
+      "ttsReason": null
+    },
+    {
+      "path": "/api/ai/card",
+      "status": 200,
+      "ttsPath": null,
+      "ttsReason": null
+    },
+    {
+      "path": "/api/ai/card",
+      "status": 200,
+      "ttsPath": null,
+      "ttsReason": null
+    }
+  ],
+  "clientErrors": [
+    {
+      "type": "TypeError",
+      "summary": "Failed to fetch"
+    }
+  ]
+}

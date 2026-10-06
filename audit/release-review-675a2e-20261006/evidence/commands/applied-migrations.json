@@ -1,0 +1,98 @@
+{
+  "container": "wasl-contextual-audit-20261006-db",
+  "currentBaseSha": "675a2e0089ee1e4324a7b438c17d570989793bc1",
+  "count": 18,
+  "allCurrentFileHashesMatch": true,
+  "migrations": [
+    {
+      "name": "0001_init.sql",
+      "sha256": "4c0ffc6c83a7475852fbea8af2cd1d4070f0b5f670113cf5f164b6cd04d8c91f",
+      "matchesCurrentFile": true
+    },
+    {
+      "name": "0002_identity.sql",
+      "sha256": "75751e16942abb2289982b7bf407fae01767c9e6cf0f05773c50f5d3937aba59",
+      "matchesCurrentFile": true
+    },
+    {
+      "name": "0003_conversations.sql",
+      "sha256": "75d1da2d67a7728afee823f81ff682ca43415e60b09e43b350aaadda4c04b478",
+      "matchesCurrentFile": true
+    },
+    {
+      "name": "0004_admin.sql",
+      "sha256": "0715c926876dfa626a75ea96708b763fda62903f4e20d5bbc0fb1bbe596fb5d4",
+      "matchesCurrentFile": true
+    },
+    {
+      "name": "0005_journeys.sql",
+      "sha256": "17cf0d731db2e95c6c8ab832f028da41b7d5ff912ed55881f6db140907eb13a3",
+      "matchesCurrentFile": true
+    },
+    {
+      "name": "0006_cards_realtime.sql",
+      "sha256": "4e1e7078d68048c7dbbe5ca71af71e656106e969eba0bf70f46fdeb2eb4a34a9",
+      "matchesCurrentFile": true
+    },
+    {
+      "name": "0007_landing_and_fixes.sql",
+      "sha256": "91f1b936a892cf36e3f0b5d6b411fbfc17a26e9aad45cf39cae5f707251edd5d",
+      "matchesCurrentFile": true
+    },
+    {
+      "name": "0008_presence_cards_rating.sql",
+      "sha256": "4210fc936f26321a9922791262ea1e21bcddb9660974a217691f31fbd1d1b8e0",
+      "matchesCurrentFile": true
+    },
+    {
+      "name": "0009_card_hardening_ai.sql",
+      "sha256": "1b13e3130fbff172f6f2d0fb92d83037067d0d07139431ddb27a6ccf363e252e",
+      "matchesCurrentFile": true
+    },
+    {
+      "name": "0010_explainable_routing.sql",
+      "sha256": "d00310680f228d35c7799857fcde4a77d360cac8cc95b159a47f3997cefd96f4",
+      "matchesCurrentFile": true
+    },
+    {
+      "name": "0011_master_card.sql",
+      "sha256": "6817b3dc4c3414d502ce6f8c56272b71c3acfc7c3da591ef93c38b576f06af0a",
+      "matchesCurrentFile": true
+    },
+    {
+      "name": "0012_master_card_visibility.sql",
+      "sha256": "e0ab484fccf553dcc1bbc68ee1fee0bb30472e30f2e6c6117e97768863816652",
+      "matchesCurrentFile": true
+    },
+    {
+      "name": "0013_sources.sql",
+      "sha256": "8f0de5539440f62ca55b680d8d753f7b346e30f6ee3fe84927a0191fa472314c",
+      "matchesCurrentFile": true
+    },
+    {
+      "name": "0014_library_key_language.sql",
+      "sha256": "5b4366389522148591d48ffe67f3b2e33a6fe8a3c86d0c82fb6554cea01e86f1",
+      "matchesCurrentFile": true
+    },
+    {
+      "name": "0015_guide.sql",
+      "sha256": "ae767e82fa408deaa49d16460f53ca97ee0d73d10097511579639ddff00ad417",
+      "matchesCurrentFile": true
+    },
+    {
+      "name": "0016_tailored_readings.sql",
+      "sha256": "6b464996dbad84230cceba70a661b8c25e2cc2c270a93f3c0477d379c3722dc8",
+      "matchesCurrentFile": true
+    },
+    {
+      "name": "0017_code_reveals.sql",
+      "sha256": "b015cb0eaf675acab8b82e66835e76867961ca3cbdd4bf9f56f663a3bfa96703",
+      "matchesCurrentFile": true
+    },
+    {
+      "name": "0018_code_reveals_grant.sql",
+      "sha256": "cee223180a6af001223e96b6b20343f2764128a3c300637072990de49a1a1758",
+      "matchesCurrentFile": true
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+Applied 0001_init.sql to owned LOCAL database
+Applied 0002_identity.sql to owned LOCAL database
+Applied 0003_conversations.sql to owned LOCAL database
+Applied 0004_admin.sql to owned LOCAL database
+Applied 0005_journeys.sql to owned LOCAL database
+Applied 0006_cards_realtime.sql to owned LOCAL database
+Applied 0007_landing_and_fixes.sql to owned LOCAL database
+Applied 0008_presence_cards_rating.sql to owned LOCAL database
+Applied 0009_card_hardening_ai.sql to owned LOCAL database
+Applied 0010_explainable_routing.sql to owned LOCAL database
+Applied 0011_master_card.sql to owned LOCAL database
+Applied 0012_master_card_visibility.sql to owned LOCAL database
+Applied 0013_sources.sql to owned LOCAL database
+Applied 0014_library_key_language.sql to owned LOCAL database
+Applied 0015_guide.sql to owned LOCAL database
+Applied 0016_tailored_readings.sql to owned LOCAL database
+Applied 0017_code_reveals.sql to owned LOCAL database
+Applied 0018_code_reveals_grant.sql to owned LOCAL database
+Prepared five LOCAL containers, real Auth/REST/Realtime and repository migrations. Secrets remain outside Git.
