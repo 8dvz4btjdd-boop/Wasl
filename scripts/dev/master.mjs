@@ -3,6 +3,7 @@
 // Staff passwords come from DEMO_PASSWORD inside this process and are never printed.
 import { createClient } from "@supabase/supabase-js";
 import { chromium } from "playwright";
+import { plainQuestionBox } from "./lib/entry.mjs";
 
 const BASE = process.env.VERIFY_BASE ?? "http://localhost:3127";
 const OUT = "docs/screenshots";
@@ -31,6 +32,7 @@ async function say(page, selector, text) {
 async function askOn(page, question, resume) {
   await page.goto(`${BASE}/en/wait`);
   if (resume) await page.getByRole("button", { name: /Continue with .?خالد/ }).click();
+  await plainQuestionBox(page);
   const q = page.locator('textarea[name="question"]');
   await q.waitFor();
   await q.fill(question);
@@ -99,7 +101,7 @@ try {
   await asker.locator("main input:not([type=hidden])").fill(`mc-${TAG}`);
   await asker.locator("main input:not([type=hidden])").press("Enter");
   await asker.locator('button[name="skip"]').click();
-  await asker.locator("p[dir=ltr]").waitFor({ timeout: 20_000 });
+  await asker.waitForURL("**/wait", { timeout: 30_000 });
   askerId = (await db.from("askers").select("user_id").eq("pseudonym", `mc-${TAG}`).single()).data.user_id;
 
   // ---- Session 1 --------------------------------------------------------------------------

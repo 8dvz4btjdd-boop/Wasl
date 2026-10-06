@@ -4,6 +4,7 @@
 // Staff passwords come from DEMO_PASSWORD inside this process and are never printed.
 import { createClient } from "@supabase/supabase-js";
 import { chromium } from "playwright";
+import { plainQuestionBox } from "./lib/entry.mjs";
 
 const BASE = process.env.VERIFY_BASE ?? "http://localhost:3127";
 const OUT = "docs/screenshots";
@@ -38,8 +39,8 @@ async function ask(browser, locale, pseudonym, question, chip) {
   await page.locator("main input:not([type=hidden])").fill(pseudonym);
   await page.locator("main input:not([type=hidden])").press("Enter");
   await page.locator('button[name="skip"]').click();
-  await page.locator("p[dir=ltr]").waitFor({ timeout: 20_000 });
-  await page.locator('a[href$="/wait"]').click();
+  await page.waitForURL("**/wait", { timeout: 30_000 });
+  await plainQuestionBox(page);
   const q = page.locator('textarea[name="question"]');
   await q.waitFor();
   if (chip) await page.getByRole("button", { name: chip }).click();

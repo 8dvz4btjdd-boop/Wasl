@@ -6,6 +6,7 @@ import { execFileSync } from "node:child_process";
 import { mkdirSync } from "node:fs";
 import { createClient } from "@supabase/supabase-js";
 import { chromium } from "playwright";
+import { plainQuestionBox } from "./lib/entry.mjs";
 
 const BASE = process.env.VERIFY_BASE ?? "http://localhost:3127";
 const OUT = "docs/screenshots";
@@ -79,9 +80,9 @@ try {
   await pseudonymBox.fill(PSEUDONYM);
   await pseudonymBox.press("Enter");
   await asker.locator('button[name="skip"]').click();
-  await asker.locator("p[dir=ltr]").waitFor({ timeout: 20_000 });
-  check("asker sees return code", /^[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{2}$/.test((await asker.locator("p[dir=ltr]").textContent()) ?? ""));
-  await asker.locator('a[href$="/wait"]').click();
+  await asker.waitForURL("**/wait", { timeout: 30_000 });
+  check("no return code at entry", (await asker.getByTestId("return-code").count()) === 0);
+  await plainQuestionBox(asker);
   const question = asker.locator('textarea[name="question"]');
   await question.waitFor();
   await asker.getByRole("button", { name: "التوحيد" }).click();

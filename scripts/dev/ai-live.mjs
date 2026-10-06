@@ -3,6 +3,7 @@
 // Synthetic messages only. Prints the generated card and its ai_runs row (output redacted).
 import { createClient } from "@supabase/supabase-js";
 import { chromium } from "playwright";
+import { plainQuestionBox } from "./lib/entry.mjs";
 
 const BASE = process.env.LIVE_BASE ?? "https://wasl-swart-pi.vercel.app";
 const TAG = `live-${Date.now().toString(36)}`;
@@ -18,8 +19,8 @@ try {
   await page.locator("main input:not([type=hidden])").fill(TAG);
   await page.locator("main input:not([type=hidden])").press("Enter");
   await page.locator('button[name="skip"]').click();
-  await page.locator("p[dir=ltr]").waitFor({ timeout: 30_000 });
-  await page.locator('a[href$="/wait"]').click();
+  await page.waitForURL("**/wait", { timeout: 30_000 });
+  await plainQuestionBox(page);
   const q = page.locator('textarea[name="question"]');
   await q.waitFor();
   await q.fill("أريد أن أفهم معنى الصيام في رمضان وكيف يعيشه الناس.");

@@ -3,6 +3,7 @@
 //   node --env-file=.env.local scripts/dev/sources.mjs   (needs a build at VERIFY_BASE)
 import { createClient } from "@supabase/supabase-js";
 import { chromium } from "playwright";
+import { plainQuestionBox } from "./lib/entry.mjs";
 
 const BASE = process.env.VERIFY_BASE ?? "http://localhost:3127";
 const OUT = "docs/screenshots";
@@ -29,8 +30,8 @@ async function ask(browser, pseudonym, question, chip) {
   await page.locator("main input:not([type=hidden])").fill(pseudonym);
   await page.locator("main input:not([type=hidden])").press("Enter");
   await page.locator('button[name="skip"]').click();
-  await page.locator("p[dir=ltr]").waitFor({ timeout: 20_000 });
-  await page.locator('a[href$="/wait"]').click();
+  await page.waitForURL("**/wait", { timeout: 30_000 });
+  await plainQuestionBox(page);
   const q = page.locator('textarea[name="question"]');
   await q.waitFor();
   if (chip) await page.getByRole("button", { name: chip }).click();
@@ -70,11 +71,11 @@ try {
   const { count: autoCount } = await db.from("library_items").select("id", { count: "exact", head: true }).eq("verified_by", "auto").eq("topic", "doubts").eq("language", "ar");
   check("live citations stored as auto", (autoCount ?? 0) > 0, `auto=${autoCount}`);
 
-  // ---- Cache: the same topic and locale comes from the stored items, not a live search ----
-  const b = await ask(browser, `src2-${TAG}`, "سؤال آخر: هل أُكره الناس على الدخول في الإسلام؟", "الشبهات");
+  // ---- Cache: the same need (normalized) comes from the stored items, not a live search ----
+  const b = await ask(browser, `src2-${TAG}`, "هل  انتشر الإسلام بالسيف ؟", "الشبهات");
   await b.page.getByTestId("readings").locator("blockquote").first().waitFor({ timeout: 30_000 });
   const fb = await found(b.id);
-  check("second question served from the cache (live: false)", fb.some((e) => e.meta.live === false));
+  check("the same need from another asker served from the cache (live: false)", fb.some((e) => e.meta.live === false));
 
   // ---- Daee panel: the same readings, for the daee ----------------------------------------
   const khalid = staff.find((s) => s.display_name === "خالد").user_id;

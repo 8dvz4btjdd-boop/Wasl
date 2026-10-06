@@ -6,6 +6,7 @@
 import { mkdirSync, writeFileSync } from "node:fs";
 import { createClient } from "@supabase/supabase-js";
 import { chromium } from "playwright";
+import { plainQuestionBox } from "./lib/entry.mjs";
 
 const BASE = process.env.VERIFY_BASE ?? "http://localhost:3127";
 const TIMEOUT_BASE = process.env.TIMEOUT_BASE ?? "http://localhost:3128";
@@ -46,8 +47,8 @@ async function newAsker(browser, locale, pseudonym, question) {
   await page.locator("main input:not([type=hidden])").fill(pseudonym);
   await page.locator("main input:not([type=hidden])").press("Enter");
   await page.locator('button[name="skip"]').click();
-  await page.locator("p[dir=ltr]").waitFor({ timeout: 20_000 });
-  await page.locator('a[href$="/wait"]').click();
+  await page.waitForURL("**/wait", { timeout: 30_000 });
+  await plainQuestionBox(page);
   const q = page.locator('textarea[name="question"]');
   await q.waitFor();
   await q.fill(question);

@@ -4,6 +4,7 @@
 import { mkdirSync } from "node:fs";
 import { createClient } from "@supabase/supabase-js";
 import { chromium } from "playwright";
+import { plainQuestionBox } from "./lib/entry.mjs";
 
 const BASE = process.env.VERIFY_BASE ?? "http://localhost:3127";
 const OUT = "docs/screenshots";
@@ -41,12 +42,13 @@ async function enter(page, pseudonym) {
   await page.locator("main input:not([type=hidden])").fill(pseudonym);
   await page.locator("main input:not([type=hidden])").press("Enter");
   await page.locator('button[name="skip"]').click();
-  await page.locator("p[dir=ltr]").waitFor({ timeout: 20_000 });
-  const code = await page.locator("p[dir=ltr]").textContent();
-  await page.locator('a[href$="/wait"]').click();
-  return code;
+  await page.waitForURL("**/wait", { timeout: 30_000 });
+  // No return code at entry: the first one exists only as its hash.
+  await page.waitForTimeout(500);
+  check(`no return code shown at entry (${pseudonym})`, (await page.getByTestId("return-code").count()) === 0);
 }
 async function ask(page, text) {
+  await plainQuestionBox(page);
   const q = page.locator('textarea[name="question"]');
   await q.waitFor();
   await q.fill(text);
@@ -80,8 +82,17 @@ try {
   const askerCtx = await browser.newContext({ viewport: SIZES[1440] });
   const asker = await askerCtx.newPage();
   const pseudonym = `jr-${TAG}`;
-  const code = await enter(asker, pseudonym);
+  await enter(asker, pseudonym);
   const conv1 = await ask(asker, "I read about prayer and want to understand it better.");
+  // "Return code" in the chat header: the first reveal, no warning (no code was ever shown).
+  await asker.getByTestId("code-button").click();
+  const firstCodeBox = asker.getByTestId("return-code-value");
+  await firstCodeBox.waitFor({ timeout: 15_000 });
+  const headerCode = (await firstCodeBox.textContent())?.trim();
+  check("header reveals a return code", /^[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{2}$/.test(headerCode ?? ""));
+  check("first reveal has no previous-code warning", (await asker.getByText("Your previous code will stop working.").count()) === 0);
+  await shots(asker, "chat-code-en");
+  await asker.keyboard.press("Escape");
   const row = d1.locator("aside a", { hasText: pseudonym });
   // Other open conversations can put the list on Active; new ones arrive under Waiting.
   await d1.getByRole("tab", { name: /^Waiting/ }).click();
@@ -189,6 +200,14 @@ try {
   await d2.getByRole("button", { name: /End conversation/ }).click();
   await d2.getByRole("button", { name: "Confirm end" }).click();
   await asker.getByText("This conversation has ended").first().waitFor({ timeout: 15_000 });
+  // The ended panel reveals a new code automatically, above sign-out, with the warning.
+  await asker.getByText("Save your code before signing out").waitFor();
+  const endedBox = asker.getByTestId("return-code-value");
+  await endedBox.waitFor({ timeout: 15_000 });
+  const code = (await endedBox.textContent())?.trim();
+  check("ended panel reveals a new code", /^[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{2}$/.test(code ?? "") && code !== headerCode);
+  check("second reveal warns the previous code stops", await asker.getByText("Your previous code will stop working.").isVisible());
+  await shots(asker, "chat-ended-code-en");
   await askerCtx.close();
 
   const returnCtx = await browser.newContext({ viewport: SIZES[1440] });
@@ -255,11 +274,9 @@ try {
   // Returning with a code links the asker to that new session, so this comes last.
   // New return code at the end: the old code stops working, the new one works.
   await back.goto(`${BASE}/en/chat/${conv2}`);
-  check("new-code hint says the old code stops", await back.getByText("Your previous code will stop working.").isVisible());
-  await back.getByRole("button", { name: "Get a new return code" }).click();
-  await back.getByRole("button", { name: "Create a new code" }).click();
-  const newCodeBox = back.locator("p[dir=ltr]").last();
+  const newCodeBox = back.getByTestId("return-code-value");
   await newCodeBox.waitFor({ timeout: 15_000 });
+  check("new-code hint says the old code stops", await back.getByText("Your previous code will stop working.").isVisible());
   const newCode = (await newCodeBox.textContent())?.trim();
   check("new return code shown once", /^[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{2}$/.test(newCode ?? "") && newCode !== code);
   await shots(back, "chat-new-code-en");
@@ -276,6 +293,7 @@ try {
     await ctx.close();
     return ok;
   };
+  check("header code stopped at the next reveal", !(await tryCode(headerCode)));
   check("old return code no longer works", !(await tryCode(code)));
   check("new return code works", await tryCode(newCode));
 
