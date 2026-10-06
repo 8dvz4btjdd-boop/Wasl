@@ -123,7 +123,8 @@
     "chosenSame": "Seguirás con {name}",
     "chosenSubstitute": "Con el primer dāʿī cualificado",
     "change": "Cambiar",
-    "followTitle": "¿Con qué te gustaría seguir?"
+    "followTitle": "¿Con qué te gustaría seguir?",
+    "guideUnavailable": "La guía de IA no está disponible ahora. Escribe tu pregunta aquí."
   },
   "Errors": {
     "invalidInput": "Revisa los campos e inténtalo de nuevo.",
@@ -181,7 +182,10 @@
     "newCodeTitle": "Tu nuevo código de regreso",
     "newCodeBody": "Cópialo o anótalo. Solo se muestra una vez, y tu código anterior ya no funciona.",
     "newCodeFailed": "No se pudo crear un código nuevo. Inténtalo de nuevo.",
-    "newCodeHint": "Tu código anterior dejará de funcionar."
+    "newCodeHint": "Tu código anterior dejará de funcionar.",
+    "codeButton": "Código de regreso",
+    "saveCodeFirst": "Guarda tu código antes de cerrar sesión",
+    "close": "Cerrar"
   },
   "Inbox": {
     "cardByAI": "Redactada por la guía de IA, aprobada por la persona",
@@ -568,7 +572,8 @@
     "empty": "Aún no hay lecturas aprobadas para esta pregunta.",
     "verbatim": "Citado textualmente de la fuente",
     "excerpt": "Fragmento",
-    "readFull": "Leer la fuente completa"
+    "readFull": "Leer la fuente completa",
+    "suggested": "Sugerido para ti"
   },
   "Guide": {
     "label": "Guía de IA",
@@ -585,6 +590,35 @@
     "speak": "Di tu respuesta",
     "stopListening": "Dejar de escuchar",
     "speaker": "Leer las preguntas en voz alta",
-    "unmute": "Volver a activar la voz"
+    "unmute": "Volver a activar la voz",
+    "opening": "¿Cuál es tu pregunta?",
+    "openingHint": "Escríbela o dila. La guía puede hacer hasta tres preguntas cortas para que el dāʿī adecuado pueda ayudarte.",
+    "questionPlaceholder": "Escribe tu pregunta…",
+    "send": "Enviar"
+  },
+  "Assist": {
+    "tab": "Asistente",
+    "title": "Asistente",
+    "readTone": "Leer el tono de los últimos mensajes",
+    "reading": "Leyendo…",
+    "toneLine": "Los últimos mensajes parecen {tone}",
+    "tone_hurried": "apresurados",
+    "tone_confused": "confusos",
+    "tone_frustrated": "molestos",
+    "tone_neutral": "neutrales",
+    "toneUndefined": "No se puede saber el tono de los últimos mensajes (no especificado)",
+    "searchLabel": "Buscar en las fuentes aprobadas",
+    "search": "Buscar",
+    "searching": "Buscando en las fuentes aprobadas…",
+    "noResults": "Aún no hay lecturas aprobadas para esto.",
+    "seenTitle": "Lo que vio la persona",
+    "seenNone": "No se mostraron lecturas a la persona.",
+    "seenLabel": "Mostrado a la persona",
+    "feqhia": "Fiqh, no para convertirlo en fatwa",
+    "insertQuote": "Insertar como cita",
+    "select": "Seleccionar mensaje",
+    "searchMessage": "Buscar en las fuentes para este mensaje",
+    "sparkleHint": "Clic para buscar; Mayús+clic para seleccionar varios",
+    "searchSelected": "Buscar lo seleccionado ({count})"
   }
 }

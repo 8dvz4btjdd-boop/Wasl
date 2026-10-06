@@ -100,6 +100,7 @@ export function useSpeechOutput(locale: string) {
       setSpeaking(true);
       try {
         const res = await fetch("/api/tts", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ text, locale }) });
+        console.info(`[guide voice] ${res.headers.get("x-tts-path") ?? "fallback"}`);
         if (res.status === 200 && res.headers.get("content-type")?.startsWith("audio/")) {
           const url = URL.createObjectURL(await res.blob());
           const el = new Audio(url);

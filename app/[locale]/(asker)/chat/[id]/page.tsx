@@ -3,7 +3,6 @@ import { redirect } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
 import { requireAsker } from "@/lib/auth/dal";
 import { getConversation, getDaeeName, getMessages } from "@/lib/db/queries/conversations";
-import { getAIEnabled } from "@/lib/db/queries/org";
 import { createClient } from "@/lib/db/server";
 import { AskerChat, type TransferLine } from "./asker-chat";
 
@@ -18,12 +17,12 @@ export default async function ChatPage({ params }: PageProps<"/[locale]/chat/[id
   if (!conversation || conversation.asker_id !== asker.user_id) return redirect({ href: "/wait", locale });
 
   const supabase = await createClient();
-  const [messages, daeeName, transfers, card, aiEnabled] = await Promise.all([
+  const [messages, daeeName, transfers, card, codes] = await Promise.all([
     getMessages(id),
     getDaeeName(conversation.daee_id),
     supabase.from("transfers").select("id, status, created_at, to_daee, requeued_at").eq("conversation_id", id).order("created_at"),
     supabase.from("cards").select("id").eq("conversation_id", id).eq("status", "approved").limit(1).maybeSingle(),
-    getAIEnabled(),
+    supabase.from("askers").select("codes_revealed").eq("user_id", asker.user_id).maybeSingle(),
   ]);
 
   const toIds = (transfers.data ?? []).map((t) => t.to_daee);
@@ -47,8 +46,7 @@ export default async function ChatPage({ params }: PageProps<"/[locale]/chat/[id
       initialMessages={messages}
       initialTransfers={initialTransfers}
       initialCardApproved={Boolean(card.data)}
-      language={asker.language}
-      aiEnabled={aiEnabled}
+      codesRevealed={codes.data?.codes_revealed ?? 0}
     />
   );
 }

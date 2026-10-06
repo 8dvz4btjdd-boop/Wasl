@@ -123,7 +123,8 @@
     "chosenSame": "Continuing with {name}",
     "chosenSubstitute": "With the first qualified dāʿī",
     "change": "Change",
-    "followTitle": "What would you like to continue with?"
+    "followTitle": "What would you like to continue with?",
+    "guideUnavailable": "The AI guide isn't available right now. Write your question here."
   },
   "Errors": {
     "invalidInput": "Check the fields and try again.",
@@ -181,7 +182,10 @@
     "newCodeTitle": "Your new return code",
     "newCodeBody": "Copy it or write it down. It's shown only once, and your old code no longer works.",
     "newCodeFailed": "Couldn't create a new code. Try again.",
-    "newCodeHint": "Your previous code will stop working."
+    "newCodeHint": "Your previous code will stop working.",
+    "codeButton": "Return code",
+    "saveCodeFirst": "Save your code before signing out",
+    "close": "Close"
   },
   "Inbox": {
     "title": "Inbox",
@@ -568,7 +572,8 @@
     "empty": "No approved readings for this question yet.",
     "verbatim": "Quoted verbatim from the source",
     "excerpt": "Excerpt",
-    "readFull": "Read the full source"
+    "readFull": "Read the full source",
+    "suggested": "Suggested for you"
   },
   "Guide": {
     "label": "AI guide",
@@ -585,6 +590,35 @@
     "speak": "Speak your answer",
     "stopListening": "Stop listening",
     "speaker": "Read the questions aloud",
-    "unmute": "Turn the voice back on"
+    "unmute": "Turn the voice back on",
+    "opening": "What is your question?",
+    "openingHint": "Type it or say it. The guide may ask up to three short questions so the right dāʿī can help.",
+    "questionPlaceholder": "Write your question…",
+    "send": "Send"
+  },
+  "Assist": {
+    "tab": "Assistant",
+    "title": "Assistant",
+    "readTone": "Read the tone of the recent messages",
+    "reading": "Reading…",
+    "toneLine": "The recent messages read as {tone}",
+    "tone_hurried": "hurried",
+    "tone_confused": "confused",
+    "tone_frustrated": "frustrated",
+    "tone_neutral": "neutral",
+    "toneUndefined": "The recent messages' tone can't be told (not specified)",
+    "searchLabel": "Search the approved sources",
+    "search": "Search",
+    "searching": "Searching the approved sources…",
+    "noResults": "No approved readings for this yet.",
+    "seenTitle": "What the asker was shown",
+    "seenNone": "No readings were shown to the asker.",
+    "seenLabel": "Shown to the asker",
+    "feqhia": "Fiqh, not to be turned into a fatwa",
+    "insertQuote": "Insert as quote",
+    "select": "Select message",
+    "searchMessage": "Search the sources for this message",
+    "sparkleHint": "Click to search; Shift+click to select several",
+    "searchSelected": "Search selected ({count})"
   }
 }

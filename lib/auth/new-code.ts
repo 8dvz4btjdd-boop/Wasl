@@ -11,18 +11,22 @@ import { logServerError } from "@/lib/log";
  * one, so the old code stops working); the code itself is returned once and never logged.
  * The hash column isn't writable by askers, hence the service client, scoped to this asker.
  */
-export async function issueNewReturnCode(): Promise<{ ok: true; code: string } | { ok: false }> {
+export async function issueNewReturnCode(): Promise<{ ok: true; code: string; replacedShown: boolean } | { ok: false }> {
   const asker = await getAsker();
   if (!asker) return { ok: false };
   const org = await getDefaultOrg();
   const code = generateReturnCode();
-  const { error } = await createServiceClient()
+  const service = createServiceClient();
+  const { data: row } = await service.from("askers").select("codes_revealed").eq("user_id", asker.user_id).single();
+  const shownBefore = row?.codes_revealed ?? 0;
+  const { error } = await service
     .from("askers")
-    .update({ return_code_hash: hashReturnCode(code, org.return_code_salt) })
+    .update({ return_code_hash: hashReturnCode(code, org.return_code_salt), codes_revealed: shownBefore + 1 })
     .eq("user_id", asker.user_id);
   if (error) {
     logServerError("issueNewReturnCode", error, { userId: asker.user_id });
     return { ok: false };
   }
-  return { ok: true, code };
+  // The previous code stops working; it only matters to say so if one was ever shown.
+  return { ok: true, code, replacedShown: shownBefore > 0 };
 }

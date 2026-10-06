@@ -79,5 +79,7 @@ export async function createAsker(_prev: EnterState, formData: FormData): Promis
   }
 
   // Shown once by the client. Never stored or logged in plain form.
-  return { code, pseudonym: pseudonym.data };
+  // The first code exists only as its hash: it is never shown at entry. The asker gets a
+  // code from the chat header or when a conversation ends (each reveal issues a new one).
+  return redirect({ href: "/wait", locale });
 }

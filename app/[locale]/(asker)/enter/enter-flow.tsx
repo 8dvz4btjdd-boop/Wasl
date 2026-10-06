@@ -4,7 +4,6 @@ import { ArrowUp } from "lucide-react";
 import { motion } from "motion/react";
 import { useLocale, useTranslations } from "next-intl";
 import { useActionState, useCallback, useState, useSyncExternalStore } from "react";
-import { ReturnCodeReveal } from "@/components/asker/return-code-reveal";
 import { useBackHandler } from "@/components/site/back-control";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -37,10 +36,10 @@ export function EnterFlow({ existingPseudonym }: { existingPseudonym: string | n
   // The header's back control steps back through the questions before leaving.
   useBackHandler(
     useCallback(() => {
-      if (state.code || step === "pseudonym") return false;
+      if (step === "pseudonym") return false;
       setStep("pseudonym");
       return true;
-    }, [state.code, step]),
+    }, [step]),
   );
 
   // A pseudonym problem found by the server sends the person back to that question.
@@ -48,10 +47,6 @@ export function EnterFlow({ existingPseudonym }: { existingPseudonym: string | n
   if (state !== seenState) {
     setSeenState(state);
     if (state.error && PSEUDONYM_ERRORS.includes(state.error)) setStep("pseudonym");
-  }
-
-  if (state.code && state.pseudonym) {
-    return <ReturnCodeReveal code={state.code} pseudonym={state.pseudonym} />;
   }
 
   if (existingPseudonym) {

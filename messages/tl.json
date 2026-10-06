@@ -123,7 +123,8 @@
     "chosenSame": "Nagpapatuloy kasama si {name}",
     "chosenSubstitute": "Kasama ang unang kwalipikadong dāʿī",
     "change": "Baguhin",
-    "followTitle": "Ano ang gusto mong ipagpatuloy?"
+    "followTitle": "Ano ang gusto mong ipagpatuloy?",
+    "guideUnavailable": "Hindi available ang AI guide ngayon. Isulat dito ang iyong tanong."
   },
   "Errors": {
     "invalidInput": "Suriin ang mga field at subukan ulit.",
@@ -181,7 +182,10 @@
     "newCodeTitle": "Ang bago mong return code",
     "newCodeBody": "Kopyahin o isulat ito. Isang beses lang itong ipapakita, at hindi na gumagana ang luma mong code.",
     "newCodeFailed": "Hindi makagawa ng bagong code. Subukan ulit.",
-    "newCodeHint": "Hihinto na ang dating code."
+    "newCodeHint": "Hihinto na ang dating code.",
+    "codeButton": "Return code",
+    "saveCodeFirst": "I-save ang iyong code bago mag-sign out",
+    "close": "Isara"
   },
   "Inbox": {
     "cardByAI": "Ginawa ng AI guide, inaprubahan ng nagtatanong",
@@ -568,7 +572,8 @@
     "empty": "Wala pang aprubadong babasahin para sa tanong na ito.",
     "verbatim": "Sinipi nang eksakto mula sa sanggunian",
     "excerpt": "Sipi",
-    "readFull": "Basahin ang buong sanggunian"
+    "readFull": "Basahin ang buong sanggunian",
+    "suggested": "Iminungkahi para sa iyo"
   },
   "Guide": {
     "label": "AI guide",
@@ -585,6 +590,35 @@
     "speak": "Sabihin ang iyong sagot",
     "stopListening": "Itigil ang pakikinig",
     "speaker": "Basahin nang malakas ang mga tanong",
-    "unmute": "Buksan muli ang boses"
+    "unmute": "Buksan muli ang boses",
+    "opening": "Ano ang iyong tanong?",
+    "openingHint": "Isulat o sabihin ito. Maaaring magtanong ang guide ng hanggang tatlong maikling tanong para makatulong ang tamang dāʿī.",
+    "questionPlaceholder": "Isulat ang iyong tanong…",
+    "send": "Ipadala"
+  },
+  "Assist": {
+    "tab": "Assistant",
+    "title": "Assistant",
+    "readTone": "Basahin ang tono ng mga huling mensahe",
+    "reading": "Binabasa…",
+    "toneLine": "Ang mga huling mensahe ay tila {tone}",
+    "tone_hurried": "nagmamadali",
+    "tone_confused": "nalilito",
+    "tone_frustrated": "naiinis",
+    "tone_neutral": "karaniwan",
+    "toneUndefined": "Hindi matukoy ang tono ng mga huling mensahe",
+    "searchLabel": "Maghanap sa mga aprubadong sanggunian",
+    "search": "Hanapin",
+    "searching": "Naghahanap sa mga aprubadong sanggunian…",
+    "noResults": "Wala pang aprubadong babasahin para dito.",
+    "seenTitle": "Ang nakita ng nagtatanong",
+    "seenNone": "Walang babasahing ipinakita sa nagtatanong.",
+    "seenLabel": "Ipinakita sa nagtatanong",
+    "feqhia": "Fiqh, hindi dapat gawing fatwa",
+    "insertQuote": "Ipasok bilang sipi",
+    "select": "Piliin ang mensahe",
+    "searchMessage": "Maghanap ng sanggunian para sa mensaheng ito",
+    "sparkleHint": "I-click para maghanap; Shift+click para pumili ng ilan",
+    "searchSelected": "Hanapin ang napili ({count})"
   }
 }

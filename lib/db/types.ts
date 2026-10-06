@@ -67,6 +67,7 @@ export type Database = {
       askers: {
         Row: {
           background: string | null
+          codes_revealed: number
           created_at: string
           language: string
           org_id: string
@@ -76,6 +77,7 @@ export type Database = {
         }
         Insert: {
           background?: string | null
+          codes_revealed?: number
           created_at?: string
           language?: string
           org_id: string
@@ -85,6 +87,7 @@ export type Database = {
         }
         Update: {
           background?: string | null
+          codes_revealed?: number
           created_at?: string
           language?: string
           org_id?: string
@@ -306,6 +309,38 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "profiles"
             referencedColumns: ["user_id"]
+          },
+        ]
+      }
+      conversation_readings: {
+        Row: {
+          conversation_id: string
+          created_at: string
+          id: number
+          items: Json
+          need_hash: string | null
+        }
+        Insert: {
+          conversation_id: string
+          created_at?: string
+          id?: never
+          items: Json
+          need_hash?: string | null
+        }
+        Update: {
+          conversation_id?: string
+          created_at?: string
+          id?: never
+          items?: Json
+          need_hash?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "conversation_readings_conversation_id_fkey"
+            columns: ["conversation_id"]
+            isOneToOne: false
+            referencedRelation: "conversations"
+            referencedColumns: ["id"]
           },
         ]
       }
@@ -535,7 +570,9 @@ export type Database = {
           item_key: string | null
           language: string
           level: string
+          need_hash: string | null
           org_id: string
+          passage_hash: string | null
           source_name: string
           source_url: string
           title: string
@@ -551,7 +588,9 @@ export type Database = {
           item_key?: string | null
           language: string
           level: string
+          need_hash?: string | null
           org_id: string
+          passage_hash?: string | null
           source_name: string
           source_url: string
           title: string
@@ -567,7 +606,9 @@ export type Database = {
           item_key?: string | null
           language?: string
           level?: string
+          need_hash?: string | null
           org_id?: string
+          passage_hash?: string | null
           source_name?: string
           source_url?: string
           title?: string

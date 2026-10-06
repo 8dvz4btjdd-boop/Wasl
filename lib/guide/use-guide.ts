@@ -1,139 +1,89 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react";
-import { guideFinish, guideStep, type GuideSummary } from "./actions";
+import { useCallback, useRef, useState } from "react";
+import { guideSkipped, guideStep, type GuideStep, type GuideSummary } from "./actions";
 
-export type GuidePhase = "starting" | "asking" | "thinking" | "summary" | "confirmed" | "skipped" | "fallback" | "stopped";
+export type GuidePhase = "ask" | "asking" | "thinking" | "summary" | "fallback" | "skipped";
 export type GuideLine = { role: "asker" | "guide"; text: string; refusal?: boolean };
 
-const KEY = (id: string) => `wasl.guide.${id}`;
-const EVENT = "wasl:guide";
-function subscribe(onChange: () => void) {
-  window.addEventListener(EVENT, onChange);
-  return () => window.removeEventListener(EVENT, onChange);
-}
-function readStored(id: string): string | null {
-  try {
-    return sessionStorage.getItem(KEY(id));
-  } catch {
-    return null;
-  }
-}
-function store(id: string, value: string) {
-  try {
-    sessionStorage.setItem(KEY(id), value);
-  } catch {
-    // Storage blocked: the guide may just run again on reload.
-  }
-  window.dispatchEvent(new Event(EVENT));
-}
+const STEP_TIMEOUT_MS = 30_000;
 
-type Options = {
-  conversationId: string;
-  locale: string;
-  /** AI on, nobody assigned yet, and no confirmed summary on the conversation. */
-  enabled: boolean;
-  /** A daee joined: stop mid-step and use whatever summary exists. */
-  stopped: boolean;
-  /** The guide's line for a religious question (shown, never answered). */
-  refusalText: string;
-  onQuestion?: (question: string) => void;
-};
+/** A server step that can't hang the screen: a 30 s limit, then the caller decides. */
+async function stepOnce(input: Parameters<typeof guideStep>[0]): Promise<GuideStep> {
+  return Promise.race([
+    guideStep(input),
+    new Promise<GuideStep>((resolve) => setTimeout(() => resolve({ kind: "fallback", reason: "client_timeout" }), STEP_TIMEOUT_MS)),
+  ]);
+}
 
 /**
- * The guide's state machine, one question at a time: the first message, at most three
- * questions, then a summary the asker confirms (or changes). Skip, AI failure and a daee
- * joining all end it without losing anything: the asker simply waits as before.
+ * The guide on the entry flow, before the conversation exists: the asker's question, then at
+ * most three short questions, then a summary to confirm. Every failure (a rejected request,
+ * a timeout, an AI fallback) is retried once and then ends the guide calmly: the asker gets
+ * the plain question box with what they typed. Nothing can leave it stuck on "one moment".
  */
-export function useGuide({ conversationId, locale, enabled, stopped, refusalText, onQuestion }: Options) {
-  const stored = useSyncExternalStore(subscribe, () => readStored(conversationId), () => null);
-  const [phase, setPhase] = useState<GuidePhase>("starting");
+export function useEntryGuide({ locale, refusalText, onQuestion }: { locale: string; refusalText: string; onQuestion?: (q: string) => void }) {
+  const [phase, setPhase] = useState<GuidePhase>("ask");
   const [lines, setLines] = useState<GuideLine[]>([]);
   const [question, setQuestion] = useState<string | null>(null);
   const [summary, setSummary] = useState<GuideSummary | null>(null);
-  const [proposedTopic, setProposedTopic] = useState<GuideSummary["topic"] | null>(null);
-  const started = useRef(false);
-  const finished = useRef(false);
-  const questionCallback = useRef(onQuestion);
-  useEffect(() => {
-    questionCallback.current = onQuestion;
-  }, [onQuestion]);
-
+  const [firstMessage, setFirstMessage] = useState("");
+  const ended = useRef(false);
   const questionsAsked = lines.filter((l) => l.role === "guide" && !l.refusal).length;
 
   const step = useCallback(
-    async (next: GuideLine[]) => {
+    async (first: string, next: GuideLine[]) => {
       setPhase("thinking");
-      const res = await guideStep({ conversationId, locale, turns: next.filter((l) => !l.refusal).map(({ role, text }) => ({ role, text })) });
-      if (finished.current) return;
-      const withRefusal = "refused" in res && res.refused ? [...next, { role: "guide" as const, text: refusalText, refusal: true }] : next;
+      const input = { firstMessage: first, locale, turns: next.filter((l) => !l.refusal).map(({ role, text }) => ({ role, text })) };
+      let res: GuideStep = await stepOnce(input).catch(() => ({ kind: "fallback", reason: "rejected" }) as GuideStep);
+      if (res.kind === "fallback" && (res.reason === "rejected" || res.reason === "client_timeout" || res.reason === "exception")) {
+        res = await stepOnce(input).catch(() => ({ kind: "fallback", reason: "rejected" }) as GuideStep);
+      }
+      if (ended.current) return;
+      // The transcript is the first message, then the turns (next never includes it).
+      const opening = { role: "asker" as const, text: first };
+      const withRefusal = res.kind !== "fallback" && res.refused ? [...next, { role: "guide" as const, text: refusalText, refusal: true }] : next;
       if (res.kind === "question") {
-        setLines([...withRefusal, { role: "guide", text: res.question }]);
+        setLines([opening, ...withRefusal, { role: "guide", text: res.question }]);
         setQuestion(res.question);
         setPhase("asking");
-        questionCallback.current?.(res.question);
+        onQuestion?.(res.question);
       } else if (res.kind === "summary") {
-        setLines(withRefusal);
+        setLines([opening, ...withRefusal]);
         setSummary(res.summary);
-        setProposedTopic(res.summary.topic);
         setQuestion(null);
         setPhase("summary");
-      } else if (res.kind === "stopped") {
-        finished.current = true;
-        setPhase("stopped");
       } else {
-        finished.current = true;
-        store(conversationId, "fallback");
+        ended.current = true;
         setPhase("fallback");
-        void guideFinish({ conversationId, summary: null, proposedTopic: null, questions: next.filter((l) => l.role === "guide" && !l.refusal).length, skipped: false });
+        void guideSkipped({ questions: next.filter((l) => l.role === "guide" && !l.refusal).length, reason: "fallback" });
       }
     },
-    [conversationId, locale, refusalText],
+    [locale, refusalText, onQuestion],
   );
 
-  // Start once, when the guide applies and hasn't already ended for this conversation.
-  useEffect(() => {
-    if (!enabled || stored || started.current) return;
-    started.current = true;
-    void step([]);
-  }, [enabled, stored, step]);
-
-  // A daee joined: stop now; a summary that exists is still used.
-  useEffect(() => {
-    if (!stopped || finished.current || !started.current) return;
-    finished.current = true;
-    void guideFinish({ conversationId, summary, proposedTopic, questions: questionsAsked, skipped: false });
-  }, [stopped, conversationId, summary, proposedTopic, questionsAsked]);
-
-  const answer = useCallback(
+  /** The asker's first message, or an answer to the current question. */
+  const submit = useCallback(
     (text: string) => {
-      if (phase !== "asking") return;
-      void step([...lines, { role: "asker", text }]);
+      if (phase === "ask") {
+        setFirstMessage(text);
+        setLines([{ role: "asker", text }]);
+        void step(text, []);
+      } else if (phase === "asking") {
+        const next = [...lines, { role: "asker" as const, text }];
+        setLines(next);
+        // The first line is the first message itself; the turns are what came after it.
+        void step(firstMessage, next.slice(1));
+      }
     },
-    [phase, lines, step],
+    [phase, lines, firstMessage, step],
   );
 
   const skip = useCallback(() => {
-    finished.current = true;
-    store(conversationId, "skipped");
+    ended.current = true;
     setPhase("skipped");
-    void guideFinish({ conversationId, summary: null, proposedTopic: null, questions: questionsAsked, skipped: true });
-  }, [conversationId, questionsAsked]);
+    void guideSkipped({ questions: questionsAsked, reason: "skip" });
+  }, [questionsAsked]);
 
-  const confirm = useCallback(
-    async (topic: GuideSummary["topic"]) => {
-      if (!summary || finished.current) return;
-      finished.current = true;
-      const confirmed = { ...summary, topic };
-      // Saved first: the readings that follow are built from the confirmed summary.
-      await guideFinish({ conversationId, summary: confirmed, proposedTopic, questions: questionsAsked, skipped: false });
-      setSummary(confirmed);
-      setPhase("confirmed");
-      store(conversationId, "confirmed");
-    },
-    [summary, conversationId, proposedTopic, questionsAsked],
-  );
-
-  const effectivePhase: GuidePhase = !enabled ? "fallback" : stored === "confirmed" && phase !== "confirmed" ? "confirmed" : stored && phase === "starting" ? (stored as GuidePhase) : phase;
-  return { phase: effectivePhase, lines, question, summary, questionsAsked, answer, skip, confirm };
+  return { phase, lines, question, summary, firstMessage, questionsAsked, submit, skip };
 }

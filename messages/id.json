@@ -123,7 +123,8 @@
     "chosenSame": "Melanjutkan dengan {name}",
     "chosenSubstitute": "Dengan dai pertama yang memenuhi syarat",
     "change": "Ubah",
-    "followTitle": "Apa yang ingin Anda lanjutkan?"
+    "followTitle": "Apa yang ingin Anda lanjutkan?",
+    "guideUnavailable": "Pemandu AI sedang tidak tersedia. Tulis pertanyaan Anda di sini."
   },
   "Errors": {
     "invalidInput": "Periksa isian lalu coba lagi.",
@@ -181,7 +182,10 @@
     "newCodeTitle": "Kode kembali baru Anda",
     "newCodeBody": "Salin atau catat kode ini. Kode hanya ditampilkan sekali, dan kode lama Anda tidak berlaku lagi.",
     "newCodeFailed": "Kode baru tidak dapat dibuat. Coba lagi.",
-    "newCodeHint": "Kode sebelumnya akan berhenti berfungsi."
+    "newCodeHint": "Kode sebelumnya akan berhenti berfungsi.",
+    "codeButton": "Kode kembali",
+    "saveCodeFirst": "Simpan kode Anda sebelum keluar",
+    "close": "Tutup"
   },
   "Inbox": {
     "cardByAI": "Disusun oleh pemandu AI, disetujui penanya",
@@ -568,7 +572,8 @@
     "empty": "Belum ada bacaan yang disetujui untuk pertanyaan ini.",
     "verbatim": "Dikutip kata demi kata dari sumbernya",
     "excerpt": "Kutipan",
-    "readFull": "Baca sumber lengkap"
+    "readFull": "Baca sumber lengkap",
+    "suggested": "Disarankan untuk Anda"
   },
   "Guide": {
     "label": "Pemandu AI",
@@ -585,6 +590,35 @@
     "speak": "Ucapkan jawaban Anda",
     "stopListening": "Berhenti mendengarkan",
     "speaker": "Bacakan pertanyaan",
-    "unmute": "Nyalakan suara lagi"
+    "unmute": "Nyalakan suara lagi",
+    "opening": "Apa pertanyaan Anda?",
+    "openingHint": "Ketik atau ucapkan. Pemandu dapat mengajukan hingga tiga pertanyaan singkat agar dai yang tepat bisa membantu.",
+    "questionPlaceholder": "Tulis pertanyaan Anda…",
+    "send": "Kirim"
+  },
+  "Assist": {
+    "tab": "Asisten",
+    "title": "Asisten",
+    "readTone": "Baca nada pesan terakhir",
+    "reading": "Membaca…",
+    "toneLine": "Pesan terakhir terkesan {tone}",
+    "tone_hurried": "terburu-buru",
+    "tone_confused": "bingung",
+    "tone_frustrated": "kesal",
+    "tone_neutral": "biasa",
+    "toneUndefined": "Nada pesan terakhir tidak dapat ditentukan",
+    "searchLabel": "Cari di sumber yang disetujui",
+    "search": "Cari",
+    "searching": "Mencari di sumber yang disetujui…",
+    "noResults": "Belum ada bacaan yang disetujui untuk ini.",
+    "seenTitle": "Yang dilihat penanya",
+    "seenNone": "Tidak ada bacaan yang ditampilkan kepada penanya.",
+    "seenLabel": "Ditampilkan kepada penanya",
+    "feqhia": "Fikih, jangan dijadikan fatwa",
+    "insertQuote": "Sisipkan sebagai kutipan",
+    "select": "Pilih pesan",
+    "searchMessage": "Cari sumber untuk pesan ini",
+    "sparkleHint": "Klik untuk mencari; Shift+klik untuk memilih beberapa",
+    "searchSelected": "Cari yang dipilih ({count})"
   }
 }

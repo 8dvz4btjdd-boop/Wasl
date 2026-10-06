@@ -4,7 +4,8 @@ import { isolate } from "@/lib/bidi";
 import { ArrowUp, UserRound, Users } from "lucide-react";
 import { motion } from "motion/react";
 import { useLocale, useTranslations } from "next-intl";
-import { useActionState, useRef, useState } from "react";
+import { useActionState, useRef, useState, useTransition } from "react";
+import { GuideEntry } from "@/components/guide/guide-entry";
 import { useHydrated } from "@/components/chat/use-clock";
 import { PresenceDot } from "@/components/inbox/presence-toggle";
 import { Button } from "@/components/ui/button";
@@ -24,7 +25,7 @@ export type ResumeInfo = {
 type Choice = "same" | "substitute";
 
 /** First question, or a returning asker's follow-up (with a choice of who continues). */
-export function QuestionForm({ resume }: { resume: ResumeInfo | null }) {
+export function QuestionForm({ resume, aiEnabled }: { resume: ResumeInfo | null; aiEnabled: boolean }) {
   const t = useTranslations("Wait");
   const tTopic = useTranslations("Topics");
   const tError = useTranslations("Errors");
@@ -39,9 +40,41 @@ export function QuestionForm({ resume }: { resume: ResumeInfo | null }) {
   // With a card, the asker first chooses who continues; without one, nothing to choose.
   const [choice, setChoice] = useState<Choice | null>(null);
   const choosing = Boolean(resume?.card) && choice === null;
+  // With AI on, the guide comes first; skipping it (or it being unavailable) opens this box.
+  const [guideOpen, setGuideOpen] = useState(aiEnabled);
+  const [guideNote, setGuideNote] = useState(false);
+  const [, startGuideSubmit] = useTransition();
 
   if (choosing && resume?.card) {
     return <ResumeChoice resume={resume} onChoose={setChoice} />;
+  }
+
+  if (guideOpen) {
+    return (
+      <GuideEntry
+        pending={pending}
+        note={resume ? t("followupNote") : undefined}
+        onExit={(prefill, reason) => {
+          setQuestion(prefill);
+          setGuideNote(reason === "fallback");
+          setGuideOpen(false);
+        }}
+        onConfirmed={(summary, aiTopic, questions) => {
+          // The conversation starts from the confirmed summary, classified on the summary.
+          const data = new FormData();
+          data.set("locale", locale);
+          data.set("question", summary.question);
+          data.set("topic", summary.topic);
+          data.set("ai_topic", aiTopic);
+          data.set("depth", summary.depth);
+          data.set("level", summary.level);
+          data.set("guide", "1");
+          data.set("guide_questions", String(questions));
+          data.set("resume", choice ?? "");
+          startGuideSubmit(() => formAction(data));
+        }}
+      />
+    );
   }
 
   return (
@@ -51,6 +84,7 @@ export function QuestionForm({ resume }: { resume: ResumeInfo | null }) {
           {resume ? t("followTitle") : t("title")}
         </h1>
         <p className="text-lg text-muted-foreground">{resume ? t("followupNote") : t("hint")}</p>
+        {guideNote && <p className="text-sm text-muted-foreground">{t("guideUnavailable")}</p>}
         {choice && (
           <p className="flex items-center gap-2 text-sm text-teal-fg">
             {choice === "same" && resume?.preferred ? t("chosenSame", { name: isolate(resume.preferred.name) }) : t("chosenSubstitute")}

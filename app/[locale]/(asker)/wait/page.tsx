@@ -5,6 +5,7 @@ import type { Locale } from "@/i18n/routing";
 import { requireAsker } from "@/lib/auth/dal";
 import { getOpenConversationId } from "@/lib/db/queries/conversations";
 import { createClient } from "@/lib/db/server";
+import { getAIEnabled } from "@/lib/db/queries/org";
 import { QuestionForm, type ResumeInfo } from "./question-form";
 
 export default async function WaitPage({ params }: PageProps<"/[locale]/wait">) {
@@ -17,7 +18,7 @@ export default async function WaitPage({ params }: PageProps<"/[locale]/wait">) 
 
   return (
     <AskerShell>
-      <QuestionForm resume={await getResumeInfo(asker.user_id)} />
+      <QuestionForm resume={await getResumeInfo(asker.user_id)} aiEnabled={await getAIEnabled()} />
     </AskerShell>
   );
 }

@@ -19,6 +19,12 @@ const Input = z.object({
   topic: z.enum(TOPICS).optional().or(z.literal("").transform(() => undefined)),
   // Returning askers with a card choose who continues with them.
   resume: z.enum(["same", "substitute"]).optional().or(z.literal("").transform(() => undefined)),
+  // The guide's confirmed summary: the question is the summary, already classified.
+  guide: z.literal("1").optional(),
+  depth: z.enum(["intro", "explain", "detailed"]).optional(),
+  level: z.enum(["a", "b", "c", "d"]).optional(),
+  ai_topic: z.enum(TOPICS).optional(),
+  guide_questions: z.coerce.number().int().min(0).max(3).optional(),
 });
 
 /**
@@ -45,13 +51,17 @@ export async function startConversation(_prev: FormState, formData: FormData): P
   }
 
   const supabase = await createClient();
+  // From the guide the summary was classified already (on the summary, not the first message).
+  const fromGuide = parsed.data.guide === "1" && Boolean(parsed.data.topic);
   const [followup, classified] = await Promise.all([
     getFollowupLink(asker.user_id, parsed.data.resume),
-    runAI(classifyTask, { question, locale }, { orgId: org.id, actorId: asker.user_id }),
+    fromGuide
+      ? Promise.resolve({ ok: true as const, data: { topic: parsed.data.ai_topic ?? parsed.data.topic!, depth: parsed.data.depth ?? "explain", confidence: 1, language: locale } })
+      : runAI(classifyTask, { question, locale }, { orgId: org.id, actorId: asker.user_id }),
   ]);
   // A chip the asker picked wins; the AI's reading is still logged next to it.
   const chip = parsed.data.topic;
-  const source = chip || !classified.ok ? ("chip" as const) : ("ai" as const);
+  const source = fromGuide ? (chip === parsed.data.ai_topic ? ("ai" as const) : ("chip" as const)) : chip || !classified.ok ? ("chip" as const) : ("ai" as const);
   const topic = chip ?? (classified.ok ? classified.data.topic : "general");
   const depth = classified.ok ? classified.data.depth : null;
   const confidence = classified.ok ? classified.data.confidence : null;
@@ -84,6 +94,8 @@ export async function startConversation(_prev: FormState, formData: FormData): P
       topic,
       depth,
       classified_by: source,
+      level: fromGuide ? (parsed.data.level ?? null) : null,
+      guide_summary: fromGuide ? question : null,
       status: "waiting",
       previous_conversation_id: followup?.previousId ?? null,
       card_id: followup?.cardId ?? null,
@@ -119,9 +131,16 @@ export async function startConversation(_prev: FormState, formData: FormData): P
     type: "classified",
     conversation_id: conversation.id,
     actor_role: "system",
-    meta: { topic, confidence, source, ai_topic: aiTopic },
+    meta: { topic, confidence, source, ai_topic: aiTopic, ...(fromGuide ? { from: "guide", level: parsed.data.level ?? null } : {}) },
   });
   if (classifiedError) logServerError("startConversation.logClassified", classifiedError);
+  if (fromGuide) {
+    const service = createServiceClient();
+    await service.from("events").insert({ org_id: org.id, type: "guide_done", conversation_id: conversation.id, actor_role: "asker", meta: { questions: parsed.data.guide_questions ?? 0, skipped: false } });
+    if (source === "chip") {
+      await service.from("events").insert({ org_id: org.id, type: "classification_corrected", conversation_id: conversation.id, actor_role: "asker", meta: { from: parsed.data.ai_topic ?? null, to: topic } });
+    }
+  }
   if (followup) {
     const { error } = await createServiceClient().from("events").insert({
       org_id: org.id,

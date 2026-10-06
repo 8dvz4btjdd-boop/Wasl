@@ -2,17 +2,13 @@
 
 import { Check, IdCard } from "lucide-react";
 import { motion } from "motion/react";
-import { useLocale, useTranslations } from "next-intl";
-import { useCallback, useEffect, useMemo, useRef, useState, useTransition } from "react";
-import { Composer, type ComposerHandle } from "@/components/chat/composer";
-import { GuideView } from "@/components/guide/guide-view";
-import { VoiceControls } from "@/components/guide/voice-controls";
-import { useSpeechInput, useSpeechOutput } from "@/lib/guide/voice";
-import { useGuide } from "@/lib/guide/use-guide";
+import { useTranslations } from "next-intl";
+import { useCallback, useEffect, useMemo, useState, useTransition } from "react";
+import { Composer } from "@/components/chat/composer";
 import { Elapsed } from "@/components/chat/elapsed";
 import { MessageList, type SystemLine } from "@/components/chat/message-list";
 import { useMessages } from "@/components/chat/use-messages";
-import { NewReturnCode } from "@/components/asker/new-code";
+import { EndedCode, ReturnCodeButton } from "@/components/asker/new-code";
 import { Readings } from "@/components/ai/readings";
 import { MatchLine, type MatchReasons } from "@/components/ai/routing";
 import { Logo } from "@/components/logo";
@@ -50,10 +46,8 @@ type AskerChatProps = {
   initialMessages: MessageRow[];
   initialTransfers: TransferLine[];
   initialCardApproved: boolean;
-  /** The asker's language, for "understood as … · Arabic". */
-  language: string;
-  /** Off: no classification card (the chip decided). */
-  aiEnabled: boolean;
+  /** How many return codes this asker has been shown (the first is never shown). */
+  codesRevealed: number;
 };
 
 /** Transfers of this conversation with the receiving daee's name (the asker can read both). */
@@ -82,8 +76,7 @@ export function AskerChat({
   initialMessages,
   initialTransfers,
   initialCardApproved,
-  language,
-  aiEnabled,
+  codesRevealed,
 }: AskerChatProps) {
   const t = useTranslations("Chat");
   const [conversation, setConversation] = useState(initialConversation);
@@ -100,23 +93,7 @@ export function AskerChat({
 
   const waiting = conversation.status === "waiting" && !conversation.daee_id;
 
-  // The guide runs on the waiting screen while nobody has joined: AI on, still waiting when the
-  // page opened, and no confirmed summary yet. A daee joining stops it.
-  const locale = useLocale();
-  const tGuide = useTranslations("Guide");
-  const [guideApplies] = useState(() => aiEnabled && waiting && !conversation.guide_summary);
-  const composer = useRef<ComposerHandle>(null);
-  const speech = useSpeechOutput(locale);
-  const guide = useGuide({
-    conversationId: conversation.id,
-    locale,
-    enabled: guideApplies,
-    stopped: !waiting,
-    refusalText: tGuide("refused"),
-    onQuestion: (q) => void speech.speak(q),
-  });
-  const mic = useSpeechInput(locale, (text) => composer.current?.setText(text));
-  const guideAsking = guideApplies && waiting && guide.phase === "asking";
+
   const ended = conversation.status === "ended";
 
   // Assignment, transfers, start and end arrive as updates to this conversation, its
@@ -240,11 +217,13 @@ export function AskerChat({
               {assignedNotStarted && daeeName && t("replySoon", { name: isolate(daeeName) })}
             </p>
           </div>
+          <span className="ms-auto" />
+          {!ended && <ReturnCodeButton codesRevealed={codesRevealed} />}
           {messages.length > 0 && (
             <Link
               href={`/card/${conversation.id}`}
               className={cn(
-                "ms-auto flex h-9 shrink-0 items-center gap-1.5 rounded-full border px-3 text-sm transition-colors hover:bg-muted focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none",
+                "flex h-9 shrink-0 items-center gap-1.5 rounded-full border px-3 text-sm transition-colors hover:bg-muted focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none",
                 cardApproved ? "border-brand-teal/60 text-teal-fg" : "text-muted-foreground",
               )}
             >
@@ -260,27 +239,7 @@ export function AskerChat({
         me={me}
         system={system}
         onRetry={retry}
-        footer={
-          waiting ? (
-            guideApplies ? (
-              <GuideView
-                conversationId={conversation.id}
-                phase={guide.phase}
-                lines={guide.lines}
-                question={guide.question}
-                summary={guide.summary}
-                speaking={speech.speaking}
-                listening={mic.listening}
-                position={position}
-                language={language}
-                onSkip={guide.skip}
-                onConfirm={guide.confirm}
-              />
-            ) : (
-              <WaitingState position={position} conversationId={conversation.id} />
-            )
-          ) : null
-        }
+        footer={waiting ? <WaitingState position={position} conversationId={conversation.id} /> : null}
       />
 
       <footer className="mx-auto flex w-full max-w-2xl flex-col gap-3 px-4 pt-2 pb-4 sm:px-6">
@@ -343,45 +302,19 @@ export function AskerChat({
           <motion.div variants={fadeUp} initial="hidden" animate="visible" className="flex flex-col gap-3 rounded-2xl border bg-card p-5">
             <p className="text-lg font-semibold">{t("endedTitle")}</p>
             <p className="text-muted-foreground">{t("endedBody")}</p>
+            {!cardApproved && (
+              <Link href={`/card/${conversation.id}`} className={cn(buttonVariants({ size: "lg" }), "self-start")}>
+                {t("createCard")}
+              </Link>
+            )}
+            {/* The code comes automatically here, to save before signing out. */}
+            <EndedCode />
             <div className="flex flex-wrap gap-2">
-              {!cardApproved && (
-                <Link href={`/card/${conversation.id}`} className={buttonVariants({ size: "lg" })}>
-                  {t("createCard")}
-                </Link>
-              )}
               <SignOutButton label={t("comeBack")} to="/" />
             </div>
-            <NewReturnCode />
           </motion.div>
         ) : (
-          <Composer
-            ref={composer}
-            onSend={(text) => (guideAsking ? guide.answer(text) : send(text))}
-            placeholder={guideAsking ? tGuide("answerPlaceholder") : t("placeholder")}
-            sendLabel={t("send")}
-            maxLength={MESSAGE_MAX}
-            autoFocus
-            extra={
-              guideAsking ? (
-                <VoiceControls
-                  micSupported={mic.supported}
-                  listening={mic.listening}
-                  muted={speech.muted}
-                  onMic={() => {
-                    speech.unlock();
-                    if (mic.listening) mic.stop();
-                    else mic.start();
-                  }}
-                  onSpeaker={() => {
-                    if (!speech.unlocked) {
-                      speech.unlock();
-                      if (guide.question) void speech.speak(guide.question, true);
-                    } else speech.toggleMute();
-                  }}
-                />
-              ) : null
-            }
-          />
+          <Composer onSend={send} placeholder={t("placeholder")} sendLabel={t("send")} maxLength={MESSAGE_MAX} autoFocus />
         )}
       </footer>
     </Surface>
@@ -405,7 +338,7 @@ function WaitingState({ position, conversationId }: { position: number | null; c
       </motion.div>
       {position !== null && <p className="font-medium">{t("position", { position })}</p>}
       <p className="max-w-sm text-sm text-muted-foreground">{t("keepWriting")}</p>
-      <Readings conversationId={conversationId} className="mt-4 w-full max-w-xl text-start" />
+      <Readings conversationId={conversationId} variant="suggested" className="mt-4 w-full max-w-xl text-start" />
     </div>
   );
 }
