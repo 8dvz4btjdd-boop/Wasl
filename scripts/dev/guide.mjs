@@ -5,6 +5,8 @@ import { createClient } from "@supabase/supabase-js";
 import { chromium } from "playwright";
 
 const BASE = process.env.VERIFY_BASE ?? "http://localhost:3127";
+// Against the live site (shared database), nothing org-wide changes: AI stays on, statuses stay.
+const LIVE = BASE.startsWith("https://");
 const OUT = "docs/screenshots";
 const SIZES = { 1440: { width: 1440, height: 900 }, 390: { width: 390, height: 844 } };
 const TAG = Date.now().toString(36);
@@ -70,8 +72,10 @@ async function answerUntilSummary(page, answers) {
 
 // Nobody available, so every asker waits and the guide runs.
 const { data: staff } = await db.from("profiles").select("user_id, display_name, status").eq("role", "daee");
-await db.from("organizations").update({ ai_enabled: true }).eq("id", ORG);
-await db.from("profiles").update({ status: "offline" }).eq("role", "daee");
+if (!LIVE) {
+  await db.from("organizations").update({ ai_enabled: true }).eq("id", ORG);
+  await db.from("profiles").update({ status: "offline" }).eq("role", "daee");
+}
 
 const browser = await chromium.launch();
 try {
@@ -100,6 +104,7 @@ try {
   // ---- 2. A vague message: one question at a time, ≤ 3, then summary ----------------------
   const b = await ask(browser, `gd2-${TAG}`, "عندي سؤال");
   await b.locator("[data-testid=guide][data-phase=asking]").waitFor({ timeout: 45_000 });
+  await b.waitForTimeout(500); // the headline swap (under 300ms) has settled
   check("vague message: the guide asks one question", (await b.getByTestId("guide-question").count()) === 1);
   await shots(b, "guide-entry-question-ar");
   const asked = await answerUntilSummary(b, ["أريد أن أفهم الصلاة في الإسلام", "كيف يصلي المسلم وكم مرة في اليوم", "مجرد فهم عام"]);
@@ -139,16 +144,20 @@ try {
   check("no ElevenLabs key in the page", !html.includes(process.env.ELEVENLABS_API_KEY ?? "@@none@@"));
 
   // ---- AI off: the plain question box, no guide --------------------------------------------
-  await db.from("organizations").update({ ai_enabled: false }).eq("id", ORG);
-  const f = await enterGuide(browser, `gd6-${TAG}`);
-  await f.locator('textarea[name="question"]').waitFor({ timeout: 20_000 });
-  check("AI off: plain question box, no guide", (await f.getByTestId("guide").count()) === 0);
+  if (!LIVE) {
+    await db.from("organizations").update({ ai_enabled: false }).eq("id", ORG);
+    const f = await enterGuide(browser, `gd6-${TAG}`);
+    await f.locator('textarea[name="question"]').waitFor({ timeout: 20_000 });
+    check("AI off: plain question box, no guide", (await f.getByTestId("guide").count()) === 0);
+  }
 } catch (error) {
   results.push(`ERROR  ${error.message.split("\n")[0]}  at ${(error.stack.match(/guide\.mjs:\d+/) ?? [""])[0]}`);
 } finally {
   await browser.close();
-  await db.from("organizations").update({ ai_enabled: true }).eq("id", ORG);
-  for (const s of staff) await db.from("profiles").update({ status: s.status }).eq("user_id", s.user_id);
+  if (!LIVE) {
+    await db.from("organizations").update({ ai_enabled: true }).eq("id", ORG);
+    for (const s of staff) await db.from("profiles").update({ status: s.status }).eq("user_id", s.user_id);
+  }
   const { data: askers } = await db.from("askers").select("user_id").like("pseudonym", `gd_-${TAG}`);
   for (const x of askers ?? []) {
     const { data: convs } = await db.from("conversations").select("id").eq("asker_id", x.user_id);

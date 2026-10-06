@@ -6,6 +6,8 @@ import { chromium } from "playwright";
 import { plainQuestionBox } from "./lib/entry.mjs";
 
 const BASE = process.env.VERIFY_BASE ?? "http://localhost:3127";
+// Against the live site (shared database), nothing org-wide changes: AI stays on, statuses stay.
+const LIVE = BASE.startsWith("https://");
 const OUT = "docs/screenshots";
 const TAG = Date.now().toString(36);
 const ORG = "00000000-0000-4000-8000-000000000001";
@@ -32,8 +34,10 @@ async function settled(page) {
 
 const { data: staff } = await db.from("profiles").select("user_id, display_name, status").eq("role", "daee");
 const KHALID = staff.find((s) => s.display_name === "خالد").user_id;
-await db.from("organizations").update({ ai_enabled: true }).eq("id", ORG);
-await db.from("profiles").update({ status: "offline" }).eq("role", "daee");
+if (!LIVE) {
+  await db.from("organizations").update({ ai_enabled: true }).eq("id", ORG);
+  await db.from("profiles").update({ status: "offline" }).eq("role", "daee");
+}
 
 let debugPage = null;
 const browser = await chromium.launch();
@@ -134,18 +138,22 @@ try {
   check("admin never sees a tone label", !/مستعجلة|مرتبكة|منزعجة|hurried|confused|frustrated/.test(adminText));
 
   // AI off: no tone; search still works on human-verified items.
-  await db.from("organizations").update({ ai_enabled: false }).eq("id", ORG);
-  await d.reload();
-  await d.getByRole("tab", { name: "المساعد" }).click();
-  await d.getByTestId("assistant").waitFor();
-  check("AI off: tone hidden", (await d.getByRole("button", { name: "اقرأ نبرة الرسائل الأخيرة" }).count()) === 0);
+  if (!LIVE) {
+    await db.from("organizations").update({ ai_enabled: false }).eq("id", ORG);
+    await d.reload();
+    await d.getByRole("tab", { name: "المساعد" }).click();
+    await d.getByTestId("assistant").waitFor();
+    check("AI off: tone hidden", (await d.getByRole("button", { name: "اقرأ نبرة الرسائل الأخيرة" }).count()) === 0);
+  }
 } catch (error) {
   await debugPage?.screenshot({ path: `${OUT}/_assist-debug.png` }).catch(() => {});
   results.push(`ERROR  ${error.message.split("\n")[0]}  at ${(error.stack.match(/assist\.mjs:\d+/) ?? [""])[0]}`);
 } finally {
   await browser.close();
-  await db.from("organizations").update({ ai_enabled: true }).eq("id", ORG);
-  for (const s of staff) await db.from("profiles").update({ status: s.status }).eq("user_id", s.user_id);
+  if (!LIVE) {
+    await db.from("organizations").update({ ai_enabled: true }).eq("id", ORG);
+    for (const s of staff) await db.from("profiles").update({ status: s.status }).eq("user_id", s.user_id);
+  }
   const { data: askers } = await db.from("askers").select("user_id").eq("pseudonym", `as-${TAG}`);
   for (const x of askers ?? []) {
     const { data: convs } = await db.from("conversations").select("id").eq("asker_id", x.user_id);

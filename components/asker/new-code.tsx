@@ -82,10 +82,12 @@ export function ReturnCodeButton({ codesRevealed }: { codesRevealed: number }) {
     >
       <Dialog.Trigger
         data-testid="code-button"
-        className="inline-flex h-9 items-center gap-1.5 rounded-full border px-3 text-sm text-muted-foreground transition-colors hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none"
+        title={t("codeButton")}
+        className="inline-flex h-9 shrink-0 items-center gap-1.5 rounded-full border px-2.5 text-sm whitespace-nowrap text-muted-foreground transition-colors hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none sm:px-3"
       >
         <KeyRound className="size-4" aria-hidden />
-        {t("codeButton")}
+        {/* Icon only on phones, so the header keeps room for the status line. */}
+        <span className="sr-only sm:not-sr-only">{t("codeButton")}</span>
       </Dialog.Trigger>
       <Dialog.Portal>
         <Dialog.Backdrop className="fixed inset-0 z-50 bg-black/40" />
