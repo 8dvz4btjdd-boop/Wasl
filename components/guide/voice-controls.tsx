@@ -6,19 +6,19 @@ import { cn } from "@/lib/utils";
 
 /**
  * The guide's voice controls beside the composer: the mic (with a clear listening state;
- * hidden where the browser can't do speech) and the speaker (tap once to hear the questions,
- * then it mutes and unmutes). Nothing plays before the asker taps one of them.
+ * hidden where the browser can't do speech or the asker refused the microphone) and the
+ * speaker (off until the asker taps it, "listen" or the mic once; then it mutes and unmutes).
  */
 export function VoiceControls({
   micSupported,
   listening,
-  muted,
+  soundOn,
   onMic,
   onSpeaker,
 }: {
   micSupported: boolean;
   listening: boolean;
-  muted: boolean;
+  soundOn: boolean;
   onMic: () => void;
   onSpeaker: () => void;
 }) {
@@ -27,8 +27,8 @@ export function VoiceControls({
     "grid size-14 shrink-0 place-items-center rounded-2xl border transition-colors duration-150 focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none";
   return (
     <>
-      <button type="button" onClick={onSpeaker} aria-label={muted ? t("unmute") : t("speaker")} aria-pressed={!muted} className={cn(base, "text-muted-foreground hover:text-foreground")}>
-        {muted ? <VolumeX className="size-5" aria-hidden /> : <Volume2 className="size-5" aria-hidden />}
+      <button type="button" onClick={onSpeaker} aria-label={soundOn ? t("mute") : t("speaker")} aria-pressed={soundOn} className={cn(base, "text-muted-foreground hover:text-foreground")}>
+        {soundOn ? <Volume2 className="size-5" aria-hidden /> : <VolumeX className="size-5" aria-hidden />}
       </button>
       {micSupported && (
         <button

@@ -6,21 +6,26 @@ import { guideSkipped, guideStep, type GuideStep, type GuideSummary } from "./ac
 export type GuidePhase = "ask" | "asking" | "thinking" | "summary" | "fallback" | "skipped";
 export type GuideLine = { role: "asker" | "guide"; text: string; refusal?: boolean };
 
-const STEP_TIMEOUT_MS = 30_000;
+/** The whole step, retry included, gets this long; then the plain question box (entry never blocks). */
+const STEP_BUDGET_MS = 10_000;
 
-/** A server step that can't hang the screen: a 30 s limit, then the caller decides. */
-async function stepOnce(input: Parameters<typeof guideStep>[0]): Promise<GuideStep> {
+/** A server step that can't hang the screen: it resolves to a fallback once `ms` have passed. */
+async function stepWithin(input: Parameters<typeof guideStep>[0], ms: number): Promise<GuideStep> {
+  let timer: ReturnType<typeof setTimeout> | undefined;
   return Promise.race([
-    guideStep(input),
-    new Promise<GuideStep>((resolve) => setTimeout(() => resolve({ kind: "fallback", reason: "client_timeout" }), STEP_TIMEOUT_MS)),
-  ]);
+    guideStep(input).catch(() => ({ kind: "fallback", reason: "rejected" }) as GuideStep),
+    new Promise<GuideStep>((resolve) => {
+      timer = setTimeout(() => resolve({ kind: "fallback", reason: "client_timeout" }), ms);
+    }),
+  ]).finally(() => clearTimeout(timer));
 }
 
 /**
  * The guide on the entry flow, before the conversation exists: the asker's question, then at
- * most three short questions, then a summary to confirm. Every failure (a rejected request,
- * a timeout, an AI fallback) is retried once and then ends the guide calmly: the asker gets
- * the plain question box with what they typed. Nothing can leave it stuck on "one moment".
+ * most three short questions, then a summary to confirm. A step has 10 seconds in all: a
+ * rejected request or a server exception is retried once inside that budget; any other
+ * failure, or the budget running out, ends the guide calmly and the asker gets the plain
+ * question box with what they typed. Nothing can leave it stuck on "one moment".
  */
 export function useEntryGuide({ locale, refusalText, onQuestion }: { locale: string; refusalText: string; onQuestion?: (q: string) => void }) {
   const [phase, setPhase] = useState<GuidePhase>("ask");
@@ -35,9 +40,11 @@ export function useEntryGuide({ locale, refusalText, onQuestion }: { locale: str
     async (first: string, next: GuideLine[]) => {
       setPhase("thinking");
       const input = { firstMessage: first, locale, turns: next.filter((l) => !l.refusal).map(({ role, text }) => ({ role, text })) };
-      let res: GuideStep = await stepOnce(input).catch(() => ({ kind: "fallback", reason: "rejected" }) as GuideStep);
-      if (res.kind === "fallback" && (res.reason === "rejected" || res.reason === "client_timeout" || res.reason === "exception")) {
-        res = await stepOnce(input).catch(() => ({ kind: "fallback", reason: "rejected" }) as GuideStep);
+      const deadline = Date.now() + STEP_BUDGET_MS;
+      let res = await stepWithin(input, STEP_BUDGET_MS);
+      const left = deadline - Date.now();
+      if (res.kind === "fallback" && (res.reason === "rejected" || res.reason === "exception") && left > 1_000) {
+        res = await stepWithin(input, left);
       }
       if (ended.current) return;
       // The transcript is the first message, then the turns (next never includes it).

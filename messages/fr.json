@@ -124,7 +124,7 @@
     "chosenSubstitute": "Avec le premier dāʿī qualifié",
     "change": "Modifier",
     "followTitle": "Avec quoi voulez-vous continuer ?",
-    "guideUnavailable": "Le guide IA n'est pas disponible pour le moment. Écrivez votre question ici."
+    "guideUnavailable": "Écrivez votre question, elle parviendra au dāʿī"
   },
   "Errors": {
     "invalidInput": "Vérifiez les champs et réessayez.",
@@ -590,7 +590,8 @@
     "speak": "Dire votre réponse",
     "stopListening": "Arrêter l'écoute",
     "speaker": "Lire les questions à voix haute",
-    "unmute": "Réactiver la voix",
+    "mute": "Couper la voix",
+    "listen": "Écouter",
     "opening": "Quelle est votre question ?",
     "openingHint": "Écrivez-la ou dites-la. Le guide peut poser jusqu'à trois courtes questions pour que le bon dāʿī puisse aider.",
     "questionPlaceholder": "Écrivez votre question…",

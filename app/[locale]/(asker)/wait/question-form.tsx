@@ -84,7 +84,8 @@ export function QuestionForm({ resume, aiEnabled }: { resume: ResumeInfo | null;
           {resume ? t("followTitle") : t("title")}
         </h1>
         <p className="text-lg text-muted-foreground">{resume ? t("followupNote") : t("hint")}</p>
-        {guideNote && <p className="text-sm text-muted-foreground">{t("guideUnavailable")}</p>}
+        {/* The guide failed, ran out of time, or AI is off: the question still reaches a dāʿī. */}
+        {(guideNote || !aiEnabled) && <p data-testid="guide-unavailable" className="text-base">{t("guideUnavailable")}</p>}
         {choice && (
           <p className="flex items-center gap-2 text-sm text-teal-fg">
             {choice === "same" && resume?.preferred ? t("chosenSame", { name: isolate(resume.preferred.name) }) : t("chosenSubstitute")}

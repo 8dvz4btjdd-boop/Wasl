@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowUp } from "lucide-react";
+import { ArrowUp, Volume2 } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useLocale, useTranslations } from "next-intl";
 import { useRef, useState } from "react";
@@ -43,7 +43,9 @@ export function GuideEntry({ onConfirmed, onExit, pending, note }: GuideEntryPro
   const [exited, setExited] = useState(false);
   if (!exited && (guide.phase === "skipped" || guide.phase === "fallback")) {
     setExited(true);
-    onExit(guide.firstMessage || text, guide.phase === "skipped" ? "skipped" : "fallback");
+    // Everything the asker typed so far (their question, their answers, an unsent line) moves over.
+    const typed = [...guide.lines.filter((l) => l.role === "asker").map((l) => l.text), text.trim()].filter(Boolean).join("\n");
+    onExit(typed, guide.phase === "skipped" ? "skipped" : "fallback");
   }
 
   const typing = guide.phase === "ask" || guide.phase === "asking";
@@ -51,6 +53,15 @@ export function GuideEntry({ onConfirmed, onExit, pending, note }: GuideEntryPro
   const headline = guide.phase === "ask" ? t("opening") : guide.phase === "asking" ? guide.question : null;
   // The question on screen isn't repeated in the transcript beneath it.
   const history = (guide.phase === "asking" ? guide.lines.slice(0, -1) : guide.lines).filter((l, i) => i > 0 || guide.phase !== "ask");
+
+  // The first tap is the gesture the browser needs: it unlocks audio for the session, and
+  // every later question is spoken as it arrives. After that it replays the question.
+  function listen() {
+    if (!headline) return;
+    speech.unlock();
+    if (speech.muted) speech.toggleMute();
+    void speech.speak(headline, true);
+  }
 
   function send() {
     const value = text.trim();
@@ -81,6 +92,18 @@ export function GuideEntry({ onConfirmed, onExit, pending, note }: GuideEntryPro
               <h1 data-testid="guide-question" dir="auto" className="text-3xl leading-snug font-semibold text-balance sm:text-4xl">
                 {headline}
               </h1>
+            )}
+            {headline && (
+              <button
+                type="button"
+                data-testid="guide-listen"
+                onClick={listen}
+                aria-pressed={speech.speaking}
+                className="inline-flex h-10 items-center gap-2 rounded-full border border-border px-4 text-sm text-muted-foreground transition-colors duration-150 hover:border-input hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none"
+              >
+                <Volume2 className="size-4" aria-hidden />
+                {t("listen")}
+              </button>
             )}
             {guide.phase === "ask" && note && <p className="text-lg">{note}</p>}
             {guide.phase === "ask" && <p className="text-muted-foreground">{t("openingHint")}</p>}
@@ -145,17 +168,19 @@ export function GuideEntry({ onConfirmed, onExit, pending, note }: GuideEntryPro
           <VoiceControls
             micSupported={mic.supported}
             listening={mic.listening}
-            muted={speech.muted}
+            soundOn={speech.unlocked && !speech.muted}
             onMic={() => {
               speech.unlock();
               if (mic.listening) mic.stop();
-              else mic.start();
+              else {
+                // The guide's own voice must not end up in the transcript.
+                speech.stop();
+                mic.start();
+              }
             }}
             onSpeaker={() => {
-              if (!speech.unlocked) {
-                speech.unlock();
-                void speech.speak(headline ?? "", true);
-              } else speech.toggleMute();
+              if (!speech.unlocked) listen();
+              else speech.toggleMute();
             }}
           />
           <Button type="submit" disabled={!typing || !text.trim()} aria-label={t("send")} className="size-14 shrink-0 rounded-2xl">

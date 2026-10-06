@@ -124,7 +124,7 @@
     "chosenSubstitute": "Kasama ang unang kwalipikadong dāʿī",
     "change": "Baguhin",
     "followTitle": "Ano ang gusto mong ipagpatuloy?",
-    "guideUnavailable": "Hindi available ang AI guide ngayon. Isulat dito ang iyong tanong."
+    "guideUnavailable": "Isulat ang iyong tanong at makakarating ito sa dāʿī"
   },
   "Errors": {
     "invalidInput": "Suriin ang mga field at subukan ulit.",
@@ -590,7 +590,8 @@
     "speak": "Sabihin ang iyong sagot",
     "stopListening": "Itigil ang pakikinig",
     "speaker": "Basahin nang malakas ang mga tanong",
-    "unmute": "Buksan muli ang boses",
+    "mute": "Patayin ang boses",
+    "listen": "Pakinggan",
     "opening": "Ano ang iyong tanong?",
     "openingHint": "Isulat o sabihin ito. Maaaring magtanong ang guide ng hanggang tatlong maikling tanong para makatulong ang tamang dāʿī.",
     "questionPlaceholder": "Isulat ang iyong tanong…",

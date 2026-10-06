@@ -124,7 +124,7 @@
     "chosenSubstitute": "With the first qualified dāʿī",
     "change": "Change",
     "followTitle": "What would you like to continue with?",
-    "guideUnavailable": "The AI guide isn't available right now. Write your question here."
+    "guideUnavailable": "Write your question and it will reach the dāʿī"
   },
   "Errors": {
     "invalidInput": "Check the fields and try again.",
@@ -590,7 +590,8 @@
     "speak": "Speak your answer",
     "stopListening": "Stop listening",
     "speaker": "Read the questions aloud",
-    "unmute": "Turn the voice back on",
+    "mute": "Turn the voice off",
+    "listen": "Listen",
     "opening": "What is your question?",
     "openingHint": "Type it or say it. The guide may ask up to three short questions so the right dāʿī can help.",
     "questionPlaceholder": "Write your question…",

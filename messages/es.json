@@ -124,7 +124,7 @@
     "chosenSubstitute": "Con el primer dāʿī cualificado",
     "change": "Cambiar",
     "followTitle": "¿Con qué te gustaría seguir?",
-    "guideUnavailable": "La guía de IA no está disponible ahora. Escribe tu pregunta aquí."
+    "guideUnavailable": "Escribe tu pregunta y llegará al dāʿī"
   },
   "Errors": {
     "invalidInput": "Revisa los campos e inténtalo de nuevo.",
@@ -590,7 +590,8 @@
     "speak": "Di tu respuesta",
     "stopListening": "Dejar de escuchar",
     "speaker": "Leer las preguntas en voz alta",
-    "unmute": "Volver a activar la voz",
+    "mute": "Apagar la voz",
+    "listen": "Escuchar",
     "opening": "¿Cuál es tu pregunta?",
     "openingHint": "Escríbela o dila. La guía puede hacer hasta tres preguntas cortas para que el dāʿī adecuado pueda ayudarte.",
     "questionPlaceholder": "Escribe tu pregunta…",

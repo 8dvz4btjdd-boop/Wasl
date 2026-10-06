@@ -124,7 +124,7 @@
     "chosenSubstitute": "Dengan dai pertama yang memenuhi syarat",
     "change": "Ubah",
     "followTitle": "Apa yang ingin Anda lanjutkan?",
-    "guideUnavailable": "Pemandu AI sedang tidak tersedia. Tulis pertanyaan Anda di sini."
+    "guideUnavailable": "Tulis pertanyaan Anda dan akan sampai ke dai"
   },
   "Errors": {
     "invalidInput": "Periksa isian lalu coba lagi.",
@@ -590,7 +590,8 @@
     "speak": "Ucapkan jawaban Anda",
     "stopListening": "Berhenti mendengarkan",
     "speaker": "Bacakan pertanyaan",
-    "unmute": "Nyalakan suara lagi",
+    "mute": "Matikan suara",
+    "listen": "Dengarkan",
     "opening": "Apa pertanyaan Anda?",
     "openingHint": "Ketik atau ucapkan. Pemandu dapat mengajukan hingga tiga pertanyaan singkat agar dai yang tepat bisa membantu.",
     "questionPlaceholder": "Tulis pertanyaan Anda…",
